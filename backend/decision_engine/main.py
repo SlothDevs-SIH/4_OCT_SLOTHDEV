@@ -3,7 +3,7 @@ from functools import lru_cache
 
 from typing import Optional
 
-from fastapi import APIRouter, Body, Depends, FastAPI
+from fastapi import APIRouter, Body, Depends, FastAPI, Query
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -100,6 +100,21 @@ def evaluate_outcomes(plan_id: str, engine: Engine = Depends(get_engine)):
 @router.get("/plans/{plan_id}/outcomes")
 def get_outcomes(plan_id: str, engine: Engine = Depends(get_engine)):
     return engine.get_outcomes(plan_id)
+
+
+class ChatRequest(BaseModel):
+    question: str
+
+
+@router.post("/businesses/{business_id}/chat")
+def chat(business_id: str, body: ChatRequest, engine: Engine = Depends(get_engine)):
+    return engine.chat(business_id, body.question)
+
+
+@router.get("/recommendations/{rec_id}/draft")
+def draft(rec_id: str, channel: str = Query("whatsapp", pattern="^(whatsapp|email)$"),
+          engine: Engine = Depends(get_engine)):
+    return engine.draft(rec_id, channel)
 
 
 app = FastAPI(title="decision_engine")

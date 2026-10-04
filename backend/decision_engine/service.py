@@ -4,6 +4,8 @@ from datetime import date, datetime, timedelta, timezone
 from typing import Optional
 
 from backend.common.errors import ApiError
+from backend.decision_engine import chat as grounded_chat
+from backend.decision_engine import drafts
 from backend.decision_engine import outcomes as ledger
 from backend.decision_engine import planner
 from backend.decision_engine import recommend
@@ -232,3 +234,27 @@ class Engine:
         if not doc:
             raise ApiError(404, "not_found", f"plan {plan_id} has not been evaluated yet")
         return doc
+
+    # ------------------------------------------------------- chat, drafts
+
+    def chat(self, business_id: str, question: str) -> dict:
+        question = (question or "").strip()
+        if not question:
+            raise ApiError(422, "invalid_request", "question is required")
+        with data_errors():
+            ctx = self.data.get_context(business_id)
+            facts = self.data.get_kpi_facts(business_id)
+        return grounded_chat.answer(question[:500], ctx, facts, self.synthesizer)
+
+    def draft(self, rec_id: str, channel: str) -> dict:
+        rec = self.get_recommendation(rec_id)
+        if rec["status"] in ("blocked", "rejected"):
+            raise ApiError(409, rec["status"], f"{rec_id} is {rec['status']}; no draft")
+        with data_errors():
+            ctx = self.data.get_context(rec["business_id"])
+            leads = self.data.get_lead_scores(rec["business_id"])
+        try:
+            return drafts.build(rec, templates.templates_by_id()[rec["template_id"]], channel, ctx,
+                                {l["lead_id"]: l for l in leads.get("leads", [])})
+        except drafts.DraftError as e:
+            raise ApiError(409 if e.code == "not_outreach" else 422, e.code, str(e)) from e
