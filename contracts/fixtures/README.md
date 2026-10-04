@@ -4,6 +4,15 @@ Example payloads for every shape in `../API_CONTRACT.md`. `decision_engine` read
 
 `backend/decision_engine/tests/test_fixtures.py` checks that the files agree with each other (fact arithmetic, evidence IDs, priority equation, plan capacity, outcome ranges). Run `python -m pytest backend -q` after editing any file here.
 
+**Input fixtures** (what data_engine produces, plus the template library) are edited by hand. **Output fixtures** (`signals`, `recommendations`, `plan`, `outcomes`) are generated from the real decision_engine pipeline, so the mocks show exactly what the API returns:
+
+```bash
+python -m backend.decision_engine.export_fixtures          # regenerate after changing logic or inputs
+python -m backend.decision_engine.export_fixtures --check  # CI-style check (a test runs this too)
+```
+
+The generated recommendations use the deterministic explanation text (`llm.used: false`), because no LLM is called while exporting.
+
 ## Files
 
 | File | Owner (produces the real data) | Shape |
@@ -14,11 +23,11 @@ Example payloads for every shape in `../API_CONTRACT.md`. `decision_engine` read
 | `kpi_daily.json` | backend-1 | daily Instagram/Google series 2026-08-09..2026-10-03 plus the injected-incident ground truth |
 | `lead_scores.json` | backend-1 | ranked leads (8 unattended high-value, 1 abstention) and `model_card` (**placeholder metrics**) |
 | `data_quality.json` | backend-1 | overall confidence badge, per-KPI quality, import report for the messy orders CSV |
-| `intervention_templates.json` | backend-2 / research | seed action library with factor defaults (I, F, R, T, E, C, D) |
-| `signals.json` | backend-2 | the 4 demo signals (2 bottlenecks, 1 anomaly, 1 opportunity) |
-| `recommendations.json` | backend-2 | 3 scored recommendations + 1 blocked (increase ad spend) |
-| `plan.json` | backend-2 | 7-day plan, 435 of 480 minutes, at most 120 minutes per day |
-| `outcomes.json` | backend-2 | day-7 results: promising / inconclusive / inconclusive |
+| `intervention_templates.json` | backend-2 / research | action library: factor defaults (I, F, R, T, E, C, D), task blueprints, expected-change rule, guardrails, measurement window |
+| `signals.json` | backend-2 (generated) | the 4 demo signals (2 bottlenecks, 1 anomaly, 1 opportunity) |
+| `recommendations.json` | backend-2 (generated) | 3 scored recommendations + 1 blocked (increase ad spend) |
+| `plan.json` | backend-2 (generated) | 7-day plan, 435 of 480 minutes, at most 120 minutes per day |
+| `outcomes.json` | backend-2 (generated) | day-7 results: promising / inconclusive / inconclusive |
 
 ## Additions beyond the current contract text
 

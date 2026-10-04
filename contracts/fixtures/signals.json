@@ -1,11 +1,12 @@
 {
   "business_id": "biz_aarohi_skin",
   "synthetic": true,
-  "generated_at": "2026-10-04T05:00:00Z",
   "period": {
     "from": "2026-09-27",
     "to": "2026-10-03"
   },
+  "anomaly_method": "seasonal_median_mad_robust_z",
+  "anomaly_skipped": false,
   "signals": [
     {
       "signal_id": "sig_hot_leads_unattended",
@@ -54,8 +55,7 @@
       "severity": 0.8,
       "urgency": 0.7,
       "method": "seasonal_median_mad_robust_z",
-      "score": 20.03,
-      "detected_on": "2026-09-29",
+      "score": 27.54,
       "tests": {
         "materiality": true,
         "deviation": true,
@@ -70,6 +70,14 @@
       "candidate_template_ids": [
         "tpl_instagram_attribution_test",
         "tpl_increase_ad_spend"
+      ],
+      "detected_on": "2026-09-29",
+      "alert_dates": [
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03"
       ]
     },
     {
@@ -80,8 +88,8 @@
       "dimension": {
         "channel": "instagram"
       },
-      "title": "Instagram is the largest spend line but returns 0.694 contribution per rupee",
-      "severity": 0.75,
+      "title": "Instagram spend returns 0.694 contribution per rupee against a 1.035 baseline",
+      "severity": 0.71,
       "urgency": 0.7,
       "method": "rule",
       "score": null,
@@ -111,7 +119,7 @@
         "cohort": "first_order_2026-08"
       },
       "title": "First-time buyers on the email list repeat at 21.4% vs 16.2% (+32.1%)",
-      "severity": 0.5,
+      "severity": 0.62,
       "urgency": 0.5,
       "method": "rule",
       "score": null,
@@ -129,5 +137,7 @@
         "tpl_repeat_email_flow"
       ]
     }
-  ]
+  ],
+  "rejected": [],
+  "generated_at": "2026-10-04T05:00:00Z"
 }
