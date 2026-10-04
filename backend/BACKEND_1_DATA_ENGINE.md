@@ -1,91 +1,99 @@
-# Backend 1: `data_engine` (Soham), Data and Intelligence
+# Backend 1: `data_engine` (Soham), Intake and Measurement
 
-Branch: `backend-1`. You edit only `backend/data_engine/`. Port 8001. Overview of both backends: [`BACKEND.md`](BACKEND.md). The other backend (Ayush, `decision_engine`) is independent of yours: it reads your output only through the contract.
+Branch: `backend-1`. You edit only `backend/data_engine/`. Port 8001. Overview of both backends: [`BACKEND.md`](BACKEND.md). Backend 2 (Ayush, `decision_engine`) reads your output only through the contract, so it can be built in parallel.
 
-> **Status:** the contract in `contracts/API_CONTRACT.md` and the fixtures in `contracts/fixtures/` are the source of truth. The shared stubs (section 6 of `BACKEND.md`), `backend/requirements.txt` and `db/schema.sql` are on `main`.
+**Your job in one sentence:** turn whatever the founder has (an order list, costs, Instagram insights, a short interview) into one trustworthy business profile and compute the facts that show which of five bottlenecks is holding the business back, week by week.
 
-**Stack:** Python, FastAPI, Pydantic, PostgreSQL/Supabase. **Runtime is pure Python (stdlib `csv`, `random`, `statistics`)**; pandas and scikit-learn are used only in offline training scripts so the API stays small enough for Vercel (see `BACKEND.md` sections 3 and 5). Industry: D2C with a hybrid bulk-inquiry segment.
+**Stack:** Python, FastAPI, Pydantic, PostgreSQL/Supabase. The runtime is pure Python (stdlib `csv`, `statistics`); pandas and other heavy libraries are used only in offline scripts so the API stays small for Vercel.
 
-**What you own:** onboarding → CSV import → mapping → validation and quarantine → canonical tables → KPI engine → lead-conversion model → lead queue.
-**What you produce for others:** KPI facts, lead scores, data-quality report, business context (contract section 3). Ayush consumes them via `DataClient` (`DATA_SOURCE=fixture|http|local`).
-**Tables you write:** `business, goal, product, campaign, lead, customer, orders, order_item, import_job, quarantine_row, kpi_snapshot, lead_score` (contract section 6). Never write Ayush's tables.
+## 1. What you produce for Ayush
 
-## Tasks
+| Output | Contract shape |
+|---|---|
+| Business profile (type, size, goal, constraints, hours, no ad budget) | `business_context` |
+| Facts: value, baseline, numerator, denominator, **source** (`exact`/`estimate`/`derived`), **sample size**, quality flag | `kpi_facts` (additive fields `source`, `sample_size`) |
+| Data-quality badge and import reports | `data_quality` |
+| Weekly snapshots (week 1 to week 4), point in time | `snapshot` on each fact |
+| Market context: upcoming race weekends | `market_context` (new, additive) |
 
-Endpoints: contract section 3.
+## 2. Inputs (the "intake")
 
-| # | Task | Min | Part | Done when |
-|---|---|---|---|---|
-| 1 | DB connection and config; onboarding endpoints (`POST/GET /businesses`) persisting business, goal, constraints | 30 | 1 | context round-trips through the DB |
-| 2 | **Synthetic D2C tenant "Aarohi Skin"**: deterministic (seeded) scripted scenario, about 180 days of leads, customers and orders across Instagram, Google, email, WhatsApp and website, 3 SKUs, payment mode (COD/prepaid) and order status. **Must reproduce the numbers listed in `contracts/fixtures/README.md`** (Instagram spend 36,720 / 60 new customers; Google 15,960 / 42; 8 unattended high-value leads; email repeat cohort 45/210) and the **day-7 follow-up week**. Plants the incidents on purpose: Instagram CAC spike from 2026-09-29, unattended bulk inquiries, improving email cohort, and a **messy orders CSV** | 60 | 1 | `POST /demo/load?phase=baseline\|day7` loads the data; invariants hold (listed below); same seed gives identical data |
-| 3 | **CSV import**: upload, detect columns, suggest mapping, confirm; **validation and quality report**: duplicates (merge), missing campaign IDs (quarantine), mixed date formats (repair to ISO), currency/units; confidence score; "unattributed" kept as unattributed | 60 | 1 | the intentionally messy demo CSV yields a report matching `fixtures/data_quality.json` shape; quarantined rows are stored with reasons |
-| 4 | **KPI registry and engine** (deterministic pure Python, never LLM): conversion rate, CAC, ROAS, contribution ROAS, gross margin, repeat rate, AOV, sales velocity, response latency p90, funnel stage rates. Each fact has numerator, denominator, definition version, baseline, delta | 60 | 2 | `GET /kpis` returns real facts that match hand-calculated values for 3 KPIs |
-| 5 | **Lead-conversion model**: UCI Bank Marketing, **drop call duration** (not known pre-contact), chronological split, logistic-regression baseline + gradient-boosted challenger (HistGradientBoosting/LightGBM), calibration (isotonic/sigmoid on a separate fold), metrics: PR-AUC, ROC-AUC, Brier, lift@10%, calibration error. Save the model and a `model_card` JSON | 60 | 2 | metrics written to the model card; challenger only kept if it beats the baseline |
-| 6 | **Lead queue serving**: score the demo leads using the same feature schema, rank by probability x expected value, top positive/negative factors (LR coefficients or SHAP), **abstain** when key fields are missing | 45 | 2 | `GET /leads/queue` returns ranked leads including at least one abstention |
-| 7 | Public interface `data_engine/public.py` returns real data (replace the fixture bodies); keep signatures | 20 | 2 | `decision_engine` works with `DATA_SOURCE=local` unchanged |
-| 8 | RFM segments and retention cohort (should-have), tests for KPI math and validation rules | 30 | 2 | `GET /segments/rfm` works; tests pass |
-
-~365 min. If time runs short, drop task 8 first, then simplify the challenger model in task 5 (baseline LR is acceptable).
-
-**Stage 1 (due 1:00 PM):** tasks 1–3. **Stage 2 (due 3:00 PM):** tasks 4–7. After each stage, report exactly what works and what is generated, precomputed or mocked.
-
-**Build order inside the stages (stop and report after each):**
-1. Stage 1a: generator, business context, `POST /demo/load`, real `public.get_context`.
-2. Stage 1b: CSV import, mapping, validation, quarantine, quality report.
-3. Stage 2a: KPI engine and `GET /kpis` (+ `/kpis/daily`, `/funnel`); `public.get_kpi_facts` and `get_kpi_series` become real.
-4. Stage 2b: offline lead-model training, JSON artifact, lead queue and model card.
-
-**Data rules (leakage and honesty):**
-- Split by time, not random rows. Fit encoders and calibration inside training folds only. Tune thresholds on validation, not test.
-- Never use post-outcome fields (final duration, closed date, final lost reason, future touches).
-- Public datasets are used standalone. **Do not pretend UCI Bank Marketing and Online Retail II belong to the same company.** The relational demo company is the synthetic tenant.
-- Label every synthetic row/response `synthetic: true`.
-- **Sanity-check units and ranges** on every number before it leaves the module (a hand calculation for one KPI, a plot for one series).
-- Synthetic invariants to test: qualified leads <= leads; wins do not precede opportunities; attributed revenue <= compatible order revenue; no future timestamps; referential integrity.
-
-**Pre-existing components (list in your PR):** FastAPI, Pydantic; offline only: pandas, scikit-learn; UCI Bank Marketing dataset (check licence/citation terms before redistributing).
-
-## Integration
-
-On `backend-integration` (#1 at 1:00–1:30 PM, #2 at 3:00 PM, with Ayush) your branch is merged with `backend-2`; `data_engine/public.py` is the in-process interface `decision_engine` calls when `DATA_SOURCE=local`. Keep its function signatures stable: `get_context`, `get_kpi_facts`, `get_lead_scores`, `get_data_quality`, each returning the contract shape. See `BACKEND.md` section 9 and `docs/WORKFLOW.md`.
-
-
-## Status (what is built, verified by tests)
-
-| Stage | Built | Tests |
+| Input | What it contains | Notes |
 |---|---|---|
-| 1a | Synthetic D2C tenant (deterministic), context, onboarding (`d2c`/`hybrid`/`b2c_retail`), demo load, data summary | anchors, invariants, determinism |
-| 1b | CSV import: mapping suggestions, validation/repair/quarantine, quality report and badge; messy sample file | planted defects found exactly; cleaned rows reconstruct the originals |
-| 2a | KPI engine: 23 facts for the baseline and day-7 snapshots, daily series, funnel, point-in-time rule | every current-week value equals the contract fixtures |
-| 2b | Lead model trained on UCI Bank Marketing, lead queue, model card | runtime scorer reproduces the card's hold-out metrics; queue shape matches the contract |
-| **Not built** | RFM segments (should-have), Postgres persistence of import jobs, Online Retail II | – |
+| **Order list** | order id, date, buyer (pseudonymised), item/design, size, quantity, price, payment, channel, **how the buyer found the brand** | The core file. Messy by default (mixed dates, duplicates, missing fields) |
+| **Cost per unit** | blank tee, printing, packaging, courier | Gives the margin. Estimates are labelled `estimate` |
+| **Instagram insights** | per post: date, reach, profile visits, follows, which posts led to orders | CSV export or typed in |
+| **Customer source** | friend / friend of friend / stranger | From a column, or inferred from "how did you find us?" answers |
+| **Interview answers** | hours per week, capacity, goal, what he tried, constraints | A short form first; voice later (not built) |
 
-## Lead model: decisions and measured results
+**Privacy:** buyer names and phone numbers are pseudonymised before any text is sent to an LLM.
 
-Trained offline (`python -m backend.data_engine.ml.train_lead_model`; scikit-learn and numpy are needed only there). The runtime reads a small JSON artifact (`ml/artifacts/lead_model.json`) and is pure Python.
+## 3. The profile: a source on every field
 
-- **Data:** UCI Bank Marketing, used standalone (download with `python -m backend.data_engine.ml.fetch_datasets`; the file is git-ignored). `duration` is never used (leakage).
-- **Shared feature schema (4 inputs):** previous outcome, prior contacts, days since last contact, contacts this campaign. Banking-specific fields have no meaning for a skincare lead.
-- **Modeling window = 2009 onward.** 2008 (67% of the file) has almost no previous-campaign information (97% "nonexistent"), so including it hides the strongest predictor (a previous success converts at 65%). This was decided from data coverage, not from scores.
-- **`month` excluded.** It cannot be separated from the campaign period in a two-year dataset; it is reported only as an ablation.
-- **Evaluation:** the last 20% of the window (strictly the latest period) is untouched until the end. Model and calibrator selection use blocked time-contiguous cross-validation inside the first 80%; the calibrator is fitted on out-of-fold predictions.
-- **Results on the hold-out** (n = 2,700, positive rate 51.2%): PR-AUC **0.680** vs 0.512 for the constant baseline, ROC-AUC 0.682, lift@10% 1.6. The gradient-boosting challenger scored 0.660, so the portable, explainable logistic regression ships.
-- **Known limits (also on the model card):** the positive rate shifts from 17.8% (development) to 51.2% (hold-out), so calibration is weak (calibration error 0.29). **Use the probabilities to rank leads, not as absolute chances.** They are not calibrated to Aarohi Skin.
-- **Explanations:** previous outcome, prior contacts and days since last contact are three views of one fact, so they are explained together as one "contact history" factor (the effect versus a lead with no previous contact).
+Each field stores three things: the **value**, where it **came from**, and how **sure** we are.
+- A figure from the order sheet is `exact`.
+- A figure the founder said from memory is `estimate`.
+- A figure we derived (for example, "12 of 140 orders came from strangers") is `derived`, with the count behind it.
 
-## Additive API (backend-1), to be added to the contract on `main`
+This is what makes evidence-linked advice possible, and what lets the product say "this is an estimate" when data is thin.
 
-| Method | Path | Purpose |
-|---|---|---|
-| GET | `/businesses/{id}/data-summary` | counts per table, date range, current-week orders and revenue, "synthetic" flag (lets anyone check what is loaded) |
-| POST | `/demo/load?phase=` | response is the business context plus an additive `demo_load` object (`phase`, `from`, `to`, `as_of`, `counts`, `seed`) |
-| – | business context | additive fields `business_model` (`d2c`/`hybrid`/`b2c_retail`), `segments`, `data_phase` |
-| POST | `/businesses/{id}/imports/auto?kind=` | upload + accept the suggested mapping in one call (demos, stateless hosting); returns the upload view plus the `report` |
-| GET | `/imports/{id}/quarantine?limit=` | rows that were not loaded, with the reason |
-| GET | `/demo/sample-import/orders.csv` | download the deliberately messy synthetic orders export |
-| POST | `/demo/import-sample` | run that sample through the real import pipeline; returns mapping and report |
-| POST | `/imports/{id}/confirm` | body is `{"mapping": {field: column}}` (a bare mapping object is also accepted) |
-| GET | `/businesses/{id}/leads/queue?limit=&snapshot=` | `snapshot` defaults to the loaded demo phase; in-process `public.get_lead_scores` defaults to `baseline` |
-| GET | `/businesses/{id}/kpis?snapshot=` | already in the contract; response wraps the facts as `{business_id, synthetic, snapshot, facts: [...]}` |
+## 4. The metrics (deterministic, never an LLM)
 
-**Point-in-time rule (used by the KPI engine in Stage 2):** a snapshot only sees events that happened before its `as_of` time. The baseline snapshot (`as_of` 2026-10-04T04:30Z) must not see the follow-ups that happen in the day-7 replay, so the baseline week reads the same in both phases. Lead response latency for a lead that has not been answered yet is `as_of - created_at`.
+All facts use the existing fact shape. Proposed `fact_id`s (final names are agreed in contract v2).
+
+| Bottleneck | Facts |
+|---|---|
+| **Reach** | `f_orders_by_source` (friend / friend of friend / stranger), `f_stranger_orders_week` (**main measure**), `f_stranger_share`, `f_reach_per_post`, `f_posts_with_orders` |
+| **Conversion** | `f_profile_visit_rate`, `f_follow_rate`, `f_orders_per_1000_reach` |
+| **Margin** | `f_unit_cost_full`, `f_margin_per_order`, `f_margin_pct`, `f_discount_share` |
+| **Repeat orders** | `f_repeat_customer_share`, `f_days_between_orders` |
+| **Capacity** | `f_orders_per_week`, `f_dispatch_delay_days`, `f_stockouts`, `f_orders_turned_away`, `f_capacity_utilisation` (orders per week vs what he says he can make) |
+
+Rules: every fact carries its **sample size**; with fewer than a minimum number of orders, the fact is `estimate` with a warning, never presented as a verdict. The **baseline** for the first target is the business's **own best weeks**; typical figures per business type are added later and need a source.
+
+## 5. Tasks and status
+
+Reuse columns refer to code already in `backend/data_engine/`.
+
+| # | Task | Reuse | Stage |
+|---|---|---|---|
+| 1 | **Contract v2** with Ayush: new fact list, `source` and `sample_size` fields, weekly snapshots, `market_context`; regenerate fixtures for Box Box | – | S3, first |
+| 2 | **Box Box synthetic tenant**: ~14 weeks, about 240 orders, 3 to 5 designs, costs per unit, Instagram posts, customer source. **Planted pattern:** most orders come from friends and friends of friends, a few from strangers, reach per post is low, margin and capacity are fine, repeat is modest, and orders rise on race weekends. Deterministic, `synthetic: true`. Replaced by real data if Box Box shares it | Generator structure, determinism, anchors tests | S3 |
+| 3 | **Intake**: order sheet, cost sheet, Instagram insights through the existing import pipeline; add the customer-source field and pseudonymisation | Import pipeline (mapping, repair, quarantine, quality badge) | S3 |
+| 4 | **Profile with provenance** and the short interview form | – | S3 |
+| 5 | **Metrics engine** for the five bottleneck families and the main measure | KPI engine registry and point-in-time rule | S3 |
+| 6 | **Weekly snapshots** for weeks 1 to 4, including the scripted replay (what he did, what changed) | Point-in-time design from the day-7 replay | S4 |
+| 7 | **Public data modules** (section 6): Online Retail II validation, F1 calendar | Dataset fetch script | S3 |
+| 8 | `public.py` in-process interface returns the new facts; tests | Existing interface and tests | S4 |
+
+## 6. Public datasets: what, why, and licences
+
+The earlier plan used UCI Bank Marketing to train a lead-conversion model. **That is retired**: the new target user has no lead pipeline, and the brief wants diagnosis by calculation. We searched for public data that fits the *new* inputs.
+
+| Dataset | What it is | Licence and access | Role in this product |
+|---|---|---|---|
+| **UCI Online Retail II** | Real order-level transactions of a UK gift-ware retailer, Dec 2009 to Dec 2011, about 1.07M rows (invoice, product, quantity, date, price, customer, country). Many buyers are wholesalers | **CC BY 4.0**, direct download from UCI, no login | **Validation corpus for intake and the order-based metrics.** Proves the pipeline handles real, messy order data (cancellation invoices, missing customer ids, returns) and that repeat-customer share and customer concentration compute correctly at scale |
+| **F1 race calendar** (Jolpica, the Ergast successor) | Race schedule per season, including 2026: race dates and practice/qualifying dates | Open API, no key, rate-limited (cache a snapshot) | **Market context.** Race weekends are demand windows for F1 merchandise, so actions (drops, posts, collaborations) can be timed around them |
+| **Wikipedia page views** (Wikimedia API) | Daily views of articles such as "Formula One" or a driver | Open API, no key | **Optional.** A proxy for F1 interest around race weekends |
+| Instagram post insights (tutorial CSV, 119 posts) | Reach by source, likes, saves, profile visits, follows | Circulated on GitHub/Kaggle with **no stated licence** | **Not integrated.** Test-only if used at all; never redistributed. The demo uses synthetic insights |
+| Medical appointment no-shows, CRM sales opportunities, Rossmann stores, Olist | Fit other business types (clinics, B2B, stores, marketplace sellers) | Need a Kaggle or Maven login; some are non-commercial | **Not used.** The brief explicitly narrowed away from those types |
+
+**Why Online Retail II and not another:** it is the only order-level public dataset that is directly downloadable with a clear open licence, and the brief's core data is an order list. **Honest limits:** it is a wholesaler (not a student maker), so it validates the *engine* and is **not** a benchmark for Box Box. No public dataset contains "friend vs stranger" or a founder's unit costs; those come from Box Box or from the synthetic tenant.
+
+Download: `python -m backend.data_engine.ml.fetch_datasets --retail`. Files go to `data/raw/` (git-ignored; never redistributed). Cite: Chen, D. (2012), *Online Retail II*, UCI Machine Learning Repository, https://doi.org/10.24432/C5CG6D.
+
+## 7. Data rules (honesty)
+
+- Every synthetic row and response is labelled `synthetic: true`; real and public data are labelled with their source.
+- Public data is never presented as Box Box's data.
+- Sanity-check units and ranges on every number before it leaves the module (a hand calculation for one fact per family).
+- Small samples: always report the count; below the minimum, mark `estimate`.
+- Invariants to test: orders have a date and price; stranger + friend + friend-of-friend orders add up to all orders; a repeat order never precedes the first; no future timestamps.
+
+## 8. Integration
+
+On `backend-integration` your branch is merged with `backend-2`; `data_engine/public.py` is the in-process interface Ayush's `DataClient` calls with `DATA_SOURCE=local`. Keep the signatures stable and agree the new fact list in contract v2 **before** either side builds on it. See `BACKEND.md` section 9.
+
+## 9. Current state of the code (before this plan)
+
+Built and tested for the earlier D2C plan (75 tests): synthetic tenant, import pipeline with quality report, KPI engine with point-in-time snapshots, the Bank Marketing lead model and queue. The import pipeline and the point-in-time design carry over; the tenant, the ad-spend facts and the lead model are retired (section 4 of `BACKEND.md`).

@@ -212,3 +212,19 @@ def lead_queue(business_id: str, limit: int | None = Query(None, ge=1, le=500),
 def model_card():
     """The model card with the measured hold-out metrics, data used, exclusions and caveats."""
     return leads.model_card()
+
+
+# --- public data and market context (additive) ---------------------------------
+@router.get("/market-context")
+def market_context(from_: str | None = Query(None, alias="from"), to: str | None = None):
+    """F1 race weekends (demand windows) in a date range, the next race, and the measured interest uplift."""
+    try:
+        return public.get_market_context(from_, to)
+    except (ValueError, FileNotFoundError) as e:
+        raise ApiError(422, "invalid_period", str(e))
+
+
+@router.get("/public-data")
+def public_data():
+    """Which public datasets are in use, their licences, what each is for, and what we measured on them."""
+    return public.get_public_data()

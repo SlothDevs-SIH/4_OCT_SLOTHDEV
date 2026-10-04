@@ -53,13 +53,13 @@ SPECS = {
     "orders": {
         "id": "order_id",
         "fields": {
-            "order_id": (True, "str", ["order id", "order number", "order no", "order ref", "name", "id"]),
-            "ordered_at": (True, "date", ["order date", "created at", "date", "ordered at", "placed at", "timestamp", "order time"]),
+            "order_id": (True, "str", ["order id", "order number", "order no", "order ref", "name", "id", "invoice", "invoice no", "invoice number", "invoice id", "bill no", "bill number", "receipt no"]),
+            "ordered_at": (True, "date", ["order date", "created at", "date", "ordered at", "placed at", "timestamp", "order time", "invoice date", "bill date", "sale date"]),
             "customer_id": (False, "str", ["customer", "customer id", "customer email", "email", "buyer"]),
             "channel": (False, "channel", ["utm source", "source", "channel", "traffic source", "referrer", "marketing channel"]),
             "campaign_id": (False, "str", ["utm campaign", "campaign", "campaign id", "campaign name"]),
             "payment_mode": (False, "payment", ["payment method", "payment mode", "payment", "gateway", "payment gateway"]),
-            "revenue": (True, "money", ["order amount", "amount", "total", "order total", "revenue", "net amount", "grand total", "order value"]),
+            "revenue": (True, "money", ["order amount", "amount", "total", "order total", "revenue", "net amount", "grand total", "order value", "invoice amount", "bill amount", "sales", "price"]),
             "discount": (False, "money", ["discount", "discount amount", "coupon discount"]),
             "status": (False, "status", ["fulfilment status", "fulfillment status", "status", "order status", "delivery status"]),
             "items": (False, "str", ["items", "line items", "products", "sku", "skus"]),
@@ -209,8 +209,9 @@ class _Issues:
 
 
 # ---------------------------------------------------------------- the import run
-def run_import(kind: str, rows: list, mapping: dict) -> dict:
-    """mapping: {canonical_field: source column}. Returns clean rows, quarantined rows and counters."""
+def run_import(kind: str, rows: list, mapping: dict, paise: bool = True) -> dict:
+    """mapping: {canonical_field: source column}. Returns clean rows, quarantined rows and counters.
+    `paise` enables the INR amount-in-paise repair; turn it off for files in another currency."""
     spec = SPECS[kind]
     idf = spec["id"]
     issues, clean, quarantined, seen = _Issues(), [], [], {}
@@ -253,7 +254,7 @@ def run_import(kind: str, rows: list, mapping: dict) -> dict:
                 if m is None:
                     bad = ("invalid_amount", f"{val!r} is not an amount (row {i + 2})")
                     break
-                if kind == "orders" and field == "revenue" and m > PAISE_LIMIT and m % 100 == 0 and m / 100 <= PAISE_LIMIT:
+                if paise and kind == "orders" and field == "revenue" and m > PAISE_LIMIT and m % 100 == 0 and m / 100 <= PAISE_LIMIT:
                     issues.add("amount_in_paise", "repaired_units", f"{int(m)} -> {m / 100:.2f} INR")
                     m, repaired = m / 100, True
                 rec[field] = round(m, 2)

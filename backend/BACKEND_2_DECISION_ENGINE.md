@@ -1,53 +1,81 @@
-# Backend 2: `decision_engine` (Ayush), Decision and Action
+# Backend 2: `decision_engine` (Ayush), Diagnosis, Advice and Follow-up
 
-Branch: `backend-2`. You edit only `backend/decision_engine/`. Port 8002. Overview of both backends: [`BACKEND.md`](BACKEND.md). The other backend (Soham, `data_engine`) is independent of yours: you read its output only through `DataClient`, and you build against the contract examples until it is ready.
+Branch: `backend-2`. You edit only `backend/decision_engine/`. Port 8002. Overview of both backends: [`BACKEND.md`](BACKEND.md). Backend 1 (Soham, `data_engine`) produces the facts; you read them only through `DataClient`.
 
-> **Status:** the contract in `contracts/API_CONTRACT.md` and the fixtures in `contracts/fixtures/` are the source of truth. The shared stubs (section 6 of `BACKEND.md`), `backend/requirements.txt` and `db/schema.sql` are on `main`.
+**Your job in one sentence:** from the facts, name the single biggest bottleneck among reach, conversion, margin, repeat orders and capacity, give the founder one to three actions for this week with the evidence behind each, and every week check what was done and what changed.
 
-**Stack:** Python, FastAPI, Pydantic, scikit-learn, jsonschema, an LLM API behind a provider interface, PostgreSQL/Supabase.
+**The rule:** the calculations decide what is wrong; the LLM only explains, using numbers the engine produced. If a number is missing, the finding is not shown.
 
-**What you own:** signals (bottleneck rules + anomaly) → eligibility gate → priority score → constrained LLM explanation and validator → approval → 7-day plan → tasks → outcome ledger.
-**What you consume:** KPI facts, lead scores, data quality, context (contract section 3) via `DataClient`.
-**Tables you write:** `context_snapshot, intervention_template, signal, recommendation, plan, task, outcome` (contract section 6). Never write Soham's tables.
+## 1. The user and what it means for the rules
 
-## Tasks
+Small early-stage maker-sellers: first 50 to 500 orders, selling through Instagram or WhatsApp, **no ad budget**, one to three people (often students with limited hours). Example: Box Box (F1 merchandise). Reach is the *likely* bottleneck for Box Box, but **the data decides, not the assumption**.
 
-Endpoints: contract section 4.
+## 2. Diagnosis
 
-| # | Task | Min | Part | Done when |
-|---|---|---|---|---|
-| 1 | Config, `DataClient` check (`fixture`/`http`/`local`), intervention template loader (from `contracts/fixtures/intervention_templates.json`) | 30 | 1 | signals can be computed from `DataClient` output |
-| 2 | **Signal detection**: bottleneck rules with the **four tests** (materiality, deviation, localization, actionability): high traffic/low leads, leads high/wins low, long response time vs SLA, high spend/low contribution, revenue up/margin down, first orders high/repeat low. Opportunity detectors: high-performing channel, repeat-purchase cohort, high-value leads | 45 | 1 | `GET /signals` produces the 4 signals in the fixture from the KPI facts |
-| 3 | **Anomaly detection**: seasonal median/MAD robust z-score baseline; Isolation Forest as a challenger only if it beats it on the injected incidents. Report event-level precision/recall, false alerts/week, detection delay | 30 | 1 | detects the injected Instagram CAC spike; metrics recorded |
-| 4 | **Eligibility/safety gate**: block actions that violate constraints (budget, weekly hours, forbidden actions such as "increase total ad spend"), need missing data, or are unsafe. Output a `blocked_reason` | 30 | 1 | "Increase Instagram ad spend" is `blocked` with a reason in the demo |
-| 5 | **Priority scorer** (`scoring.py` is already implemented and tested; wire it to real inputs). Factors I,U,F,R,T from the template and signal; **Q from data quality + model calibration + rule strength**; E,C,D from the template and constraints | 30 | 1 | ranking order on demo data: hot-leads > email retention ~ Instagram test >> (increase spend blocked) |
-| 6 | **LLM constrained synthesis**: provider interface (`LLM_PROVIDER`), evidence packet in, JSON-schema output, **validator** (unknown evidence IDs, numbers not in the packet, actions outside templates, constraint violations); retry once; deterministic fallback text; **local cache** so the demo works offline | 75 | 1/2 | invalid LLM output never reaches the API; `llm.cached` shows in the response |
-| 7 | **7-day plan generator**: choose approved non-conflicting recommendations, topological sort of dependencies, fit daily capacity (8 h/week), assign owner, KPI, success criterion; tasks CRUD (`PATCH /tasks/{id}`); approval endpoints | 50 | 2 | plan matches the shape in `fixtures/plan.json`; hours <= capacity |
-| 8 | **Outcome ledger**: freeze baseline, expected range, guardrails, confounders at approval; `POST /plans/{id}/outcomes/evaluate` compares the day-7 snapshot with baseline and expected; separate **fidelity** (was it executed?) from **effectiveness**; label results `observational` | 50 | 2 | the three outcomes (promising / inconclusive / inconclusive) are reproduced from the day-7 data |
-| 9 | Should-have: grounded chat that cites `fact_id`s; WhatsApp/email **draft preview** (never auto-send); tests | 30 | 2 | answers cite real facts; drafts require approval |
+| Step | What it does |
+|---|---|
+| **Score the five bottlenecks** | Reach, conversion, margin, repeat orders, capacity. Each is scored from backend 1's facts against a target. The first target is the business's **own best weeks**; typical figures per business type are added later and need a source |
+| **Four tests per bottleneck** | Materiality (enough orders to matter), deviation (worse than its own best), localisation (which stage or source), actionability (a feasible action exists). Near-misses are listed as rejected, with the reason |
+| **Pick one, show two runners-up** | The bottleneck with the largest estimated monthly value for the effort wins. Value = extra orders gained × margin per order. Effort is estimated from the founder's hours |
+| **Evidence on every finding** | Four parts: the **claim**, the **number**, the **source** (which file or answer), the **confidence** (`exact` / `estimate` / `derived`) |
+| **Low data = low confidence** | Under the minimum sample size the finding is shown as an estimate, or not shown. It is never dressed up |
 
-~370 min. Drop task 9 first if time runs short, then the Isolation Forest challenger.
+## 3. Advice: one to three actions this week
 
-**Stage 1 (due 1:00 PM):** tasks 1–6 produce `recommendations` end to end with a cached LLM response. **Stage 2 (due 3:00 PM):** tasks 7–9.
+Actions come from an approved library, keyed by bottleneck, then filtered by the founder's constraints. Each action has the evidence that chose it, an effort in minutes, a measurable target and a deadline.
 
-**Rules for the LLM boundary (non-negotiable):**
-- The LLM never calculates a KPI or assigns a probability. It explains facts it was given and instantiates tasks from approved templates.
-- Every recommendation cites `evidence_ids` that exist. Reject anything else.
-- Recommendations with weak data or no measurable KPI are marked low-confidence, not dressed up.
-- Human approval is required for spend, customer outreach, and data-changing actions.
-- Keys come from `.env`; never log or commit them.
+| Bottleneck | Example actions (reviewed by research) |
+|---|---|
+| **Reach** (the Box Box case) | Collaborate with F1 fan pages; send product to small creators; post in college communities; time a design drop for a race weekend (backend 1 supplies the calendar); ask each buyer to tag or share (aimed at strangers, not friends) |
+| **Conversion** | Fix the profile and link; pin the best-converting post; shorten the ordering path in DMs |
+| **Margin** | Re-price one design; bundle two; ask the printer or courier for a better rate |
+| **Repeat orders** | A thank-you and next-drop message to past buyers; a small reorder incentive |
+| **Capacity** | Batch printing; limited pre-order drops; a dispatch schedule |
 
-**Pre-existing components (list in your PR):** FastAPI, scikit-learn, jsonschema, the chosen LLM provider SDK.
+**Eligibility gate (kept, with new rules):**
+- **No paid ads** (no budget), and any action over the founder's weekly hours or budget is blocked, with the reason shown.
+- Needs missing data → blocked with the reason.
+- **Trademark risk (new, rule-based):** the brief notes that F1, team names, logos and driver names are trademarked, so unlicensed merchandise risks takedowns as the brand gets more visible. The advisor flags protected terms found in design or product names and shows a plain "this is not legal advice" warning. The risk is shown more strongly when a reach action would raise visibility.
 
-## Priority equation (implement exactly, test against a hand calculation)
+## 4. Follow-up every week (what makes it an advisor, not a report)
 
-```
-Benefit     = 0.32*I + 0.18*U + 0.18*F + 0.17*R + 0.15*T
-CostPenalty = 0.45*E + 0.30*C + 0.25*D
-Priority    = 100 * Benefit * (0.5 + 0.5*Q) * (1 - 0.55*CostPenalty)
-```
-Example: I=.8 U=1 F=.9 R=.5 T=.9 Q=.85 E=.25 C=.05 D=.10 gives Benefit .818, CostPenalty .1525, Priority **69.3**. A hard eligibility gate runs first: blocked actions are never scored.
+Each week: record what was done, read the new facts (point in time, so week 1 never sees week 2), compare with the frozen baseline, then **double down on what worked and drop what did not**.
+- **Main measure:** orders from strangers, week over week.
+- Separate **fidelity** (was the action done?) from **effectiveness** (did the number move?). Results are labelled observational: no control group, and one business is not proof.
+- Four-week arc: week 1 collect, diagnose, first actions; weeks 2 and 3 review and adjust; week 4 compare stranger orders against week 1 and write down which advice worked and why.
 
-## Integration
+## 5. The LLM boundary (kept)
 
-On `backend-integration` (#1 at 1:00–1:30 PM, #2 at 3:00 PM, with Soham) you switch `DATA_SOURCE=local` so you call `data_engine` in-process. See `BACKEND.md` section 9 and `docs/WORKFLOW.md`.
+- **Input:** an evidence packet: the profile, the facts and sources it may use, and the allowed actions.
+- **Output:** JSON validated against a schema.
+- **Validator rejects:** unknown evidence ids, numbers not in the packet, actions outside the library, constraint violations. Retry once, then deterministic fallback text.
+- **Cache** so the demo works offline. Drafts (a DM, a caption, a collaboration pitch) are **previews only**; there is no send endpoint.
+- The LLM never computes a fact and never chooses the bottleneck.
+
+## 6. Tasks and status (reuse refers to code already in `backend/decision_engine/`)
+
+| # | Task | Reuse | Stage |
+|---|---|---|---|
+| 1 | **Contract v2** with Soham (fact list, `source`, `sample_size`, weekly snapshots) | `DataClient` | S3, first |
+| 2 | **Bottleneck scoring** for the five families with the four tests and rupee estimate; evidence on every finding | Signal framework (the four tests) | S3 |
+| 3 | **Action library** for the five bottlenecks, including reach partners (F1 fan pages, creators, college communities) and race-weekend timing; research reviews the content | Template loader | S3 |
+| 4 | **Eligibility rules**: no paid ads, founder hours, missing data, trademark risk | Eligibility gate | S3 |
+| 5 | **Ranking of actions** (visible formula; ties broken by effort) and the 1 to 3 selection | Priority scorer | S3 |
+| 6 | **LLM explanation** with the validator, cache and fallback; drafts | LLM layer, validator, cache | S4 |
+| 7 | **Weekly follow-up**: record done, compare weeks, adjust | Outcome ledger and planner | S4 |
+| 8 | Grounded chat that cites fact ids | Chat | S4, if time |
+| 9 | Tests, including a hand-calculated check of one finding end to end | Existing tests | S4 |
+
+**Retired:** ad-channel anomaly detection, the ad-spend and lead-based rules, the day-7 replay format (replaced by weekly snapshots).
+
+## 7. Integration
+
+On `backend-integration` (with Soham) you switch to `DATA_SOURCE=local` so you call `data_engine` in-process. The loop to walk end to end: load week 1 → diagnose → advise → record what was done → load week 2 → follow up. See `BACKEND.md` section 9.
+
+## 8. Definition of done
+
+- Given Box Box's week-1 facts, the engine names one bottleneck, shows two runners-up, and every finding carries claim, number, source and confidence.
+- Weekly actions respect the founder's constraints, and blocked actions show why.
+- The weekly follow-up reports stranger orders week over week and what changed.
+- No number shown to the founder comes from the LLM.
+- Tests pass; you can say exactly what is real, precomputed or mocked.

@@ -57,3 +57,44 @@ def get_kpi_series(business_id: str, from_date: Optional[str] = None, to_date: O
     if business_id != C.BUSINESS_ID:
         return {"business_id": business_id, "synthetic": False, "series": [], "injected_incidents": []}
     return kpis.daily_series(from_date, to_date, channel)
+
+
+def get_market_context(from_date: Optional[str] = None, to_date: Optional[str] = None) -> dict:
+    """Market context for timing advice: F1 race weekends in the range, the next race, and how much race weekends
+    lift interest (public data: Jolpica-F1 calendar, Wikimedia page views). Not tied to one business."""
+    from backend.data_engine.external import f1_calendar, f1_interest
+    start = from_date or "2026-10-01"
+    season = int(start[:4])
+    end = to_date or f"{season}-12-31"
+    return {"source": {"calendar": "Jolpica-F1 (Ergast successor), snapshot", "interest": "Wikimedia page views (CC0), snapshot"},
+            "season": season, "from": start, "to": end,
+            "race_weekends": f1_calendar.race_weekends(season, start, end),
+            "next_race": f1_calendar.next_race(start),
+            "interest_uplift": f1_interest.uplift(),
+            "note": "Race weekends are demand windows for F1 merchandise. Page views measure interest in F1, not any brand's sales."}
+
+
+def get_public_data() -> dict:
+    """The public datasets in use (or retired), their licences and what each one is for."""
+    from backend.data_engine.external import f1_calendar, f1_interest, retail
+    profile = retail.load_profile()
+    uplift = f1_interest.uplift()
+    return {"datasets": [
+        {"name": "UCI Online Retail II", "domain": "e-commerce orders (UK gift-ware retailer, 2009-2011)", "licence": retail.LICENCE,
+         "citation": retail.CITATION, "role": "validation corpus for order-sheet intake and order metrics; not a benchmark for maker-sellers",
+         "status": "integrated" if profile else "not profiled yet",
+         "result": ({"source_lines": profile["source_lines"], "orders": profile["order_metrics"]["orders"],
+                     "customers": profile["order_metrics"]["customers"],
+                     "repeat_customer_share": profile["order_metrics"]["repeat_customer_share"],
+                     "top_10_customer_revenue_share": profile["order_metrics"]["concentration"]["top_10"],
+                     "intake_check": profile["intake_check"]} if profile else None)},
+        {"name": "F1 race calendar (Jolpica-F1)", "domain": "motorsport schedule", "licence": "open API, no key; factual schedule",
+         "role": "market context: race weekends are demand windows for F1 merchandise", "status": "integrated",
+         "result": {"seasons": f1_calendar.available_seasons()}},
+        {"name": "Wikipedia page views: Formula One", "domain": "public attention", "licence": "Wikimedia pageviews: CC0",
+         "role": "evidence that race weekends raise interest, so timing advice can cite a number", "status": "integrated",
+         "result": uplift.get("overall")},
+        {"name": "UCI Bank Marketing", "domain": "bank phone campaigns", "licence": "see UCI page",
+         "role": "was the training data for a lead-conversion model", "status": "retired",
+         "result": "retired: the product has no lead pipeline (code kept, unused)"},
+    ], "not_used": "Instagram insights tutorial CSV (no stated licence); Kaggle/Maven datasets that need a login and fit other business types"}

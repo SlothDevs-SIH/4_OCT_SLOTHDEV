@@ -1,162 +1,130 @@
-# Backend: two independent modules, then integration
+# Backend: intake and diagnosis in two independent modules
 
-**Industry focus:** D2C (direct-to-consumer) brands in India, with a `hybrid` segment (D2C brand that also takes bulk/B2B inquiries). `b2c_retail` is a profile only (see section 2).
-**Stack:** Python, FastAPI, Pydantic, PostgreSQL on Supabase, scikit-learn used **offline** for training, an LLM API behind a provider interface. Public hosting: Supabase + Vercel (section 5).
-**Contract:** [`../contracts/API_CONTRACT.md`](../contracts/API_CONTRACT.md) and `../contracts/fixtures/`.
-**Per-module task lists:** [`BACKEND_1_DATA_ENGINE.md`](BACKEND_1_DATA_ENGINE.md) (Soham) and [`BACKEND_2_DECISION_ENGINE.md`](BACKEND_2_DECISION_ENGINE.md) (Ayush).
+**Product (from the project brief, 4 Oct 2026):** an advisor for **small, early-stage maker-sellers**: small e-commerce, homegrown and student-run businesses with their first 50 to 500 orders, selling mainly through Instagram or WhatsApp, with no ad budget, run by one to three people. First case study: **Box Box** (F1 merchandise, run by a final-year student).
+**The loop:** intake (messy data plus a short interview) → diagnosis (the single biggest bottleneck) → advice (1 to 3 actions this week, each with evidence) → weekly follow-up (what was done, what changed, adjust).
+**Main success measure:** **orders from strangers**, not from friends. If that number rises over four weeks, the advice is working.
+**Contract:** [`../contracts/API_CONTRACT.md`](../contracts/API_CONTRACT.md) (fact shape is unchanged; the fact list changes, see section 3).
+**Module docs:** [`BACKEND_1_DATA_ENGINE.md`](BACKEND_1_DATA_ENGINE.md) (Soham) and [`BACKEND_2_DECISION_ENGINE.md`](BACKEND_2_DECISION_ENGINE.md) (Ayush).
 
-> **Status:** the contract and the fixtures are the source of truth. The shared stubs (section 6), `backend/requirements.txt` and `db/schema.sql` are on `main`.
+> **Status of this document:** this is the plan after the stakeholder brief changed the target user. Code written for the earlier D2C-brand plan is being migrated; section 4 says exactly what is kept, adapted or retired.
 
 ## 1. The backend in one picture
 
 ```
- ┌────────────────────────── data_engine (backend-1, Soham) ──────────────────────────┐
- │ synthetic D2C tenant → CSV import → mapping → validation/quarantine                 │
- │            → KPI engine → lead-conversion model (calibrated) → lead queue           │
- └──────────────────────────────────┬─────────────────────────────────────────────────┘
-                                    │  KPI facts, lead scores, data quality, context
-                                    │  (HTTP, or in-process via data_engine/public.py)
- ┌──────────────────────────────────▼─────────────────────────────────────────────────┐
- │ signals (bottleneck rules + anomaly) → eligibility gate → priority score            │
- │   → constrained LLM explanation + validator → approval → 7-day plan → tasks         │
- │   → outcome ledger (day-7 expected vs actual)        decision_engine (backend-2, Ayush) │
- └────────────────────────────────────────────────────────────────────────────────────┘
+ ┌──────────────── data_engine (backend 1, Soham): INTAKE + MEASUREMENT ────────────────┐
+ │ order list · cost per unit · Instagram insights · customer source · interview answers │
+ │   → validate, repair, quarantine → one business profile (value + source + confidence)  │
+ │   → metrics for the five bottlenecks + "orders from strangers" → weekly snapshots      │
+ │   → public data: validation corpus + F1 race calendar (market context)                 │
+ └───────────────────────────────────────┬──────────────────────────────────────────────┘
+                                         │ facts (value, baseline, numerator, denominator, source, confidence)
+ ┌───────────────────────────────────────▼──────────────────────────────────────────────┐
+ │ decision_engine (backend 2, Ayush): DIAGNOSIS + ADVICE + FOLLOW-UP                    │
+ │   rank reach / conversion / margin / repeat orders / capacity → name ONE bottleneck   │
+ │   → 1 to 3 weekly actions from a library, filtered by the founder's constraints       │
+ │   → explanation by an LLM that may only use numbers the engine produced               │
+ │   → weekly follow-up: what was done, what changed, adjust next week                   │
+ └───────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Why this split is independent:** `decision_engine` reads `data_engine` only through `DataClient` (`DATA_SOURCE=fixture|http|local`). While `data_engine` is unfinished, Ayush works against the fixtures, which already contain a believable Aarohi Skin week and day-7 follow-up. Soham never depends on Ayush. Tables are split by owner (`db/schema.sql`), so there are no write conflicts.
+**The AI does not decide what is wrong. The calculations do.** The LLM's jobs are to read messy input (a DM, a UPI note, an interview answer) and to explain the result in plain language, using only numbers the engine produced. If a number is missing, the finding is not shown.
 
-**Why the work is equal:** each module is about 6 hours of bounded tasks, with one ML component each (lead conversion vs anomaly detection), one heavy engineering part each (import and validation vs LLM guardrails), and one data-producing vs data-consuming half.
+## 2. Why this user, and what that changes in the backend
 
-## 2. Why D2C, and what that changes in the backend
+The brief compared segments (offline shops, small manufacturers, kirana stores, freelancers, family businesses, small e-commerce sellers) and chose the sellers who **feel the pain daily, already look for help, and have at least partly digital data**, narrowed to the earliest stage. The rule that decided it: *target a business that needs help and knows it.*
 
-The judges' advice was to stop being generic: a medical shop and a clothing shop have very different analytics. We chose **one model: D2C brands**.
+What this means for the engineering:
+- **No ad data.** There is no ad budget, so CAC, ROAS and ad-spend signals do not apply. Reach, not attribution, is the problem.
+- **Messy data is the norm.** Orders live in DMs, UPI apps and a sheet. Intake must work with that or founders drop off.
+- **Tiny volumes.** 50 to 500 orders means small samples. Every metric carries a sample size and a confidence label, and thin data produces "estimate", not a verdict.
+- **The data decides.** Reach is the *likely* bottleneck for Box Box, but the engine must compute all five and let the numbers choose.
+- **Advice must be specific.** A chatbot is the real competitor. Our difference is advice tied to the seller's own numbers, with the evidence shown, and a weekly follow-up a chatbot does not do.
 
-**Why D2C fits a measurable, explainable prototype**
-- The whole funnel is first-party and measurable: ad spend → sessions → leads → orders → repeat purchase.
-- Customer acquisition cost is the number that makes or breaks a D2C brand, and it moves weekly, so "what should I fix first?" is a real question.
-- Repeat purchase and contribution margin (after product cost, shipping and returns) decide profitability, so the recommendations have clear KPIs.
-- India-specific levers are concrete: COD vs prepaid, returns/RTO (return to origin), WhatsApp follow-up, festive seasons, UPI.
+## 3. The five bottlenecks and the facts that show them
 
-**Business-model profiles** (`business_model` in the business context)
-
-| Profile | What differs | Status |
+| Bottleneck | Meaning | What shows it (facts the engine computes) |
 |---|---|---|
-| `d2c` | Channels: Instagram, Google, email, WhatsApp, website. KPIs: CAC, ROAS, contribution ROAS, AOV, repeat rate, margin | **Built** |
-| `hybrid` | Same plus a bulk/B2B inquiry lead segment (salons, corporate gifting) with high expected value and slower response | **Built** (the demo leads) |
-| `b2c_retail` | Marketplaces and physical stores: different channel set, no own-site funnel, KPI subset | Config only, if time allows |
+| **Reach** | Too few new people see the brand | Share of orders from friends vs friends of friends vs strangers; stranger orders per week; Instagram reach per post |
+| **Conversion** | People see it but do not buy | Profile visits and follows per post vs orders; orders per 1,000 reached |
+| **Margin** | Each order earns too little to fund growth | Price minus full unit cost (blank + printing + packaging + courier); margin per order and in % |
+| **Repeat orders** | Buyers do not come back | Share of customers with a second order; days between orders |
+| **Capacity** | He cannot make or ship more | Dispatch delay, stock-outs, orders turned away, orders per week vs what he says he can make |
 
-**D2C KPIs** (deterministic): ad spend, CAC (per channel and blended), conversion rate, ROAS, contribution ROAS, AOV, gross margin, repeat rate (overall and by cohort), response latency p90, unattended high-value leads, lead wins, funnel stages. **Should-have if time allows:** COD share, return/RTO rate, LTV:CAC.
+Every fact keeps the existing contract shape (`fact_id, kpi, dimension, period, value, unit, baseline, delta_pct, numerator, denominator, definition_version, quality_flag, snapshot`) and gains two additive fields: `source` (`exact` | `estimate` | `derived`) and `sample_size`. Snapshots become weekly (week 1 to week 4) instead of "baseline / day 7".
 
-**D2C action library** (backend-2 / research): lead follow-up past SLA, repeat-buyer email flow, WhatsApp win-back, channel audit + bounded creative test, landing-page fix, **blocked** "increase ad spend" when the goal forbids it. More (abandoned-cart recovery, COD-to-prepaid nudge, RTO reduction, bundle/AOV offer) are added by research.
+## 4. What is kept, adapted or retired from the earlier plan
 
-## 3. Technology choices and why
+| Piece | Decision |
+|---|---|
+| CSV import: column detection, mapping, repair, quarantine, quality badge | **Keep and extend.** Orders, cost sheet and Instagram-insights files go through it; add a `customer source` field |
+| Point-in-time snapshots (a snapshot only sees events before its `as_of` time) | **Keep.** Used for the weekly follow-up, so week 1 never sees week 2 |
+| Fact shape, evidence IDs, data client (`fixture`, `http`, `local`) | **Keep** |
+| Eligibility gate (blocks forbidden or unaffordable actions) | **Keep.** New rules: no paid ads, student hours, trademark risk |
+| LLM boundary: evidence packet, JSON-schema output, validator, cache, deterministic fallback | **Keep** |
+| Outcome ledger (baseline frozen, expected vs actual, fidelity vs effectiveness) | **Adapt** into the weekly follow-up |
+| Planner (capacity-aware scheduling) | **Adapt** to "1 to 3 actions this week" |
+| D2C-brand tenant "Aarohi Skin", ad-spend KPIs (CAC, ROAS), hot-lead queue | **Retire** (code stays in the repo, unused) |
+| Lead-conversion model on UCI Bank Marketing | **Retire.** The product has no lead pipeline, and the brief calls for diagnosis by calculation, not a prediction model |
+| Anomaly detection on ad-channel CAC | **Retire** (no ad channels). May return for weekly orders |
 
-| Choice | Why this | What we did not choose, and why | Watch out |
+## 5. Data strategy: three kinds of data, each labelled
+
+| Kind | Source | Role | Labelled |
 |---|---|---|---|
-| **Python + FastAPI** | One language for API and ML; automatic request validation and `/docs`; fast to build | Node/Express: would split us across two languages for ML; Django: heavier than needed | Keep handlers thin; logic lives in plain modules so it is testable |
-| **Pydantic v2** | Typed contract between modules; rejects bad input at the edge | Hand-written dicts: silent shape drift between two people's code | Keep models in sync with `contracts/API_CONTRACT.md` |
-| **PostgreSQL on Supabase** | Managed Postgres, free tier, public from day one, JSONB for flexible context, SQL editor for the schema | SQLite: not shared across serverless instances; MongoDB: our data is relational (leads, orders, customers, campaigns) | Use the **pooled connection string** from serverless; free-tier limits |
-| **`psycopg` 3** | Direct, small, reliable Postgres driver | A heavy ORM: more setup, more cold-start time | Connections must be short-lived on serverless |
-| **Pure-Python runtime for data_engine** (stdlib `csv`, `random`, `statistics`) | Small deploy size and fast cold start on Vercel; deterministic seeded generator; easy to unit-test | pandas at runtime: ~100 MB+ with numpy and risks serverless size/time limits | pandas and scikit-learn stay in **offline** scripts only |
-| **scikit-learn, offline** | Trusted, quick on CPU, includes calibration | Deep learning: no data, no time, hard to explain; AutoML: opaque | Export the trained model as a small JSON artifact |
-| **Logistic regression as the selected lead model** (gradient boosting as challenger) | Interpretable (each factor's contribution is exact), well-behaved probabilities after calibration, portable as coefficients so runtime needs no scikit-learn | Boosted trees as the default: harder to explain and to ship in a tiny runtime; kept only if clearly better | Report metrics honestly; the challenger is a comparison, not a claim |
-| **Isotonic calibration on a separate fold** | Prioritisation uses the *probability*, so it must be trustworthy | Raw scores: look like probabilities but are not | Needs held-out data; report Brier score and calibration error |
-| **Median/MAD robust z-score for anomalies** (Isolation Forest as challenger) | Simple, explainable, works on short daily series, no training | Complex detectors by default: do not beat a simple baseline on one injected incident | Judge on the injected incident: precision, recall, false alerts, detection delay |
-| **Transparent priority equation** (not an ML ranker) | We have no outcome history to train on; a visible formula is explainable and defensible | A learned ranker: would be fiction with zero outcome data | Weights are a documented assumption, to be calibrated once outcomes exist |
-| **Rules for eligibility and bottlenecks** | Constraints (budget, hours, "no ad spend increase") must be enforced exactly, not guessed | Letting the LLM decide: can violate constraints | Every blocked action must show its reason |
-| **LLM behind a provider interface, JSON-schema output, validator, cache** | The LLM explains and drafts; it never computes. A validator stops invented numbers and evidence; the cache keeps the demo working offline | Agent frameworks (LangChain-style): opaque control flow, harder to validate; letting the LLM do arithmetic | Numbers in text may appear as 0.214 or 21.4%; the validator accepts both |
-| **JSON fixtures as the contract** | Both backends and the frontend start immediately and agree on shapes; tests check the fixtures agree with each other | Waiting for the other side to finish | Don't change shapes after contract freeze; add optional fields only |
-| **Next.js on Vercel** | One-click public hosting, previews per branch | Self-hosting: no time | Keep API calls through one base URL |
-| **Not used:** microservices, Kafka, Celery, a vector database, a knowledge graph, real-time streaming | None of them is needed for a weekly decision loop, and each adds failure points | – | Revisit only after the prototype |
+| **Real case study** | Box Box's own order list, unit costs, Instagram insights, customer source, interview | The truth the advisor is built around. Used if he shares it | `real` |
+| **Synthetic Box Box** | Generated by us, deterministic, with planted patterns | Lets the prototype run and be tested when real data is not available | `synthetic: true` always |
+| **Public data** | UCI Online Retail II; the F1 race calendar (Jolpica API); optionally Wikipedia page views | **Validation and context only.** Never presented as Box Box's data | `public`, with source and licence |
 
-## 4. Prototype scope: what is real, precomputed or not built
+Details, licences and exact roles: `BACKEND_1_DATA_ENGINE.md`, section "Public datasets". Short version:
+- **UCI Online Retail II** (CC BY 4.0, direct download): a real order-level file used to test that intake and the repeat-order and concentration metrics work on messy, real transactions at scale. It is a UK gift wholesaler, so it is **not** a benchmark for student makers.
+- **F1 race calendar** (Jolpica, open, no key): race weekends are demand windows for F1 merchandise, so the advisor can time actions (drops, posts, collaborations) around them.
 
-Be exact about this when presenting.
+## 6. Technology choices and why
 
-| Capability | Status in the prototype |
-|---|---|
-| Synthetic D2C tenant "Aarohi Skin" | **Real code, synthetic data.** Deterministic (seeded) scripted scenario, always labelled `synthetic: true`. Planted incidents are by design |
-| Demo load (baseline and day-7) | **Real**: loads the generated data into the in-process store |
-| CSV import, mapping, validation, quarantine, quality report | **Real** (stdlib `csv`) on uploaded files; the demo uses a prepared messy orders file |
-| KPI engine | **Real computation** over generated rows; each fact has numerator, denominator, definition version |
-| Lead-conversion model | **Trained offline** on UCI Bank Marketing (call duration removed, time-based split); small JSON artifact committed; **scoring is real at runtime**; metrics are measured offline. Applied to demo leads through a shared feature schema: it proves the method, not Aarohi-specific accuracy |
-| Signals and anomaly detection | **Real rules and statistics** over the KPI series |
-| Priority score and eligibility gate | **Real**, deterministic |
-| LLM explanation | Real call when a key is set; **cached responses** for the demo; deterministic fallback text |
-| 7-day plan, tasks | **Real logic** (dependency order, capacity check) |
-| Day-7 outcomes | **Real comparison** against a **scripted synthetic follow-up week**. Results are scenarios, labelled observational, never real-world impact |
-| Persistence | In-process store for the demo; Supabase tables for imports, approvals, tasks and outcomes where wired (state on serverless must not live in memory) |
-| **Not built** | Live Shopify/Zoho/WhatsApp integrations, sending messages, authentication and multi-tenant isolation, GST/UPI adapters, forecasting, learning from outcomes |
-
-## 5. Hosting: Supabase + Vercel (public, not local)
-
-| Part | Where | How |
+| Choice | Why | What we did not choose |
 |---|---|---|
-| Database | **Supabase** | Create a project. Run `db/schema.sql` yourself in the Supabase SQL editor (the AI tooling does not run DDL or data changes on a database). Copy the **pooled (transaction) connection string** into `DATABASE_URL` |
-| Frontend | **Vercel** project `web` | Root directory `frontend/app`; env `NEXT_PUBLIC_API_BASE` = the API URL |
-| API | **Vercel** project `api` (serverless FastAPI) | `api/index.py` exposes the gateway app; env `DATABASE_URL`, `LLM_*`, `DATA_SOURCE=local` |
+| **Python + FastAPI + Pydantic** | One language for API and analysis; typed contracts between two people's modules | Node: would split the team across languages |
+| **Pure-Python runtime for the engines** (stdlib `csv`, `statistics`) | Small deploy size and fast cold start on serverless hosting; deterministic and easy to test | pandas at runtime: heavy for serverless. pandas stays in offline scripts only |
+| **Deterministic metrics, no ML model as the decision-maker** | The brief: calculations decide, the AI explains. With 50 to 500 orders there is too little data for a trained predictor, and a visible formula can be shown to the founder | A learned ranker: it would be fiction at this volume |
+| **LLM for messy intake and for explanation** | The only part of the product that needs language understanding: DMs, UPI notes, interview answers, plain-language advice | Letting the LLM diagnose or do arithmetic |
+| **Evidence validator and cache** | The LLM may only cite facts it was given; rejects invented numbers and unknown evidence; the cache keeps the demo working offline | Trusting raw LLM output |
+| **PostgreSQL on Supabase** | Managed, free tier, JSON for the profile (the profile changes shape per business) | SQLite: not shared across serverless instances |
+| **Vercel (frontend and API)** | Mobile-first web app from a link, no install; one codebase; judges open it from a link | Native app: slower to build, needs installing |
+| **Not used** | Microservices, queues, vector databases, native apps, a WhatsApp bot (later) | Each adds failure points without helping a weekly decision loop |
 
-Because serverless functions have size and time limits (check the current limits in Vercel's docs), the API must stay **light at runtime**:
-- Runtime dependencies are the slim set in `requirements.txt` at the repo root for Vercel (FastAPI, Pydantic, httpx, psycopg). **No pandas, scikit-learn or SHAP at runtime.** Training scripts use `backend/requirements.txt`.
-- The lead model ships as a JSON artifact (coefficients + calibration table).
-- LLM calls are cached; set a timeout and fall back to the deterministic text.
-- State (approvals, tasks, outcomes, import reports) goes to Supabase, not memory.
+## 7. Prototype scope: real, precomputed, or not built
 
-**Decision point (by 2:30 PM, first public deploy):** if serverless Python gives trouble, keep Vercel for the frontend and run the same API as a free web service on another host (for example Render). The code does not change.
-
-Config files to add at deploy time: `vercel.json`, `api/index.py`, root `requirements.txt`, `frontend/app/.env.local` template.
-
-## 6. Shared pieces (on `main`)
-
-| File | Purpose |
+| Capability | Status |
 |---|---|
-| `backend/common/fixtures.py` | `load_fixture(name)` for contract fixtures |
-| `backend/common/errors.py` | error shape `{"error": {...}}` and `not_implemented()` |
-| `backend/data_engine/public.py` | in-process interface used by `DATA_SOURCE=local` |
-| `backend/decision_engine/clients/data_client.py` | `DataClient` with 3 sources |
-| `backend/gateway/main.py` | mounts both routers (each module's `main.py` exposes `router` with prefix `/api/v1`) |
-| `db/schema.sql` | Postgres schema, run manually |
+| Intake of an order sheet, cost sheet, Instagram insights (CSV) with repair and quarantine | **Real** (existing pipeline, extended) |
+| Customer-source tagging (friend / friend of friend / stranger) | **Real**, from a column or from the interview |
+| Profile with source and confidence on every field | **Real** |
+| Metrics for the five bottlenecks and orders from strangers; weekly snapshots | **Real computation** over rows |
+| Diagnosis of one bottleneck plus two runners-up, with evidence | **Real**, deterministic |
+| Weekly actions (1 to 3) and the weekly follow-up | **Real logic**; follow-up data for weeks 2 to 4 comes from a **scripted synthetic replay** until real weeks exist |
+| LLM explanation and drafts (DM, caption, collaboration pitch) | Real call when a key is set; **cached** for the demo; deterministic fallback; drafts are previews, never sent |
+| Public data (Online Retail II validation, F1 calendar) | **Real**, labelled as public context |
+| **Not built** | Voice interview, WhatsApp bot, reading DM screenshots, UPI statement parsing, automatic Instagram connection, authentication, payments |
 
-Don't restructure these. Changes follow `docs/WORKFLOW.md` section 3.
+## 8. Hosting (Supabase + Vercel)
 
-## 7. The two modules at a glance
+Database on Supabase (you run `db/schema.sql` yourself; the AI tooling does not run DDL or data changes on a database). Frontend and API on Vercel; the API stays light at runtime (no pandas or scikit-learn) so it fits serverless limits. Decision point at the first public deploy: if serverless Python gives trouble, run the same API on a free web service and keep Vercel for the frontend.
 
-| | Backend 1: `data_engine` | Backend 2: `decision_engine` |
+## 9. Stages and integration
+
+| Stage | Owner | Output |
 |---|---|---|
-| Owner / branch | Soham / `backend-1` | Ayush / `backend-2` |
-| Folder / port | `backend/data_engine/` / 8001 | `backend/decision_engine/` / 8002 |
-| Role | Produces data and ML signals | Turns signals into decisions and actions |
-| ML component | Lead-conversion model (calibrated) | Anomaly/bottleneck detection |
-| Heavy engineering | Synthetic data, CSV import and validation, KPI engine | LLM guardrails, scoring, plan generator, outcome ledger |
-| **Stage 1** (due 1:00 PM) | Generator + onboarding + demo load + import/quality | Signals + gate + scorer + recommendations (cached LLM) |
-| **Stage 2** (due 3:00 PM) | KPI engine + lead model + lead queue | Plan + tasks + outcome ledger |
+| **S3: contract v2** (first) | both | New fact list, `source` and `sample_size` fields, weekly snapshots; fixtures regenerated for Box Box. Until this is agreed, neither module can finish |
+| **S3: intake and metrics** | Soham | Box Box synthetic tenant, intake for the three sheets, the five bottleneck metric families, weekly snapshots, public-data modules |
+| **S3: diagnosis and advice** | Ayush | Bottleneck ranking, action library, eligibility rules, trademark risk rule |
+| **S4: follow-up and explanation** | Ayush | Weekly follow-up, evidence-checked LLM explanation, drafts |
+| **S4: integration** | both | `backend-integration`: merge, run the loop end to end |
 
-## 8. Running (from the repo root)
-
-```bash
-pip install -r backend/requirements.txt          # development and training
-uvicorn backend.data_engine.main:app --port 8001 --reload
-uvicorn backend.decision_engine.main:app --port 8002 --reload
-DATA_SOURCE=local uvicorn backend.gateway.main:app --port 8000 --reload
-python -m pytest backend -q
-```
-
-## 9. Integration (twice)
-
-Owners: Soham + Ayush. **#1 at 1:00–1:30 PM** (Stage 1 from both), **#2 at 3:00 PM** (Stage 2).
-
-1. `git checkout -b backend-integration origin/main && git merge origin/backend-1 && git merge origin/backend-2`
-2. `DATA_SOURCE=local uvicorn backend.gateway.main:app --port 8000`
-3. Walk through the loop at `http://localhost:8000/docs`: `POST /demo/load` → `GET /data-quality` → `GET /kpis` → `GET /leads/queue` → `GET /signals` → `POST /recommendations/generate` → `POST /recommendations/{id}/approve` → `POST /plans` → `PATCH /tasks/{id}` → `POST /demo/load?phase=day7` → `POST /plans/{id}/outcomes/evaluate`
-4. Compare each response with the fixture shape; add contract tests for what you change.
-5. `python -m pytest backend -q`. Tag `backend-green-1` / `backend-green-2` when green.
-
-**Risks to check early:** date/time formats between modules; `fact_id` names used in `evidence_ids`; the day-7 snapshot via the `snapshot` parameter; LLM cache keys; CORS; serverless cold start and timeouts.
+Integration steps are unchanged: merge `backend-1` and `backend-2` into `backend-integration`, run the gateway with `DATA_SOURCE=local`, walk the loop (load week 1 → diagnose → advise → record what was done → load week 2 → follow up), tag when green.
 
 ## 10. Definition of done (per module)
 
-- Every endpoint in your section returns real, correct data (or a documented 501 for a dropped should-have).
-- `pytest` passes for your folder, with at least one hand-calculated check for your core math.
-- Model/metric numbers are written to a JSON file that research can read.
-- After each stage you can say exactly what is real, precomputed or mocked.
-- Your PR description lists what is pre-existing vs built today.
+- Every endpoint in the module's section returns real, correct data, or a documented 501 for a dropped should-have.
+- Tests pass, with hand-calculated checks for the core math.
+- After each stage the owner can say exactly what is real, precomputed or mocked.
+- Every claim shown to the founder carries its evidence: the claim, the number, the source and the confidence.
