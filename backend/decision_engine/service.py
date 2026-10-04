@@ -212,3 +212,23 @@ class Engine:
         allowed = {k: v for k, v in changes.items() if k in ("status", "owner", "note") and v is not None}
         allowed["updated_at"] = utcnow()
         return self.store.update_task(task_id, allowed)
+
+    # ----------------------------------------------------------- outcomes
+
+    def evaluate_outcomes(self, plan_id: str) -> dict:
+        plan = self.get_plan(plan_id)
+        with data_errors():
+            day7 = self.data.get_kpi_facts(plan["business_id"], snapshot="day7")
+        if not day7:
+            raise ApiError(409, "no_day7_snapshot", "no day-7 KPI snapshot yet (POST /demo/load?phase=day7)")
+        recs = {r["recommendation_id"]: r for r in self.store.recommendations_for(plan["business_id"])}
+        doc = ledger.evaluate(plan, recs, day7, utcnow())
+        self.store.put_outcomes(plan_id, doc)
+        return doc
+
+    def get_outcomes(self, plan_id: str) -> dict:
+        self.get_plan(plan_id)
+        doc = self.store.get_outcomes(plan_id)
+        if not doc:
+            raise ApiError(404, "not_found", f"plan {plan_id} has not been evaluated yet")
+        return doc

@@ -92,6 +92,16 @@ def update_task(task_id: str, body: TaskUpdate, engine: Engine = Depends(get_eng
     return engine.update_task(task_id, body.model_dump())
 
 
+@router.post("/plans/{plan_id}/outcomes/evaluate")
+def evaluate_outcomes(plan_id: str, engine: Engine = Depends(get_engine)):
+    return engine.evaluate_outcomes(plan_id)
+
+
+@router.get("/plans/{plan_id}/outcomes")
+def get_outcomes(plan_id: str, engine: Engine = Depends(get_engine)):
+    return engine.get_outcomes(plan_id)
+
+
 app = FastAPI(title="decision_engine")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 install_error_handlers(app)
