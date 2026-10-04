@@ -23,7 +23,7 @@ AS_OF_DAY7 = datetime(2026, 10, 12, 4, 30)
 
 SLA_HOURS = 4
 HIGH_VALUE_THRESHOLD_INR = 15000
-PACKAGING_COST_INR = 14                  # per order, added to unit costs (so gross margin ~ 0.62)
+PACKAGING_COST_INR = 13.5                  # per order, added to unit costs (so gross margin ~ 0.62)
 
 # name, price, unit cost (same as contracts/fixtures/business_context.json)
 SKUS = [

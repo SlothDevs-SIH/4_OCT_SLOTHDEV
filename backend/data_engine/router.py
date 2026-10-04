@@ -2,7 +2,8 @@
 
 Stage 1a (real): onboarding, demo load, context, data summary.
 Stage 1b (real): CSV import (upload, mapping, validate, repair, quarantine), quality report, data-quality badge.
-Still fixture-backed (Stage 2): KPIs, funnel, lead queue, model card.
+Stage 2a (real): KPI facts, daily series, funnel.
+Still fixture-backed (Stage 2b): lead queue, model card.
 """
 from fastapi import APIRouter, File, Query, Response, UploadFile
 
@@ -16,7 +17,7 @@ router = APIRouter(prefix="/api/v1", tags=["data_engine"])
 
 @router.get("/data/health")
 def health():
-    return {"service": "data_engine", "status": "ok", "stage": "1b"}
+    return {"service": "data_engine", "status": "ok", "stage": "2a"}
 
 
 # --- onboarding and demo data (real) -----------------------------------------
@@ -160,29 +161,40 @@ def import_sample():
     return {**_upload_response(job), "report": importer.report_for(job["import_id"], job["kind"], job["run"])}
 
 
-# --- KPIs, funnel, leads (Stage 2; still fixture-backed) ----------------------
+# --- KPIs and funnel (Stage 2a, real) -----------------------------------------
 @router.get("/businesses/{business_id}/kpis")
 def kpis(business_id: str, from_: str | None = Query(None, alias="from"), to: str | None = None,
-         snapshot: str = Query("baseline", pattern="^(baseline|day7)$")):
-    facts = public.get_kpi_facts(business_id, from_, to, snapshot)
+         snapshot: str | None = Query(None, pattern="^(baseline|day7)$")):
+    """KPI facts. `snapshot` defaults to the loaded demo phase (baseline = current week, day7 = follow-up week)."""
+    snap = snapshot or store.active_phase()
+    try:
+        facts = public.get_kpi_facts(business_id, from_, to, snap)
+    except ValueError as e:
+        raise ApiError(422, "invalid_period", str(e))
     if facts is None:
         raise ApiError(404, "business_not_found", f"business {business_id!r} not found")
-    return {"business_id": business_id, "synthetic": True, "snapshot": snapshot, "facts": facts}
+    return {"business_id": business_id, "synthetic": business_id == C.BUSINESS_ID, "snapshot": snap, "facts": facts}
 
 
 @router.get("/businesses/{business_id}/kpis/daily")
 def kpis_daily(business_id: str, from_: str | None = Query(None, alias="from"), to: str | None = None,
                channel: str | None = None):
-    data = public.get_kpi_series(business_id, from_, to, channel)
+    try:
+        data = public.get_kpi_series(business_id, from_, to, channel)
+    except ValueError as e:
+        raise ApiError(422, "invalid_period", str(e))
     if data is None:
         raise ApiError(404, "business_not_found", f"business {business_id!r} not found")
     return data
 
 
 @router.get("/businesses/{business_id}/funnel")
-def funnel(business_id: str):
-    facts = public.get_kpi_facts(business_id) or []
-    return {"business_id": business_id, "stages": [f for f in facts if f["kpi"].startswith("funnel_")]}
+def funnel(business_id: str, snapshot: str | None = Query(None, pattern="^(baseline|day7)$")):
+    snap = snapshot or store.active_phase()
+    facts = public.get_kpi_facts(business_id, None, None, snap)
+    if facts is None:
+        raise ApiError(404, "business_not_found", f"business {business_id!r} not found")
+    return {"business_id": business_id, "snapshot": snap, "stages": [f for f in facts if f["kpi"].startswith("funnel_")]}
 
 
 @router.get("/businesses/{business_id}/segments/rfm")
