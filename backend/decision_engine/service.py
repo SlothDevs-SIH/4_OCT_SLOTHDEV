@@ -8,8 +8,9 @@ from typing import Optional
 from backend.common.errors import ApiError
 from backend.decision_engine import actions as advice
 from backend.decision_engine import diagnosis as dx
-from backend.decision_engine import drafts
-from backend.decision_engine import leadlist
+from backend.decision_engine import chat as grounded_chat
+from backend.decision_engine import drafts, explain, leadlist, nextmonth
+from backend.decision_engine import followup as fu
 from backend.decision_engine.clients import DataClient, DataClientError, DataNotFound, DataSourceUnavailable
 from backend.decision_engine.clients.data_client import WEEKS
 from backend.decision_engine.config import Settings
@@ -79,14 +80,17 @@ class Engine:
     def diagnosis(self, business_id: str, week: str = "week_1", inputs: Optional[dict] = None) -> dict:
         inp = inputs or self.inputs(business_id, week)
         doc = dx.diagnose(inp["facts_doc"], lambda b: advice.actionable(b, inp["business"], inp))
+        doc["explanation"] = explain.explain_diagnosis(doc, inp["business"], inp["facts"], self.synthesizer)
         doc["generated_at"] = utcnow()
         self.store.put_diagnosis(doc)
         return doc
 
     # ------------------------------------------------------------ actions
 
-    def generate_actions(self, business_id: str, week: str = "week_1") -> dict:
+    def generate_actions(self, business_id: str, week: str = "week_1", prefs: Optional[dict] = None) -> dict:
         inp = self.inputs(business_id, week)
+        if prefs is None:  # a recorded follow-up for this week keeps steering the advice
+            prefs = (self.store.followups.get((business_id, week)) or {}).get("preferences")
         diag = self.diagnosis(business_id, week, inp)
         business = inp["business"]
         minutes = business.get("growth_minutes_per_week") or (business.get("weekly_hours", 0) * 60) // 4
@@ -100,6 +104,15 @@ class Engine:
             return doc
         primary = next(f for f in diag["bottlenecks"] if f["bottleneck"] == diag["primary"])
         cands = advice.candidates(diag["primary"], business, inp)
+        if prefs:
+            for c in cands:
+                if c["action_key"] in prefs.get("exclude", []) and c["gate"]["eligible"]:
+                    c["gate"] = dict(c["gate"], eligible=False,
+                                     blocked_reason="Dropped after last week's follow-up: the number did not move.")
+                elif c["action_key"] in prefs.get("boost", []):
+                    c["score"] = round(c["score"] + 10, 1)
+                    c["parts"] = dict(c["parts"], follow_up_bonus=10)
+            cands.sort(key=lambda c: (not c["gate"]["eligible"], -c["score"], c["effort_min"]))
         chosen = advice.select(cands, minutes)
         due = (date.fromisoformat(inp["as_of"]) + timedelta(days=7)).isoformat()
         partners = {p["partner_id"]: p for p in inp["partners"]["partners"]}
@@ -204,3 +217,65 @@ class Engine:
             raise ApiError(422, "invalid_request", "reason is required")
         self.store.mark_warm_contacted(business_id, lead_id, reason)
         return {"business_id": business_id, "lead_id": lead_id, "reason": reason, "contacted": True}
+
+    # ----------------------------------------------------------- follow-up
+
+    def followup(self, business_id: str, week: str, done: Optional[list] = None, skipped: Optional[list] = None,
+                 partner_results: Optional[list] = None) -> dict:
+        if week not in WEEKS or week == "week_1":
+            raise ApiError(422, "invalid_request", "the follow-up compares a week with the one before: use week_2 to week_4")
+        prev = f"week_{int(week[-1]) - 1}"
+        prev_actions = self.store.actions_for(business_id, prev) or self.generate_actions(business_id, prev)["actions"]
+        ids = {a["action_id"] for a in prev_actions}
+        unknown = [i for i in (done or []) + (skipped or []) if i not in ids]
+        if unknown:
+            raise ApiError(422, "invalid_request", f"not {prev} actions: {unknown}")
+        for aid in done or []:
+            self.update_action(aid, "done", None)
+        for aid in skipped or []:
+            self.update_action(aid, "skipped", None)
+        for r in partner_results or []:
+            self.store.add_partner_result(business_id, r["partner_id"], int(r["stranger_leads"]))
+        prev_actions = self.store.actions_for(business_id, prev)
+        with data_errors():
+            prev_facts, cur_facts = self.data.get_facts(business_id, prev), self.data.get_facts(business_id, week)
+        prev_diag = self.store.get_diagnosis(business_id, prev) or self.diagnosis(business_id, prev)
+        cur_diag = self.diagnosis(business_id, week)
+        doc = fu.build(business_id, week, prev, prev_actions, prev_facts, cur_facts, prev_diag["primary"],
+                       cur_diag["primary"], partner_results or [])
+        self.store.put_followup(doc)
+        doc["next_actions"] = self.generate_actions(business_id, week, doc["preferences"])["actions"]
+        if week == "week_4":
+            with data_errors():
+                first = self.data.get_facts(business_id, "week_1")
+            doc["four_week_arc"] = fu.arc(business_id, first, cur_facts, self.store.followups_for(business_id))
+        doc["generated_at"] = utcnow()
+        self.store.put_followup(doc)
+        return doc
+
+    def followups(self, business_id: str) -> dict:
+        with data_errors():
+            self.data.get_context(business_id)
+        return {"business_id": business_id, "followups": self.store.followups_for(business_id)}
+
+    # ---------------------------------------------------------- next month
+
+    def next_month(self, business_id: str, week: str = "week_1") -> dict:
+        inp = self.inputs(business_id, week)
+        diag = self.store.get_diagnosis(business_id, week) or self.diagnosis(business_id, week, inp)
+        try:
+            projection = self.data.get_projection(business_id, week)
+        except DataClientError:
+            projection = None
+        doc = nextmonth.build(projection, diag, inp["business"], inp["context"])
+        doc["explanation"] = explain.explain_next_month(doc, inp["business"], diag, inp["facts"], self.synthesizer)
+        return doc
+
+    # ---------------------------------------------------------------- chat
+
+    def chat(self, business_id: str, question: str, week: str = "week_1") -> dict:
+        question = (question or "").strip()
+        if not question:
+            raise ApiError(422, "invalid_request", "question is required")
+        inp = self.inputs(business_id, week)
+        return grounded_chat.answer(question[:500], inp["business"], inp["facts_doc"], self.synthesizer)

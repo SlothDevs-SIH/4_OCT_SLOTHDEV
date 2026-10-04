@@ -1,6 +1,7 @@
-"""Validator for LLM output. Rejects (a) unknown evidence IDs, (b) numbers that are not in
-the evidence packet, (c) actions outside the allowed templates, (d) constraint violations,
-plus anything that does not match the JSON schema."""
+"""Validator for LLM output. Rejects (a) unknown evidence IDs, (b) numbers that are not in the
+evidence packet, (d) constraint violations (paid ads when there is no ad budget), plus anything that does
+not match the JSON schema. (c) actions outside the library cannot occur: explanations never propose actions;
+actions come only from the library, chosen by the calculations."""
 from __future__ import annotations
 
 import re
@@ -10,18 +11,16 @@ import jsonschema
 NUMBER_RE = re.compile(r"(?<![\w.])\d[\d,]*(?:\.\d+)?")
 DATE_RE = re.compile(r"\b\d{4}-\d{2}-\d{2}(?:T[\d:]+Z?)?\b")
 TRIVIAL_NUMBERS = {0.0, 1.0}
-SPEND_UP_RE = re.compile(r"\b(increase|increasing|raise|raising|boost|boosting|double|scale up|scaling up|add)\b"
-                         r"[^.]{0,40}\b(spend|spending|budget|ad budget|bids?)\b", re.I)
+PAID_ADS_RE = re.compile(r"\b(paid ads?|run(ning)? ads?|instagram ads?|facebook ads?|sponsored (post|ads?)|"
+                         r"boost(ing)? (your|a|the) post|paid (promotion|shoutout))\b", re.I)
 
-RECOMMENDATION_SCHEMA = {
+EXPLANATION_SCHEMA = {
     "type": "object",
-    "required": ["template_id", "rationale", "evidence_ids"],
+    "required": ["summary", "evidence_ids"],
     "additionalProperties": False,
     "properties": {
-        "template_id": {"type": "string"},
-        "rationale": {"type": "string", "minLength": 20, "maxLength": 700},
+        "summary": {"type": "string", "minLength": 20, "maxLength": 900},
         "evidence_ids": {"type": "array", "minItems": 1, "maxItems": 12, "items": {"type": "string"}},
-        "assumptions": {"type": "array", "maxItems": 4, "items": {"type": "string", "maxLength": 200}},
     },
 }
 
@@ -95,32 +94,23 @@ def schema_errors(out, schema: dict) -> list[str]:
 def packet_ids(packet: dict) -> set:
     ids = {f["fact_id"] for f in packet.get("facts", [])}
     ids |= {l["lead_id"] for l in packet.get("leads", [])}
-    ids |= {s["signal_id"] for s in packet.get("signals", [])}
+    ids |= {i for i in packet.get("other_ids", [])}
     return ids
 
 
-def validate_recommendation(out, packet: dict) -> list[str]:
-    errors = schema_errors(out, RECOMMENDATION_SCHEMA)
+def validate_explanation(out, packet: dict) -> list[str]:
+    """(a) unknown evidence ids, (b) numbers not in the packet, (d) constraint violations (paid ads)."""
+    errors = schema_errors(out, EXPLANATION_SCHEMA)
     if errors:
         return errors
-    rec = packet["recommendation"]
-    if out["template_id"] not in packet["allowed_template_ids"] or out["template_id"] != rec["template_id"]:
-        errors.append(f"action outside the allowed templates: {out['template_id']}")
-    known = packet_ids(packet)
-    unknown = [e for e in out["evidence_ids"] if e not in known]
+    unknown = [e for e in out["evidence_ids"] if e not in packet_ids(packet)]
     if unknown:
         errors.append(f"unknown evidence_ids: {unknown}")
-    fact_ids = {f["fact_id"] for f in packet.get("facts", [])}
-    if not any(e in fact_ids for e in out["evidence_ids"]):
-        errors.append("evidence_ids must cite at least one fact_id")
-    texts = [out["rationale"]] + out.get("assumptions", [])
-    bad = unknown_numbers(texts, packet_numbers(packet))
+    bad = unknown_numbers([out["summary"]], packet_numbers(packet))
     if bad:
         errors.append(f"numbers not in the evidence packet: {bad}")
-    forbidden = packet["business"]["constraints"].get("forbidden_actions", [])
-    if rec["status"] != "blocked" and "increase_total_ad_spend" in forbidden:
-        if any(SPEND_UP_RE.search(t) for t in texts):
-            errors.append("constraint violation: proposes increasing ad spend")
+    if "paid_ads" in packet.get("business", {}).get("forbidden_actions", []) and PAID_ADS_RE.search(out["summary"]):
+        errors.append("constraint violation: suggests paid ads (the owner has no ad budget)")
     return errors
 
 

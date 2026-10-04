@@ -10,36 +10,33 @@ from backend.decision_engine.llm.providers import ProviderError
 from backend.decision_engine.llm.synthesize import Synthesizer
 
 PACKET = {
-    "business": {"constraints": {"forbidden_actions": ["increase_total_ad_spend"]}},
-    "recommendation": {"template_id": "tpl_x", "status": "proposed"},
-    "allowed_template_ids": ["tpl_x"],
-    "signals": [{"signal_id": "sig_a", "title": "8 leads waiting; p90 is 38.5 h vs 4 h"}],
-    "facts": [{"fact_id": "f_a", "value": 0.214, "baseline": 0.162, "delta_pct": 32.1},
+    "business": {"forbidden_actions": ["paid_ads"]},
+    "findings": [{"bottleneck": "reach", "where": "58 of 68 orders came from friends", "gap_to_best": 0.644}],
+    "facts": [{"fact_id": "f_a", "value": 0.214, "baseline": 0.162},
               {"fact_id": "f_b", "value": 36720.0}],
-    "leads": [{"lead_id": "lead_0412", "probability": 0.46}],
+    "leads": [{"lead_id": "lead_0412", "score": 46}],
 }
-GOOD = {"template_id": "tpl_x", "evidence_ids": ["f_a", "lead_0412"],
-        "rationale": "Repeat rate is 21.4% vs 16.2% (+32.1%) and INR 36,720 is at stake; lead_0412 has a 46% chance."}
+GOOD = {"evidence_ids": ["f_a", "lead_0412"],
+        "summary": "Only 21.4% vs 16.2% at best; 58 of 68 orders came from friends (64.4% gap); INR 36,720 at stake."}
 
 
 # ---------------------------------------------------------------- validator
 
 
 def test_valid_output_passes():
-    assert validator.validate_recommendation(GOOD, PACKET) == []
+    assert validator.validate_explanation(GOOD, PACKET) == []
 
 
 @pytest.mark.parametrize("change,needle", [
     ({"evidence_ids": ["f_zzz"]}, "unknown evidence_ids"),
-    ({"evidence_ids": ["lead_0412"]}, "at least one fact_id"),
-    ({"rationale": "Repeat rate will jump to 35% next week, trust me on this."}, "numbers not in the evidence packet"),
-    ({"template_id": "tpl_other"}, "outside the allowed templates"),
-    ({"rationale": "Increase the Instagram ad budget so CAC of 21.4% falls."}, "constraint violation"),
+    ({"summary": "Stranger orders will jump to 35% next week, trust me on this."}, "numbers not in the evidence packet"),
+    ({"summary": "Run Instagram ads to reach the 21.4% you are missing."}, "constraint violation"),
+    ({"summary": "Try boosting your post so 21.4% grows."}, "constraint violation"),
     ({"extra": "field"}, "schema"),
-    ({"rationale": "short"}, "schema"),
+    ({"summary": "short"}, "schema"),
 ])
 def test_invalid_outputs_rejected(change, needle):
-    errors = validator.validate_recommendation(GOOD | change, PACKET)
+    errors = validator.validate_explanation(GOOD | change, PACKET)
     assert any(needle in e for e in errors), errors
 
 
@@ -78,7 +75,7 @@ class FakeProvider(providers.Provider):
         return r if isinstance(r, str) else json.dumps(r)
 
 
-FALLBACK = {"template_id": "tpl_x", "rationale": "deterministic text from facts", "evidence_ids": ["f_a"]}
+FALLBACK = {"summary": "deterministic text from the facts", "evidence_ids": ["f_a"]}
 
 
 def synth(tmp_path, provider):
@@ -87,7 +84,7 @@ def synth(tmp_path, provider):
 
 
 def run(sy):
-    return sy.run("explain_recommendation", PACKET, validator.validate_recommendation, lambda: FALLBACK)
+    return sy.run("explain_diagnosis", PACKET, validator.validate_explanation, lambda: FALLBACK)
 
 
 def test_valid_reply_is_cached_then_served_offline(tmp_path):
@@ -109,7 +106,7 @@ def test_invalid_then_valid_retries_once(tmp_path):
 
 
 def test_invalid_twice_falls_back(tmp_path):
-    bad = GOOD | {"rationale": "Spend jumps 99% if you trust me on this plan."}
+    bad = GOOD | {"summary": "Stranger orders jump 99% if you trust me on this plan."}
     out, meta = run(synth(tmp_path, FakeProvider([bad, "not json"])))
     assert out == FALLBACK and meta["fallback"] and not meta["used"] and not meta["validator"]["passed"]
     assert list(tmp_path.glob("*.json")) == []  # invalid output is never cached

@@ -81,6 +81,44 @@ def lead_contacted(business_id: str, body: Contacted, engine: Engine = Depends(g
     return engine.mark_contacted(business_id, body.lead_id, body.reason)
 
 
+class PartnerResult(BaseModel):
+    partner_id: str
+    stranger_leads: int
+
+
+class FollowUp(BaseModel):
+    actions_done: Optional[list[str]] = None
+    actions_skipped: Optional[list[str]] = None
+    partner_results: Optional[list[PartnerResult]] = None
+
+
+class ChatRequest(BaseModel):
+    question: str
+
+
+@router.post("/businesses/{business_id}/followup")
+def followup(business_id: str, week: str = Query(..., pattern="^week_[2-4]$"), body: Optional[FollowUp] = Body(None),
+             engine: Engine = Depends(get_engine)):
+    body = body or FollowUp()
+    return engine.followup(business_id, week, body.actions_done, body.actions_skipped,
+                           [r.model_dump() for r in body.partner_results or []])
+
+
+@router.get("/businesses/{business_id}/followups")
+def followups(business_id: str, engine: Engine = Depends(get_engine)):
+    return engine.followups(business_id)
+
+
+@router.get("/businesses/{business_id}/next-month")
+def next_month(business_id: str, week: str = WEEK, engine: Engine = Depends(get_engine)):
+    return engine.next_month(business_id, week)
+
+
+@router.post("/businesses/{business_id}/chat")
+def chat(business_id: str, body: ChatRequest, week: str = WEEK, engine: Engine = Depends(get_engine)):
+    return engine.chat(business_id, body.question, week)
+
+
 app = FastAPI(title="decision_engine (Catalyst AI)")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 install_error_handlers(app)
