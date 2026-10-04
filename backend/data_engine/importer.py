@@ -46,6 +46,19 @@ PAYMENT_MAP = {"cod": "cod", "cash on delivery": "cod", "upi": "prepaid", "card"
                "razorpay": "prepaid", "netbanking": "prepaid", "wallet": "prepaid"}
 STATUS_MAP = {"delivered": "delivered", "rto": "rto", "returned to origin": "rto", "returned": "returned",
               "return": "returned", "cancelled": "cancelled", "canceled": "cancelled"}
+def relationship_of(text: str) -> str:
+    t = norm_header(text)
+    if not t:
+        return "unknown"
+    if "friend of" in t or "fof" in t.split() or "friends friend" in t or "friend s friend" in t or "mutual" in t:
+        return "friend_of_friend"
+    if "friend" in t or "family" in t or "relative" in t or "classmate" in t:
+        return "friend"
+    if any(k in t for k in ("stranger", "new", "found", "insta", "online", "cold", "unknown person", "saw your", "reel", "discovered")):
+        return "stranger"
+    return "unknown"
+
+
 STAGE_MAP = {"new": "new", "qualified": "qualified", "won": "won", "lost": "lost", "closed won": "won", "closed lost": "lost"}
 
 # canonical fields per kind: required flag, type, header synonyms (normalised)
@@ -63,6 +76,34 @@ SPECS = {
             "discount": (False, "money", ["discount", "discount amount", "coupon discount"]),
             "status": (False, "status", ["fulfilment status", "fulfillment status", "status", "order status", "delivery status"]),
             "items": (False, "str", ["items", "line items", "products", "sku", "skus"]),
+            "relationship": (False, "relationship", ["relationship", "how found", "how did you find us", "found via", "customer type", "circle", "buyer type", "friend or stranger"]),
+            "product": (False, "str", ["product", "item", "design", "item name", "product name"]),
+            "quantity": (False, "int", ["quantity", "qty", "units", "pieces"]),
+            "post_id": (False, "str", ["post", "post id", "from post", "source post"]),
+            "dispatched_at": (False, "date", ["dispatched", "dispatch date", "shipped on", "shipped at", "sent on", "delivered on"]),
+        },
+    },
+    "costs": {
+        "id": "product",
+        "fields": {
+            "product": (True, "str", ["product", "item", "design", "item name", "product name"]),
+            "material_cost": (False, "money", ["material", "material cost", "blank", "blank cost", "ingredients", "raw material", "cost of goods"]),
+            "making_cost": (False, "money", ["making", "making cost", "printing", "printing cost", "labour", "labour cost", "production"]),
+            "packaging_cost": (False, "money", ["packaging", "packaging cost", "packing", "box"]),
+            "courier_cost": (False, "money", ["courier", "courier cost", "shipping", "shipping cost", "delivery cost"]),
+        },
+    },
+    "insights": {
+        "id": "post_id",
+        "fields": {
+            "post_id": (True, "str", ["post id", "post", "id", "media id"]),
+            "post_date": (True, "date", ["date", "posted on", "post date", "published"]),
+            "reach": (True, "int", ["reach", "accounts reached", "people reached"]),
+            "profile_visits": (False, "int", ["profile visits", "profile views", "visits"]),
+            "follows": (False, "int", ["follows", "new followers", "followers gained"]),
+            "saves": (False, "int", ["saves", "saved"]),
+            "shares": (False, "int", ["shares", "shared"]),
+            "topic": (False, "str", ["topic", "caption", "design", "product"]),
         },
     },
     "leads": {
@@ -258,6 +299,20 @@ def run_import(kind: str, rows: list, mapping: dict, paise: bool = True) -> dict
                     issues.add("amount_in_paise", "repaired_units", f"{int(m)} -> {m / 100:.2f} INR")
                     m, repaired = m / 100, True
                 rec[field] = round(m, 2)
+            elif typ == "relationship":
+                rec[field] = relationship_of(val)
+            elif typ == "int":
+                if not val:
+                    if required:
+                        bad = ("missing_required", f"{field} is blank (row {i + 2})")
+                        break
+                    rec[field] = None
+                    continue
+                m = parse_money(val)
+                if m is None or m != int(m):
+                    bad = ("invalid_amount", f"{val!r} is not a whole number (row {i + 2})")
+                    break
+                rec[field] = int(m)
             elif typ == "channel":
                 rec[field] = _lookup(CHANNEL_MAP, val, "other")
             elif typ == "payment":

@@ -35,7 +35,11 @@ def load_demo(phase: str) -> dict:
 def get_context(business_id: str) -> Optional[dict]:
     if business_id == C.BUSINESS_ID:
         return demo_context(active_phase())
-    return _contexts.get(business_id)
+    if business_id in _contexts:
+        return _contexts[business_id]
+    from .homebiz import store as hb          # businesses of the home-business product (contract v2)
+    data = hb.get(business_id)
+    return data.profile if data is not None else None
 
 
 def save_context(ctx: dict) -> dict:

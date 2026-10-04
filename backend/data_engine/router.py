@@ -22,7 +22,22 @@ def health():
 
 # --- onboarding and demo data (real) -----------------------------------------
 @router.post("/businesses", status_code=201)
-def create_business(payload: BusinessIn):
+def create_business(payload: dict):
+    """Create a business. The home-business form (contract v2: has `products`) creates a v2 business; the earlier D2C form still works."""
+    from pydantic import ValidationError
+    if "products" in payload:
+        from backend.data_engine.homebiz import store as hb
+        try:
+            data = hb.create(hb.ProfileIn(**payload))
+        except ValidationError as e:
+            raise ApiError(422, "invalid_request", str(e.errors()))
+        except ValueError as e:
+            raise ApiError(409, "business_exists", str(e))
+        return data.profile
+    try:
+        payload = BusinessIn(**payload)
+    except ValidationError as e:
+        raise ApiError(422, "invalid_request", str(e.errors()))
     try:
         ctx = context_from_onboarding(payload)
     except ValueError as e:
@@ -41,8 +56,25 @@ def get_business(business_id: str):
 
 
 @router.post("/demo/load")
-def load_demo(phase: str = Query("baseline", pattern="^(baseline|day7)$")):
-    """Load the synthetic Aarohi Skin tenant: the baseline week, or the day-7 follow-up replay."""
+def load_demo(phase: str = Query("baseline", pattern="^(baseline|day7)$"), business: str | None = Query(None, pattern="^(boxbox|homebaker)$"),
+              week: int = Query(1, ge=1, le=4)):
+    """Contract v2: `?business=boxbox|homebaker&week=1..4` loads a generated home business at a weekly snapshot (its messy orders sheet
+    goes through the real import). Without `business`, the earlier D2C demo (`phase`) loads."""
+    if business:
+        from backend.data_engine.homebiz import messy, store as hb
+        data = hb.load_demo(business, week)
+        bid = data.profile["business_id"]
+        csv_text = messy.build_csv(data, week).encode("utf-8")
+        columns, rows = importer.parse_csv(csv_text)
+        sug = importer.suggest_mapping("orders", columns)
+        mapping = {f: m["column"] for f, m in sug.items() if m["column"]}
+        run = importer.run_import("orders", rows, mapping)
+        store.save_import({"import_id": f"imp_{business}_orders_messy", "business_id": bid, "kind": "orders",
+                           "filename": f"{business}_orders_messy.csv", "checksum": importer.checksum(csv_text), "columns": columns,
+                           "rows": rows, "suggested": sug, "mapping": mapping, "status": "loaded", "run": run})
+        return {**data.profile, "week": week,
+                "demo_load": {"business": business, "week": week, "counts": hb.counts(data), "synthetic": True,
+                              "import_id": f"imp_{business}_orders_messy", "data_card": f"/api/v1/businesses/{bid}/data-card"}}
     info = store.load_demo(phase)
     store.ensure_demo_import()
     return {**store.get_context(C.BUSINESS_ID), "demo_load": info}
@@ -94,11 +126,14 @@ def _confirm(job: dict, mapping: dict) -> dict:
         raise ApiError(422, "missing_required_mapping", f"map these required fields: {missing}")
     job["run"] = importer.run_import(job["kind"], job["rows"], {f: c for f, c in mapping.items() if c})
     job["mapping"], job["status"] = mapping, "loaded"
-    return importer.report_for(job["import_id"], job["kind"], job["run"])
+    from backend.data_engine.homebiz import store as hb
+    attached = hb.attach_import(job)
+    report = importer.report_for(job["import_id"], job["kind"], job["run"])
+    return {**report, "attached_to_business": attached} if attached else report
 
 
 @router.post("/businesses/{business_id}/imports", status_code=201)
-async def upload_import(business_id: str, kind: str = Query(..., pattern="^(campaigns|leads|orders)$"),
+async def upload_import(business_id: str, kind: str = Query(..., pattern="^(campaigns|leads|orders|costs|insights)$"),
                         file: UploadFile = File(...)):
     """Step 1: upload a CSV. Returns the detected columns and a suggested mapping to confirm or edit."""
     return _upload_response(store.save_import(await _read_job(business_id, kind, file)))
@@ -112,7 +147,7 @@ def confirm_import(import_id: str, body: dict):
 
 
 @router.post("/businesses/{business_id}/imports/auto", status_code=201)
-async def auto_import(business_id: str, kind: str = Query(..., pattern="^(campaigns|leads|orders)$"),
+async def auto_import(business_id: str, kind: str = Query(..., pattern="^(campaigns|leads|orders|costs|insights)$"),
                       file: UploadFile = File(...)):
     """One call (upload + accept the suggested mapping). Convenient for demos and stateless hosting."""
     job = store.save_import(await _read_job(business_id, kind, file))
@@ -216,10 +251,11 @@ def model_card():
 
 # --- public data and market context (additive) ---------------------------------
 @router.get("/market-context")
-def market_context(from_: str | None = Query(None, alias="from"), to: str | None = None):
-    """F1 race weekends (demand windows) in a date range, the next race, and the measured interest uplift."""
+def market_context(from_: str | None = Query(None, alias="from"), to: str | None = None,
+                   feed: str = Query("f1_calendar", pattern="^(f1_calendar|india_festivals)$")):
+    """Demand windows from an event calendar: F1 race weekends (with the measured interest uplift) or India festivals (no measured uplift)."""
     try:
-        return public.get_market_context(from_, to)
+        return public.get_market_context(from_, to, feed)
     except (ValueError, FileNotFoundError) as e:
         raise ApiError(422, "invalid_period", str(e))
 
@@ -228,3 +264,9 @@ def market_context(from_: str | None = Query(None, alias="from"), to: str | None
 def public_data():
     """Which public datasets are in use, their licences, what each is for, and what we measured on them."""
     return public.get_public_data()
+
+
+# --- contract v2 routes (home businesses): profile, leads, facts, projection ---
+from backend.data_engine.routes_v2 import router as _v2  # noqa: E402
+
+router.include_router(_v2)

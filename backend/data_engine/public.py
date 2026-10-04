@@ -59,19 +59,59 @@ def get_kpi_series(business_id: str, from_date: Optional[str] = None, to_date: O
     return kpis.daily_series(from_date, to_date, channel)
 
 
-def get_market_context(from_date: Optional[str] = None, to_date: Optional[str] = None) -> dict:
-    """Market context for timing advice: F1 race weekends in the range, the next race, and how much race weekends
-    lift interest (public data: Jolpica-F1 calendar, Wikimedia page views). Not tied to one business."""
-    from backend.data_engine.external import f1_calendar, f1_interest
+def get_market_context(from_date: Optional[str] = None, to_date: Optional[str] = None, feed: str = "f1_calendar") -> dict:
+    """Demand windows from an event calendar. `feed`: f1_calendar (race weekends, with the measured page-view uplift) or
+    india_festivals (festival build-up windows; NO measured uplift exists, so none is claimed)."""
+    from backend.data_engine.external import f1_calendar, f1_interest, india_festivals
     start = from_date or "2026-10-01"
     season = int(start[:4])
     end = to_date or f"{season}-12-31"
-    return {"source": {"calendar": "Jolpica-F1 (Ergast successor), snapshot", "interest": "Wikimedia page views (CC0), snapshot"},
-            "season": season, "from": start, "to": end,
-            "race_weekends": f1_calendar.race_weekends(season, start, end),
-            "next_race": f1_calendar.next_race(start),
-            "interest_uplift": f1_interest.uplift(),
+    if feed == "india_festivals":
+        events = india_festivals.demand_events(start, end)
+        return {"feed": feed, "source": {"calendar": "python-holidays (MIT), India calendar, snapshot"}, "season": season, "from": start, "to": end,
+                "events": events, "next_event": india_festivals.next_event(start), "interest_uplift": None,
+                "note": "Festivals are demand windows for many home businesses. No measured demand uplift exists in our data; any uplift used is a labelled assumption."}
+    weekends = f1_calendar.race_weekends(season, start, end)
+    return {"feed": "f1_calendar", "source": {"calendar": "Jolpica-F1 (Ergast successor), snapshot", "interest": "Wikimedia page views (CC0), snapshot"},
+            "season": season, "from": start, "to": end, "race_weekends": weekends,
+            "events": [{"name": w["name"], "window_start": w["weekend_start"], "window_end": w["weekend_end"], "kind": "race_weekend"} for w in weekends],
+            "next_race": f1_calendar.next_race(start), "next_event": f1_calendar.next_race(start), "interest_uplift": f1_interest.uplift(),
             "note": "Race weekends are demand windows for F1 merchandise. Page views measure interest in F1, not any brand's sales."}
+
+
+# ------------------------------------------------------------------ contract v2 (home businesses), in-process
+def get_profile(business_id: str) -> Optional[dict]:
+    from backend.data_engine.homebiz import store as hb
+    data = hb.get(business_id)
+    return None if data is None else {"profile": data.profile, "fields": data.profile["fields"]}
+
+
+def get_facts(business_id: str, week: Optional[int] = None) -> Optional[list]:
+    """The facts for the five bottlenecks at a weekly snapshot (defaults to the business's current week)."""
+    from backend.data_engine.homebiz import facts as F, store as hb
+    data = hb.get(business_id)
+    if data is None:
+        return None
+    try:
+        return F.compute(data, week or hb.current_week(business_id))
+    except ValueError:                      # no orders or under four weeks of history: no facts yet
+        return []
+
+
+def get_leads(business_id: str, group: Optional[str] = None, week: Optional[int] = None) -> Optional[list]:
+    """Scored open leads (the daily list), hot first."""
+    from backend.data_engine.homebiz import leads as L, store as hb
+    from backend.data_engine.homebiz.model import as_of_for
+    data = hb.get(business_id)
+    if data is None:
+        return None
+    return L.score_all(data.leads, as_of_for(week or hb.current_week(business_id), data), data.profile.get("serves"), data.profile["products"], group)
+
+
+def get_projection(business_id: str, week: Optional[int] = None) -> Optional[dict]:
+    from backend.data_engine.homebiz import projection, store as hb
+    data = hb.get(business_id)
+    return None if data is None else projection.project(data, week or hb.current_week(business_id))
 
 
 def get_public_data() -> dict:

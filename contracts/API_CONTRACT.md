@@ -57,23 +57,25 @@ The shared contract that `backend-1`, `backend-2` and `frontend` code against, f
 | Status | Method | Path | Purpose |
 |---|---|---|---|
 | built | GET | `/data/health` | liveness |
-| v2 | POST / GET | `/businesses`, `/businesses/{id}` | create from the intake form and the short interview; read |
-| v2 | GET | `/businesses/{id}/profile` | every profile field with its `source` |
-| v2 | POST | `/demo/load?business=boxbox\|homebaker&week=1..4` | load a generated demo business at a week |
-| built | POST | `/businesses/{id}/imports?kind=` | upload a CSV; returns columns and a suggested mapping (kinds: orders now; costs, insights, leads in v2) |
+| built | POST / GET | `/businesses`, `/businesses/{id}` | create from the intake form and the short interview; read |
+| built | GET | `/businesses/{id}/profile` | every profile field with its `source` |
+| built | POST | `/demo/load?business=boxbox\|homebaker&week=1..4` | load a generated demo business at a week |
+| built | POST | `/businesses/{id}/imports?kind=` | upload a CSV; returns columns and a suggested mapping (kinds: orders, costs, insights, leads, campaigns) |
 | built | POST | `/imports/{id}/confirm`, `/businesses/{id}/imports/auto` | confirm the mapping (or do both at once); validate, repair, quarantine |
 | built | GET | `/imports/{id}/report`, `/imports/{id}/quarantine`, `/businesses/{id}/data-quality` | what was loaded, repaired, quarantined; the quality badge |
-| v2 | POST | `/businesses/{id}/leads/intake` | pasted chat or comment text: an LLM labels intent and extracts product, size, design, city |
-| v2 | GET | `/businesses/{id}/leads?group=&week=` | scored leads with reasons |
-| v2 | PATCH | `/leads/{id}` | the owner tags the relationship, corrects an intent label, records the outcome |
-| v2 | GET | `/businesses/{id}/leads/learning` | the weekly check: conversion by group and by signal |
-| v2 | GET | `/businesses/{id}/facts?week=` | the facts (2.2) |
-| v2 | GET | `/businesses/{id}/facts/weekly?fact_id=` | one fact across weeks |
-| v2 | GET | `/businesses/{id}/projection` | next month's orders with a range |
-| built | GET | `/market-context?from=&to=` | race weekends, next race, interest uplift |
+| built | POST | `/businesses/{id}/leads/intake` | pasted chat or comment text: intent is labelled (rules now, LLM pluggable) and product, size, design, city extracted; identities are pseudonymised |
+| built | GET | `/businesses/{id}/leads?group=&week=` | scored leads with reasons |
+| built | PATCH | `/leads/{id}` | the owner tags the relationship, corrects an intent label, records the outcome |
+| built | GET | `/businesses/{id}/leads/learning` | the weekly check: conversion by group and by signal |
+| built | GET | `/businesses/{id}/facts?week=` | the facts (2.2) |
+| built | GET | `/businesses/{id}/facts/weekly?fact_id=` | one fact across weeks |
+| built | GET | `/businesses/{id}/projection` | next month's orders with a range |
+| built | GET | `/market-context?from=&to=&feed=f1_calendar\|india_festivals` | event windows, next event, measured uplift (F1 only) |
 | built | GET | `/public-data` | the public datasets in use, licences, roles, measured results |
 
-**In-process interface** (`backend/data_engine/public.py`, used when `DATA_SOURCE=local`): `get_context`, `get_facts`, `get_leads`, `get_projection`, `get_data_quality`, `get_market_context` (built), `get_public_data` (built). Each returns exactly the shape of this contract.
+**In-process interface** (`backend/data_engine/public.py`, used when `DATA_SOURCE=local`): `get_context`, `get_facts`, `get_leads`, `get_projection`, `get_data_quality`, `get_profile`, `get_market_context`, `get_public_data`. Each returns exactly the shape of this contract.
+
+**Additive details (v2):** the by-source facts are three ids, `f_orders_by_source_friend`, `f_orders_by_source_friend_of_friend`, `f_orders_by_source_stranger`. `GET /businesses/{id}/projection` also returns `demand` (orders plus orders turned away) and `capacity` (`demand_exceeds_capacity`, `message`). Extra built routes: `GET /businesses/{id}/data-card`, `POST /businesses/{id}/week` (replay week 1..4), `GET /demo/sample-chat`, `GET /demo/sample-orders.csv`. Facts need at least four weeks of orders, otherwise `422 not_enough_history`.
 
 ## 4. Endpoints owned by `decision_engine` (Ayush)
 
