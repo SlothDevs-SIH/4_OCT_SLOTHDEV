@@ -2,7 +2,7 @@
 
 **Helpreneur AI Buildathon 2026 | PS3: AI Business Growth Advisor | Team Slothdev**
 
-> A seven-day growth operating system that turns messy SMB data into explainable priorities, assigned actions and measured outcomes.
+> A seven-day growth operating system for **D2C (direct-to-consumer) brands in India**. It turns messy store, ad and customer data into explainable priorities, assigned actions and measured outcomes.
 
 It is not a chatbot over business data. The loop is: **evidence → priority → action → measured outcome**.
 
@@ -12,7 +12,17 @@ data import → validation → KPIs + ML signals → bottlenecks/opportunities
    → human approval → 7-day plan → day-7 outcome vs expected
 ```
 
-Demo business (synthetic and labelled as such): **Aarohi Skin**, a Pune D2C skincare brand.
+## Who it is for (one industry, on purpose)
+
+**D2C brands**: online-first consumer brands that sell their own products directly through their own website, Instagram/WhatsApp and a few paid channels. We deliberately do **not** try to serve every business. D2C has a measurable funnel end to end (ad spend → session → lead → order → repeat purchase), expensive customer acquisition, and India-specific levers (COD vs prepaid, returns/RTO, WhatsApp follow-up, festive seasons).
+
+| Profile | Meaning | Status in the prototype |
+|---|---|---|
+| `d2c` | Brand selling directly to consumers | **Built end to end** (the demo) |
+| `hybrid` | D2C brand that also takes bulk/B2B inquiries (salons, corporate gifting) | **Built**: the demo brand has a bulk-inquiry lead segment |
+| `b2c_retail` | Consumer sales through marketplaces or physical stores | Profile only: different channel set and KPI subset, shown if time allows |
+
+Demo business (synthetic and labelled as such): **Aarohi Skin**, a Pune D2C skincare brand with a bulk-inquiry segment.
 
 ## Team and branches
 
@@ -42,6 +52,18 @@ Demo business (synthetic and labelled as such): **Aarohi Skin**, a Pune D2C skin
 ## Status
 
 Docs, the shared contract, example fixtures (`contracts/fixtures/`), shared backend stubs and the Postgres schema (`db/schema.sql`) are on `main`. Run instructions: `backend/BACKEND.md` section 2.
+
+## Hosting (public prototype)
+
+| Part | Host |
+|---|---|
+| Database | Supabase (Postgres) |
+| Frontend | Vercel (Next.js) |
+| API | Vercel serverless (FastAPI), kept lightweight; see `backend/BACKEND.md` section 3 |
+
+## Timeline and meetings (IST)
+
+Meetings at **11:00, 1:00, 3:00 and 5:00**. Working prototype ready and publicly hosted by **5:00 PM**; work continues until 6:00 PM. Details: `docs/WORKFLOW.md`.
 
 ## Rules we follow
 

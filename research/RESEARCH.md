@@ -9,16 +9,25 @@
 | Decision | Choice | Why |
 |---|---|---|
 | Problem statement | **PS3: AI Business Growth Advisor** | Workflow fits our skills: data, KPIs, prediction, prioritisation, action plan |
-| Product | **Slothdev GrowthOS**, a 7-day growth operating system for Indian D2C/service SMBs | Narrow wedge; generic "AI consultant" is crowded |
+| Product | **Slothdev GrowthOS**, a 7-day growth operating system for **Indian D2C (direct-to-consumer) brands** | Judges' advice: don't be generic. One model, deeply: D2C has a measurable first-party funnel, high acquisition cost, repeat-purchase economics and India-specific levers (COD/RTO, WhatsApp, festive seasons) |
+| Model profiles | `d2c` (built), `hybrid` = D2C + bulk/B2B inquiries (built in the demo), `b2c_retail` (profile only, if time) | Covers D2C, hybrid and B2C without pretending to serve everyone |
 | Core loop | validated data → KPI facts → ML signals → rules → candidate interventions → **priority score** → constrained LLM explanation → human approval → tasks → **outcome tracking** | The defensible part is the loop, not the chat |
 | ML scope | **Two components only:** (1) calibrated lead-conversion probability, (2) anomaly/bottleneck detection. RFM as transparent analytics, not a headline model | Depth and honest evaluation beat ten shallow models |
 | Datasets | UCI **Bank Marketing** (lead conversion; **drop call duration**), UCI **Online Retail II** (RFM/cohorts), plus a **synthetic relational demo tenant** ("Aarohi Skin") | Public datasets can't be truthfully joined; synthetic tenant unifies the story and is labelled synthetic |
-| Stack | Next.js + FastAPI + PostgreSQL/Supabase + scikit-learn/LightGBM + SHAP + LLM API behind an interface | Fast to build, good ML fit |
+| Stack | Next.js (Vercel) + FastAPI + PostgreSQL (Supabase); scikit-learn used offline; LLM API behind an interface | Fast to build, publicly hosted, light at runtime (see `backend/BACKEND.md` sections 3 and 5) |
 | LLM role | Explain and instantiate tasks from **evidence packets**; never calculate KPIs or invent evidence | Prevents hallucinated numbers |
 | Human in the loop | Approval for spend, outreach and data-changing actions | Safety |
 | Avoid | Ten models, autonomous spending, knowledge graph, Kubernetes, real-time streaming, scraping competitors, causal-ROI claims without experiments, joining unrelated public datasets | Scope and honesty |
 
 **Honest positioning (from the research):** incumbents already do chat-over-data, CRM scoring, anomaly alerts and agents (Zoho Zia, HubSpot Breeze, Salesforce, Shopify Sidekick, Tableau Pulse, Looker, ChatGPT/Gemini with connectors). So *"personalised advice"*, *"multi-source data"* and *"AI recommendations"* are **not** differentiators. Ours is: an evidence-linked, effort-aware, transparent recommendation compiler plus an expected-vs-actual outcome ledger, packaged for low-setup SMB use. Call it an **architectural/product innovation, not a new ML algorithm.**
+
+## 1b. Judges' feedback and what we changed
+
+Feedback at the 11:00 meeting: **don't make it too generic** (a medical shop and a clothing shop need different analytics). Our response: **D2C brands**, with `hybrid` and `b2c_retail` as profiles. Write the slides, script and Q&A around D2C:
+- *Who:* founder/growth lead of an Indian D2C brand.
+- *Pain:* rising customer acquisition cost, unattended high-value inquiries, repeat-purchase potential left unused.
+- *India-specific levers:* COD vs prepaid, returns/RTO, WhatsApp follow-up, festive seasons, UPI.
+- Say what is **built** (D2C and the hybrid bulk-inquiry segment) and what is **profile only** (`b2c_retail`).
 
 ## 2. Your deliverables
 
@@ -28,7 +37,7 @@ Work in this order. Each item says who needs it and when.
 |---|---|---|---|---|
 | R1 | **Dataset readiness:** confirm Bank Marketing and Online Retail II are downloadable, record licence/citation terms, list columns, confirm the duration column is excluded, note target definition and class balance. Hand the checked file paths/notes to Soham | `research/datasets.md` | 10:45 | Soham (backend-1 task 5) |
 | R2 | **Model analysis** (section 3): a model card per component with rationale, alternatives rejected, metrics, risks | `research/models.md` | 11:30 | Soham, Ayush, slides |
-| R3 | **Intervention library:** 12–15 approved action templates (trigger, eligibility, KPI, expected direction, effort, cost, time-to-signal, approval, risks). Extend the seed in `contracts/fixtures/intervention_templates.json` and send changes to `main` per `docs/WORKFLOW.md` section 3 | `research/intervention_library.md` (+ the fixture) | 12:00 | Ayush (backend-2 tasks 1, 4, 5) |
+| R3 | **D2C intervention library:** 12–15 approved action templates specific to D2C (trigger, eligibility, KPI, expected direction, effort, cost, time-to-signal, approval, risks). Include abandoned-cart recovery, COD-to-prepaid nudge, RTO/return reduction, repeat-buyer flow, WhatsApp win-back, bundle/AOV offer, creative test, landing-page fix, restock/replenishment reminder, review request, plus the blocked "increase ad spend" Extend the seed in `contracts/fixtures/intervention_templates.json` and send changes to `main` per `docs/WORKFLOW.md` section 3 | `research/intervention_library.md` (+ the fixture) | 12:00 | Ayush (backend-2 tasks 1, 4, 5) |
 | R4 | **Evaluation plan and acceptance gates** (section 4) | `research/evaluation.md` | 12:30 | Soham, Ayush |
 | R5 | **Golden set:** 30–50 recommendation cases scored on the rubric in section 4. Start with the 4 demo recommendations | `research/golden_set.csv` (template included) | 2:00 | backend-2 evaluation, slides |
 | R6 | **Innovation and differentiation** (section 5): competitor one-pager, our wedge, claims ledger | `research/innovation.md`, `research/claims_ledger.md` | 1:30 | slides, Q&A |
@@ -71,7 +80,7 @@ Also record **what's possible in 8 hours and what isn't**, so no one over-promis
 ## 5. Innovation and differentiation (R6)
 
 Write one page each:
-1. **Competitor map** (short): the groups above and what each already does; where they stop (no cross-functional SMB experiment ledger, insight stops before outcome, enterprise setup).
+1. **Competitor map** (short): the groups above and what each already does; where they stop (no D2C-specific experiment ledger, insight stops before outcome, enterprise setup).
 2. **Our wedge, in one sentence:** "Unlike [X], which [does A], GrowthOS [does B] so that [C]."
 3. **Innovation list we can defend** (only things we actually build): evidence-linked recommendation compiler · visible priority equation with hard eligibility gate · data-quality-aware abstention · calibrated lead value · human-approved plan · day-7 expected-vs-actual ledger.
 4. **India-specific parts that change decisions** (not "Indian English"): INR/GST fields, Indian fiscal year, festival seasonality, WhatsApp-first task drafts with consent, UPI/PSP export normalisation (future), regional-language explanation layer. Say which are built and which are future scope.

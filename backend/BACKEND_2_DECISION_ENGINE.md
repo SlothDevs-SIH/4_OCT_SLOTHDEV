@@ -2,7 +2,7 @@
 
 Branch: `backend-2`. You edit only `backend/decision_engine/`. Port 8002. Overview of both backends: [`BACKEND.md`](BACKEND.md). The other backend (Soham, `data_engine`) is independent of yours: you read its output only through `DataClient`, and you build against the contract examples until it is ready.
 
-> **Status:** the contract in `contracts/API_CONTRACT.md` and the fixtures in `contracts/fixtures/` are the source of truth. The shared stubs (section 4 of `BACKEND.md`), `backend/requirements.txt` and `db/schema.sql` are on `main`.
+> **Status:** the contract in `contracts/API_CONTRACT.md` and the fixtures in `contracts/fixtures/` are the source of truth. The shared stubs (section 6 of `BACKEND.md`), `backend/requirements.txt` and `db/schema.sql` are on `main`.
 
 **Stack:** Python, FastAPI, Pydantic, scikit-learn, jsonschema, an LLM API behind a provider interface, PostgreSQL/Supabase.
 
@@ -28,7 +28,7 @@ Endpoints: contract section 4.
 
 ~370 min. Drop task 9 first if time runs short, then the Isolation Forest challenger.
 
-**Part 1 (needed by 12:00, M2):** tasks 1–6 produce `recommendations` end to end with a cached LLM response. **Part 2 (needed by 2:00, M4):** tasks 7–9.
+**Stage 1 (due 1:00 PM):** tasks 1–6 produce `recommendations` end to end with a cached LLM response. **Stage 2 (due 3:00 PM):** tasks 7–9.
 
 **Rules for the LLM boundary (non-negotiable):**
 - The LLM never calculates a KPI or assigns a probability. It explains facts it was given and instantiates tasks from approved templates.
@@ -50,4 +50,4 @@ Example: I=.8 U=1 F=.9 R=.5 T=.9 Q=.85 E=.25 C=.05 D=.10 gives Benefit .818, Cos
 
 ## Integration
 
-On `backend-integration` (2:00–2:45 PM, with Soham) you switch `DATA_SOURCE=local` so you call `data_engine` in-process. See `BACKEND.md` section 5 and `docs/WORKFLOW.md`.
+On `backend-integration` (#1 at 1:00–1:30 PM, #2 at 3:00 PM, with Soham) you switch `DATA_SOURCE=local` so you call `data_engine` in-process. See `BACKEND.md` section 9 and `docs/WORKFLOW.md`.

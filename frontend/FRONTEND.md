@@ -8,7 +8,7 @@
 
 > A seven-day growth operating system. Not a chatbot: **evidence → priority → action → measured outcome.**
 
-The user is an Indian D2C / service SMB owner (2–30 people) with spreadsheets and no analyst. Demo business: **Aarohi Skin** (Pune, synthetic: always show a "Demo data" badge).
+The user is the founder or growth lead of an **Indian D2C brand** (a small team, own website plus Instagram/WhatsApp and a few paid channels) who works from spreadsheets and has no analyst. The product is deliberately specific to D2C; it is not a generic business tool. Demo business: **Aarohi Skin** (Pune, synthetic: always show a "Demo data" badge).
 The owner should be able to answer in ten seconds: *What is wrong? Why do you say that? What should I do first? Did it work?*
 
 ## 2. Mock-first setup (so you're never blocked by the backends)
@@ -26,27 +26,36 @@ Put the app in `frontend/app/`. Then:
 4. **Types:** write TypeScript types straight from contract section 2 (KPI fact, lead score, signal, recommendation, plan/task, outcome).
 5. Copy `.env.example` values you need into `frontend/app/.env.local` (never commit it).
 
-## 3. Work in stages (matches the backend milestones)
+## 3. Work in stages (matches the backend stages and the four meetings)
 
-You work on one part of one backend at a time, then the other. Each stage is: build the screen on mocks, then connect it to the real endpoint when the backend owner announces the milestone.
+Meetings: **11:00, 1:00, 3:00, 5:00.** Each stage is: build the screen on mocks, then connect it to the real endpoint when the backend owner announces it is pushed. Frontend phase 1 = connect the single screens one at a time; phase 2 = the full flow.
 
-| Stage | Time | Build the UI for | Backend part | Backend milestone |
-|---|---|---|---|---|
-| **F0** | 10:00–10:45 | Project setup, layout, navigation, design tokens, API layer, mock mode, "Demo data" badge, loading/empty/error components | – | – |
-| **F1** | 10:45–12:00 | **Onboarding** (business type, goal, constraints, weekly capacity) and **Import + mapping + data-quality report** (upload, suggested mapping, repaired/quarantined counts, confidence badge) | **backend-1 part 1** | M1 at 11:30 |
-| **F2** | 12:00–1:00 | **Recommendation feed**: signals, ranked recommendation cards, **priority-factor breakdown**, evidence links, blocked-recommendation state, approve/reject | **backend-2 part 1** | M2 at 12:00 |
-| – | 1:00–1:30 | Lunch | | |
-| **F3** | 1:30–2:15 | **KPI scorecard + funnel + metric provenance** (numerator/denominator/definition) and **lead queue** with probability, baseline, SHAP-style reasons, abstention state, model card drawer | **backend-1 part 2** | M3 at 1:30 |
-| **F4** | 2:00–2:45 | **7-day plan** (timeline by day, owner, KPI, success criterion, dependencies), task status, **draft preview** (WhatsApp/email, "requires approval"), **Outcome review** (day-7: baseline vs expected vs actual, promising/inconclusive) | **backend-2 part 2** | M4 at 2:00 |
-| **F5** | 2:45–3:30 | Full-stack integration on `fullstack-integration`, demo mode path, polish | all | integration |
-| – | 3:30 | **Feature freeze.** After that: bug fixes only. | | |
+| Stage | Time | Build the UI for | Backend it connects to |
+|---|---|---|---|
+| **F0** | 11:00–12:00 | Project setup, layout, navigation, design tokens, API layer, mock mode, "Demo data" badge, loading/empty/error components | – |
+| **F1** | 12:00–1:00 | **Onboarding** (business model D2C/hybrid, goal, constraints, weekly capacity) and **Import + mapping + data-quality report** (upload, suggested mapping, repaired/quarantined counts, confidence badge) | backend-1 Stage 1 |
+| **F2** | 12:30–1:30 | **Recommendation feed** on mocks: signals, ranked cards, **priority-factor breakdown**, evidence links, blocked state, approve/reject | backend-2 Stage 1 |
+| – | 1:00–1:30 | Meeting 2, lunch | |
+| **Phase 1** | 1:30–3:00 | Connect the single screens to the real API one by one (onboarding, import, recommendations); then **KPI scorecard + funnel + provenance** and **lead queue** (probability, baseline, reasons, "needs data" state, model card drawer) as Stage 2 endpoints land. **First public deploy on Vercel by 2:30** | backend-1/2 Stage 1 then Stage 2 |
+| – | 3:00 | **Meeting 3 (about 80%)** | |
+| **Phase 2** | 3:00–4:30 | **7-day plan** (timeline, owner, KPI, success criterion, dependencies), task status, **draft preview** (WhatsApp/email, "requires approval"), **Outcome review** (day-7: baseline vs expected vs actual); full flow on `fullstack-integration`; polish | backend-2 Stage 2 + gateway |
+| – | 4:30 | **Feature freeze.** After that: bug fixes only | |
+| – | 5:00 | **Meeting 4: working, public prototype** | |
 
-If a milestone slips, keep going on mocks. Don't wait.
+If a backend stage slips, keep going on mocks. Don't wait.
+
+## 3b. Hosting on Vercel
+
+- Create the Vercel project from this repo with **root directory `frontend/app`**. Framework preset: Next.js.
+- Environment variables (Project → Settings → Environment Variables): `NEXT_PUBLIC_API_BASE` = the public API URL; `NEXT_PUBLIC_USE_MOCKS=false` for the live demo.
+- Every branch push gets a preview URL; use it to show Stage 1 on the real API early.
+- Check the public link on a phone and in an incognito window before each meeting.
+- The API is a separate Vercel project (or another host); see `backend/BACKEND.md` section 5.
 
 ## 4. Screens and what each must show
 
 ### S1. Onboarding
-- Business type (D2C / service), city, currency (INR), goal (a KPI + sentence), constraints (weekly execution hours, weekly discretionary budget in INR, forbidden actions, lead-response SLA).
+- Business model (**D2C** or **hybrid**: D2C plus bulk/B2B inquiries; `b2c_retail` only if time allows), city, currency (INR), goal (a KPI + sentence), constraints (weekly execution hours, weekly discretionary budget in INR, forbidden actions, lead-response SLA).
 - A "Load demo business (Aarohi Skin)" button (`POST /demo/load`). This is the fast path for the demo.
 
 ### S2. Import and data quality

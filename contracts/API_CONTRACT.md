@@ -10,6 +10,7 @@ Change rules: see `docs/WORKFLOW.md` section 3. Changes happen on `main` only.
 - Base path: `/api/v1`. JSON in, JSON out. Errors: `{"error": {"code": "string", "message": "string"}}` with the right HTTP status.
 - IDs are strings. The demo business is `biz_aarohi_skin`.
 - Timestamps: ISO 8601 UTC (`2026-10-04T10:30:00Z`). Dates: `YYYY-MM-DD`. Currency: INR (amounts are numbers, not strings).
+- **Industry:** D2C brands. The business context may carry `business_model`: `d2c | hybrid | b2c_retail` (optional, additive; `hybrid` = D2C plus bulk/B2B inquiries; `b2c_retail` is a profile only). The demo business is `d2c` with a hybrid lead segment.
 - **Synthetic data is labelled.** Every business, import and demo payload has `"synthetic": true` where relevant. The UI shows a "demo data" badge.
 - **Every number is a fact with provenance** (section 2.1). The LLM never computes a number; it only explains facts it was given.
 - Every recommendation carries `evidence_ids` that point to `fact_id`, `lead_id` or `signal_id` values that exist.
