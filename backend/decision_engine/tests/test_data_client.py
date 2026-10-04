@@ -10,7 +10,7 @@ import pytest
 from backend.common.fixtures import load_fixture
 from backend.decision_engine.clients import DataClient, DataNotFound, DataSourceUnavailable
 
-BIZ = "biz_aarohi_skin"
+BB, HB = "biz_boxbox", "biz_homebaker"
 
 
 # ---------------------------------------------------------------- fixture
@@ -26,47 +26,46 @@ def test_unknown_source_rejected():
         DataClient(source="carrier_pigeon")
 
 
-def test_fixture_context_and_quality():
-    c = DataClient(source="fixture")
-    ctx = c.get_context(BIZ)
-    assert ctx["synthetic"] is True
-    assert "increase_total_ad_spend" in ctx["constraints"]["forbidden_actions"]
-    assert c.get_data_quality(BIZ)["overall"]["confidence"] == 0.82
+def test_fixture_context_both_businesses():
+    c = DataClient("fixture")
+    assert c.get_context(BB)["case_study"] == "Box Box" and c.get_context(BB)["ad_budget_inr"] == 0
+    assert c.get_context(HB)["context_feeds"] == ["india_festivals"]
+
+
+def test_fixture_facts_are_point_in_time():
+    c = DataClient("fixture")
+    w1, w2 = c.get_facts(BB, "week_1"), c.get_facts(BB, "week_2")
+    assert w1["as_of"] == "2026-10-04" and w2["as_of"] == "2026-10-11"
+    assert all(f["period"]["to"] <= w1["as_of"] for f in w1["facts"])
+    with pytest.raises(ValueError):
+        c.get_facts(BB, "week_9")
+
+
+def test_fixture_leads_group_filter():
+    hot = DataClient("fixture").get_leads(BB, "week_1", group="hot")["leads"]
+    assert hot and all(l["group"] == "hot" for l in hot)
 
 
 def test_fixture_unknown_business():
-    c = DataClient(source="fixture")
-    for call in (c.get_context, c.get_kpi_facts, c.get_lead_scores, c.get_data_quality, c.get_kpi_series):
+    c = DataClient("fixture")
+    for call in (c.get_context, c.get_facts, c.get_leads, c.get_projection, c.get_data_quality):
         with pytest.raises(DataNotFound):
             call("biz_nope")
 
 
-def test_fixture_kpi_facts_and_snapshot():
-    c = DataClient(source="fixture")
-    facts = {f["fact_id"]: f for f in c.get_kpi_facts(BIZ)}
-    assert facts["f_cac_instagram"]["value"] == 612.0
-    day7 = {f["fact_id"]: f for f in c.get_kpi_facts(BIZ, snapshot="day7")}
-    assert day7["f_hot_lead_wins"]["period"]["from"] == "2026-10-05"
-    assert c.get_kpi_facts(BIZ, from_date="2026-10-04") == []
-    with pytest.raises(ValueError):
-        c.get_kpi_facts(BIZ, snapshot="day30")
-
-
-def test_fixture_lead_limit_keeps_rank_order():
-    leads = DataClient(source="fixture").get_lead_scores(BIZ, limit=3)["leads"]
-    assert [l["lead_id"] for l in leads] == ["lead_0412", "lead_0388", "lead_0397"]
-
-
-def test_fixture_series_filters():
-    s = DataClient(source="fixture").get_kpi_series(BIZ, from_date="2026-09-27", channel="instagram")
-    assert len(s["series"]) == 7
-    assert sum(r["spend"] for r in s["series"]) == 36720
+def test_fixture_market_context():
+    c = DataClient("fixture")
+    f1 = c.get_market_context("f1_calendar")
+    assert any(r["name"] == "United States Grand Prix" for r in f1["race_weekends"])
+    assert c.get_market_context("india_festivals")["events"][0]["name"] == "Diwali"
+    with pytest.raises(DataSourceUnavailable):
+        c.get_market_context("moon_calendar")
 
 
 def test_fixture_results_are_copies():
-    c = DataClient(source="fixture")
-    c.get_context(BIZ)["name"] = "changed"
-    assert c.get_context(BIZ)["name"] == "Aarohi Skin"
+    c = DataClient("fixture")
+    c.get_context(BB)["name"] = "changed"
+    assert c.get_context(BB)["name"] == "Box Box"
 
 
 # ------------------------------------------------------------------- http
@@ -81,18 +80,17 @@ def http_server():
             url = urlparse(self.path)
             calls.append((url.path, parse_qs(url.query)))
             routes = {
-                f"/api/v1/businesses/{BIZ}": load_fixture("business_context"),
-                f"/api/v1/businesses/{BIZ}/kpis": {"facts": load_fixture("kpi_facts")},
-                f"/api/v1/businesses/{BIZ}/leads/queue": load_fixture("lead_scores"),
-                f"/api/v1/businesses/{BIZ}/data-quality": load_fixture("data_quality"),
+                f"/api/v1/businesses/{BB}": load_fixture("v2/boxbox/business"),
+                f"/api/v1/businesses/{BB}/facts": load_fixture("v2/boxbox/facts_week_2")["facts"],  # bare list
+                f"/api/v1/businesses/{BB}/leads": load_fixture("v2/boxbox/leads_week_1"),
+                f"/api/v1/businesses/{BB}/projection": load_fixture("v2/boxbox/projection_week_1"),
+                "/api/v1/market-context": load_fixture("v2/market_context/f1_calendar"),
             }
             body = routes.get(url.path)
-            status = 200 if body is not None else 404
-            payload = json.dumps(body or {"error": {"code": "not_found", "message": "nope"}}).encode()
-            self.send_response(status)
+            self.send_response(200 if body is not None else 404)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
-            self.wfile.write(payload)
+            self.wfile.write(json.dumps(body or {"error": {"code": "not_found", "message": "nope"}}).encode())
 
         def log_message(self, *args):
             pass
@@ -105,21 +103,23 @@ def http_server():
 
 def test_http_source(http_server):
     url, calls = http_server
-    c = DataClient(source="http", base_url=url)
-    assert c.get_context(BIZ)["business_id"] == BIZ
-    assert any(f["fact_id"] == "f_cac_instagram" for f in c.get_kpi_facts(BIZ, from_date="2026-09-27"))
-    assert calls[-1][1] == {"from": ["2026-09-27"], "snapshot": ["baseline"]}
-    c.get_lead_scores(BIZ, limit=5)
-    assert calls[-1][1] == {"limit": ["5"]}
-    assert c.get_data_quality(BIZ)["business_id"] == BIZ
+    c = DataClient("http", base_url=url)
+    assert c.get_context(BB)["business_id"] == BB
+    facts = c.get_facts(BB, "week_2")
+    assert facts["week"] == "week_2" and len(facts["facts"]) > 10  # a bare list is wrapped
+    assert calls[-1][1] == {"week": ["week_2"]}
+    c.get_leads(BB, "week_1", group="hot")
+    assert calls[-1][1] == {"week": ["week_1"], "group": ["hot"]}
+    assert c.get_projection(BB)["estimate"] is True
+    assert c.get_market_context("f1_calendar", "2026-10-01")["season"] == 2026
+    assert calls[-1][1] == {"from": ["2026-10-01"], "feed": ["f1_calendar"]}
     with pytest.raises(DataNotFound):
         c.get_context("biz_nope")
 
 
 def test_http_unreachable():
-    c = DataClient(source="http", base_url="http://127.0.0.1:9", timeout=1)
     with pytest.raises(DataSourceUnavailable):
-        c.get_context(BIZ)
+        DataClient("http", base_url="http://127.0.0.1:9", timeout=1).get_context(BB)
 
 
 # ------------------------------------------------------------------ local
@@ -128,41 +128,28 @@ def test_http_unreachable():
 @pytest.fixture
 def fake_public(monkeypatch):
     mod = types.ModuleType("backend.data_engine.public")
-    mod.get_context = lambda business_id: load_fixture("business_context") if business_id == BIZ else None
-    mod.get_kpi_facts = lambda business_id, from_date, to_date: load_fixture("kpi_facts")
-    mod.get_lead_scores = lambda business_id, limit: load_fixture("lead_scores")
-    mod.get_data_quality = lambda business_id: load_fixture("data_quality")
+    mod.get_context = lambda b: load_fixture("v2/boxbox/business") if b == BB else None
+    mod.get_facts = lambda b, week: load_fixture(f"v2/boxbox/facts_{week}")["facts"]
+    mod.get_market_context = lambda from_date=None, to_date=None: load_fixture("v2/market_context/f1_calendar")
     monkeypatch.setitem(sys.modules, "backend.data_engine", types.ModuleType("backend.data_engine"))
     monkeypatch.setitem(sys.modules, "backend.data_engine.public", mod)
     return mod
 
 
 def test_local_source(fake_public):
-    c = DataClient(source="local")
-    assert c.get_context(BIZ)["business_id"] == BIZ
-    assert len(c.get_kpi_facts(BIZ)) == len(load_fixture("kpi_facts"))
+    c = DataClient("local")
+    assert c.get_context(BB)["business_id"] == BB
+    assert c.get_facts(BB, "week_1")["facts"][0]["snapshot"] == "week_1"
+    assert c.get_market_context("f1_calendar")["season"] == 2026
     with pytest.raises(DataNotFound):
         c.get_context("biz_nope")
-    # public.get_kpi_facts has no `snapshot` parameter and no get_kpi_series yet
-    with pytest.raises(DataSourceUnavailable):
-        c.get_kpi_facts(BIZ, snapshot="day7")
-    with pytest.raises(DataSourceUnavailable):
-        c.get_kpi_series(BIZ)
-
-
-def test_local_passes_snapshot_when_supported(fake_public):
-    seen = {}
-
-    def get_kpi_facts(business_id, from_date, to_date, snapshot="baseline"):
-        seen["snapshot"] = snapshot
-        return []
-
-    fake_public.get_kpi_facts = get_kpi_facts
-    DataClient(source="local").get_kpi_facts(BIZ, snapshot="day7")
-    assert seen["snapshot"] == "day7"
+    with pytest.raises(DataSourceUnavailable):      # v2 function not built in data_engine yet
+        c.get_projection(BB)
+    with pytest.raises(DataSourceUnavailable):      # festival calendar not built yet
+        c.get_market_context("india_festivals")
 
 
 def test_local_without_data_engine(monkeypatch):
     monkeypatch.setitem(sys.modules, "backend.data_engine.public", None)
     with pytest.raises(DataSourceUnavailable):
-        DataClient(source="local").get_context(BIZ)
+        DataClient("local").get_context(BB)
