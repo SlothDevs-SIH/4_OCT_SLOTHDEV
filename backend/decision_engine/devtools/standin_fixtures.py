@@ -404,7 +404,7 @@ def boxbox_leads(week):
         "week_2": [
             lead("lead_bb_13", "ig_user_d4e1", "dm", "stranger", [A, "saved_or_shared"],
                  {"product": "Monza Tee", "size": "M", "design": None, "city": "Pune"},
-                 "Saw you on Pune F1 Fans. Monza tee in M, price?", ["buying_question"], "2026-10-10"),
+                 "Saw your post on the campus motorsport club page. Monza tee in M, price?", ["buying_question"], "2026-10-10"),
             lead("lead_bb_14", "ig_user_77aa", "comment", "stranger", ["commented", "saved_or_shared"],
                  {"product": "Lights Out Poster", "size": None, "design": None, "city": None},
                  "Need this for my room", ["product_interest"], "2026-10-09"),
