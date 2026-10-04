@@ -1,0 +1,197 @@
+{
+  "version": "v1",
+  "synthetic": false,
+  "templates": [
+    {
+      "template_id": "tpl_hot_lead_followup",
+      "title": "Follow up with the high-value unattended leads",
+      "action_type": "outreach",
+      "kpi": "lead_wins",
+      "expected_direction": "up",
+      "triggers": [
+        "response_latency_over_sla",
+        "unattended_high_value_leads"
+      ],
+      "factors": {
+        "I": 0.8,
+        "F": 0.9,
+        "R": 0.5,
+        "T": 0.9,
+        "E": 0.25,
+        "C": 0.05,
+        "D": 0.1
+      },
+      "effort_min": 180,
+      "cost_inr": 0,
+      "time_to_signal_days": 7,
+      "requires_approval": true,
+      "approval_reason": "customer_outreach",
+      "risks": [
+        "Over-contacting a lead",
+        "Discounting to close"
+      ],
+      "requires_data": [
+        "lead_scores"
+      ],
+      "spend_change": "none"
+    },
+    {
+      "template_id": "tpl_repeat_email_flow",
+      "title": "Launch a repeat-buyer email flow",
+      "action_type": "outreach",
+      "kpi": "repeat_rate",
+      "expected_direction": "up",
+      "triggers": [
+        "improving_repeat_cohort",
+        "first_orders_high_repeat_low"
+      ],
+      "factors": {
+        "I": 0.7,
+        "F": 0.8,
+        "R": 0.9,
+        "T": 0.6,
+        "E": 0.35,
+        "C": 0.1,
+        "D": 0.2
+      },
+      "effort_min": 120,
+      "cost_inr": 0,
+      "time_to_signal_days": 14,
+      "requires_approval": true,
+      "approval_reason": "customer_outreach",
+      "risks": [
+        "Unsubscribes if sent too often"
+      ],
+      "requires_data": [
+        "email_consent"
+      ],
+      "spend_change": "none"
+    },
+    {
+      "template_id": "tpl_instagram_attribution_test",
+      "title": "Audit Instagram attribution and run one bounded creative/landing test",
+      "action_type": "experiment",
+      "kpi": "contribution_roas",
+      "expected_direction": "up",
+      "triggers": [
+        "cac_spike",
+        "high_spend_low_contribution"
+      ],
+      "factors": {
+        "I": 0.75,
+        "F": 0.7,
+        "R": 0.8,
+        "T": 0.5,
+        "E": 0.4,
+        "C": 0.3,
+        "D": 0.3
+      },
+      "effort_min": 135,
+      "cost_inr": 0,
+      "time_to_signal_days": 7,
+      "requires_approval": true,
+      "approval_reason": "spend",
+      "risks": [
+        "Small sample in one week",
+        "Attribution gaps"
+      ],
+      "requires_data": [
+        "campaign_ids"
+      ],
+      "spend_change": "reallocate_within_channel_budget"
+    },
+    {
+      "template_id": "tpl_increase_ad_spend",
+      "title": "Increase Instagram ad spend",
+      "action_type": "spend_increase",
+      "kpi": "new_customers",
+      "expected_direction": "up",
+      "triggers": [
+        "cac_spike",
+        "high_spend_low_contribution"
+      ],
+      "factors": {
+        "I": 0.6,
+        "F": 0.9,
+        "R": 0.6,
+        "T": 0.8,
+        "E": 0.1,
+        "C": 0.8,
+        "D": 0.1
+      },
+      "effort_min": 30,
+      "cost_inr": 10000,
+      "time_to_signal_days": 7,
+      "requires_approval": true,
+      "approval_reason": "spend",
+      "risks": [
+        "Buys customers below contribution break-even"
+      ],
+      "requires_data": [],
+      "spend_change": "increase_total_ad_spend"
+    },
+    {
+      "template_id": "tpl_landing_page_fix",
+      "title": "Fix the top drop-off on the landing page",
+      "action_type": "content",
+      "kpi": "conversion_rate",
+      "expected_direction": "up",
+      "triggers": [
+        "high_traffic_low_leads"
+      ],
+      "factors": {
+        "I": 0.6,
+        "F": 0.7,
+        "R": 0.9,
+        "T": 0.6,
+        "E": 0.4,
+        "C": 0.1,
+        "D": 0.3
+      },
+      "effort_min": 150,
+      "cost_inr": 0,
+      "time_to_signal_days": 7,
+      "requires_approval": false,
+      "approval_reason": null,
+      "risks": [
+        "Change confounded with campaign changes"
+      ],
+      "requires_data": [
+        "sessions"
+      ],
+      "spend_change": "none"
+    },
+    {
+      "template_id": "tpl_winback_whatsapp",
+      "title": "WhatsApp win-back for lapsed repeat buyers",
+      "action_type": "outreach",
+      "kpi": "repeat_rate",
+      "expected_direction": "up",
+      "triggers": [
+        "first_orders_high_repeat_low"
+      ],
+      "factors": {
+        "I": 0.55,
+        "F": 0.8,
+        "R": 0.7,
+        "T": 0.7,
+        "E": 0.3,
+        "C": 0.05,
+        "D": 0.15
+      },
+      "effort_min": 90,
+      "cost_inr": 0,
+      "time_to_signal_days": 7,
+      "requires_approval": true,
+      "approval_reason": "customer_outreach",
+      "risks": [
+        "Opt-out complaints"
+      ],
+      "requires_data": [
+        "whatsapp_consent"
+      ],
+      "spend_change": "none"
+    }
+  ],
+  "note": "Seed library; research (R3) extends it to 12-15 templates."
+}

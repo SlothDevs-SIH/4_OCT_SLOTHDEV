@@ -1,0 +1,109 @@
+{
+  "plan_id": "plan_aarohi_w1",
+  "business_id": "biz_aarohi_skin",
+  "synthetic": true,
+  "evaluated_at": "2026-10-12T04:30:00Z",
+  "snapshot": {
+    "phase": "day7",
+    "period": {
+      "from": "2026-10-05",
+      "to": "2026-10-11"
+    }
+  },
+  "observational": true,
+  "method": "Baseline and expected range frozen at approval; actual read from the day-7 snapshot. Fidelity (was it executed) is reported separately from effectiveness. No control group, so results are observational.",
+  "outcomes": [
+    {
+      "recommendation_id": "rec_hot_leads",
+      "kpi": "lead_wins",
+      "fact_id": "f_hot_lead_wins",
+      "baseline": 1,
+      "expected": {
+        "low": 2,
+        "high": 4
+      },
+      "actual": 3,
+      "unit": "count",
+      "fidelity": {
+        "tasks_total": 4,
+        "tasks_done": 4,
+        "rate": 1.0,
+        "executed": true
+      },
+      "effectiveness": "promising",
+      "observational": true,
+      "guardrails": [
+        {
+          "kpi": "response_latency_p90",
+          "fact_id": "f_latency_hot_leads",
+          "threshold": 24,
+          "value": 5.5,
+          "breached": false
+        }
+      ],
+      "confounders": [
+        "Pre-Diwali gifting demand"
+      ],
+      "note": "Executed fully; wins landed inside the expected range."
+    },
+    {
+      "recommendation_id": "rec_email_retention",
+      "kpi": "repeat_rate",
+      "fact_id": "f_repeat_email",
+      "baseline": 0.214,
+      "expected": {
+        "low": 0.225,
+        "high": 0.25
+      },
+      "actual": 0.219,
+      "unit": "ratio",
+      "fidelity": {
+        "tasks_total": 3,
+        "tasks_done": 3,
+        "rate": 1.0,
+        "executed": true
+      },
+      "effectiveness": "inconclusive",
+      "observational": true,
+      "guardrails": [],
+      "confounders": [
+        "Flow live for only 4 of the 30-day window"
+      ],
+      "note": "Executed, but the measurement window has barely started."
+    },
+    {
+      "recommendation_id": "rec_instagram_test",
+      "kpi": "contribution_roas",
+      "fact_id": "f_croas_instagram",
+      "baseline": 0.694,
+      "expected": {
+        "low": 0.8,
+        "high": 1.0
+      },
+      "actual": 0.75,
+      "unit": "ratio",
+      "fidelity": {
+        "tasks_total": 3,
+        "tasks_done": 2,
+        "rate": 0.67,
+        "executed": true
+      },
+      "effectiveness": "inconclusive",
+      "observational": true,
+      "guardrails": [
+        {
+          "kpi": "ad_spend",
+          "fact_id": "f_spend_instagram",
+          "threshold": 36720.0,
+          "value": 35100.0,
+          "breached": false
+        }
+      ],
+      "confounders": [
+        "Contribution uses estimated shipping costs",
+        "Test ran 4 days with a small sample"
+      ],
+      "note": "Moved up from baseline but below the expected range; readout task not done."
+    }
+  ]
+}

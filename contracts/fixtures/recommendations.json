@@ -1,0 +1,249 @@
+{
+  "business_id": "biz_aarohi_skin",
+  "synthetic": true,
+  "generated_at": "2026-10-04T05:05:00Z",
+  "recommendations": [
+    {
+      "recommendation_id": "rec_hot_leads",
+      "business_id": "biz_aarohi_skin",
+      "template_id": "tpl_hot_lead_followup",
+      "signal_ids": [
+        "sig_hot_leads_unattended"
+      ],
+      "title": "Follow up with the high-value unattended leads",
+      "rationale": "8 high-value leads have had no reply, and the p90 response time is 38.5 hours against a 4 hour SLA. The top two (lead_0412, lead_0388) carry the largest expected value in the queue. Replying this week is cheap and fast to measure.",
+      "evidence_ids": [
+        "f_latency_hot_leads",
+        "lead_0412",
+        "lead_0388"
+      ],
+      "factors": {
+        "I": 0.8,
+        "U": 1.0,
+        "F": 0.9,
+        "R": 0.5,
+        "T": 0.9,
+        "Q": 0.85,
+        "E": 0.25,
+        "C": 0.05,
+        "D": 0.1
+      },
+      "benefit": 0.818,
+      "cost_penalty": 0.1525,
+      "priority": 69.3,
+      "rank": 1,
+      "status": "proposed",
+      "blocked_reason": null,
+      "expected": {
+        "kpi": "lead_wins",
+        "fact_id": "f_hot_lead_wins",
+        "direction": "up",
+        "low": 2,
+        "high": 4,
+        "unit": "count",
+        "window_days": 7
+      },
+      "confidence": "high",
+      "assumptions": [
+        "Lead probabilities come from a model trained on a public dataset",
+        "Leads are still interested after the delay"
+      ],
+      "requires_approval": true,
+      "approval_reason": "customer_outreach",
+      "risks": [
+        "Over-contacting a lead",
+        "Discounting to close"
+      ],
+      "llm": {
+        "used": true,
+        "cached": true,
+        "provider": "cache",
+        "validator": {
+          "passed": true,
+          "retries": 0
+        }
+      },
+      "synthetic": true,
+      "created_at": "2026-10-04T05:05:00Z"
+    },
+    {
+      "recommendation_id": "rec_email_retention",
+      "business_id": "biz_aarohi_skin",
+      "template_id": "tpl_repeat_email_flow",
+      "signal_ids": [
+        "sig_email_repeat_cohort"
+      ],
+      "title": "Launch a repeat-buyer email flow",
+      "rationale": "First-time buyers on the email list repeat at 21.4% versus 16.2% for the earlier cohort (+32.1%). A replenishment flow extends this to every new buyer without extra ad spend.",
+      "evidence_ids": [
+        "f_repeat_email"
+      ],
+      "factors": {
+        "I": 0.7,
+        "U": 0.5,
+        "F": 0.8,
+        "R": 0.9,
+        "T": 0.6,
+        "Q": 0.8,
+        "E": 0.35,
+        "C": 0.1,
+        "D": 0.2
+      },
+      "benefit": 0.701,
+      "cost_penalty": 0.2375,
+      "priority": 54.8,
+      "rank": 2,
+      "status": "proposed",
+      "blocked_reason": null,
+      "expected": {
+        "kpi": "repeat_rate",
+        "fact_id": "f_repeat_email",
+        "direction": "up",
+        "low": 0.225,
+        "high": 0.25,
+        "unit": "ratio",
+        "window_days": 30
+      },
+      "confidence": "medium",
+      "assumptions": [
+        "The cohort lift is observational, not caused by email alone",
+        "Customers consented to email"
+      ],
+      "requires_approval": true,
+      "approval_reason": "customer_outreach",
+      "risks": [
+        "Unsubscribes if sent too often"
+      ],
+      "llm": {
+        "used": true,
+        "cached": true,
+        "provider": "cache",
+        "validator": {
+          "passed": true,
+          "retries": 0
+        }
+      },
+      "synthetic": true,
+      "created_at": "2026-10-04T05:05:00Z"
+    },
+    {
+      "recommendation_id": "rec_instagram_test",
+      "business_id": "biz_aarohi_skin",
+      "template_id": "tpl_instagram_attribution_test",
+      "signal_ids": [
+        "sig_instagram_cac_spike",
+        "sig_instagram_low_contribution"
+      ],
+      "title": "Audit Instagram attribution and run one bounded creative/landing test",
+      "rationale": "Instagram CAC rose 49.3% to INR 612 while conversion fell to 1.5% and contribution ROAS is 0.694. Check attribution first, then test one creative or landing change inside the current Instagram budget.",
+      "evidence_ids": [
+        "f_cac_instagram",
+        "f_conv_instagram",
+        "f_croas_instagram"
+      ],
+      "factors": {
+        "I": 0.75,
+        "U": 0.7,
+        "F": 0.7,
+        "R": 0.8,
+        "T": 0.5,
+        "Q": 0.6,
+        "E": 0.4,
+        "C": 0.3,
+        "D": 0.3
+      },
+      "benefit": 0.703,
+      "cost_penalty": 0.345,
+      "priority": 45.6,
+      "rank": 3,
+      "status": "proposed",
+      "blocked_reason": null,
+      "expected": {
+        "kpi": "contribution_roas",
+        "fact_id": "f_croas_instagram",
+        "direction": "up",
+        "low": 0.8,
+        "high": 1.0,
+        "unit": "ratio",
+        "window_days": 7
+      },
+      "confidence": "medium",
+      "assumptions": [
+        "Shipping costs are estimated, so contribution ROAS is partial",
+        "One week gives a small sample"
+      ],
+      "requires_approval": true,
+      "approval_reason": "spend",
+      "risks": [
+        "Small sample in one week",
+        "Attribution gaps"
+      ],
+      "llm": {
+        "used": true,
+        "cached": true,
+        "provider": "cache",
+        "validator": {
+          "passed": true,
+          "retries": 0
+        }
+      },
+      "synthetic": true,
+      "created_at": "2026-10-04T05:05:00Z"
+    },
+    {
+      "recommendation_id": "rec_increase_spend",
+      "business_id": "biz_aarohi_skin",
+      "template_id": "tpl_increase_ad_spend",
+      "signal_ids": [
+        "sig_instagram_cac_spike",
+        "sig_instagram_low_contribution"
+      ],
+      "title": "Increase Instagram ad spend",
+      "rationale": "Blocked by the eligibility gate before scoring.",
+      "evidence_ids": [
+        "f_cac_instagram"
+      ],
+      "factors": {
+        "I": 0.6,
+        "U": 0.7,
+        "F": 0.9,
+        "R": 0.6,
+        "T": 0.8,
+        "Q": 0.6,
+        "E": 0.1,
+        "C": 0.8,
+        "D": 0.1
+      },
+      "benefit": null,
+      "cost_penalty": null,
+      "priority": null,
+      "rank": null,
+      "status": "blocked",
+      "blocked_reason": "Violates the constraint 'no increase in total ad spend' (forbidden action: increase_total_ad_spend). Instagram CAC is up 49.3% and contribution ROAS is 0.694, so more spend buys customers below break-even.",
+      "expected": {
+        "kpi": "new_customers",
+        "fact_id": null,
+        "direction": "up",
+        "low": null,
+        "high": null,
+        "unit": "count",
+        "window_days": 7
+      },
+      "confidence": "low",
+      "assumptions": [],
+      "requires_approval": true,
+      "approval_reason": "spend",
+      "risks": [
+        "Buys customers below contribution break-even"
+      ],
+      "llm": {
+        "used": false,
+        "cached": false,
+        "provider": null,
+        "validator": null
+      },
+      "synthetic": true,
+      "created_at": "2026-10-04T05:05:00Z"
+    }
+  ]
+}

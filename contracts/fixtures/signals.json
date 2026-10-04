@@ -1,0 +1,133 @@
+{
+  "business_id": "biz_aarohi_skin",
+  "synthetic": true,
+  "generated_at": "2026-10-04T05:00:00Z",
+  "period": {
+    "from": "2026-09-27",
+    "to": "2026-10-03"
+  },
+  "signals": [
+    {
+      "signal_id": "sig_hot_leads_unattended",
+      "type": "bottleneck",
+      "rule": "response_latency_over_sla",
+      "kpi": "response_latency_p90",
+      "dimension": {
+        "segment": "high_value"
+      },
+      "title": "8 high-value leads are waiting; p90 response time is 38.5 h against a 4 h SLA",
+      "severity": 0.9,
+      "urgency": 1.0,
+      "method": "rule",
+      "score": null,
+      "tests": {
+        "materiality": true,
+        "deviation": true,
+        "localization": true,
+        "actionability": true
+      },
+      "evidence_ids": [
+        "f_latency_hot_leads",
+        "f_unattended_hot_leads",
+        "lead_0412",
+        "lead_0388",
+        "lead_0397",
+        "lead_0421",
+        "lead_0403",
+        "lead_0430",
+        "lead_0415",
+        "lead_0426"
+      ],
+      "candidate_template_ids": [
+        "tpl_hot_lead_followup"
+      ]
+    },
+    {
+      "signal_id": "sig_instagram_cac_spike",
+      "type": "anomaly",
+      "rule": "cac_spike",
+      "kpi": "cac",
+      "dimension": {
+        "channel": "instagram"
+      },
+      "title": "Instagram CAC jumped to INR 612 from a INR 410 baseline (+49.3%); Google CAC is stable",
+      "severity": 0.8,
+      "urgency": 0.7,
+      "method": "seasonal_median_mad_robust_z",
+      "score": 20.03,
+      "detected_on": "2026-09-29",
+      "tests": {
+        "materiality": true,
+        "deviation": true,
+        "localization": true,
+        "actionability": true
+      },
+      "evidence_ids": [
+        "f_cac_instagram",
+        "f_spend_instagram",
+        "f_cac_google"
+      ],
+      "candidate_template_ids": [
+        "tpl_instagram_attribution_test",
+        "tpl_increase_ad_spend"
+      ]
+    },
+    {
+      "signal_id": "sig_instagram_low_contribution",
+      "type": "bottleneck",
+      "rule": "high_spend_low_contribution",
+      "kpi": "contribution_roas",
+      "dimension": {
+        "channel": "instagram"
+      },
+      "title": "Instagram is the largest spend line but returns 0.694 contribution per rupee",
+      "severity": 0.75,
+      "urgency": 0.7,
+      "method": "rule",
+      "score": null,
+      "tests": {
+        "materiality": true,
+        "deviation": true,
+        "localization": true,
+        "actionability": true
+      },
+      "evidence_ids": [
+        "f_croas_instagram",
+        "f_spend_instagram",
+        "f_conv_instagram"
+      ],
+      "candidate_template_ids": [
+        "tpl_instagram_attribution_test",
+        "tpl_increase_ad_spend"
+      ]
+    },
+    {
+      "signal_id": "sig_email_repeat_cohort",
+      "type": "opportunity",
+      "rule": "improving_repeat_cohort",
+      "kpi": "repeat_rate",
+      "dimension": {
+        "channel": "email",
+        "cohort": "first_order_2026-08"
+      },
+      "title": "First-time buyers on the email list repeat at 21.4% vs 16.2% (+32.1%)",
+      "severity": 0.5,
+      "urgency": 0.5,
+      "method": "rule",
+      "score": null,
+      "tests": {
+        "materiality": true,
+        "deviation": true,
+        "localization": true,
+        "actionability": true
+      },
+      "evidence_ids": [
+        "f_repeat_email",
+        "f_repeat_rate"
+      ],
+      "candidate_template_ids": [
+        "tpl_repeat_email_flow"
+      ]
+    }
+  ]
+}

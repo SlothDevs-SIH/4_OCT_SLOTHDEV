@@ -1,0 +1,65 @@
+{
+  "business_id": "biz_aarohi_skin",
+  "synthetic": true,
+  "generated_at": "2026-10-04T04:40:00Z",
+  "overall": {
+    "confidence": 0.82,
+    "badge": "medium",
+    "summary": "Orders and campaigns load cleanly after repairs; shipping costs are estimated, so contribution metrics are partial.",
+    "unattributed_revenue_pct": 9.6
+  },
+  "kpi_quality": {
+    "cac": "ok",
+    "conversion_rate": "ok",
+    "roas": "ok",
+    "contribution_roas": "partial",
+    "repeat_rate": "ok",
+    "response_latency_p90": "ok",
+    "gross_margin": "ok"
+  },
+  "imports": [
+    {
+      "import_id": "imp_aarohi_orders_messy",
+      "kind": "orders",
+      "status": "loaded",
+      "rows_total": 3240,
+      "rows_loaded": 3168,
+      "rows_repaired": 214,
+      "rows_quarantined": 47,
+      "duplicates_merged": 25,
+      "confidence": 0.82,
+      "issues": [
+        {
+          "code": "duplicate_order",
+          "count": 25,
+          "action": "merged",
+          "example": "ORD-10422 appears twice with the same items"
+        },
+        {
+          "code": "missing_campaign_id",
+          "count": 47,
+          "action": "quarantined",
+          "example": "utm_campaign blank on a paid-social order"
+        },
+        {
+          "code": "mixed_date_format",
+          "count": 189,
+          "action": "repaired_to_iso",
+          "example": "03/10/2026 -> 2026-10-03"
+        },
+        {
+          "code": "amount_in_paise",
+          "count": 25,
+          "action": "repaired_units",
+          "example": "89900 -> 899.00 INR"
+        },
+        {
+          "code": "unattributed",
+          "count": 312,
+          "action": "kept_as_unattributed",
+          "example": "direct order with no campaign or referrer"
+        }
+      ]
+    }
+  ]
+}

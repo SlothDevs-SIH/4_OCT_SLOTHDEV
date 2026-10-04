@@ -1,0 +1,354 @@
+{
+  "business_id": "biz_aarohi_skin",
+  "synthetic": true,
+  "scored_at": "2026-10-04T04:45:00Z",
+  "high_value_threshold_inr": 15000,
+  "ranking": "probability x expected_value_inr",
+  "model_card": {
+    "model_id": "lead_conversion_v1",
+    "placeholder": true,
+    "note": "Placeholder values for development; backend-1 replaces them with the trained model's measured metrics.",
+    "dataset": "UCI Bank Marketing (bank-additional-full), used standalone",
+    "excluded_features": [
+      "duration"
+    ],
+    "split": "chronological",
+    "baseline_model": "logistic_regression",
+    "challenger_model": "hist_gradient_boosting",
+    "selected": "logistic_regression",
+    "calibration": "isotonic (separate fold)",
+    "metrics": {
+      "pr_auc": 0.45,
+      "roc_auc": 0.79,
+      "brier": 0.08,
+      "lift_at_10pct": 3.5,
+      "calibration_error": 0.015,
+      "prevalence": 0.117
+    },
+    "caveats": [
+      "Trained on a public bank telemarketing dataset, not on Aarohi Skin data",
+      "Scores on demo leads use the shared feature schema only"
+    ]
+  },
+  "leads": [
+    {
+      "lead_id": "lead_0412",
+      "label": "Salon chain bulk inquiry",
+      "channel": "whatsapp",
+      "high_value": true,
+      "attended": false,
+      "hours_since_inquiry": 52,
+      "expected_value_inr": 42000,
+      "probability": 0.46,
+      "baseline": 0.117,
+      "score_value_inr": 19320.0,
+      "abstain": false,
+      "abstain_reason": null,
+      "factors": [
+        {
+          "feature": "previous_outcome",
+          "value": "success",
+          "contribution": 0.14
+        },
+        {
+          "feature": "prior_contacts",
+          "value": 3,
+          "contribution": 0.09
+        },
+        {
+          "feature": "days_since_last_contact",
+          "value": 2,
+          "contribution": 0.05
+        },
+        {
+          "feature": "unanswered_hours",
+          "value": 52,
+          "contribution": -0.03
+        }
+      ],
+      "synthetic": true,
+      "rank": 1
+    },
+    {
+      "lead_id": "lead_0388",
+      "label": "Corporate Diwali gifting (120 kits)",
+      "channel": "instagram_dm",
+      "high_value": true,
+      "attended": false,
+      "hours_since_inquiry": 61,
+      "expected_value_inr": 54000,
+      "probability": 0.31,
+      "baseline": 0.117,
+      "score_value_inr": 16740.0,
+      "abstain": false,
+      "abstain_reason": null,
+      "factors": [
+        {
+          "feature": "inquiry_month",
+          "value": "oct",
+          "contribution": 0.08
+        },
+        {
+          "feature": "prior_contacts",
+          "value": 1,
+          "contribution": 0.03
+        },
+        {
+          "feature": "unanswered_hours",
+          "value": 61,
+          "contribution": -0.04
+        },
+        {
+          "feature": "previous_outcome",
+          "value": "none",
+          "contribution": -0.02
+        }
+      ],
+      "synthetic": true,
+      "rank": 2
+    },
+    {
+      "lead_id": "lead_0397",
+      "label": "Boutique spa reorder",
+      "channel": "email",
+      "high_value": true,
+      "attended": false,
+      "hours_since_inquiry": 34,
+      "expected_value_inr": 28000,
+      "probability": 0.52,
+      "baseline": 0.117,
+      "score_value_inr": 14560.0,
+      "abstain": false,
+      "abstain_reason": null,
+      "factors": [
+        {
+          "feature": "previous_outcome",
+          "value": "success",
+          "contribution": 0.18
+        },
+        {
+          "feature": "prior_contacts",
+          "value": 4,
+          "contribution": 0.11
+        },
+        {
+          "feature": "unanswered_hours",
+          "value": 34,
+          "contribution": -0.02
+        }
+      ],
+      "synthetic": true,
+      "rank": 3
+    },
+    {
+      "lead_id": "lead_0421",
+      "label": "Pharmacy stockist inquiry",
+      "channel": "website_form",
+      "high_value": true,
+      "attended": false,
+      "hours_since_inquiry": 40,
+      "expected_value_inr": 36000,
+      "probability": 0.34,
+      "baseline": 0.117,
+      "score_value_inr": 12240.0,
+      "abstain": false,
+      "abstain_reason": null,
+      "factors": [
+        {
+          "feature": "inquiry_channel",
+          "value": "website_form",
+          "contribution": 0.06
+        },
+        {
+          "feature": "prior_contacts",
+          "value": 0,
+          "contribution": -0.04
+        },
+        {
+          "feature": "days_since_last_contact",
+          "value": 999,
+          "contribution": -0.03
+        }
+      ],
+      "synthetic": true,
+      "rank": 4
+    },
+    {
+      "lead_id": "lead_0403",
+      "label": "Wedding gifting hampers",
+      "channel": "instagram_dm",
+      "high_value": true,
+      "attended": false,
+      "hours_since_inquiry": 47,
+      "expected_value_inr": 24000,
+      "probability": 0.38,
+      "baseline": 0.117,
+      "score_value_inr": 9120.0,
+      "abstain": false,
+      "abstain_reason": null,
+      "factors": [
+        {
+          "feature": "inquiry_month",
+          "value": "oct",
+          "contribution": 0.08
+        },
+        {
+          "feature": "prior_contacts",
+          "value": 2,
+          "contribution": 0.06
+        },
+        {
+          "feature": "unanswered_hours",
+          "value": 47,
+          "contribution": -0.03
+        }
+      ],
+      "synthetic": true,
+      "rank": 5
+    },
+    {
+      "lead_id": "lead_0430",
+      "label": "Yoga studio retail shelf",
+      "channel": "whatsapp",
+      "high_value": true,
+      "attended": false,
+      "hours_since_inquiry": 29,
+      "expected_value_inr": 18000,
+      "probability": 0.41,
+      "baseline": 0.117,
+      "score_value_inr": 7380.0,
+      "abstain": false,
+      "abstain_reason": null,
+      "factors": [
+        {
+          "feature": "previous_outcome",
+          "value": "success",
+          "contribution": 0.12
+        },
+        {
+          "feature": "inquiry_channel",
+          "value": "whatsapp",
+          "contribution": 0.04
+        },
+        {
+          "feature": "prior_contacts",
+          "value": 1,
+          "contribution": 0.01
+        }
+      ],
+      "synthetic": true,
+      "rank": 6
+    },
+    {
+      "lead_id": "lead_0415",
+      "label": "Hotel amenity kits trial",
+      "channel": "website_form",
+      "high_value": true,
+      "attended": false,
+      "hours_since_inquiry": 70,
+      "expected_value_inr": 30000,
+      "probability": 0.22,
+      "baseline": 0.117,
+      "score_value_inr": 6600.0,
+      "abstain": false,
+      "abstain_reason": null,
+      "factors": [
+        {
+          "feature": "prior_contacts",
+          "value": 0,
+          "contribution": -0.04
+        },
+        {
+          "feature": "unanswered_hours",
+          "value": 70,
+          "contribution": -0.05
+        },
+        {
+          "feature": "inquiry_month",
+          "value": "oct",
+          "contribution": 0.05
+        }
+      ],
+      "synthetic": true,
+      "rank": 7
+    },
+    {
+      "lead_id": "lead_0426",
+      "label": "Influencer collab bundle order",
+      "channel": "instagram_dm",
+      "high_value": true,
+      "attended": false,
+      "hours_since_inquiry": 26,
+      "expected_value_inr": 15000,
+      "probability": 0.29,
+      "baseline": 0.117,
+      "score_value_inr": 4350.0,
+      "abstain": false,
+      "abstain_reason": null,
+      "factors": [
+        {
+          "feature": "inquiry_channel",
+          "value": "instagram_dm",
+          "contribution": 0.03
+        },
+        {
+          "feature": "prior_contacts",
+          "value": 1,
+          "contribution": 0.02
+        },
+        {
+          "feature": "previous_outcome",
+          "value": "failure",
+          "contribution": -0.06
+        }
+      ],
+      "synthetic": true,
+      "rank": 8
+    },
+    {
+      "lead_id": "lead_0441",
+      "label": "Family pack repeat order",
+      "channel": "whatsapp",
+      "high_value": false,
+      "attended": true,
+      "hours_since_inquiry": 3,
+      "expected_value_inr": 3500,
+      "probability": 0.63,
+      "baseline": 0.117,
+      "score_value_inr": 2205.0,
+      "abstain": false,
+      "abstain_reason": null,
+      "factors": [
+        {
+          "feature": "previous_outcome",
+          "value": "success",
+          "contribution": 0.22
+        },
+        {
+          "feature": "prior_contacts",
+          "value": 5,
+          "contribution": 0.14
+        }
+      ],
+      "synthetic": true,
+      "rank": 9
+    },
+    {
+      "lead_id": "lead_0455",
+      "label": "Website inquiry, details missing",
+      "channel": null,
+      "high_value": null,
+      "attended": false,
+      "hours_since_inquiry": 20,
+      "expected_value_inr": null,
+      "probability": null,
+      "baseline": 0.117,
+      "score_value_inr": null,
+      "abstain": true,
+      "abstain_reason": "Missing key fields: channel, budget_band, prior_contacts",
+      "factors": [],
+      "rank": null,
+      "synthetic": true
+    }
+  ]
+}

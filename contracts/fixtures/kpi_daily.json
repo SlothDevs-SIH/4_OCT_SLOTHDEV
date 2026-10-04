@@ -1,0 +1,1031 @@
+{
+  "business_id": "biz_aarohi_skin",
+  "synthetic": true,
+  "definition_version": "v1",
+  "period": {
+    "from": "2026-08-09",
+    "to": "2026-10-03"
+  },
+  "series": [
+    {
+      "date": "2026-08-09",
+      "channel": "instagram",
+      "spend": 5565.76,
+      "sessions": 629,
+      "new_customers": 15,
+      "revenue": 12382.51,
+      "cac": 371.05
+    },
+    {
+      "date": "2026-08-10",
+      "channel": "instagram",
+      "spend": 5093.87,
+      "sessions": 554,
+      "new_customers": 12,
+      "revenue": 9767.17,
+      "cac": 424.49
+    },
+    {
+      "date": "2026-08-11",
+      "channel": "instagram",
+      "spend": 4085.88,
+      "sessions": 457,
+      "new_customers": 11,
+      "revenue": 9344.0,
+      "cac": 371.44
+    },
+    {
+      "date": "2026-08-12",
+      "channel": "instagram",
+      "spend": 3467.74,
+      "sessions": 401,
+      "new_customers": 9,
+      "revenue": 7675.34,
+      "cac": 385.3
+    },
+    {
+      "date": "2026-08-13",
+      "channel": "instagram",
+      "spend": 4173.2,
+      "sessions": 456,
+      "new_customers": 10,
+      "revenue": 8071.02,
+      "cac": 417.32
+    },
+    {
+      "date": "2026-08-14",
+      "channel": "instagram",
+      "spend": 5967.46,
+      "sessions": 593,
+      "new_customers": 14,
+      "revenue": 11476.5,
+      "cac": 426.25
+    },
+    {
+      "date": "2026-08-15",
+      "channel": "instagram",
+      "spend": 6345.61,
+      "sessions": 650,
+      "new_customers": 16,
+      "revenue": 13036.18,
+      "cac": 396.6
+    },
+    {
+      "date": "2026-08-16",
+      "channel": "instagram",
+      "spend": 6696.09,
+      "sessions": 730,
+      "new_customers": 16,
+      "revenue": 13896.07,
+      "cac": 418.51
+    },
+    {
+      "date": "2026-08-17",
+      "channel": "instagram",
+      "spend": 5385.55,
+      "sessions": 512,
+      "new_customers": 12,
+      "revenue": 10241.02,
+      "cac": 448.8
+    },
+    {
+      "date": "2026-08-18",
+      "channel": "instagram",
+      "spend": 5036.62,
+      "sessions": 552,
+      "new_customers": 12,
+      "revenue": 10266.81,
+      "cac": 419.72
+    },
+    {
+      "date": "2026-08-19",
+      "channel": "instagram",
+      "spend": 4473.09,
+      "sessions": 499,
+      "new_customers": 12,
+      "revenue": 9973.43,
+      "cac": 372.76
+    },
+    {
+      "date": "2026-08-20",
+      "channel": "instagram",
+      "spend": 3880.89,
+      "sessions": 407,
+      "new_customers": 10,
+      "revenue": 8301.5,
+      "cac": 388.09
+    },
+    {
+      "date": "2026-08-21",
+      "channel": "instagram",
+      "spend": 5185.91,
+      "sessions": 553,
+      "new_customers": 13,
+      "revenue": 10716.38,
+      "cac": 398.92
+    },
+    {
+      "date": "2026-08-22",
+      "channel": "instagram",
+      "spend": 5349.67,
+      "sessions": 534,
+      "new_customers": 12,
+      "revenue": 10299.18,
+      "cac": 445.81
+    },
+    {
+      "date": "2026-08-23",
+      "channel": "instagram",
+      "spend": 5145.46,
+      "sessions": 494,
+      "new_customers": 12,
+      "revenue": 10065.19,
+      "cac": 428.79
+    },
+    {
+      "date": "2026-08-24",
+      "channel": "instagram",
+      "spend": 5900.72,
+      "sessions": 614,
+      "new_customers": 14,
+      "revenue": 12105.43,
+      "cac": 421.48
+    },
+    {
+      "date": "2026-08-25",
+      "channel": "instagram",
+      "spend": 5624.22,
+      "sessions": 541,
+      "new_customers": 13,
+      "revenue": 10520.58,
+      "cac": 432.63
+    },
+    {
+      "date": "2026-08-26",
+      "channel": "instagram",
+      "spend": 3909.55,
+      "sessions": 415,
+      "new_customers": 10,
+      "revenue": 8866.03,
+      "cac": 390.96
+    },
+    {
+      "date": "2026-08-27",
+      "channel": "instagram",
+      "spend": 5132.45,
+      "sessions": 579,
+      "new_customers": 13,
+      "revenue": 10921.81,
+      "cac": 394.8
+    },
+    {
+      "date": "2026-08-28",
+      "channel": "instagram",
+      "spend": 5692.76,
+      "sessions": 586,
+      "new_customers": 14,
+      "revenue": 11584.84,
+      "cac": 406.63
+    },
+    {
+      "date": "2026-08-29",
+      "channel": "instagram",
+      "spend": 5467.63,
+      "sessions": 617,
+      "new_customers": 14,
+      "revenue": 12358.85,
+      "cac": 390.55
+    },
+    {
+      "date": "2026-08-30",
+      "channel": "instagram",
+      "spend": 5016.78,
+      "sessions": 610,
+      "new_customers": 13,
+      "revenue": 11047.51,
+      "cac": 385.91
+    },
+    {
+      "date": "2026-08-31",
+      "channel": "instagram",
+      "spend": 3718.24,
+      "sessions": 408,
+      "new_customers": 10,
+      "revenue": 8598.2,
+      "cac": 371.82
+    },
+    {
+      "date": "2026-09-01",
+      "channel": "instagram",
+      "spend": 4829.91,
+      "sessions": 485,
+      "new_customers": 12,
+      "revenue": 10067.39,
+      "cac": 402.49
+    },
+    {
+      "date": "2026-09-02",
+      "channel": "instagram",
+      "spend": 5346.1,
+      "sessions": 608,
+      "new_customers": 13,
+      "revenue": 11435.19,
+      "cac": 411.24
+    },
+    {
+      "date": "2026-09-03",
+      "channel": "instagram",
+      "spend": 3842.16,
+      "sessions": 403,
+      "new_customers": 9,
+      "revenue": 7669.25,
+      "cac": 426.91
+    },
+    {
+      "date": "2026-09-04",
+      "channel": "instagram",
+      "spend": 4624.23,
+      "sessions": 449,
+      "new_customers": 11,
+      "revenue": 9278.08,
+      "cac": 420.38
+    },
+    {
+      "date": "2026-09-05",
+      "channel": "instagram",
+      "spend": 5797.57,
+      "sessions": 599,
+      "new_customers": 13,
+      "revenue": 10775.85,
+      "cac": 445.97
+    },
+    {
+      "date": "2026-09-06",
+      "channel": "instagram",
+      "spend": 5356.12,
+      "sessions": 649,
+      "new_customers": 14,
+      "revenue": 12326.4,
+      "cac": 382.58
+    },
+    {
+      "date": "2026-09-07",
+      "channel": "instagram",
+      "spend": 4202.2,
+      "sessions": 442,
+      "new_customers": 10,
+      "revenue": 8195.26,
+      "cac": 420.22
+    },
+    {
+      "date": "2026-09-08",
+      "channel": "instagram",
+      "spend": 4944.93,
+      "sessions": 545,
+      "new_customers": 12,
+      "revenue": 10218.92,
+      "cac": 412.08
+    },
+    {
+      "date": "2026-09-09",
+      "channel": "instagram",
+      "spend": 3550.31,
+      "sessions": 361,
+      "new_customers": 9,
+      "revenue": 7968.87,
+      "cac": 394.48
+    },
+    {
+      "date": "2026-09-10",
+      "channel": "instagram",
+      "spend": 5667.72,
+      "sessions": 548,
+      "new_customers": 13,
+      "revenue": 10549.08,
+      "cac": 435.98
+    },
+    {
+      "date": "2026-09-11",
+      "channel": "instagram",
+      "spend": 6235.67,
+      "sessions": 568,
+      "new_customers": 14,
+      "revenue": 11869.35,
+      "cac": 445.41
+    },
+    {
+      "date": "2026-09-12",
+      "channel": "instagram",
+      "spend": 4731.84,
+      "sessions": 499,
+      "new_customers": 11,
+      "revenue": 8991.95,
+      "cac": 430.17
+    },
+    {
+      "date": "2026-09-13",
+      "channel": "instagram",
+      "spend": 5781.02,
+      "sessions": 586,
+      "new_customers": 14,
+      "revenue": 12328.67,
+      "cac": 412.93
+    },
+    {
+      "date": "2026-09-14",
+      "channel": "instagram",
+      "spend": 4238.2,
+      "sessions": 481,
+      "new_customers": 11,
+      "revenue": 9553.73,
+      "cac": 385.29
+    },
+    {
+      "date": "2026-09-15",
+      "channel": "instagram",
+      "spend": 3934.61,
+      "sessions": 469,
+      "new_customers": 10,
+      "revenue": 8617.25,
+      "cac": 393.46
+    },
+    {
+      "date": "2026-09-16",
+      "channel": "instagram",
+      "spend": 4513.24,
+      "sessions": 449,
+      "new_customers": 11,
+      "revenue": 9081.89,
+      "cac": 410.29
+    },
+    {
+      "date": "2026-09-17",
+      "channel": "instagram",
+      "spend": 4576.86,
+      "sessions": 458,
+      "new_customers": 11,
+      "revenue": 9077.71,
+      "cac": 416.08
+    },
+    {
+      "date": "2026-09-18",
+      "channel": "instagram",
+      "spend": 4195.78,
+      "sessions": 416,
+      "new_customers": 10,
+      "revenue": 8834.2,
+      "cac": 419.58
+    },
+    {
+      "date": "2026-09-19",
+      "channel": "instagram",
+      "spend": 5606.49,
+      "sessions": 625,
+      "new_customers": 15,
+      "revenue": 12950.19,
+      "cac": 373.77
+    },
+    {
+      "date": "2026-09-20",
+      "channel": "instagram",
+      "spend": 4545.49,
+      "sessions": 558,
+      "new_customers": 12,
+      "revenue": 10260.38,
+      "cac": 378.79
+    },
+    {
+      "date": "2026-09-21",
+      "channel": "instagram",
+      "spend": 4753.44,
+      "sessions": 502,
+      "new_customers": 11,
+      "revenue": 9049.87,
+      "cac": 432.13
+    },
+    {
+      "date": "2026-09-22",
+      "channel": "instagram",
+      "spend": 3628.97,
+      "sessions": 387,
+      "new_customers": 9,
+      "revenue": 7615.8,
+      "cac": 403.22
+    },
+    {
+      "date": "2026-09-23",
+      "channel": "instagram",
+      "spend": 5076.4,
+      "sessions": 562,
+      "new_customers": 12,
+      "revenue": 9778.87,
+      "cac": 423.03
+    },
+    {
+      "date": "2026-09-24",
+      "channel": "instagram",
+      "spend": 4352.89,
+      "sessions": 506,
+      "new_customers": 11,
+      "revenue": 9104.27,
+      "cac": 395.72
+    },
+    {
+      "date": "2026-09-25",
+      "channel": "instagram",
+      "spend": 4451.21,
+      "sessions": 472,
+      "new_customers": 11,
+      "revenue": 9132.18,
+      "cac": 404.66
+    },
+    {
+      "date": "2026-09-26",
+      "channel": "instagram",
+      "spend": 5321.62,
+      "sessions": 517,
+      "new_customers": 12,
+      "revenue": 10556.14,
+      "cac": 443.47
+    },
+    {
+      "date": "2026-09-27",
+      "channel": "instagram",
+      "spend": 5265.0,
+      "sessions": 565,
+      "new_customers": 13,
+      "revenue": 11037.0,
+      "cac": 405.0
+    },
+    {
+      "date": "2026-09-28",
+      "channel": "instagram",
+      "spend": 4980.0,
+      "sessions": 522,
+      "new_customers": 12,
+      "revenue": 10188.0,
+      "cac": 415.0
+    },
+    {
+      "date": "2026-09-29",
+      "channel": "instagram",
+      "spend": 5150.0,
+      "sessions": 590,
+      "new_customers": 8,
+      "revenue": 6792.0,
+      "cac": 643.75
+    },
+    {
+      "date": "2026-09-30",
+      "channel": "instagram",
+      "spend": 5300.0,
+      "sessions": 580,
+      "new_customers": 7,
+      "revenue": 5943.0,
+      "cac": 757.14
+    },
+    {
+      "date": "2026-10-01",
+      "channel": "instagram",
+      "spend": 5275.0,
+      "sessions": 560,
+      "new_customers": 6,
+      "revenue": 5094.0,
+      "cac": 879.17
+    },
+    {
+      "date": "2026-10-02",
+      "channel": "instagram",
+      "spend": 5400.0,
+      "sessions": 590,
+      "new_customers": 7,
+      "revenue": 5943.0,
+      "cac": 771.43
+    },
+    {
+      "date": "2026-10-03",
+      "channel": "instagram",
+      "spend": 5350.0,
+      "sessions": 593,
+      "new_customers": 7,
+      "revenue": 5943.0,
+      "cac": 764.29
+    },
+    {
+      "date": "2026-08-09",
+      "channel": "google",
+      "spend": 2369.95,
+      "sessions": 378,
+      "new_customers": 7,
+      "revenue": 6294.64,
+      "cac": 338.56
+    },
+    {
+      "date": "2026-08-10",
+      "channel": "google",
+      "spend": 2826.05,
+      "sessions": 370,
+      "new_customers": 7,
+      "revenue": 5886.78,
+      "cac": 403.72
+    },
+    {
+      "date": "2026-08-11",
+      "channel": "google",
+      "spend": 1753.51,
+      "sessions": 246,
+      "new_customers": 5,
+      "revenue": 4158.01,
+      "cac": 350.7
+    },
+    {
+      "date": "2026-08-12",
+      "channel": "google",
+      "spend": 2040.53,
+      "sessions": 241,
+      "new_customers": 5,
+      "revenue": 4473.57,
+      "cac": 408.11
+    },
+    {
+      "date": "2026-08-13",
+      "channel": "google",
+      "spend": 2197.63,
+      "sessions": 322,
+      "new_customers": 6,
+      "revenue": 5478.61,
+      "cac": 366.27
+    },
+    {
+      "date": "2026-08-14",
+      "channel": "google",
+      "spend": 2329.5,
+      "sessions": 283,
+      "new_customers": 6,
+      "revenue": 5113.88,
+      "cac": 388.25
+    },
+    {
+      "date": "2026-08-15",
+      "channel": "google",
+      "spend": 3023.13,
+      "sessions": 403,
+      "new_customers": 8,
+      "revenue": 7132.59,
+      "cac": 377.89
+    },
+    {
+      "date": "2026-08-16",
+      "channel": "google",
+      "spend": 2269.58,
+      "sessions": 300,
+      "new_customers": 6,
+      "revenue": 5404.12,
+      "cac": 378.26
+    },
+    {
+      "date": "2026-08-17",
+      "channel": "google",
+      "spend": 2031.41,
+      "sessions": 233,
+      "new_customers": 5,
+      "revenue": 4213.33,
+      "cac": 406.28
+    },
+    {
+      "date": "2026-08-18",
+      "channel": "google",
+      "spend": 2310.21,
+      "sessions": 287,
+      "new_customers": 6,
+      "revenue": 5021.58,
+      "cac": 385.04
+    },
+    {
+      "date": "2026-08-19",
+      "channel": "google",
+      "spend": 2118.71,
+      "sessions": 305,
+      "new_customers": 6,
+      "revenue": 5282.32,
+      "cac": 353.12
+    },
+    {
+      "date": "2026-08-20",
+      "channel": "google",
+      "spend": 2269.35,
+      "sessions": 301,
+      "new_customers": 6,
+      "revenue": 5446.92,
+      "cac": 378.22
+    },
+    {
+      "date": "2026-08-21",
+      "channel": "google",
+      "spend": 1940.42,
+      "sessions": 240,
+      "new_customers": 5,
+      "revenue": 4304.67,
+      "cac": 388.08
+    },
+    {
+      "date": "2026-08-22",
+      "channel": "google",
+      "spend": 2499.84,
+      "sessions": 340,
+      "new_customers": 7,
+      "revenue": 6243.39,
+      "cac": 357.12
+    },
+    {
+      "date": "2026-08-23",
+      "channel": "google",
+      "spend": 2213.38,
+      "sessions": 324,
+      "new_customers": 6,
+      "revenue": 5478.96,
+      "cac": 368.9
+    },
+    {
+      "date": "2026-08-24",
+      "channel": "google",
+      "spend": 1753.29,
+      "sessions": 241,
+      "new_customers": 5,
+      "revenue": 4538.47,
+      "cac": 350.66
+    },
+    {
+      "date": "2026-08-25",
+      "channel": "google",
+      "spend": 2401.31,
+      "sessions": 294,
+      "new_customers": 6,
+      "revenue": 5041.34,
+      "cac": 400.22
+    },
+    {
+      "date": "2026-08-26",
+      "channel": "google",
+      "spend": 2322.86,
+      "sessions": 305,
+      "new_customers": 6,
+      "revenue": 5474.34,
+      "cac": 387.14
+    },
+    {
+      "date": "2026-08-27",
+      "channel": "google",
+      "spend": 2012.29,
+      "sessions": 315,
+      "new_customers": 6,
+      "revenue": 5115.28,
+      "cac": 335.38
+    },
+    {
+      "date": "2026-08-28",
+      "channel": "google",
+      "spend": 2832.59,
+      "sessions": 330,
+      "new_customers": 7,
+      "revenue": 5855.8,
+      "cac": 404.66
+    },
+    {
+      "date": "2026-08-29",
+      "channel": "google",
+      "spend": 2255.76,
+      "sessions": 289,
+      "new_customers": 6,
+      "revenue": 5274.72,
+      "cac": 375.96
+    },
+    {
+      "date": "2026-08-30",
+      "channel": "google",
+      "spend": 2814.0,
+      "sessions": 409,
+      "new_customers": 8,
+      "revenue": 6795.73,
+      "cac": 351.75
+    },
+    {
+      "date": "2026-08-31",
+      "channel": "google",
+      "spend": 2425.37,
+      "sessions": 317,
+      "new_customers": 6,
+      "revenue": 5007.18,
+      "cac": 404.23
+    },
+    {
+      "date": "2026-09-01",
+      "channel": "google",
+      "spend": 1786.08,
+      "sessions": 230,
+      "new_customers": 5,
+      "revenue": 4467.94,
+      "cac": 357.22
+    },
+    {
+      "date": "2026-09-02",
+      "channel": "google",
+      "spend": 2136.69,
+      "sessions": 312,
+      "new_customers": 6,
+      "revenue": 5246.98,
+      "cac": 356.12
+    },
+    {
+      "date": "2026-09-03",
+      "channel": "google",
+      "spend": 2023.49,
+      "sessions": 280,
+      "new_customers": 6,
+      "revenue": 5419.98,
+      "cac": 337.25
+    },
+    {
+      "date": "2026-09-04",
+      "channel": "google",
+      "spend": 2641.28,
+      "sessions": 369,
+      "new_customers": 7,
+      "revenue": 6140.25,
+      "cac": 377.33
+    },
+    {
+      "date": "2026-09-05",
+      "channel": "google",
+      "spend": 2076.33,
+      "sessions": 291,
+      "new_customers": 6,
+      "revenue": 5428.27,
+      "cac": 346.06
+    },
+    {
+      "date": "2026-09-06",
+      "channel": "google",
+      "spend": 3207.13,
+      "sessions": 426,
+      "new_customers": 8,
+      "revenue": 6758.21,
+      "cac": 400.89
+    },
+    {
+      "date": "2026-09-07",
+      "channel": "google",
+      "spend": 1721.06,
+      "sessions": 261,
+      "new_customers": 5,
+      "revenue": 4517.1,
+      "cac": 344.21
+    },
+    {
+      "date": "2026-09-08",
+      "channel": "google",
+      "spend": 1914.7,
+      "sessions": 236,
+      "new_customers": 5,
+      "revenue": 4537.0,
+      "cac": 382.94
+    },
+    {
+      "date": "2026-09-09",
+      "channel": "google",
+      "spend": 2457.17,
+      "sessions": 315,
+      "new_customers": 6,
+      "revenue": 5419.1,
+      "cac": 409.53
+    },
+    {
+      "date": "2026-09-10",
+      "channel": "google",
+      "spend": 1958.04,
+      "sessions": 243,
+      "new_customers": 5,
+      "revenue": 4537.4,
+      "cac": 391.61
+    },
+    {
+      "date": "2026-09-11",
+      "channel": "google",
+      "spend": 2808.0,
+      "sessions": 367,
+      "new_customers": 7,
+      "revenue": 5947.98,
+      "cac": 401.14
+    },
+    {
+      "date": "2026-09-12",
+      "channel": "google",
+      "spend": 2412.26,
+      "sessions": 371,
+      "new_customers": 7,
+      "revenue": 6308.38,
+      "cac": 344.61
+    },
+    {
+      "date": "2026-09-13",
+      "channel": "google",
+      "spend": 2385.55,
+      "sessions": 298,
+      "new_customers": 6,
+      "revenue": 5118.31,
+      "cac": 397.59
+    },
+    {
+      "date": "2026-09-14",
+      "channel": "google",
+      "spend": 2121.27,
+      "sessions": 277,
+      "new_customers": 6,
+      "revenue": 5059.81,
+      "cac": 353.55
+    },
+    {
+      "date": "2026-09-15",
+      "channel": "google",
+      "spend": 2005.82,
+      "sessions": 269,
+      "new_customers": 5,
+      "revenue": 4253.92,
+      "cac": 401.16
+    },
+    {
+      "date": "2026-09-16",
+      "channel": "google",
+      "spend": 2198.48,
+      "sessions": 323,
+      "new_customers": 6,
+      "revenue": 5238.9,
+      "cac": 366.41
+    },
+    {
+      "date": "2026-09-17",
+      "channel": "google",
+      "spend": 2416.05,
+      "sessions": 376,
+      "new_customers": 7,
+      "revenue": 5894.25,
+      "cac": 345.15
+    },
+    {
+      "date": "2026-09-18",
+      "channel": "google",
+      "spend": 2494.64,
+      "sessions": 328,
+      "new_customers": 7,
+      "revenue": 6050.15,
+      "cac": 356.38
+    },
+    {
+      "date": "2026-09-19",
+      "channel": "google",
+      "spend": 2519.88,
+      "sessions": 356,
+      "new_customers": 7,
+      "revenue": 6096.96,
+      "cac": 359.98
+    },
+    {
+      "date": "2026-09-20",
+      "channel": "google",
+      "spend": 2657.51,
+      "sessions": 336,
+      "new_customers": 7,
+      "revenue": 6217.15,
+      "cac": 379.64
+    },
+    {
+      "date": "2026-09-21",
+      "channel": "google",
+      "spend": 2028.71,
+      "sessions": 252,
+      "new_customers": 5,
+      "revenue": 4445.45,
+      "cac": 405.74
+    },
+    {
+      "date": "2026-09-22",
+      "channel": "google",
+      "spend": 2320.06,
+      "sessions": 293,
+      "new_customers": 6,
+      "revenue": 4995.53,
+      "cac": 386.68
+    },
+    {
+      "date": "2026-09-23",
+      "channel": "google",
+      "spend": 2167.31,
+      "sessions": 291,
+      "new_customers": 6,
+      "revenue": 5401.66,
+      "cac": 361.22
+    },
+    {
+      "date": "2026-09-24",
+      "channel": "google",
+      "spend": 2153.9,
+      "sessions": 291,
+      "new_customers": 6,
+      "revenue": 5172.18,
+      "cac": 358.98
+    },
+    {
+      "date": "2026-09-25",
+      "channel": "google",
+      "spend": 2151.81,
+      "sessions": 282,
+      "new_customers": 6,
+      "revenue": 5178.47,
+      "cac": 358.63
+    },
+    {
+      "date": "2026-09-26",
+      "channel": "google",
+      "spend": 3097.41,
+      "sessions": 426,
+      "new_customers": 8,
+      "revenue": 7040.4,
+      "cac": 387.18
+    },
+    {
+      "date": "2026-09-27",
+      "channel": "google",
+      "spend": 2640.0,
+      "sessions": 350,
+      "new_customers": 7,
+      "revenue": 6090.0,
+      "cac": 377.14
+    },
+    {
+      "date": "2026-09-28",
+      "channel": "google",
+      "spend": 2290.0,
+      "sessions": 300,
+      "new_customers": 6,
+      "revenue": 5220.0,
+      "cac": 381.67
+    },
+    {
+      "date": "2026-09-29",
+      "channel": "google",
+      "spend": 1910.0,
+      "sessions": 250,
+      "new_customers": 5,
+      "revenue": 4350.0,
+      "cac": 382.0
+    },
+    {
+      "date": "2026-09-30",
+      "channel": "google",
+      "spend": 2280.0,
+      "sessions": 300,
+      "new_customers": 6,
+      "revenue": 5220.0,
+      "cac": 380.0
+    },
+    {
+      "date": "2026-10-01",
+      "channel": "google",
+      "spend": 2290.0,
+      "sessions": 300,
+      "new_customers": 6,
+      "revenue": 5220.0,
+      "cac": 381.67
+    },
+    {
+      "date": "2026-10-02",
+      "channel": "google",
+      "spend": 2260.0,
+      "sessions": 300,
+      "new_customers": 6,
+      "revenue": 5220.0,
+      "cac": 376.67
+    },
+    {
+      "date": "2026-10-03",
+      "channel": "google",
+      "spend": 2290.0,
+      "sessions": 300,
+      "new_customers": 6,
+      "revenue": 5220.0,
+      "cac": 381.67
+    }
+  ],
+  "injected_incidents": [
+    {
+      "incident_id": "inc_instagram_cac_spike",
+      "kpi": "cac",
+      "dimension": {
+        "channel": "instagram"
+      },
+      "from": "2026-09-29",
+      "to": "2026-10-03",
+      "description": "Injected Instagram CAC spike (synthetic ground truth for anomaly precision/recall and detection delay). Google has no incident and serves as the false-alert control."
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+[
+  {
+    "fact_id": "f_spend_instagram",
+    "kpi": "ad_spend",
+    "dimension": {
+      "channel": "instagram"
+    },
+    "period": {
+      "from": "2026-10-05",
+      "to": "2026-10-11"
+    },
+    "value": 35100.0,
+    "unit": "INR",
+    "baseline": 34096.3,
+    "delta_pct": 2.9,
+    "numerator": null,
+    "denominator": null,
+    "definition_version": "v1",
+    "quality_flag": "ok",
+    "snapshot": "day7"
+  },
+  {
+    "fact_id": "f_cac_instagram",
+    "kpi": "cac",
+    "dimension": {
+      "channel": "instagram"
+    },
+    "period": {
+      "from": "2026-10-05",
+      "to": "2026-10-11"
+    },
+    "value": 566.1,
+    "unit": "INR",
+    "baseline": 450.1,
+    "delta_pct": 25.8,
+    "numerator": 35100.0,
+    "denominator": 62,
+    "definition_version": "v1",
+    "quality_flag": "ok",
+    "snapshot": "day7"
+  },
+  {
+    "fact_id": "f_conv_instagram",
+    "kpi": "conversion_rate",
+    "dimension": {
+      "channel": "instagram"
+    },
+    "period": {
+      "from": "2026-10-05",
+      "to": "2026-10-11"
+    },
+    "value": 0.016,
+    "unit": "ratio",
+    "baseline": 0.021,
+    "delta_pct": -23.8,
+    "numerator": 62,
+    "denominator": 3850,
+    "definition_version": "v1",
+    "quality_flag": "ok",
+    "snapshot": "day7"
+  },
+  {
+    "fact_id": "f_croas_instagram",
+    "kpi": "contribution_roas",
+    "dimension": {
+      "channel": "instagram"
+    },
+    "period": {
+      "from": "2026-10-05",
+      "to": "2026-10-11"
+    },
+    "value": 0.75,
+    "unit": "ratio",
+    "baseline": 0.942,
+    "delta_pct": -20.4,
+    "numerator": 26319.0,
+    "denominator": 35100.0,
+    "definition_version": "v1",
+    "quality_flag": "partial",
+    "snapshot": "day7"
+  },
+  {
+    "fact_id": "f_cac_google",
+    "kpi": "cac",
+    "dimension": {
+      "channel": "google"
+    },
+    "period": {
+      "from": "2026-10-05",
+      "to": "2026-10-11"
+    },
+    "value": 385.4,
+    "unit": "INR",
+    "baseline": 376.6,
+    "delta_pct": 2.3,
+    "numerator": 15800.0,
+    "denominator": 41,
+    "definition_version": "v1",
+    "quality_flag": "ok",
+    "snapshot": "day7"
+  },
+  {
+    "fact_id": "f_repeat_email",
+    "kpi": "repeat_rate",
+    "dimension": {
+      "channel": "email",
+      "cohort": "first_order_2026-08"
+    },
+    "period": {
+      "from": "2026-10-05",
+      "to": "2026-10-11"
+    },
+    "value": 0.219,
+    "unit": "ratio",
+    "baseline": 0.162,
+    "delta_pct": 35.2,
+    "numerator": 46,
+    "denominator": 210,
+    "definition_version": "v1",
+    "quality_flag": "ok",
+    "snapshot": "day7"
+  },
+  {
+    "fact_id": "f_latency_hot_leads",
+    "kpi": "response_latency_p90",
+    "dimension": {
+      "segment": "high_value"
+    },
+    "period": {
+      "from": "2026-10-05",
+      "to": "2026-10-11"
+    },
+    "value": 5.5,
+    "unit": "hours",
+    "baseline": 15.0,
+    "delta_pct": -63.3,
+    "numerator": null,
+    "denominator": null,
+    "definition_version": "v1",
+    "quality_flag": "ok",
+    "snapshot": "day7"
+  },
+  {
+    "fact_id": "f_unattended_hot_leads",
+    "kpi": "unattended_leads",
+    "dimension": {
+      "segment": "high_value"
+    },
+    "period": {
+      "from": "2026-10-05",
+      "to": "2026-10-11"
+    },
+    "value": 1,
+    "unit": "count",
+    "baseline": 3.1,
+    "delta_pct": -67.7,
+    "numerator": null,
+    "denominator": null,
+    "definition_version": "v1",
+    "quality_flag": "ok",
+    "snapshot": "day7"
+  },
+  {
+    "fact_id": "f_hot_lead_wins",
+    "kpi": "lead_wins",
+    "dimension": {
+      "segment": "high_value"
+    },
+    "period": {
+      "from": "2026-10-05",
+      "to": "2026-10-11"
+    },
+    "value": 3,
+    "unit": "count",
+    "baseline": 2.1,
+    "delta_pct": 42.9,
+    "numerator": null,
+    "denominator": null,
+    "definition_version": "v1",
+    "quality_flag": "ok",
+    "snapshot": "day7"
+  }
+]

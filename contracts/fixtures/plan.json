@@ -1,0 +1,184 @@
+{
+  "plan_id": "plan_aarohi_w1",
+  "business_id": "biz_aarohi_skin",
+  "synthetic": true,
+  "status": "active",
+  "created_at": "2026-10-04T05:30:00Z",
+  "week": {
+    "from": "2026-10-05",
+    "to": "2026-10-11"
+  },
+  "recommendation_ids": [
+    "rec_hot_leads",
+    "rec_email_retention",
+    "rec_instagram_test"
+  ],
+  "capacity": {
+    "weekly_minutes": 480,
+    "max_minutes_per_day": 120
+  },
+  "planned_minutes": 435,
+  "tasks": [
+    {
+      "task_id": "task_01",
+      "day": 1,
+      "date": "2026-10-05",
+      "title": "Call or message the 4 top-ranked hot leads (lead_0412, lead_0388, lead_0397, lead_0421)",
+      "reason": "Highest expected value and waiting over 24 h",
+      "effort_min": 60,
+      "owner": "owner_founder",
+      "kpi": "lead_wins",
+      "success_criterion": "All 4 contacted by end of day 1",
+      "depends_on": [],
+      "status": "todo",
+      "recommendation_id": "rec_hot_leads",
+      "requires_approval": true
+    },
+    {
+      "task_id": "task_08",
+      "day": 1,
+      "date": "2026-10-05",
+      "title": "Audit Instagram attribution: UTM tags, pixel events, landing page match",
+      "reason": "Rule out tracking loss before changing the campaign",
+      "effort_min": 45,
+      "owner": "owner_ops",
+      "kpi": "contribution_roas",
+      "success_criterion": "Attribution gaps listed with a fix or 'none found'",
+      "depends_on": [],
+      "status": "todo",
+      "recommendation_id": "rec_instagram_test",
+      "requires_approval": false
+    },
+    {
+      "task_id": "task_02",
+      "day": 2,
+      "date": "2026-10-06",
+      "title": "Contact the remaining 4 hot leads (lead_0403, lead_0430, lead_0415, lead_0426)",
+      "reason": "Clear the unattended high-value backlog",
+      "effort_min": 50,
+      "owner": "owner_founder",
+      "kpi": "lead_wins",
+      "success_criterion": "All 8 hot leads contacted by day 2",
+      "depends_on": [],
+      "status": "todo",
+      "recommendation_id": "rec_hot_leads",
+      "requires_approval": true
+    },
+    {
+      "task_id": "task_05",
+      "day": 2,
+      "date": "2026-10-06",
+      "title": "Draft the day-21 replenishment email for first-time buyers",
+      "reason": "Extend the higher repeat rate of the email cohort",
+      "effort_min": 60,
+      "owner": "owner_founder",
+      "kpi": "repeat_rate",
+      "success_criterion": "Draft approved by the founder",
+      "depends_on": [],
+      "status": "todo",
+      "recommendation_id": "rec_email_retention",
+      "requires_approval": false
+    },
+    {
+      "task_id": "task_03",
+      "day": 3,
+      "date": "2026-10-07",
+      "title": "Set a 4-hour response alert for high-value leads",
+      "reason": "Stop the backlog from returning",
+      "effort_min": 30,
+      "owner": "owner_ops",
+      "kpi": "response_latency_p90",
+      "success_criterion": "Alert fires on a test lead",
+      "depends_on": [],
+      "status": "todo",
+      "recommendation_id": "rec_hot_leads",
+      "requires_approval": false
+    },
+    {
+      "task_id": "task_06",
+      "day": 3,
+      "date": "2026-10-07",
+      "title": "Set up the email flow trigger at day 21 after first order",
+      "reason": "Automate the repeat-buyer email",
+      "effort_min": 45,
+      "owner": "owner_ops",
+      "kpi": "repeat_rate",
+      "success_criterion": "Flow active with the correct segment",
+      "depends_on": [
+        "task_05"
+      ],
+      "status": "todo",
+      "recommendation_id": "rec_email_retention",
+      "requires_approval": false
+    },
+    {
+      "task_id": "task_07",
+      "day": 4,
+      "date": "2026-10-08",
+      "title": "Send the flow to the first eligible segment (approval required)",
+      "reason": "Start measuring the repeat effect",
+      "effort_min": 15,
+      "owner": "owner_ops",
+      "kpi": "repeat_rate",
+      "success_criterion": "First batch sent after approval",
+      "depends_on": [
+        "task_06"
+      ],
+      "status": "todo",
+      "recommendation_id": "rec_email_retention",
+      "requires_approval": true
+    },
+    {
+      "task_id": "task_09",
+      "day": 4,
+      "date": "2026-10-08",
+      "title": "Launch one creative/landing test inside the current Instagram budget",
+      "reason": "Test a fix for falling conversion without extra spend",
+      "effort_min": 60,
+      "owner": "owner_founder",
+      "kpi": "contribution_roas",
+      "success_criterion": "Test live with spend at or below the current Instagram budget",
+      "depends_on": [
+        "task_08"
+      ],
+      "status": "todo",
+      "recommendation_id": "rec_instagram_test",
+      "requires_approval": true
+    },
+    {
+      "task_id": "task_04",
+      "day": 5,
+      "date": "2026-10-09",
+      "title": "Second follow-up for hot leads that have not replied",
+      "reason": "Most wins come from the second touch",
+      "effort_min": 40,
+      "owner": "owner_ops",
+      "kpi": "lead_wins",
+      "success_criterion": "Every non-responding hot lead followed up once more",
+      "depends_on": [
+        "task_01",
+        "task_02"
+      ],
+      "status": "todo",
+      "recommendation_id": "rec_hot_leads",
+      "requires_approval": true
+    },
+    {
+      "task_id": "task_10",
+      "day": 7,
+      "date": "2026-10-11",
+      "title": "Review the Instagram test readout and decide keep or stop",
+      "reason": "Close the loop on the test",
+      "effort_min": 30,
+      "owner": "owner_founder",
+      "kpi": "contribution_roas",
+      "success_criterion": "Decision recorded with the numbers",
+      "depends_on": [
+        "task_09"
+      ],
+      "status": "todo",
+      "recommendation_id": "rec_instagram_test",
+      "requires_approval": false
+    }
+  ]
+}
