@@ -11,8 +11,10 @@ from backend.decision_engine import diagnosis as dx
 from backend.decision_engine import chat as grounded_chat
 from backend.decision_engine import drafts, explain, leadlist, nextmonth
 from backend.decision_engine import followup as fu
-from backend.decision_engine.clients import DataClient, DataClientError, DataNotFound, DataSourceUnavailable
-from backend.decision_engine.clients.data_client import WEEKS
+from backend.decision_engine.clients import DataClientError, DataClientV2, DataNotFound, DataSourceUnavailable
+from backend.decision_engine.clients.v2 import DEMO_BUSINESSES
+
+WEEKS = ("week_1", "week_2", "week_3", "week_4")
 from backend.decision_engine.config import Settings
 from backend.decision_engine.llm.synthesize import Synthesizer
 from backend.decision_engine.store import Store
@@ -40,10 +42,10 @@ def slug(business_id: str) -> str:
 
 
 class Engine:
-    def __init__(self, settings: Optional[Settings] = None, data: Optional[DataClient] = None,
+    def __init__(self, settings: Optional[Settings] = None, data: Optional[DataClientV2] = None,
                  store: Optional[Store] = None, synthesizer: Optional[Synthesizer] = None):
         self.settings = settings or Settings.from_env()
-        self.data = data or DataClient(source=self.settings.data_source, base_url=self.settings.data_engine_url)
+        self.data = data or DataClientV2(source=self.settings.data_source, base_url=self.settings.data_engine_url)
         self.store = store or Store()
         self.synthesizer = synthesizer or Synthesizer(self.settings)
 
@@ -53,27 +55,58 @@ class Engine:
 
     # ------------------------------------------------------------- inputs
 
+    def _read(self, fn, business_id: str, *args, week: Optional[str] = None, **kwargs):
+        """Call a data_engine read; outside fixture mode a demo business is loaded on first use."""
+        try:
+            return fn(business_id, *args, **kwargs)
+        except DataNotFound:
+            slug_ = slug(business_id)
+            if self.data.source == "fixture" or slug_ not in DEMO_BUSINESSES:
+                raise
+            self.data.load_demo(slug_, int((week or "week_1")[-1]))
+            return fn(business_id, *args, **kwargs)
+
+    def facts_doc(self, business_id: str, week: str) -> dict:
+        with data_errors():
+            facts = self._read(self.data.get_facts, business_id, week, week=week)
+        ends = [f["period"]["to"] for f in facts if f.get("period")]
+        # the advisory week starts the day after the facts' window ends (2026-10-05 for week 1)
+        as_of = (date.fromisoformat(max(ends)) + timedelta(days=1)).isoformat() if ends else None
+        return {"business_id": business_id, "week": week, "as_of": as_of, "window_weeks": 4,
+                "synthetic": any(f.get("synthetic") for f in facts), "facts": facts}
+
     def inputs(self, business_id: str, week: str) -> dict:
         """Everything one week's advice reads, fetched once (point in time: only data up to `week`)."""
         if week not in WEEKS:
             raise ApiError(422, "invalid_request", f"week must be one of {WEEKS}")
         with data_errors():
-            business = self.data.get_context(business_id)
-            facts_doc = self.data.get_facts(business_id, week)
+            business = self._read(self.data.get_business, business_id, week, week=week)
+        facts_doc = self.facts_doc(business_id, week)
+        as_of = facts_doc["as_of"] or date.today().isoformat()
         context = None
         for feed in business.get("context_feeds", []):
             try:
-                context = self.data.get_market_context(feed, facts_doc.get("as_of"))
+                context = self.data.get_market_context(as_of, None, feed=feed)
                 break
-            except DataClientError:
-                continue  # a feed that is not built yet: no timing advice, said so by the gate
-        as_of = facts_doc.get("as_of") or date.today().isoformat()
+            except (DataClientError, ValueError):
+                continue  # a feed that is not built: no timing advice, and the gate says so
         facts = {f["fact_id"]: f for f in facts_doc["facts"]}
         customers = (facts.get("f_repeat_customer_share") or {}).get("denominator")
+        try:
+            leads = self._read(self.data.get_leads, business_id, None, week, week=week)
+        except DataClientError:
+            leads = []
+        names = {p["name"] for p in business.get("products", [])}
+        demand = {}
+        for l in leads:
+            name = (l.get("asked_for") or {}).get("product")
+            if name in names:
+                demand[name] = demand.get(name, 0) + 1
+        asked = sorted(demand, key=lambda n: -demand[n])
         return {"business": business, "facts_doc": facts_doc, "facts": facts, "context": context, "as_of": as_of,
                 "windows": advice.demand_windows(context, as_of),
                 "partners": advice.rank_partners(business, self.store.partner_results_for(business_id)),
-                "customers": customers}
+                "customers": customers, "leads": leads, "asked_products": asked}
 
     # ---------------------------------------------------------- diagnosis
 
@@ -98,12 +131,20 @@ class Engine:
                "synthetic": business.get("synthetic", False), "bottleneck": diag["primary"],
                "minutes_available": minutes, "ranking": advice.library()["ranking"], "actions": [], "blocked": [],
                "risk_flags": [f for f in [advice.brand_risk(business)] if f]}
-        if diag["primary"] is None:
+        target_bottleneck, doc["mode"] = diag["primary"], "fix"
+        if diag["primary"] is None and diag["status"] == "no_clear_bottleneck":
+            # nothing is off its best: keep up the actions behind last week's bottleneck (or the main measure)
+            prev = self.store.get_diagnosis(business_id, f"week_{int(week[-1]) - 1}") if week != "week_1" else None
+            target_bottleneck, doc["mode"] = (prev or {}).get("primary") or "reach", "maintain"
+            doc["message"] = (f"{diag['message']} These actions keep up the "
+                              f"{target_bottleneck.replace('_', ' ')} work that got you here.")
+        if target_bottleneck is None:
             doc["message"] = diag["message"]
             self.store.drop_actions(business_id, week, keep=set())
             return doc
-        primary = next(f for f in diag["bottlenecks"] if f["bottleneck"] == diag["primary"])
-        cands = advice.candidates(diag["primary"], business, inp)
+        doc["bottleneck"] = target_bottleneck
+        primary = next(f for f in diag["bottlenecks"] if f["bottleneck"] == target_bottleneck)
+        cands = advice.candidates(target_bottleneck, business, inp)
         if prefs:
             for c in cands:
                 if c["action_key"] in prefs.get("exclude", []) and c["gate"]["eligible"]:
@@ -131,7 +172,7 @@ class Engine:
                 "status": old["status"] if old else "todo", "note": old.get("note") if old else None,
                 "requires_approval": c["requires_approval"], "approval_reason": c["approval_reason"],
                 "risk_flags": risk, "risks": c["risks"], "score": c["score"], "score_parts": c["parts"],
-                "partner_id": c["partner_id"], "draft_channels": c["draft_channels"],
+                "partner_id": c["partner_id"], "product_name": c["product_name"], "draft_channels": c["draft_channels"],
                 "raises_visibility": c["raises_visibility"], "synthetic": business.get("synthetic", False),
             }
             self.store.put_action(action)
@@ -148,7 +189,7 @@ class Engine:
     @staticmethod
     def _why(primary: dict, c: dict, partner: Optional[dict], windows: list) -> str:
         text = primary["cards"][0]["claim"] if primary["cards"] else ""
-        if primary.get("where"):
+        if primary.get("where") and primary.get("passed"):
             text += f" {primary['where'][0].upper()}{primary['where'][1:]}."
         if partner:
             p = partner["score_parts"]
@@ -207,7 +248,9 @@ class Engine:
     def lead_list(self, business_id: str, week: str = "week_1") -> dict:
         inp = self.inputs(business_id, week)
         with data_errors():
-            leads = self.data.get_leads(business_id, week)
+            leads = {"business_id": business_id, "week": week, "as_of": inp["as_of"],
+                     "synthetic": inp["business"].get("synthetic", False),
+                     "leads": self._read(self.data.get_leads, business_id, None, week, week=week)}
         week_actions = self.store.actions_for(business_id, week) or self.generate_actions(business_id, week)["actions"]
         return leadlist.build(leads, inp["business"], week_actions, inp["windows"],
                               self.store.warm_contacted(business_id))
@@ -237,8 +280,10 @@ class Engine:
         for r in partner_results or []:
             self.store.add_partner_result(business_id, r["partner_id"], int(r["stranger_leads"]))
         prev_actions = self.store.actions_for(business_id, prev)
-        with data_errors():
-            prev_facts, cur_facts = self.data.get_facts(business_id, prev), self.data.get_facts(business_id, week)
+        if self.data.source != "fixture" and slug(business_id) in DEMO_BUSINESSES:
+            with data_errors():
+                self.data.load_demo(slug(business_id), int(week[-1]))  # advance the replay to this week
+        prev_facts, cur_facts = self.facts_doc(business_id, prev), self.facts_doc(business_id, week)
         prev_diag = self.store.get_diagnosis(business_id, prev) or self.diagnosis(business_id, prev)
         cur_diag = self.diagnosis(business_id, week)
         doc = fu.build(business_id, week, prev, prev_actions, prev_facts, cur_facts, prev_diag["primary"],
@@ -246,8 +291,7 @@ class Engine:
         self.store.put_followup(doc)
         doc["next_actions"] = self.generate_actions(business_id, week, doc["preferences"])["actions"]
         if week == "week_4":
-            with data_errors():
-                first = self.data.get_facts(business_id, "week_1")
+            first = self.facts_doc(business_id, "week_1")
             doc["four_week_arc"] = fu.arc(business_id, first, cur_facts, self.store.followups_for(business_id))
         doc["generated_at"] = utcnow()
         self.store.put_followup(doc)
@@ -255,7 +299,7 @@ class Engine:
 
     def followups(self, business_id: str) -> dict:
         with data_errors():
-            self.data.get_context(business_id)
+            self._read(self.data.get_business, business_id)
         return {"business_id": business_id, "followups": self.store.followups_for(business_id)}
 
     # ---------------------------------------------------------- next month
@@ -264,7 +308,7 @@ class Engine:
         inp = self.inputs(business_id, week)
         diag = self.store.get_diagnosis(business_id, week) or self.diagnosis(business_id, week, inp)
         try:
-            projection = self.data.get_projection(business_id, week)
+            projection = self._read(self.data.get_projection, business_id, week, week=week)
         except DataClientError:
             projection = None
         doc = nextmonth.build(projection, diag, inp["business"], inp["context"])
