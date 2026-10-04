@@ -103,3 +103,25 @@ The backend is split into two independent modules:
 
 ## 7. Known Limitations & Blockers
 - **Pending Backend Dependencies:** Full backend-1 to backend-2 integration relies on the `gateway` routing properly. `decision_engine` currently connects via local HTTP requests.
+
+
+## Run the site (what is built)
+
+The app lives in `frontend/app` (Next.js 15, React 19, Tailwind 4 utilities, React Bits components). Pages: landing, `/login` (pick a demo business or start your own), `/signup`, and under `/dashboard`: overview, diagnosis, this week, daily lead list, weekly follow-up, next month, your data, ask a question, where the numbers come from.
+
+```bash
+# 1. backend: both modules behind one gateway (port 8000 is often taken, so 8011 here)
+DATA_SOURCE=local python -m uvicorn backend.gateway.main:app --port 8011
+
+# 2. frontend
+cd frontend/app
+npm install
+printf 'NEXT_PUBLIC_API_BASE=http://localhost:8011
+NEXT_PUBLIC_USE_MOCKS=false
+' > .env.local
+npm run dev                                   # http://localhost:3000
+```
+
+**Offline demo (no backend):** set `NEXT_PUBLIC_USE_MOCKS=true`. The app then replays recorded backend answers from `public/mock/`, so the demo path works with the network off. Re-record them with `python frontend/app/scripts/build_mocks.py` (from the repo root) after any backend change. Uploads, creating a business and pasted chats need the live backend and say so.
+
+**Build check:** `npm run typecheck && npm run build`. `NEXT_DIST_DIR=.next-build npx next build` builds beside a running dev server.

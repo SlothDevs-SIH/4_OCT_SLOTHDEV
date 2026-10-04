@@ -38,7 +38,7 @@ export default function DiagnosisCard({
         <div className="flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-rose-500 animate-pulse" />
           <span className="text-xs uppercase font-extrabold tracking-widest text-indigo-400">
-            Primary Binding Constraint
+            The main thing holding you back
           </span>
         </div>
         <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/10 text-rose-300 border border-rose-500/30">
@@ -62,7 +62,7 @@ export default function DiagnosisCard({
       {primaryScore && primaryScore.cards.length > 0 && (
         <div className="space-y-3 pt-2 border-t border-white/10">
           <h4 className="text-xs uppercase font-bold text-slate-400 tracking-wider">
-            Supporting Empirical Evidence
+            The evidence
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {primaryScore.cards.map((card, idx) => (

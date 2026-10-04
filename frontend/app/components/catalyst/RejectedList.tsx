@@ -24,7 +24,7 @@ export default function RejectedList({ items, className = "" }: RejectedListProp
         </h3>
       </div>
       <p className="text-xs text-slate-400">
-        To prevent misallocated marketing effort and unnecessary discounting, our algorithms verified that these areas are currently not the binding constraint:
+        These looked fine next to your own best weeks, so time spent here would be wasted:
       </p>
 
       <div className="divide-y divide-white/5">

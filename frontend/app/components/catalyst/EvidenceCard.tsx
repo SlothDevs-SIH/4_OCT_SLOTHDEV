@@ -51,7 +51,7 @@ export default function EvidenceCard({ card, className = "" }: EvidenceCardProps
           <span className="text-slate-300 font-medium">{card.source.origin}</span>
         </div>
         <div className="text-slate-400">
-          {card.source.period.from} – {card.source.period.to}
+          {card.source.period.from} to {card.source.period.to}
         </div>
       </div>
     </SpotlightCard>

@@ -22,7 +22,7 @@ export default function BrandRiskCard({ flags, className = "" }: BrandRiskCardPr
       className={`rounded-2xl border p-5 flex flex-col gap-3 ${LEVEL[f.level]} ${className}`}
     >
       <div className="flex flex-wrap items-center gap-2">
-        <span aria-hidden="true" className="text-lg">⚠</span>
+        <span aria-hidden="true" className="text-lg font-bold">!</span>
         <h3 className="m-0 text-base font-semibold text-white">Brand risk: {f.level} ({f.flag.replace("_", " ")})</h3>
         <span className="ml-auto text-[11px] font-bold uppercase tracking-wider rounded-full border border-current px-2 py-0.5">Not legal advice</span>
       </div>

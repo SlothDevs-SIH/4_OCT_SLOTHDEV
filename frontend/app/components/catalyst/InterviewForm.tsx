@@ -44,7 +44,7 @@ export default function InterviewForm({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <label className="flex flex-col gap-1.5 text-xs font-semibold text-slate-300">
           <span>Business Name *</span>
-          <input
+          <input autoComplete="off"
             type="text"
             required
             value={value.name}
@@ -56,7 +56,7 @@ export default function InterviewForm({
 
         <label className="flex flex-col gap-1.5 text-xs font-semibold text-slate-300">
           <span>Category / Kind *</span>
-          <input
+          <input autoComplete="off"
             type="text"
             required
             value={value.kind || ""}
@@ -88,21 +88,21 @@ export default function InterviewForm({
               key={idx}
               className="grid grid-cols-1 sm:grid-cols-4 gap-2 p-3 rounded-xl bg-white/[0.02] border border-white/5 items-center"
             >
-              <input
+              <input autoComplete="off"
                 type="text"
                 value={prod.name}
                 onChange={(e) => handleUpdateProduct(idx, { name: e.target.value })}
                 placeholder="Product name"
                 className="w-full rounded-lg bg-slate-950/50 border border-white/10 px-2.5 py-1.5 text-xs text-white"
               />
-              <input
+              <input autoComplete="off"
                 type="text"
                 value={prod.category || ""}
                 onChange={(e) => handleUpdateProduct(idx, { category: e.target.value || null })}
                 placeholder="Category"
                 className="w-full rounded-lg bg-slate-950/50 border border-white/10 px-2.5 py-1.5 text-xs text-white"
               />
-              <input
+              <input autoComplete="off"
                 type="number"
                 value={prod.price || ""}
                 onChange={(e) => handleUpdateProduct(idx, { price: Number(e.target.value) })}
@@ -110,7 +110,7 @@ export default function InterviewForm({
                 className="w-full rounded-lg bg-slate-950/50 border border-white/10 px-2.5 py-1.5 text-xs text-white"
               />
               <div className="flex items-center gap-2">
-                <input
+                <input autoComplete="off"
                   type="number"
                   value={prod.unit_cost ?? ""}
                   onChange={(e) =>
@@ -139,7 +139,7 @@ export default function InterviewForm({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
         <label className="flex flex-col gap-1.5 text-xs font-semibold text-slate-300">
           <span>Weekly Production Hours</span>
-          <input
+          <input autoComplete="off"
             type="number"
             value={value.weekly_hours}
             onChange={(e) => onChange({ ...value, weekly_hours: Number(e.target.value) })}
@@ -149,7 +149,7 @@ export default function InterviewForm({
 
         <label className="flex flex-col gap-1.5 text-xs font-semibold text-slate-300">
           <span>Weekly Max Orders Capacity</span>
-          <input
+          <input autoComplete="off"
             type="number"
             value={value.capacity_orders_per_week ?? ""}
             onChange={(e) =>
@@ -165,7 +165,7 @@ export default function InterviewForm({
 
         <label className="flex flex-col gap-1.5 text-xs font-semibold text-slate-300">
           <span>Weekly Ad Budget (₹)</span>
-          <input
+          <input autoComplete="off"
             type="number"
             value={value.ad_budget_inr}
             onChange={(e) => onChange({ ...value, ad_budget_inr: Number(e.target.value) })}
@@ -178,7 +178,7 @@ export default function InterviewForm({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <label className="flex flex-col gap-1.5 text-xs font-semibold text-slate-300">
           <span>Target Goal Statement</span>
-          <input
+          <input autoComplete="off"
             type="text"
             value={value.goal.statement}
             onChange={(e) =>
@@ -209,7 +209,7 @@ export default function InterviewForm({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <label className="flex flex-col gap-1.5 text-xs font-semibold text-slate-300">
           <span>Cities Served</span>
-          <input
+          <input autoComplete="off"
             type="text"
             value={value.serves_cities?.join(", ") || ""}
             onChange={(e) =>
@@ -225,7 +225,7 @@ export default function InterviewForm({
 
         <label className="flex flex-col gap-1.5 text-xs font-semibold text-slate-300">
           <span>Order Link / Catalog URL</span>
-          <input
+          <input autoComplete="off"
             type="url"
             value={value.order_link || ""}
             onChange={(e) => onChange({ ...value, order_link: e.target.value || null })}
@@ -236,7 +236,7 @@ export default function InterviewForm({
 
         <label className="flex flex-col gap-1.5 text-xs font-semibold text-slate-300">
           <span>Accepted Payment Method</span>
-          <input
+          <input autoComplete="off"
             type="text"
             value={value.payment || ""}
             onChange={(e) => onChange({ ...value, payment: e.target.value || null })}

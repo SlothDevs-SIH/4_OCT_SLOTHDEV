@@ -39,6 +39,7 @@ export default function Shell({ children }: { children: ReactNode }) {
 
   return (
     <div className="shell">
+      <a className="skip-link" href="#main">Skip to the main content</a>
       <div className="topbar-mobile">
         <strong>Catalyst AI</strong>
         <button className="btn sm" aria-expanded={open} aria-controls="sidebar" onClick={() => setOpen((o) => !o)}>Menu</button>

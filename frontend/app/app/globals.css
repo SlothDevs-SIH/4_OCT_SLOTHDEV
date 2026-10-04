@@ -252,7 +252,7 @@ th { color: var(--muted); font-weight: 600; font-size: .75rem; text-transform: u
   font-size: 0.95rem;
   color: rgba(235, 240, 255, 0.9);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
   margin-bottom: 12px;
 }
 .lf-06__soc:hover:not(:disabled) {
@@ -296,7 +296,7 @@ th { color: var(--muted); font-weight: 600; font-size: .75rem; text-transform: u
   border-radius: 12px;
   font-size: 1rem;
   outline: none;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
   color: #F5F7FF;
   background: rgba(255, 255, 255, 0.045);
 }
@@ -320,7 +320,7 @@ th { color: var(--muted); font-weight: 600; font-size: .75rem; text-transform: u
   font-weight: 600;
   cursor: pointer;
   margin-top: 12px;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
 }
 .lf-06__submit:hover:not(:disabled) {
   filter: brightness(1.1);
@@ -385,3 +385,24 @@ th { color: var(--muted); font-weight: 600; font-size: .75rem; text-transform: u
   }
 }
 
+
+
+/* ---------- interface guidelines ---------- */
+h1, h2, h3 { text-wrap: balance; }
+table, .kpi .value, .tabular { font-variant-numeric: tabular-nums; }
+button, a, summary, select, .btn, [role="tab"] { touch-action: manipulation; }
+html { -webkit-tap-highlight-color: rgba(124, 140, 255, 0.2); }
+[id] { scroll-margin-top: 72px; }
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 100; padding: 10px 16px; border-radius: 10px;
+  background: var(--accent); color: #fff; font-weight: 700; transition: top 0.15s ease;
+}
+.skip-link:focus { top: 12px; text-decoration: none; }
+
+/* ---------- small screens ---------- */
+.shell > * { min-width: 0; }
+.main { min-width: 0; overflow-x: clip; }
+@media (max-width: 520px) {
+  .hide-sm { display: none !important; }
+  .main { padding-left: 14px; padding-right: 14px; }
+}

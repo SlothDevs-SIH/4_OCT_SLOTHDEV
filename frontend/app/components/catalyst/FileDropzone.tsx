@@ -80,7 +80,7 @@ export default function FileDropzone({
       />
 
       <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl text-slate-300">
-        📄
+        File
       </div>
 
       <div className="space-y-1">

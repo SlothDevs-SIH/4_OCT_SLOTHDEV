@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import Providers from "./providers";
@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: "Catalyst AI · a free growth advisor for home businesses",
   description: "Find what is holding your home business back, get one to three actions for the week, and see who to reply to today.",
 };
+
+export const viewport: Viewport = { themeColor: "#0b0e1a", colorScheme: "dark" };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

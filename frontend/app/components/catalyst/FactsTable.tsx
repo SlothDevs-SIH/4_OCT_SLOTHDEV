@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { kpiLabel } from "@/lib/format";
 import { Fact, Bottleneck } from "@/lib/types";
 import ProvenanceBadge from "./ProvenanceBadge";
 
@@ -90,20 +91,19 @@ export default function FactsTable({ facts, className = "" }: FactsTableProps) {
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
                     <tr className="border-b border-white/5 text-slate-500 uppercase tracking-wider text-[10px]">
-                      <th className="py-2.5 px-4 font-bold">KPI / Fact ID</th>
+                      <th className="py-2.5 px-4 font-bold">Measure</th>
                       <th className="py-2.5 px-4 font-bold text-right">Value</th>
-                      <th className="py-2.5 px-4 font-bold">Provenance</th>
+                      <th className="py-2.5 px-4 font-bold">How we know</th>
                       <th className="py-2.5 px-4 font-bold">Sample</th>
                       <th className="py-2.5 px-4 font-bold">Period</th>
-                      <th className="py-2.5 px-4 font-bold">Quality</th>
+                      <th className="py-2.5 px-4 font-bold">Reliability</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5 text-slate-300">
                     {factList.map((f) => (
                       <tr key={f.fact_id} className="hover:bg-white/[0.02] transition-colors">
                         <td className="py-3 px-4">
-                          <div className="font-semibold text-white">{f.kpi}</div>
-                          <div className="font-mono text-[10px] text-slate-500">{f.fact_id}</div>
+                          <div className="font-semibold text-white">{kpiLabel(f.kpi, f.dimension)}</div>
                         </td>
                         <td className="py-3 px-4 text-right font-mono font-bold text-sm text-slate-100">
                           {f.value.toLocaleString()}{" "}
@@ -121,10 +121,10 @@ export default function FactsTable({ facts, className = "" }: FactsTableProps) {
                         <td className="py-3 px-4">
                           {f.quality_flag === "partial" ? (
                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                              ⚠️ Small sample
+                              Small sample
                             </span>
                           ) : (
-                            <span className="text-emerald-400 font-mono text-[11px]">✓ Valid</span>
+                            <span className="text-emerald-400 font-mono text-[11px]">Reliable</span>
                           )}
                         </td>
                       </tr>

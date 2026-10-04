@@ -58,7 +58,7 @@ e.g.
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
         <p className="text-xs text-slate-400 flex items-center gap-1.5">
-          <span aria-hidden="true" className="text-emerald-400">🔒</span>
+          <span className="text-emerald-300 font-semibold">Private:</span>
           <span>Names, phone numbers and handles are removed before anything is stored.</span>
         </p>
 

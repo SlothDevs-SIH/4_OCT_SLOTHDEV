@@ -45,11 +45,11 @@ export default function ChatPanel({
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
           <h3 className="text-sm font-bold text-white">
-            Grounded Growth Assistant
+            Ask about your numbers
           </h3>
         </div>
         <span className="text-[11px] text-slate-400 font-mono">
-          Empirical citations only
+          Answers cite your numbers
         </span>
       </div>
 
@@ -57,9 +57,8 @@ export default function ChatPanel({
       <div className="flex-1 p-4 overflow-y-auto space-y-4">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400 space-y-2">
-            <span className="text-2xl" aria-hidden="true">💬</span>
-            <p className="text-sm font-semibold text-slate-300">
-              Ask anything about your home-business bottleneck.
+                        <p className="text-sm font-semibold text-slate-300">
+              Ask about your orders, your leads or next month.
             </p>
             <p className="text-xs max-w-xs">
               Every answer is cross-referenced with your loaded CSV facts and orders.
@@ -106,8 +105,8 @@ export default function ChatPanel({
                         <div className="text-[10px] text-slate-500 font-medium flex items-center gap-1.5">
                           <span>
                             {msg.llm.used
-                              ? "✓ Verified by LLM against loaded facts"
-                              : "Deterministic rule calculation"}
+                              ? "Written by an AI and checked against your numbers"
+                              : "Plain answer built from your numbers"}
                           </span>
                           {msg.llm.cached && <span>(cached)</span>}
                         </div>

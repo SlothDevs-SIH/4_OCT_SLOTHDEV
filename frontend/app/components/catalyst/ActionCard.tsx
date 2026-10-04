@@ -81,7 +81,7 @@ export default function ActionCard({
           <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between text-xs">
             <div>
               <span className="text-slate-500 block uppercase font-mono text-[10px]">
-                Target Metric ({action.target.kpi})
+                Goal for this action
               </span>
               <span className="text-slate-200 font-medium">{action.target.text}</span>
             </div>
@@ -103,7 +103,7 @@ export default function ActionCard({
                 key={idx}
                 className="text-[11px] text-amber-300/90 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-md flex items-center gap-1.5"
               >
-                <span>⚠️</span>
+                <span aria-hidden="true">!</span>
                 <span>{flag.text}</span>
               </div>
             ))}
@@ -140,13 +140,13 @@ export default function ActionCard({
               onClick={() => onDone(action.action_id)}
               className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition-colors focus-visible:outline-2 focus-visible:outline-emerald-400"
             >
-              ✓ Complete
+              Mark as done
             </button>
           )}
 
           {isDone && (
             <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1">
-              ✓ Completed
+              Done
             </span>
           )}
         </div>

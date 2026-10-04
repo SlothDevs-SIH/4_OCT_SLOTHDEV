@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { kpiLabel } from "@/lib/format";
 import { FollowUp } from "@/lib/types";
 import ActionCard from "./ActionCard";
 
@@ -54,7 +55,7 @@ export default function FollowUpView({
                   isPositiveDelta ? "text-emerald-400" : "text-slate-400"
                 }`}
               >
-                {isPositiveDelta ? `+${delta.change}` : delta.change} vs W prev (
+                {isPositiveDelta ? `+${delta.change}` : delta.change} vs last week (
                 {delta.previous})
               </span>
             </div>
@@ -74,7 +75,7 @@ export default function FollowUpView({
               </span>
               {followUp.bottleneck.changed && (
                 <span className="text-[11px] text-teal-300 ml-1 font-medium">
-                  ✓ Shifted
+                  Changed
                 </span>
               )}
             </div>
@@ -94,9 +95,9 @@ export default function FollowUpView({
                 <tr className="border-b border-white/10 text-slate-400 uppercase text-[10px]">
                   <th className="py-3 px-4 font-bold">Action</th>
                   <th className="py-3 px-4 font-bold">Status</th>
-                  <th className="py-3 px-4 font-bold">Fidelity</th>
-                  <th className="py-3 px-4 font-bold">Effectiveness</th>
-                  <th className="py-3 px-4 font-bold">Decision</th>
+                  <th className="py-3 px-4 font-bold">Did you do it</th>
+                  <th className="py-3 px-4 font-bold">Result</th>
+                  <th className="py-3 px-4 font-bold">Next step</th>
                   <th className="py-3 px-4 font-bold">Adjustment</th>
                 </tr>
               </thead>
@@ -136,7 +137,7 @@ export default function FollowUpView({
         {followUp.fact_changes && followUp.fact_changes.length > 0 && (
           <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
             <h4 className="text-xs uppercase font-bold text-slate-400 tracking-wider">
-              Underlying Fact KPI Movements
+              What moved
             </h4>
             <ul className="space-y-2 text-xs">
               {followUp.fact_changes.map((fc) => (
@@ -144,7 +145,7 @@ export default function FollowUpView({
                   key={fc.fact_id}
                   className="flex items-center justify-between p-2 rounded-lg bg-white/[0.01] border border-white/5"
                 >
-                  <span className="text-slate-300 font-medium">{fc.kpi}</span>
+                  <span className="text-slate-300 font-medium">{kpiLabel(fc.kpi)}</span>
                   <div className="flex items-center gap-2 font-mono">
                     <span className="text-slate-500">{fc.previous}</span>
                     <span className="text-slate-600">→</span>
@@ -176,14 +177,14 @@ export default function FollowUpView({
 
       {/* Observational disclaimer note */}
       <div className="p-4 rounded-xl bg-amber-500/5 border border-amber-500/20 text-xs text-amber-300/90 flex items-start gap-3">
-        <span className="text-base" aria-hidden="true">💡</span>
+        <span className="text-base font-bold" aria-hidden="true">i</span>
         <div className="space-y-0.5">
           <strong className="font-semibold block text-amber-200">
-            Observational Analysis Disclaimer
+            This shows what happened, not proof of cause
           </strong>
           <p>
             {followUp.note ||
-              "All metric correlations observed are based on real recorded customer orders and chats. They represent observational evidence rather than clinical randomized controls."}
+              "Other things changed too, and one business is not proof. Use this to adjust, not to conclude."}
           </p>
         </div>
       </div>
@@ -192,7 +193,7 @@ export default function FollowUpView({
       {followUp.next_actions && followUp.next_actions.length > 0 && (
         <div className="space-y-4 pt-2">
           <h4 className="text-xs uppercase font-bold text-slate-400 tracking-wider">
-            Prioritized Actions for Next Cycle
+            Your actions for next week
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {followUp.next_actions.map((act) => (

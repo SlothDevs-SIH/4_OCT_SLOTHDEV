@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCatalyst } from "@/lib/catalyst";
 import { useAsync, errorMessage } from "@/lib/useAsync";
 import { getDraft, updateAction } from "@/lib/api";
@@ -18,6 +18,13 @@ export default function ThisWeek() {
   const [channel, setChannel] = useState<string | null>(null);
   const [draft, setDraft] = useState<Draft | null>(null);
   const [note, setNote] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   async function setStatus(actionId: string, status: "done" | "skipped") {
     setNote(null);
@@ -51,7 +58,7 @@ export default function ThisWeek() {
           <aside className="drawer" role="dialog" aria-modal="true" aria-label={`Draft for ${open.title}`}>
             <div className="row between" style={{ marginBottom: 12 }}>
               <h2 style={{ margin: 0 }}>Draft message</h2>
-              <button className="btn sm" onClick={() => setOpen(null)}>Close</button>
+              <button className="btn sm" autoFocus onClick={() => setOpen(null)}>Close</button>
             </div>
             <p className="muted small">{open.title}</p>
             {open.draft_channels.length > 1 && (

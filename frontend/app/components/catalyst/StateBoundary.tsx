@@ -34,7 +34,7 @@ export default function StateBoundary({
       >
         <div className="w-8 h-8 rounded-full border-2 border-indigo-400 border-t-transparent animate-spin mb-2" />
         <ShinyText
-          text="Loading insight data..."
+          text="Loading your numbers…"
           disabled={false}
           speed={3}
           className="text-sm font-medium text-slate-400"

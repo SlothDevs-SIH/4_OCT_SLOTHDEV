@@ -23,10 +23,10 @@ export default function LandingPage() {
       </div>
 
       <div id="landing-content" className="animate-in" style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-        <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "28px clamp(24px, 5vw, 64px)" }}>
-          <div style={{ fontWeight: 800, fontSize: "1.1rem", letterSpacing: "0.15em", color: "#ffffff" }}>CATALYST AI</div>
+        <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "24px clamp(16px, 5vw, 64px)" }}>
+          <div style={{ fontWeight: 800, fontSize: "1.1rem", letterSpacing: "0.15em", color: "#ffffff", whiteSpace: "nowrap" }}>CATALYST AI</div>
           <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
-            <a href="#how-it-works" className="header-login-link">HOW IT WORKS</a>
+            <a href="#how-it-works" className="header-login-link hide-sm">HOW IT WORKS</a>
             <LoginLink href="/login" className="btn primary" style={{ padding: "10px 20px", fontSize: "0.85rem", borderRadius: "8px", letterSpacing: "0.05em", fontWeight: 700 }}>
               TRY THE DEMO
             </LoginLink>
@@ -36,24 +36,33 @@ export default function LandingPage() {
         <Hero
           headline="Know what is holding your home business back."
           businessKinds={KINDS}
-          subtitle="Catalyst AI is a free growth advisor for people who sell from home. It reads your own orders, finds the one thing to fix, and tells you who to reply to today."
+          subtitle="A free advisor for people who sell from home. It reads your orders and tells you what to fix first."
           ctaText="Try the demo"
           onCtaClick={() => router.push("/login")}
         />
 
-        <section id="how-it-works" aria-label="How it works" style={{ padding: "24px clamp(24px, 5vw, 64px) 72px", maxWidth: 1180, margin: "0 auto", width: "100%" }}>
-          <div className="grid cols-3">
-            {STEPS.map((s) => (
-              <div key={s.n} className="card hover">
-                <div className="badge info" aria-hidden>{s.n}</div>
-                <h3 style={{ marginTop: 10 }}>{s.title}</h3>
-                <p className="muted" style={{ margin: 0 }}>{s.body}</p>
-              </div>
-            ))}
+        <section id="how-it-works" aria-label="How it works" style={{ padding: "40px clamp(24px, 5vw, 64px) 96px", maxWidth: 1180, margin: "0 auto", width: "100%" }}>
+          <div style={{ display: "grid", gap: 40, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", alignItems: "start" }}>
+            <div>
+              <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", lineHeight: 1.15, letterSpacing: "-0.02em", color: "#fff" }}>
+                Four steps, one goal: more orders from people you do not know yet.
+              </h2>
+              <p className="muted" style={{ maxWidth: "46ch" }}>
+                The demo uses generated businesses, always labelled as demo data. The numbers are calculated; AI only explains them. Nothing is ever sent for you.
+              </p>
+            </div>
+            <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 28 }}>
+              {STEPS.map((s) => (
+                <li key={s.n} style={{ display: "grid", gridTemplateColumns: "56px 1fr", gap: 16 }}>
+                  <span aria-hidden="true" style={{ fontSize: "2.2rem", fontWeight: 800, lineHeight: 1, color: "var(--accent-2)" }}>{s.n}</span>
+                  <div>
+                    <h3 style={{ margin: "0 0 4px" }}>{s.title}</h3>
+                    <p className="muted" style={{ margin: 0 }}>{s.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
-          <p className="muted small" style={{ textAlign: "center", marginTop: 28 }}>
-            The demo uses generated businesses, always labelled as demo data. Calculations decide; AI only explains. Nothing is ever sent for you.
-          </p>
         </section>
       </div>
     </div>

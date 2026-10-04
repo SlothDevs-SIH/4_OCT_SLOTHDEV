@@ -83,7 +83,7 @@ export default function ImportReportView({ report, className = "" }: ImportRepor
       {/* Header with confidence & badge */}
       <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/10">
         <div>
-          <h3 className="text-base font-semibold text-white">Data Quality & Ingestion Report</h3>
+          <h3 className="text-base font-semibold text-white">How good your data is</h3>
           {isDataQuality && report.overall.summary && (
             <p className="text-xs text-slate-400 mt-0.5">{report.overall.summary}</p>
           )}
@@ -107,10 +107,10 @@ export default function ImportReportView({ report, className = "" }: ImportRepor
       {/* Metrics Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
-          { label: "Rows Loaded", val: rowsLoaded, color: "text-emerald-400" },
-          { label: "Rows Repaired", val: rowsRepaired, color: "text-blue-400" },
-          { label: "Quarantined", val: rowsQuarantined, color: "text-rose-400" },
-          { label: "Duplicates Merged", val: duplicatesMerged, color: "text-indigo-400" },
+          { label: "Rows loaded", val: rowsLoaded, color: "text-emerald-400" },
+          { label: "Rows fixed", val: rowsRepaired, color: "text-blue-400" },
+          { label: "Set aside", val: rowsQuarantined, color: "text-rose-400" },
+          { label: "Duplicates merged", val: duplicatesMerged, color: "text-indigo-400" },
         ].map((item) => (
           <div
             key={item.label}
@@ -131,12 +131,12 @@ export default function ImportReportView({ report, className = "" }: ImportRepor
       {/* Issues list */}
       <div className="space-y-3">
         <h4 className="text-xs uppercase font-bold text-slate-400 tracking-wider">
-          Ingestion & Quality Issues ({allIssues.length})
+          What we found and fixed ({allIssues.length})
         </h4>
 
         {allIssues.length === 0 ? (
           <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-xs text-emerald-300">
-            ✓ Clean import. Zero syntax or normalization issues detected.
+            Clean import. Nothing needed fixing.
           </div>
         ) : reduceMotion ? (
           <ul className="space-y-2">
