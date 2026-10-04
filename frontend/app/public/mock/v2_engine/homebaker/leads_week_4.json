@@ -1,0 +1,414 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_4",
+  "as_of": "2026-10-26",
+  "synthetic": true,
+  "points_version": "v1",
+  "groups": {
+    "hot": "50+",
+    "warm": "20-49",
+    "cold": "under 20",
+    "disqualified": "cannot deliver"
+  },
+  "leads": [
+    {
+      "lead_id": "lead_0142",
+      "handle_ref": "@user_0142",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "bought_before",
+          "date": "2026-10-22"
+        },
+        {
+          "type": "follow_or_like",
+          "date": "2026-10-25"
+        },
+        {
+          "type": "price_question",
+          "date": "2026-10-25"
+        }
+      ],
+      "asked_for": {
+        "product": "Eggless Brownie Box (6)",
+        "size": null,
+        "design": null,
+        "city": "Pune"
+      },
+      "intents": [
+        "buying_question",
+        "general_praise",
+        "product_interest"
+      ],
+      "score": 75,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "bought_before",
+          "label": "Bought before",
+          "points": 30
+        },
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        },
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Reply today with the price and an order link (most recent enquiry first)",
+      "outcome": "open",
+      "last_signal": "2026-10-25",
+      "last_message": "love your page",
+      "last_activity": "2026-10-25",
+      "synthetic": true,
+      "rank": 1
+    },
+    {
+      "lead_id": "lead_0144",
+      "handle_ref": "@user_0144",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "comment",
+          "date": "2026-10-23"
+        },
+        {
+          "type": "story_reply",
+          "date": "2026-10-23"
+        },
+        {
+          "type": "price_question",
+          "date": "2026-10-23"
+        }
+      ],
+      "asked_for": {
+        "product": "Eggless Brownie Box (6)",
+        "size": null,
+        "design": null,
+        "city": "Pune"
+      },
+      "intents": [
+        "buying_question",
+        "product_interest"
+      ],
+      "score": 70,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        },
+        {
+          "signal": "story_reply",
+          "label": "Replied to a product story",
+          "points": 20
+        },
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Reply today with the price and an order link (most recent enquiry first)",
+      "outcome": "open",
+      "last_signal": "2026-10-23",
+      "last_message": "love this design",
+      "last_activity": "2026-10-23",
+      "synthetic": true,
+      "rank": 2
+    },
+    {
+      "lead_id": "lead_0141",
+      "handle_ref": "@user_0141",
+      "source": "comment",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "comment",
+          "date": "2026-10-20"
+        },
+        {
+          "type": "bought_before",
+          "date": "2026-10-20"
+        },
+        {
+          "type": "follow_or_like",
+          "date": "2026-10-23"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "general_praise",
+        "product_interest"
+      ],
+      "score": 45,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        },
+        {
+          "signal": "bought_before",
+          "label": "Bought before",
+          "points": 30
+        },
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-23",
+      "last_message": "love your page",
+      "last_activity": "2026-10-23",
+      "synthetic": true,
+      "rank": 3
+    },
+    {
+      "lead_id": "lead_0143",
+      "handle_ref": "@user_0143",
+      "source": "dm",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "comment",
+          "date": "2026-10-23"
+        },
+        {
+          "type": "story_reply",
+          "date": "2026-10-23"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 40,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        },
+        {
+          "signal": "story_reply",
+          "label": "Replied to a product story",
+          "points": 20
+        },
+        {
+          "signal": "stranger",
+          "label": "Is a stranger (growth bonus)",
+          "points": 10
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-23",
+      "last_message": "stunning",
+      "last_activity": "2026-10-23",
+      "synthetic": true,
+      "rank": 4
+    },
+    {
+      "lead_id": "lead_0139",
+      "handle_ref": "@user_0139",
+      "source": "comment",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "bought_before",
+          "date": "2026-10-19"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 30,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "bought_before",
+          "label": "Bought before",
+          "points": 30
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-19",
+      "last_message": null,
+      "last_activity": "2026-10-19",
+      "synthetic": true,
+      "rank": 5
+    },
+    {
+      "lead_id": "lead_0134",
+      "handle_ref": "@user_0134",
+      "source": "comment",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-22"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 25,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        },
+        {
+          "signal": "stranger",
+          "label": "Is a stranger (growth bonus)",
+          "points": 10
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-22",
+      "last_message": null,
+      "last_activity": "2026-10-22",
+      "synthetic": true,
+      "rank": 6
+    },
+    {
+      "lead_id": "lead_0136",
+      "handle_ref": "@user_0136",
+      "source": "story",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "comment",
+          "date": "2026-10-17"
+        },
+        {
+          "type": "follow_or_like",
+          "date": "2026-10-21"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "general_praise",
+        "product_interest"
+      ],
+      "score": 15,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        },
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "No one-to-one effort; they see your regular posts",
+      "outcome": "open",
+      "last_signal": "2026-10-21",
+      "last_message": "love your page",
+      "last_activity": "2026-10-21",
+      "synthetic": true,
+      "rank": 7
+    },
+    {
+      "lead_id": "lead_0140",
+      "handle_ref": "@user_0140",
+      "source": "dm",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "follow_or_like",
+          "date": "2026-10-24"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "general_praise"
+      ],
+      "score": 5,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "No one-to-one effort; they see your regular posts",
+      "outcome": "open",
+      "last_signal": "2026-10-24",
+      "last_message": "love your page",
+      "last_activity": "2026-10-24",
+      "synthetic": true,
+      "rank": 8
+    }
+  ]
+}

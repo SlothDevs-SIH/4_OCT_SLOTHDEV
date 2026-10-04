@@ -1,0 +1,204 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_1",
+  "as_of": "2026-10-05",
+  "synthetic": true,
+  "summary": {
+    "hot": 1,
+    "warm": 1,
+    "cold": 1,
+    "disqualified": 1
+  },
+  "hot": [
+    {
+      "lead_id": "lead_0107",
+      "handle_ref": "@user_0107",
+      "source": "story",
+      "relationship": "stranger",
+      "score": 55,
+      "group": "hot",
+      "rank": 1,
+      "reasons": [
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        },
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "label": "Is a stranger (growth bonus)",
+          "points": 10
+        }
+      ],
+      "asked_for": {
+        "product": "Choco Chip Cookies (12)",
+        "size": null,
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "do you have the Choco Chip Cookies (12)",
+      "last_activity": "2026-10-02",
+      "intents": [
+        "buying_question",
+        "general_praise"
+      ],
+      "evidence_ids": [
+        "lead_0107"
+      ],
+      "draft": "Hi! The Choco Chip Cookies (12) is ₹380. We deliver in Pune. You can order here: WhatsApp order form (payment by UPI). Shall I keep one for you?",
+      "placeholders": [],
+      "risk_flags": [],
+      "next_action": "Reply today."
+    }
+  ],
+  "warm": [
+    {
+      "lead_id": "lead_0112",
+      "handle_ref": "@user_0112",
+      "source": "whatsapp",
+      "relationship": "friend",
+      "score": 20,
+      "group": "warm",
+      "rank": 2,
+      "reasons": [
+        {
+          "signal": "story_reply",
+          "label": "Replied to a product story",
+          "points": 20
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "this one is fire 🔥",
+      "last_activity": "2026-10-02",
+      "intents": [
+        "product_interest"
+      ],
+      "evidence_ids": [
+        "lead_0112"
+      ],
+      "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Choco Chip Cookies (12) this week; want me to keep one for you? Order: WhatsApp order form",
+      "placeholders": [],
+      "risk_flags": [],
+      "next_action": "Message once about a limited pre-order of Choco Chip Cookies (12).",
+      "contact_reason": "preorder_week_1"
+    }
+  ],
+  "cold": [
+    {
+      "lead_id": "lead_0098",
+      "handle_ref": "@user_0098",
+      "source": "dm",
+      "relationship": "friend",
+      "score": 5,
+      "group": "cold",
+      "rank": 3,
+      "reasons": [
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "love your page",
+      "last_activity": "2026-09-27",
+      "intents": [
+        "general_praise"
+      ],
+      "evidence_ids": [
+        "lead_0098"
+      ],
+      "draft": null,
+      "placeholders": [],
+      "risk_flags": [],
+      "next_action": "Nothing one to one; they will see your regular posts."
+    }
+  ],
+  "disqualified": [
+    {
+      "lead_id": "lead_0113",
+      "handle_ref": "@user_0113",
+      "source": "comment",
+      "relationship": "friend",
+      "score": 25,
+      "group": "disqualified",
+      "rank": null,
+      "reasons": [
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        },
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        }
+      ],
+      "asked_for": {
+        "product": "Eggless Brownie Box (6)",
+        "size": null,
+        "design": null,
+        "city": "Jaipur"
+      },
+      "last_message": "love this design",
+      "last_activity": "2026-10-03",
+      "intents": [
+        "buying_question",
+        "product_interest"
+      ],
+      "evidence_ids": [
+        "lead_0113"
+      ],
+      "draft": "Thank you for asking! We cannot deliver to Jaipur yet. I will let you know if that changes.",
+      "placeholders": [],
+      "risk_flags": [],
+      "next_action": "Reply politely once; no follow-up.",
+      "disqualified_reason": "city: cannot deliver to Jaipur"
+    }
+  ],
+  "warm_reasons_this_week": [
+    {
+      "key": "preorder_week_1",
+      "text": "a limited pre-order of Choco Chip Cookies (12)",
+      "action_id": "act_homebaker_w1_cap_preorder_drop"
+    }
+  ],
+  "unmet_demand": {
+    "items": [
+      {
+        "kind": "city",
+        "value": "Jaipur",
+        "count": 1,
+        "phrase": "deliver to Jaipur"
+      }
+    ],
+    "text": "People asked for things you do not offer yet: deliver to Jaipur (1)."
+  },
+  "outcomes": {
+    "ordered": 0,
+    "not_ordered": 0
+  },
+  "rules": {
+    "hot": "reply today, newest first",
+    "warm": "once per reason",
+    "cold": "nothing one to one",
+    "disqualified": "one polite reply"
+  },
+  "note": "Drafts are previews. Nothing is sent automatically; you copy each reply and send it yourself."
+}

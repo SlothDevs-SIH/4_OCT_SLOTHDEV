@@ -91,16 +91,19 @@ function Queue({ businessId }: { businessId: string }) {
 }
 
 function LeadRows({ l, open, toggle }: { l: Lead; open: boolean; toggle: () => void }) {
-  const lift = l.probability !== null ? l.probability - l.baseline : null;
+  const prob = l.probability ?? null;
+  const base = l.baseline ?? 0;
+  const lift = prob !== null ? prob - base : null;
+  const factors = l.factors || [];
   return (
     <>
       <tr id={l.lead_id}>
         <td>{l.rank}</td>
-        <td>{l.label} {l.high_value && <span className="badge warn">high value</span>} {!l.attended && <span className="badge bad">unattended</span>}<div className="mono muted">{l.lead_id}</div></td>
+        <td>{l.label || l.handle_ref} {l.high_value && <span className="badge warn">high value</span>} {!l.attended && <span className="badge bad">unattended</span>}<div className="mono muted">{l.lead_id}</div></td>
         <td>{l.channel ?? "n/a"}</td>
-        <td><strong>{l.probability !== null ? `${Math.round(l.probability * 100)}%` : "n/a"}</strong></td>
-        <td className="muted">{lift !== null ? `${lift >= 0 ? "+" : ""}${Math.round(lift * 100)} pts vs ${Math.round(l.baseline * 100)}%` : "n/a"}</td>
-        <td>{inr(l.expected_value_inr)}</td>
+        <td><strong>{prob !== null ? `${Math.round(prob * 100)}%` : "n/a"}</strong></td>
+        <td className="muted">{lift !== null ? `${lift >= 0 ? "+" : ""}${Math.round(lift * 100)} pts vs ${Math.round(base * 100)}%` : "n/a"}</td>
+        <td>{inr(l.expected_value_inr || 0)}</td>
         <td>{l.hours_since_inquiry ?? "n/a"} h</td>
         <td><button className="btn sm" aria-expanded={open} onClick={toggle}>{open ? "Hide" : "Why?"}</button></td>
       </tr>
@@ -108,7 +111,7 @@ function LeadRows({ l, open, toggle }: { l: Lead; open: boolean; toggle: () => v
         <tr><td colSpan={8}>
           <div className="stack">
             <strong>Top factors</strong>
-            {l.factors.length === 0 ? <span className="muted">No factors reported.</span> : l.factors.map((f) => (
+            {factors.length === 0 ? <span className="muted">No factors reported.</span> : factors.map((f) => (
               <div key={f.feature} className="row small">
                 <span className={f.contribution >= 0 ? "delta good" : "delta bad"}>{f.contribution >= 0 ? "▲ raises" : "▼ lowers"} {Math.abs(f.contribution).toFixed(3)}</span>
                 <span className="mono">{f.feature}</span><span className="muted">{String(f.value)}</span>

@@ -1,0 +1,40 @@
+{
+  "feed": "india_festivals",
+  "source": {
+    "calendar": "python-holidays (MIT), India calendar, snapshot"
+  },
+  "season": 2026,
+  "from": "2026-10-05",
+  "to": "2026-12-31",
+  "events": [
+    {
+      "name": "Dussehra",
+      "date": "2026-10-20",
+      "window_start": "2026-10-13",
+      "window_end": "2026-10-20",
+      "kind": "festival"
+    },
+    {
+      "name": "Diwali (Deepavali)",
+      "date": "2026-11-08",
+      "window_start": "2026-11-01",
+      "window_end": "2026-11-08",
+      "kind": "festival"
+    },
+    {
+      "name": "Christmas",
+      "date": "2026-12-25",
+      "window_start": "2026-12-18",
+      "window_end": "2026-12-25",
+      "kind": "festival"
+    }
+  ],
+  "next_event": {
+    "name": "Dussehra",
+    "date": "2026-10-20",
+    "demand_window": true,
+    "days_until": 15
+  },
+  "interest_uplift": null,
+  "note": "Festivals are demand windows for many home businesses. No measured demand uplift exists in our data; any uplift used is a labelled assumption."
+}

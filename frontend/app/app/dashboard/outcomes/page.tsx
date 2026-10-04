@@ -81,7 +81,7 @@ function OutcomeCard({ o }: { o: Outcome }) {
   const pos = (v: number) => `${Math.min(100, (v / span) * 100)}%`;
   return (
     <article className="card">
-      <div className="row between"><h3 style={{ margin: 0 }}>{kpiLabel(o.kpi)}</h3><span className={`badge ${TONE[o.effectiveness]}`}>{o.effectiveness.replace("_", " ")}</span></div>
+      <div className="row between"><h3 style={{ margin: 0 }}>{kpiLabel(o.kpi)}</h3><span className={`badge ${(TONE as Record<string, string>)[o.effectiveness] || "info"}`}>{o.effectiveness.replace("_", " ")}</span></div>
       <p className="muted small mono">{o.recommendation_id}</p>
       <div style={{ position: "relative", height: 34, margin: "10px 0 22px" }} role="img"
         aria-label={`Baseline ${o.baseline}, expected ${o.expected.low} to ${o.expected.high}, actual ${o.actual}`}>

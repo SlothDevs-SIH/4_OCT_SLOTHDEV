@@ -1,0 +1,196 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_1",
+  "as_of": "2026-10-05",
+  "synthetic": true,
+  "points_version": "v1",
+  "groups": {
+    "hot": "50+",
+    "warm": "20-49",
+    "cold": "under 20",
+    "disqualified": "cannot deliver"
+  },
+  "leads": [
+    {
+      "lead_id": "lead_0107",
+      "handle_ref": "@user_0107",
+      "source": "story",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "follow_or_like",
+          "date": "2026-09-29"
+        },
+        {
+          "type": "price_question",
+          "date": "2026-10-02"
+        }
+      ],
+      "asked_for": {
+        "product": "Choco Chip Cookies (12)",
+        "size": null,
+        "design": null,
+        "city": "Pune"
+      },
+      "intents": [
+        "buying_question",
+        "general_praise"
+      ],
+      "score": 55,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        },
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "label": "Is a stranger (growth bonus)",
+          "points": 10
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Reply today with the price and an order link (most recent enquiry first)",
+      "outcome": "open",
+      "last_signal": "2026-10-02",
+      "last_message": "do you have the Choco Chip Cookies (12)",
+      "last_activity": "2026-10-02",
+      "synthetic": true,
+      "rank": 1
+    },
+    {
+      "lead_id": "lead_0112",
+      "handle_ref": "@user_0112",
+      "source": "whatsapp",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "story_reply",
+          "date": "2026-10-02"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 20,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "story_reply",
+          "label": "Replied to a product story",
+          "points": 20
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-02",
+      "last_message": "this one is fire 🔥",
+      "last_activity": "2026-10-02",
+      "synthetic": true,
+      "rank": 2
+    },
+    {
+      "lead_id": "lead_0098",
+      "handle_ref": "@user_0098",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "follow_or_like",
+          "date": "2026-09-27"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "general_praise"
+      ],
+      "score": 5,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "No one-to-one effort; they see your regular posts",
+      "outcome": "open",
+      "last_signal": "2026-09-27",
+      "last_message": "love your page",
+      "last_activity": "2026-09-27",
+      "synthetic": true,
+      "rank": 3
+    },
+    {
+      "lead_id": "lead_0113",
+      "handle_ref": "@user_0113",
+      "source": "comment",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-01"
+        },
+        {
+          "type": "comment",
+          "date": "2026-10-03"
+        }
+      ],
+      "asked_for": {
+        "product": "Eggless Brownie Box (6)",
+        "size": null,
+        "design": null,
+        "city": "Jaipur"
+      },
+      "intents": [
+        "buying_question",
+        "product_interest"
+      ],
+      "score": 25,
+      "group": "disqualified",
+      "reasons": [
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        },
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        }
+      ],
+      "deliverable": false,
+      "disqualified_reason": "city: cannot deliver to Jaipur",
+      "next_action": "Reply politely once that it is not available yet; log it, do not chase",
+      "outcome": "open",
+      "last_signal": "2026-10-03",
+      "last_message": "love this design",
+      "last_activity": "2026-10-03",
+      "synthetic": true,
+      "rank": null
+    }
+  ]
+}

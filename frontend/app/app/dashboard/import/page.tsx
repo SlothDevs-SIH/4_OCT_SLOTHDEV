@@ -100,7 +100,7 @@ function ImportFlow({ businessId }: { businessId: string }) {
               <p className="muted">{quality.data.overall.summary}</p>
               <div className="row small">
                 <span className="badge">Unattributed revenue {quality.data.overall.unattributed_revenue_pct}%</span>
-                {Object.entries(quality.data.kpi_quality).map(([k, v]) => <span key={k} className="muted">{k.replace(/_/g, " ")}: <QualityBadge flag={v} /></span>)}
+                {quality.data.kpi_quality && Object.entries(quality.data.kpi_quality).map(([k, v]) => <span key={k} className="muted">{k.replace(/_/g, " ")}: <QualityBadge flag={v as any} /></span>)}
               </div>
             </div>
           )}

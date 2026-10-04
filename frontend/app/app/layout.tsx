@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import "./globals.css";
+import { BusinessProvider } from "@/lib/BusinessContext";
 
 export const metadata: Metadata = {
-  title: "GrowthOS · evidence → priority → action → outcome",
-  description: "A seven-day growth operating system for Indian D2C brands, built on the data_engine and decision_engine backends.",
+  title: "Catalyst AI · Free Advisor for Home-Business Owners",
+  description: "Evidence-based growth operating system for Indian home businesses, bakers, and makers.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -13,10 +14,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body>
-        {children}
+      <body className="bg-[#0b0e1a] text-[#eef1fb] antialiased">
+        <Suspense fallback={<div className="min-h-screen bg-[#0b0e1a]" />}>
+          <BusinessProvider>
+            {children}
+          </BusinessProvider>
+        </Suspense>
       </body>
     </html>
   );

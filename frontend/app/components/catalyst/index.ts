@@ -21,6 +21,9 @@ export type { EvidenceCardProps } from "./EvidenceCard";
 export { default as AppNav } from "./AppNav";
 export type { AppNavProps, NavItem } from "./AppNav";
 
+export { default as WeekSelector } from "./WeekSelector";
+export type { WeekSelectorProps } from "./WeekSelector";
+
 // Start
 export { default as Hero } from "./Hero";
 export type { HeroProps } from "./Hero";
@@ -64,12 +67,28 @@ export type { DiagnosisCardProps } from "./DiagnosisCard";
 export { default as RejectedList } from "./RejectedList";
 export type { RejectedListProps } from "./RejectedList";
 
-// This week
+// This week & Risk
 export { default as ActionCard } from "./ActionCard";
 export type { ActionCardProps } from "./ActionCard";
 
+export { default as BrandRiskCard } from "./BrandRiskCard";
+export type { BrandRiskCardProps } from "./BrandRiskCard";
+
+export { default as DraftPreview } from "./DraftPreview";
+export type { DraftPreviewProps } from "./DraftPreview";
+
 export { default as FollowUpView } from "./FollowUpView";
 export type { FollowUpViewProps } from "./FollowUpView";
+
+// Leads & Projections
+export { default as LeadCard } from "./LeadCard";
+export type { LeadCardProps } from "./LeadCard";
+
+export { default as LeadListView } from "./LeadListView";
+export type { LeadListViewProps } from "./LeadListView";
+
+export { default as ProjectionCard } from "./ProjectionCard";
+export type { ProjectionCardProps } from "./ProjectionCard";
 
 // Data and chat
 export { default as DatasetCards } from "./DatasetCards";
