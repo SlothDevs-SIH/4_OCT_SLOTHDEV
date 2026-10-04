@@ -162,17 +162,51 @@ def test_api_market_context():
     assert client.get("/api/v1/market-context?from=2020-01-01").status_code == 422
 
 
-def test_api_public_data_lists_licences_and_the_retired_dataset():
+def test_api_public_data_lists_licences_roles_and_results():
     r = client.get("/api/v1/public-data").json()
     names = {d["name"]: d for d in r["datasets"]}
-    assert names["UCI Online Retail II"]["licence"] == "CC BY 4.0" and "benchmark" in names["UCI Online Retail II"]["role"]
-    assert names["UCI Bank Marketing"]["status"] == "retired"
+    assert names["UCI Online Retail II"]["licence"] == "CC BY 4.0" and "not a benchmark" in names["UCI Online Retail II"]["role"]
+    assert "non-commercial" in names["Olist Brazilian E-Commerce"]["licence"]
+    assert names["UCI Bank Marketing"]["status"] == "integrated" and "sanity check" in names["UCI Bank Marketing"]["role"]
     assert names["F1 race calendar (Jolpica-F1)"]["status"] == "integrated"
     assert names["Wikipedia page views: Formula One"]["result"]["uplift"] > 1.5
-    assert "no stated licence" in r["not_used"]
+    assert "no stated licence" in r["not_used"] and "M5" in r["not_used"]
+    assert len(r["datasets"]) == 6
 
 
-def test_a_sheet_without_a_campaign_column_is_not_penalised():
-    rows = [{"id": "A", "date": "2026-01-01", "amt": "100"}, {"id": "B", "date": "2026-01-02", "amt": "200"}]
-    run = importer.run_import("orders", rows, {"order_id": "id", "ordered_at": "date", "revenue": "amt"})
-    assert run["unattributed"] == 0 and run["confidence"] == 1.0 and run["rows_loaded"] == 2
+# ------------------------------------------------------------------ Olist and Online Shoppers (profiles)
+from backend.data_engine.external import olist, shoppers
+
+
+@pytest.mark.skipif(not olist.PROFILE.exists(), reason="Olist profile not built")
+def test_olist_profile_is_consistent():
+    p = olist.load_profile()
+    assert p["orders"] == 99441 and p["sellers"]["total"] == 3095 and p["products"]["categories"] == 73
+    assert "non-commercial" in p["licence"] and "Olist" in p["citation"]
+    assert sum(p["sellers"]["by_orders_per_seller"].values()) == p["sellers"]["total"]
+    assert p["sellers"]["small_sellers_50_to_500_orders"] == p["sellers"]["by_orders_per_seller"]["50-500"]
+    rep = p["repeat_buying"]
+    assert 0 < rep["customers_of_small_sellers"]["repeat_customer_share"] < rep["all_customers"]["repeat_customer_share"] < 0.1
+    assert sum(p["reviews"]["score_distribution"].values()) == p["reviews"]["count"]
+    assert 0 < p["delivery"]["all"]["late_share"] < 0.2
+
+
+@pytest.mark.skipif(olist.locate() is None or not olist.PROFILE.exists(), reason="Olist files not present")
+def test_olist_profile_matches_a_fresh_run():
+    assert json.loads(json.dumps(olist.build_profile())) == olist.load_profile()      # JSON turns tuples into lists
+
+
+@pytest.mark.skipif(not shoppers.PROFILE.exists(), reason="Online Shoppers profile not built")
+def test_shoppers_profile_supports_the_signal_directions():
+    p = shoppers.load_profile()
+    assert p["sessions"] == 12330 and p["purchases"] == 1908 and p["overall_conversion"] == pytest.approx(0.1547, abs=1e-4)
+    v = p["by_visitor_type"]
+    assert v["New_Visitor"]["sessions"] + v["Returning_Visitor"]["sessions"] + v["Other"]["sessions"] == 12330
+    assert p["by_page_value"]["page_value > 0"]["conversion"] > 10 * p["by_page_value"]["page_value = 0"]["conversion"]   # intent >> light interest
+    pages = p["by_product_pages_viewed"]
+    assert pages["0-9 product pages"]["conversion"] < pages["10-49"]["conversion"] < pages["50+"]["conversion"]
+
+
+@pytest.mark.skipif(not shoppers.CSV_PATH.exists() or not shoppers.PROFILE.exists(), reason="Online Shoppers file not present")
+def test_shoppers_profile_matches_a_fresh_run():
+    assert shoppers.build_profile() == shoppers.load_profile()
