@@ -1,0 +1,78 @@
+{
+  "business_id": "biz_boxbox",
+  "snapshot": "week_4",
+  "week": "week_4",
+  "estimate": true,
+  "month": {
+    "from": "2026-10-26",
+    "to": "2026-11-22"
+  },
+  "synthetic": true,
+  "demand": {
+    "low": 67,
+    "expected": 80,
+    "high": 92
+  },
+  "weekly_expected_demand": [
+    19.5,
+    19.8,
+    20.1,
+    20.3
+  ],
+  "basis": {
+    "weeks_used": 8,
+    "weekly_demand": [
+      20,
+      17,
+      14,
+      16,
+      16,
+      11,
+      18,
+      27
+    ],
+    "weekly_orders": [
+      20,
+      17,
+      14,
+      16,
+      16,
+      11,
+      18,
+      27
+    ],
+    "weekly_turned_away": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "trend_per_week": 0.54,
+    "damping": 0.5,
+    "weekly_scatter_sd": 4.9,
+    "context_factor": 1.0,
+    "context_source": "f1_calendar",
+    "context_share_next_4_weeks": 0.321,
+    "context_share_recent_weeks": 0.321,
+    "assumed_context_effect": 0.3999999999999999,
+    "method": "damped straight-line trend of weekly demand (orders plus turned away), times a market-context factor; range = 1.28 x weekly scatter x 2"
+  },
+  "confidence": "medium",
+  "note": "An estimate from recent weeks, not a forecast. The market-context effect is an assumption, not a measured fact.",
+  "orders": {
+    "low": 67,
+    "expected": 80,
+    "high": 92
+  },
+  "capacity": {
+    "orders_per_week": 30,
+    "orders_per_month": 120,
+    "demand_exceeds_capacity": false,
+    "orders_lost_to_capacity_expected": 0,
+    "message": "Demand is expected to fit within your capacity."
+  }
+}

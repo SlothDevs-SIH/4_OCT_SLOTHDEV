@@ -150,14 +150,14 @@ def test_costs_and_profile(biz):
 
 # ------------------------------------------------------------------ facts
 FACT_KEYS = {"fact_id", "kpi", "bottleneck", "dimension", "period", "value", "unit", "baseline", "best_period", "delta_pct", "gap_to_best", "better",
-             "numerator", "denominator", "definition_version", "quality_flag", "source", "sample_size", "sample_kind", "snapshot", "synthetic"}
+             "numerator", "denominator", "definition_version", "quality_flag", "source", "sample_size", "sample_kind", "snapshot", "synthetic", "direction", "origin"}
 
 
 def test_facts_shape_and_coverage(biz):
     fs = F.compute(biz, 1)
-    assert len(fs) == 22 and all(set(f) == FACT_KEYS for f in fs)
+    assert len(fs) == 23 and all(set(f) == FACT_KEYS for f in fs)
     assert {f["bottleneck"] for f in fs} == {"reach", "conversion", "margin", "repeat_orders", "capacity"}
-    assert len({f["fact_id"] for f in fs}) == 22 and fs[0]["period"] == {"from": "2026-09-07", "to": "2026-10-04"}
+    assert len({f["fact_id"] for f in fs}) == 23 and fs[0]["period"] == {"from": "2026-09-07", "to": "2026-10-04"}
     assert all(f["definition_version"] == "v2" and f["snapshot"] == "week_1" and f["synthetic"] is True for f in fs)
     assert {"f_stranger_orders_week", "f_stranger_share", "f_margin_pct", "f_repeat_customer_share", "f_orders_turned_away"} <= {f["fact_id"] for f in fs}
 

@@ -80,6 +80,13 @@ def get_market_context(from_date: Optional[str] = None, to_date: Optional[str] =
 
 
 # ------------------------------------------------------------------ contract v2 (home businesses), in-process
+def get_business(business_id: str) -> Optional[dict]:
+    """The business as contract v2 section 2.1 describes it (flat), at its current snapshot week."""
+    from backend.data_engine.homebiz import store as hb
+    data = hb.get(business_id)
+    return None if data is None else hb.contract_view(data, hb.current_week(business_id))
+
+
 def get_profile(business_id: str) -> Optional[dict]:
     from backend.data_engine.homebiz import store as hb
     data = hb.get(business_id)

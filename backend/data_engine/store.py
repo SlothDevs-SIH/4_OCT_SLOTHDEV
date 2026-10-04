@@ -39,7 +39,7 @@ def get_context(business_id: str) -> Optional[dict]:
         return _contexts[business_id]
     from .homebiz import store as hb          # businesses of the home-business product (contract v2)
     data = hb.get(business_id)
-    return data.profile if data is not None else None
+    return hb.contract_view(data, hb.current_week(business_id)) if data is not None else None
 
 
 def save_context(ctx: dict) -> dict:

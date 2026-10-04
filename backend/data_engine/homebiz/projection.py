@@ -54,7 +54,7 @@ def project(data: BusinessData, week: int) -> dict:
     as_of = as_of_for(week, data)
     origin = history_start(data)
     wks = window_weeks(as_of, 8, origin)
-    base = {"business_id": data.profile["business_id"], "snapshot": f"week_{week}", "estimate": True,
+    base = {"business_id": data.profile["business_id"], "snapshot": f"week_{week}", "week": f"week_{week}", "estimate": True,
             "month": {"from": as_of.isoformat(), "to": (as_of + timedelta(days=27)).isoformat()},
             "synthetic": bool(data.profile.get("synthetic"))}
     if len(wks) < MIN_WEEKS:

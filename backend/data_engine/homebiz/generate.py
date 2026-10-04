@@ -15,6 +15,7 @@ from functools import lru_cache
 from ..external import f1_calendar, india_festivals
 from . import config as C
 from . import leads as L
+from .partners import EXTRAS
 from .model import BusinessData
 
 SEEDS = {"boxbox": 20261004, "homebaker": 20261005}
@@ -231,6 +232,7 @@ def build_raw(key: str) -> BusinessData:
         "capacity_orders_per_week": cap, "goal": {"statement": s["interview"]["goal"], "horizon_days": 30},
         "constraints": {"forbidden_actions": ["paid_ads"], "approval_required_for": ["customer_outreach"], "notes": s["interview"]["constraints"]},
         "context_feeds": [s["context_feed"]], "serves": serves, "history_weeks": C.HISTORY_WEEKS, "fields": f,
+        **{k: v for k, v in EXTRAS[key].items()},
     }
     return BusinessData(key=key, profile=profile, orders=orders, costs=costs, posts=posts, leads=leads, turned_away=turned, stockouts=stock,
                         meta={"seed": SEEDS[key], "history_start": C.HISTORY_START.isoformat(), "advisory_start": C.ADVISORY_START.isoformat(),

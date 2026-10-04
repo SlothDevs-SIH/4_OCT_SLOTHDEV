@@ -195,9 +195,19 @@ def _utilisation(c, a, b, weeks):
     return len(os_) / weeks / c.capacity, len(os_), weeks * c.capacity, len(os_), "orders"
 
 
+ORIGIN = {"orders_by_source": "orders sheet + the owner's friend/stranger tags", "stranger_orders_per_week": "orders sheet + tags",
+          "stranger_share": "orders sheet + tags", "reach_per_post": "Instagram insights", "posts_with_orders": "Instagram insights + orders sheet",
+          "profile_visit_rate": "Instagram insights", "follow_rate": "Instagram insights", "orders_per_1000_reach": "orders sheet + Instagram insights",
+          "lead_to_order_rate": "pasted chats + orders sheet", "unit_cost_full": "cost sheet", "margin_per_order": "orders sheet + cost sheet",
+          "margin_pct": "orders sheet + cost sheet", "discount_share": "orders sheet", "repeat_customer_share": "orders sheet",
+          "days_between_orders": "orders sheet", "orders_per_week": "orders sheet", "dispatch_delay_days": "orders sheet (dispatched date)",
+          "stockouts": "owner's record", "orders_turned_away": "owner's record", "capacity_utilisation": "orders sheet + interview"}
+DIRECTION = {"higher": "up", "lower": "down"}          # which way is better; none for facts that are only context
+
+
 # fact_id, kpi, bottleneck, unit, better (higher|lower|info), source_rule (exact|derived|estimate), dimension, calc
 SPECS: list = []
-for _rel in RELATIONSHIPS[:3]:
+for _rel in RELATIONSHIPS:
     SPECS.append((f"f_orders_by_source_{_rel}", "orders_by_source", "reach", "orders/week", "info", "derived", {"relationship": _rel}, _by_source(_rel)))
 SPECS += [
     ("f_stranger_orders_week", "stranger_orders_per_week", "reach", "orders/week", "higher", "derived", {}, _stranger_week),
@@ -287,7 +297,8 @@ def compute(data: BusinessData, week: int, window: int = 4) -> list:
             "delta_pct": delta, "gap_to_best": gap, "better": better,
             "numerator": _round(num, "") if isinstance(num, float) else num, "denominator": _round(den, "") if isinstance(den, float) else den,
             "definition_version": VERSION, "quality_flag": "partial" if small else "ok", "source": source, "sample_size": n,
-            "sample_kind": kind, "snapshot": week_label(week), "synthetic": bool(data.profile.get("synthetic"))})
+            "sample_kind": kind, "direction": "up_to_limit" if fid == "f_capacity_utilisation" else DIRECTION.get(better),
+            "origin": ORIGIN.get(kpi), "snapshot": week_label(week), "synthetic": bool(data.profile.get("synthetic"))})
     return out
 
 

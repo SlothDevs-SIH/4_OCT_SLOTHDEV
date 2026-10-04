@@ -1,0 +1,731 @@
+{
+  "business_id": "biz_boxbox",
+  "week": "week_1",
+  "as_of": "2026-10-05",
+  "synthetic": true,
+  "points_version": "v1",
+  "groups": {
+    "hot": "50+",
+    "warm": "20-49",
+    "cold": "under 20",
+    "disqualified": "cannot deliver"
+  },
+  "leads": [
+    {
+      "lead_id": "lead_0101",
+      "handle_ref": "@user_0101",
+      "source": "dm",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "price_question",
+          "date": "2026-09-28"
+        },
+        {
+          "type": "story_reply",
+          "date": "2026-09-30"
+        },
+        {
+          "type": "bought_before",
+          "date": "2026-10-01"
+        }
+      ],
+      "asked_for": {
+        "product": "Verstappen Fan Tee",
+        "size": "M",
+        "design": null,
+        "city": "Pune"
+      },
+      "intents": [
+        "buying_question",
+        "product_interest"
+      ],
+      "score": 90,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        },
+        {
+          "signal": "story_reply",
+          "label": "Replied to a product story",
+          "points": 20
+        },
+        {
+          "signal": "bought_before",
+          "label": "Bought before",
+          "points": 30
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Reply today with the price and an order link (most recent enquiry first)",
+      "outcome": "open",
+      "last_signal": "2026-10-01",
+      "last_message": "this one is fire 🔥",
+      "last_activity": "2026-10-01",
+      "synthetic": true,
+      "rank": 1
+    },
+    {
+      "lead_id": "lead_0092",
+      "handle_ref": "@user_0092",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "comment",
+          "date": "2026-09-27"
+        },
+        {
+          "type": "price_question",
+          "date": "2026-09-29"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-02"
+        }
+      ],
+      "asked_for": {
+        "product": "Ferrari F1 Tee",
+        "size": "S",
+        "design": null,
+        "city": "Bangalore"
+      },
+      "intents": [
+        "buying_question",
+        "product_interest"
+      ],
+      "score": 65,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        },
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        },
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Reply today with the price and an order link (most recent enquiry first)",
+      "outcome": "open",
+      "last_signal": "2026-10-02",
+      "last_message": "do you have the Ferrari F1 Tee in size S",
+      "last_activity": "2026-10-02",
+      "synthetic": true,
+      "rank": 2
+    },
+    {
+      "lead_id": "lead_0095",
+      "handle_ref": "@user_0095",
+      "source": "whatsapp",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "follow_or_like",
+          "date": "2026-09-27"
+        },
+        {
+          "type": "price_question",
+          "date": "2026-09-29"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-09-29"
+        }
+      ],
+      "asked_for": {
+        "product": "Box Box Racing Cap",
+        "size": "L",
+        "design": null,
+        "city": "Hyderabad"
+      },
+      "intents": [
+        "buying_question",
+        "general_praise",
+        "product_interest"
+      ],
+      "score": 60,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        },
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        },
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Reply today with the price and an order link (most recent enquiry first)",
+      "outcome": "open",
+      "last_signal": "2026-09-29",
+      "last_message": "is the Box Box Racing Cap available in L?",
+      "last_activity": "2026-09-29",
+      "synthetic": true,
+      "rank": 3
+    },
+    {
+      "lead_id": "lead_0106",
+      "handle_ref": "@user_0106",
+      "source": "dm",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "price_question",
+          "date": "2026-10-03"
+        }
+      ],
+      "asked_for": {
+        "product": "Box Box Racing Cap",
+        "size": "L",
+        "design": null,
+        "city": "Bangalore"
+      },
+      "intents": [
+        "buying_question",
+        "product_interest"
+      ],
+      "score": 50,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "label": "Is a stranger (growth bonus)",
+          "points": 10
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Reply today with the price and an order link (most recent enquiry first)",
+      "outcome": "open",
+      "last_signal": "2026-10-03",
+      "last_message": "is the Box Box Racing Cap available in L?",
+      "last_activity": "2026-10-03",
+      "synthetic": true,
+      "rank": 4
+    },
+    {
+      "lead_id": "lead_0105",
+      "handle_ref": "@user_0105",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-01"
+        },
+        {
+          "type": "bought_before",
+          "date": "2026-10-04"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 45,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        },
+        {
+          "signal": "bought_before",
+          "label": "Bought before",
+          "points": 30
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-04",
+      "last_message": null,
+      "last_activity": "2026-10-04",
+      "synthetic": true,
+      "rank": 5
+    },
+    {
+      "lead_id": "lead_0098",
+      "handle_ref": "@user_0098",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "bought_before",
+          "date": "2026-10-02"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-02"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 45,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "bought_before",
+          "label": "Bought before",
+          "points": 30
+        },
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-02",
+      "last_message": null,
+      "last_activity": "2026-10-02",
+      "synthetic": true,
+      "rank": 6
+    },
+    {
+      "lead_id": "lead_0102",
+      "handle_ref": "@user_0102",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "price_question",
+          "date": "2026-10-01"
+        },
+        {
+          "type": "follow_or_like",
+          "date": "2026-10-02"
+        }
+      ],
+      "asked_for": {
+        "product": "McLaren Papaya Hoodie",
+        "size": "L",
+        "design": null,
+        "city": "Bangalore"
+      },
+      "intents": [
+        "buying_question",
+        "general_praise"
+      ],
+      "score": 45,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        },
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-02",
+      "last_message": "love your page",
+      "last_activity": "2026-10-02",
+      "synthetic": true,
+      "rank": 7
+    },
+    {
+      "lead_id": "lead_0108",
+      "handle_ref": "@user_0108",
+      "source": "whatsapp",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "price_question",
+          "date": "2026-10-04"
+        }
+      ],
+      "asked_for": {
+        "product": "Verstappen Fan Tee",
+        "size": "M",
+        "design": null,
+        "city": "Mumbai"
+      },
+      "intents": [
+        "buying_question",
+        "product_interest"
+      ],
+      "score": 40,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-04",
+      "last_message": "how much for the Verstappen Fan Tee? deliver to Mumbai?",
+      "last_activity": "2026-10-04",
+      "synthetic": true,
+      "rank": 8
+    },
+    {
+      "lead_id": "lead_0093",
+      "handle_ref": "@user_0093",
+      "source": "dm",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "price_question",
+          "date": "2026-10-01"
+        }
+      ],
+      "asked_for": {
+        "product": "Box Box Racing Cap",
+        "size": "L",
+        "design": null,
+        "city": "Delhi"
+      },
+      "intents": [
+        "buying_question"
+      ],
+      "score": 40,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-01",
+      "last_message": "how much for the Box Box Racing Cap? deliver to Delhi?",
+      "last_activity": "2026-10-01",
+      "synthetic": true,
+      "rank": 9
+    },
+    {
+      "lead_id": "lead_0089",
+      "handle_ref": "@user_0089",
+      "source": "dm",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "story_reply",
+          "date": "2026-09-25"
+        },
+        {
+          "type": "comment",
+          "date": "2026-09-26"
+        },
+        {
+          "type": "follow_or_like",
+          "date": "2026-09-28"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "general_praise",
+        "product_interest"
+      ],
+      "score": 35,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "story_reply",
+          "label": "Replied to a product story",
+          "points": 20
+        },
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        },
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-09-28",
+      "last_message": "love your page",
+      "last_activity": "2026-09-28",
+      "synthetic": true,
+      "rank": 10
+    },
+    {
+      "lead_id": "lead_0091",
+      "handle_ref": "@user_0091",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "bought_before",
+          "date": "2026-09-30"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 30,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "bought_before",
+          "label": "Bought before",
+          "points": 30
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-09-30",
+      "last_message": null,
+      "last_activity": "2026-09-30",
+      "synthetic": true,
+      "rank": 11
+    },
+    {
+      "lead_id": "lead_0100",
+      "handle_ref": "@user_0100",
+      "source": "whatsapp",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "comment",
+          "date": "2026-09-29"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-04"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 25,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        },
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-04",
+      "last_message": "stunning",
+      "last_activity": "2026-10-04",
+      "synthetic": true,
+      "rank": 12
+    },
+    {
+      "lead_id": "lead_0097",
+      "handle_ref": "@user_0097",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "saved_or_shared",
+          "date": "2026-09-30"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 15,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "No one-to-one effort; they see your regular posts",
+      "outcome": "open",
+      "last_signal": "2026-09-30",
+      "last_message": null,
+      "last_activity": "2026-09-30",
+      "synthetic": true,
+      "rank": 13
+    },
+    {
+      "lead_id": "lead_0099",
+      "handle_ref": "@user_0099",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "comment",
+          "date": "2026-10-01"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 10,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "No one-to-one effort; they see your regular posts",
+      "outcome": "open",
+      "last_signal": "2026-10-01",
+      "last_message": "stunning",
+      "last_activity": "2026-10-01",
+      "synthetic": true,
+      "rank": 14
+    },
+    {
+      "lead_id": "lead_0107",
+      "handle_ref": "@user_0107",
+      "source": "story",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "price_question",
+          "date": "2026-10-03"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-04"
+        }
+      ],
+      "asked_for": {
+        "product": "Box Box Racing Cap",
+        "size": "XXL",
+        "design": null,
+        "city": "Hyderabad"
+      },
+      "intents": [
+        "buying_question",
+        "product_interest"
+      ],
+      "score": 55,
+      "group": "disqualified",
+      "reasons": [
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        },
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        }
+      ],
+      "deliverable": false,
+      "disqualified_reason": "size: XXL is not available",
+      "next_action": "Reply politely once that it is not available yet; log it, do not chase",
+      "outcome": "open",
+      "last_signal": "2026-10-04",
+      "last_message": "how much for the Box Box Racing Cap? deliver to Hyderabad?",
+      "last_activity": "2026-10-04",
+      "synthetic": true,
+      "rank": null
+    }
+  ]
+}

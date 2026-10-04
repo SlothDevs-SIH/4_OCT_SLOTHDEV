@@ -175,6 +175,14 @@ NEXT_ACTION = {"hot": "Reply today with the price and an order link (most recent
                "not_a_lead": "Ignore: not a lead"}
 
 
+def _last_message(lead: dict, as_of: date) -> dict:
+    """The most recent message before the snapshot (already redacted and pseudonymised) and the date of the latest activity."""
+    texts = [t for t in lead.get("texts", []) if _d(t["date"]) < as_of]
+    last = max(texts, key=lambda t: t["date"]) if texts else None
+    days = [_d(s["date"]) for s in lead.get("signals", []) if _d(s["date"]) < as_of]
+    return {"last_message": last["text"] if last else None, "last_activity": max(days).isoformat() if days else None}
+
+
 def score_all(leads: list, as_of: date, serves: Optional[dict] = None, products: Optional[list] = None, group: Optional[str] = None) -> list:
     """Scored leads (the daily list): open leads, hot first. Closed leads (ordered or not ordered by `as_of`) are excluded."""
     rows = []
@@ -191,7 +199,7 @@ def score_all(leads: list, as_of: date, serves: Optional[dict] = None, products:
                      "asked_for": lead.get("asked_for") or {}, "intents": lead.get("intents") or [], "score": sc["score"],
                      "group": sc["group"], "reasons": sc["reasons"], "deliverable": sc["deliverable"],
                      "disqualified_reason": sc["disqualified_reason"], "next_action": NEXT_ACTION[sc["group"]],
-                     "outcome": "open", "last_signal": sc["last_signal"], "_k": sc["rank_key"], "synthetic": lead.get("synthetic", False)})
+                     "outcome": "open", "last_signal": sc["last_signal"], **_last_message(lead, as_of), "_k": sc["rank_key"], "synthetic": lead.get("synthetic", False)})
     rows.sort(key=lambda r: ({"hot": 0, "warm": 1, "cold": 2, "disqualified": 3}[r["group"]], r["_k"]))
     out = []
     rank = 0

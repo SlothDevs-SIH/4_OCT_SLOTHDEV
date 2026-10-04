@@ -1,0 +1,143 @@
+{
+  "business_id": "biz_homebaker",
+  "name": "Meera's Kitchen",
+  "case_study": "Home baker",
+  "synthetic": true,
+  "products": [
+    {
+      "name": "Eggless Brownie Box (6)",
+      "category": "brownies",
+      "price": 450,
+      "unit_cost": 300
+    },
+    {
+      "name": "Choco Chip Cookies (12)",
+      "category": "cookies",
+      "price": 380,
+      "unit_cost": 245
+    },
+    {
+      "name": "Custom Birthday Cake (1 kg)",
+      "category": "cakes",
+      "price": 1400,
+      "unit_cost": 920
+    },
+    {
+      "name": "Festive Gift Hamper",
+      "category": "hampers",
+      "price": 1800,
+      "unit_cost": 1080
+    }
+  ],
+  "channels": [
+    "instagram",
+    "whatsapp"
+  ],
+  "team_size": 1,
+  "weekly_hours": 20,
+  "ad_budget_inr": 0,
+  "capacity_orders_per_week": 14,
+  "goal": {
+    "statement": "Handle Diwali demand without disappointing customers",
+    "horizon_days": 30
+  },
+  "constraints": {
+    "forbidden_actions": [
+      "paid_ads"
+    ],
+    "approval_required_for": [
+      "customer_outreach"
+    ],
+    "notes": [
+      "no paid ads",
+      "one person",
+      "20 hours a week",
+      "single oven"
+    ]
+  },
+  "context_feeds": [
+    "india_festivals"
+  ],
+  "serves": {
+    "cities": [
+      "Pune"
+    ],
+    "sizes": []
+  },
+  "city": "Pune",
+  "ships_to": "Pune, within 8 km of Kothrud",
+  "topics": [
+    "baking",
+    "desserts",
+    "gifting"
+  ],
+  "growth_minutes_per_week": 120,
+  "order_link": "WhatsApp order form",
+  "payment": "UPI",
+  "reach_candidates": [
+    {
+      "partner_id": "rp_hb_1",
+      "name": "Neighbourhood parents group (WhatsApp community)",
+      "type": "community",
+      "topics": [
+        "parenting",
+        "gifting"
+      ],
+      "city": "Pune",
+      "followers": 900,
+      "avg_comments_per_post": 25,
+      "avg_shares_per_post": 12,
+      "cost_inr": 0
+    },
+    {
+      "partner_id": "rp_hb_2",
+      "name": "Pune dessert reviewer (creator)",
+      "type": "creator",
+      "topics": [
+        "desserts",
+        "baking"
+      ],
+      "city": "Pune",
+      "followers": 15000,
+      "avg_comments_per_post": 60,
+      "avg_shares_per_post": 25,
+      "cost_inr": 0
+    },
+    {
+      "partner_id": "rp_hb_3",
+      "name": "Office foodies group (community)",
+      "type": "community",
+      "topics": [
+        "food"
+      ],
+      "city": "Pune",
+      "followers": 3000,
+      "avg_comments_per_post": 15,
+      "avg_shares_per_post": 6,
+      "cost_inr": 0
+    },
+    {
+      "partner_id": "rp_hb_4",
+      "name": "Food influencer with paid shoutouts",
+      "type": "creator",
+      "topics": [
+        "desserts"
+      ],
+      "city": "Mumbai",
+      "followers": 90000,
+      "avg_comments_per_post": 120,
+      "avg_shares_per_post": 40,
+      "cost_inr": 3000
+    }
+  ],
+  "category": "home-baked goods",
+  "week": "week_1",
+  "provenance": {
+    "weekly_hours": "estimate",
+    "capacity_orders_per_week": "estimate",
+    "ad_budget_inr": "exact",
+    "team_size": "exact",
+    "growth_minutes_per_week": "estimate",
+    "unit_cost": "estimate"
+  }
+}

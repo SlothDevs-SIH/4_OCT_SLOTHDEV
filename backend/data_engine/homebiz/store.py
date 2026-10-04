@@ -40,6 +40,13 @@ class ProfileIn(BaseModel):
     serves_cities: list[str] = []
     serves_sizes: list[str] = []
     context_feed: Optional[str] = Field(None, pattern="^(f1_calendar|india_festivals)$")
+    city: Optional[str] = None
+    ships_to: Optional[str] = None
+    topics: list[str] = []
+    growth_minutes_per_week: Optional[int] = Field(None, ge=0, le=6000)
+    order_link: Optional[str] = None
+    payment: Optional[str] = None
+    reach_candidates: list[dict] = []
 
 
 def slug(name: str) -> str:
@@ -60,6 +67,9 @@ def create(p: ProfileIn) -> BusinessData:
                "capacity_orders_per_week": p.capacity_orders_per_week, "goal": {"statement": p.goal, "horizon_days": 30},
                "constraints": {"forbidden_actions": ["paid_ads"] if p.ad_budget_inr == 0 else [], "approval_required_for": ["customer_outreach"], "notes": []},
                "context_feeds": [p.context_feed] if p.context_feed else [], "serves": {"cities": p.serves_cities, "sizes": p.serves_sizes},
+               "city": p.city, "ships_to": p.ships_to, "topics": p.topics,
+               "growth_minutes_per_week": p.growth_minutes_per_week if p.growth_minutes_per_week is not None else round(p.weekly_hours * 60 * 0.25),
+               "order_link": p.order_link, "payment": p.payment, "reach_candidates": p.reach_candidates,
                "history_weeks": 0, "fields": fields}
     data = BusinessData(key=bid, profile=profile, costs=costs, meta={"max_week": 1, "created": True})
     _data[bid] = data
@@ -77,6 +87,19 @@ def load_demo(key: str, week: int) -> BusinessData:
     _data[bid] = data
     _week[bid] = week
     return data
+
+
+def contract_view(data: BusinessData, week: int) -> dict:
+    """The business as contract v2 section 2.1 describes it: one flat object, with where each estimate came from."""
+    p = data.profile
+    out = {k: v for k, v in p.items() if k not in ("fields", "kind", "history_weeks")}
+    out["category"] = p.get("kind")
+    out["week"] = f"week_{week}"
+    prov = {k: v["source"] for k, v in p.get("fields", {}).items() if k in ("weekly_hours", "capacity_orders_per_week", "ad_budget_inr", "team_size")}
+    prov["growth_minutes_per_week"] = "estimate"
+    prov["unit_cost"] = "estimate" if any(c.get("source") == "estimate" for c in data.costs.values()) or not data.costs else "exact"
+    out["provenance"] = prov
+    return out
 
 
 def get(business_id: str) -> Optional[BusinessData]:

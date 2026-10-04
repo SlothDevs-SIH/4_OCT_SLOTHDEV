@@ -92,7 +92,7 @@ def test_sample_downloads():
 def test_facts_endpoint():
     load("boxbox", 1)
     r = client.get(f"{API}/businesses/biz_boxbox/facts").json()
-    assert r["snapshot"] == "week_1" and r["main_measure"] == "f_stranger_orders_week" and len(r["facts"]) == 22 and r["synthetic"] is True
+    assert r["snapshot"] == "week_1" and r["main_measure"] == "f_stranger_orders_week" and len(r["facts"]) == 23 and r["synthetic"] is True
     reach = client.get(f"{API}/businesses/biz_boxbox/facts?bottleneck=reach").json()["facts"]
     assert reach and {f["bottleneck"] for f in reach} == {"reach"}
     assert client.get(f"{API}/businesses/biz_boxbox/facts?bottleneck=weird").status_code == 422
@@ -235,8 +235,59 @@ def test_market_context_feeds():
 
 def test_in_process_interface_for_decision_engine():
     load("boxbox", 1)
-    assert len(public.get_facts("biz_boxbox")) == 22 and public.get_facts("biz_boxbox", 2)[0]["snapshot"] == "week_2"
+    assert len(public.get_facts("biz_boxbox")) == 23 and public.get_facts("biz_boxbox", 2)[0]["snapshot"] == "week_2"
     assert public.get_leads("biz_boxbox")[0]["group"] == "hot" and public.get_leads("biz_boxbox", "cold") is not None
     assert public.get_projection("biz_boxbox")["estimate"] is True and public.get_profile("biz_boxbox")["profile"]["name"] == "Box Box"
     assert public.get_facts("biz_nope") is None and public.get_leads("biz_nope") is None and public.get_projection("biz_nope") is None
     assert public.get_market_context("2026-10-05", "2026-11-01")["feed"] == "f1_calendar"
+
+
+# ------------------------------------------------------------------ contract v2 shapes agreed with decision_engine
+BUSINESS_KEYS = {"business_id", "name", "case_study", "synthetic", "category", "city", "ships_to", "topics", "products", "channels", "payment", "order_link",
+                 "team_size", "weekly_hours", "growth_minutes_per_week", "ad_budget_inr", "capacity_orders_per_week", "goal", "constraints", "context_feeds",
+                 "reach_candidates", "provenance", "week"}
+
+
+@pytest.mark.parametrize("biz", ["boxbox", "homebaker"])
+def test_business_is_the_flat_contract_object(biz):
+    load(biz, 2)
+    b = client.get(f"{API}/businesses/biz_{biz}").json()
+    assert BUSINESS_KEYS <= set(b) and b["week"] == "week_2" and b["synthetic"] is True and "fields" not in b
+    assert b["goal"]["horizon_days"] == 30 and b["constraints"]["forbidden_actions"] == ["paid_ads"] and b["ad_budget_inr"] == 0
+    assert b["provenance"]["capacity_orders_per_week"] == "estimate" and b["provenance"]["ad_budget_inr"] == "exact"
+    rc = b["reach_candidates"]
+    assert len(rc) >= 4 and {"partner_id", "name", "type", "topics", "city", "followers", "avg_comments_per_post", "avg_shares_per_post", "cost_inr"} <= set(rc[0])
+    assert public.get_business(f"biz_{biz}")["week"] == "week_2"
+
+
+def test_facts_carry_bottleneck_direction_and_origin_and_an_unknown_source():
+    load("boxbox", 1)
+    fs = {f["fact_id"]: f for f in public.get_facts("biz_boxbox")}
+    src = [fs[f"f_orders_by_source_{r}"] for r in ("friend", "friend_of_friend", "stranger", "unknown")]
+    assert sum(f["numerator"] for f in src) == fs["f_orders_by_source_friend"]["sample_size"]               # the four sources add up to all orders
+    assert fs["f_stranger_orders_week"]["direction"] == "up" and fs["f_orders_turned_away"]["direction"] == "down"
+    assert fs["f_capacity_utilisation"]["direction"] == "up_to_limit" and fs["f_unit_cost_full"]["direction"] is None
+    assert all(f["origin"] for f in fs.values()) and fs["f_margin_pct"]["bottleneck"] == "margin"
+
+
+def test_leads_carry_the_last_message_and_last_activity():
+    load("boxbox", 1)
+    leads = public.get_leads("biz_boxbox")
+    assert all("last_message" in l and "last_activity" in l for l in leads) and any(l["last_message"] for l in leads)
+    assert all(l["last_activity"] < "2026-10-05" for l in leads if l["last_activity"])                       # nothing from after the snapshot
+    assert public.get_projection("biz_boxbox")["week"] == "week_1"
+
+
+def test_fixture_export_is_deterministic_and_complete(tmp_path):
+    from backend.data_engine.devtools.export_v2_fixtures import export
+    a, b = tmp_path / "a", tmp_path / "b"
+    files = export(a)
+    export(b)
+    assert len(files) == 32 and all(f.exists() for f in files)
+    assert all((a / p.relative_to(b)).read_bytes() == p.read_bytes() for p in b.rglob("*.json")) and len(list(b.rglob("*.json"))) == 32
+    import json
+    facts = json.loads((a / "boxbox" / "facts_week_4.json").read_text(encoding="utf-8"))
+    assert facts["week"] == "week_4" and len(facts["facts"]) == 23 and facts["synthetic"] is True
+    leads = json.loads((a / "homebaker" / "leads_week_1.json").read_text(encoding="utf-8"))
+    assert leads["groups"]["hot"] == "50+" and leads["leads"][0]["group"] == "hot"
+    assert json.loads((a / "market_context" / "india_festivals.json").read_text(encoding="utf-8"))["feed"] == "india_festivals"
