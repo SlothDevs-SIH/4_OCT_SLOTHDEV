@@ -33,7 +33,75 @@
       "requires_data": [
         "lead_scores"
       ],
-      "spend_change": "none"
+      "spend_change": "none",
+      "recommendation_slug": "hot_leads",
+      "expected_change": {
+        "method": "lead_probability_sum",
+        "band": 1
+      },
+      "measurement_window_days": 7,
+      "guardrails": [
+        {
+          "kpi": "response_latency_p90",
+          "max": 24
+        }
+      ],
+      "confounders": [
+        "Seasonal gifting demand before Diwali"
+      ],
+      "tasks": [
+        {
+          "key": "contact_a",
+          "title": "Call or message the top-ranked hot leads ({leads_a})",
+          "reason": "Highest expected value and waiting longer than the SLA",
+          "effort_min": 60,
+          "owner_role": "Founder",
+          "success_criterion": "Each of these leads contacted within 24 hours",
+          "after": [],
+          "gap_days": 0,
+          "earliest_day": 1,
+          "requires_approval": true
+        },
+        {
+          "key": "contact_b",
+          "title": "Contact the remaining hot leads ({leads_b})",
+          "reason": "Clear the unattended high-value backlog",
+          "effort_min": 50,
+          "owner_role": "Founder",
+          "success_criterion": "Every unattended hot lead contacted",
+          "after": [],
+          "gap_days": 0,
+          "earliest_day": 1,
+          "requires_approval": true
+        },
+        {
+          "key": "sla_alert",
+          "title": "Set a {sla_hours}-hour response alert for high-value leads",
+          "reason": "Stop the backlog from returning",
+          "effort_min": 30,
+          "owner_role": "Operations assistant",
+          "success_criterion": "Alert fires on a test lead",
+          "after": [],
+          "gap_days": 0,
+          "earliest_day": 1,
+          "requires_approval": false
+        },
+        {
+          "key": "followup",
+          "title": "Second follow-up for hot leads that have not replied",
+          "reason": "Most wins come from the second touch",
+          "effort_min": 40,
+          "owner_role": "Operations assistant",
+          "success_criterion": "Every non-responding hot lead followed up once more",
+          "after": [
+            "contact_a",
+            "contact_b"
+          ],
+          "gap_days": 3,
+          "earliest_day": 1,
+          "requires_approval": true
+        }
+      ]
     },
     {
       "template_id": "tpl_repeat_email_flow",
@@ -65,7 +133,60 @@
       "requires_data": [
         "email_consent"
       ],
-      "spend_change": "none"
+      "spend_change": "none",
+      "recommendation_slug": "email_retention",
+      "expected_change": {
+        "method": "relative",
+        "low_pct": 5,
+        "high_pct": 17
+      },
+      "measurement_window_days": 30,
+      "guardrails": [],
+      "confounders": [
+        "Cohort comparison is observational"
+      ],
+      "tasks": [
+        {
+          "key": "draft",
+          "title": "Draft the day-21 replenishment email for first-time buyers",
+          "reason": "Extend the higher repeat rate of the email cohort",
+          "effort_min": 60,
+          "owner_role": "Founder",
+          "success_criterion": "Draft approved by the founder",
+          "after": [],
+          "gap_days": 0,
+          "earliest_day": 1,
+          "requires_approval": false
+        },
+        {
+          "key": "setup",
+          "title": "Set up the email flow trigger at day 21 after the first order",
+          "reason": "Automate the repeat-buyer email",
+          "effort_min": 45,
+          "owner_role": "Operations assistant",
+          "success_criterion": "Flow active with the correct segment",
+          "after": [
+            "draft"
+          ],
+          "gap_days": 1,
+          "earliest_day": 1,
+          "requires_approval": false
+        },
+        {
+          "key": "send",
+          "title": "Send the flow to the first eligible segment (approval required)",
+          "reason": "Start measuring the repeat effect",
+          "effort_min": 15,
+          "owner_role": "Operations assistant",
+          "success_criterion": "First batch sent after approval",
+          "after": [
+            "setup"
+          ],
+          "gap_days": 1,
+          "earliest_day": 1,
+          "requires_approval": true
+        }
+      ]
     },
     {
       "template_id": "tpl_instagram_attribution_test",
@@ -98,7 +219,65 @@
       "requires_data": [
         "campaign_ids"
       ],
-      "spend_change": "reallocate_within_channel_budget"
+      "spend_change": "reallocate_within_channel_budget",
+      "recommendation_slug": "instagram_test",
+      "expected_change": {
+        "method": "relative",
+        "low_pct": 15,
+        "high_pct": 44
+      },
+      "measurement_window_days": 7,
+      "guardrails": [
+        {
+          "kpi": "ad_spend",
+          "max": "baseline_value"
+        }
+      ],
+      "confounders": [
+        "Contribution uses estimated shipping costs"
+      ],
+      "tasks": [
+        {
+          "key": "audit",
+          "title": "Audit {channel_title} attribution: UTM tags, pixel events, landing page match",
+          "reason": "Rule out tracking loss before changing the campaign",
+          "effort_min": 45,
+          "owner_role": "Operations assistant",
+          "success_criterion": "Attribution gaps listed with a fix or 'none found'",
+          "after": [],
+          "gap_days": 0,
+          "earliest_day": 1,
+          "requires_approval": false
+        },
+        {
+          "key": "launch",
+          "title": "Launch one creative/landing test inside the current {channel_title} budget",
+          "reason": "Test a fix for falling conversion without extra spend",
+          "effort_min": 60,
+          "owner_role": "Founder",
+          "success_criterion": "Test live with spend at or below the current {channel_title} budget",
+          "after": [
+            "audit"
+          ],
+          "gap_days": 2,
+          "earliest_day": 1,
+          "requires_approval": true
+        },
+        {
+          "key": "readout",
+          "title": "Review the {channel_title} test readout and decide keep or stop",
+          "reason": "Close the loop on the test",
+          "effort_min": 30,
+          "owner_role": "Founder",
+          "success_criterion": "Decision recorded with the numbers",
+          "after": [
+            "launch"
+          ],
+          "gap_days": 3,
+          "earliest_day": 1,
+          "requires_approval": false
+        }
+      ]
     },
     {
       "template_id": "tpl_increase_ad_spend",
@@ -128,7 +307,30 @@
         "Buys customers below contribution break-even"
       ],
       "requires_data": [],
-      "spend_change": "increase_total_ad_spend"
+      "spend_change": "increase_total_ad_spend",
+      "recommendation_slug": "increase_spend",
+      "expected_change": {
+        "method": "relative",
+        "low_pct": 5,
+        "high_pct": 20
+      },
+      "measurement_window_days": 7,
+      "guardrails": [],
+      "confounders": [],
+      "tasks": [
+        {
+          "key": "raise",
+          "title": "Raise the {channel_title} daily budget",
+          "reason": "Buy more volume",
+          "effort_min": 30,
+          "owner_role": "Founder",
+          "success_criterion": "New budget live",
+          "after": [],
+          "gap_days": 0,
+          "earliest_day": 1,
+          "requires_approval": true
+        }
+      ]
     },
     {
       "template_id": "tpl_landing_page_fix",
@@ -159,7 +361,46 @@
       "requires_data": [
         "sessions"
       ],
-      "spend_change": "none"
+      "spend_change": "none",
+      "recommendation_slug": "landing_page_fix",
+      "expected_change": {
+        "method": "relative",
+        "low_pct": 5,
+        "high_pct": 15
+      },
+      "measurement_window_days": 14,
+      "guardrails": [],
+      "confounders": [
+        "Campaign changes in the same week"
+      ],
+      "tasks": [
+        {
+          "key": "find",
+          "title": "Find the top drop-off step on the landing page",
+          "reason": "Fix the biggest leak first",
+          "effort_min": 60,
+          "owner_role": "Operations assistant",
+          "success_criterion": "Drop-off step named with its numbers",
+          "after": [],
+          "gap_days": 0,
+          "earliest_day": 1,
+          "requires_approval": false
+        },
+        {
+          "key": "fix",
+          "title": "Ship one fix for that step",
+          "reason": "Recover lost conversions",
+          "effort_min": 90,
+          "owner_role": "Founder",
+          "success_criterion": "Fix live",
+          "after": [
+            "find"
+          ],
+          "gap_days": 1,
+          "earliest_day": 1,
+          "requires_approval": false
+        }
+      ]
     },
     {
       "template_id": "tpl_winback_whatsapp",
@@ -190,7 +431,46 @@
       "requires_data": [
         "whatsapp_consent"
       ],
-      "spend_change": "none"
+      "spend_change": "none",
+      "recommendation_slug": "winback",
+      "expected_change": {
+        "method": "relative",
+        "low_pct": 3,
+        "high_pct": 10
+      },
+      "measurement_window_days": 14,
+      "guardrails": [],
+      "confounders": [
+        "Seasonal demand"
+      ],
+      "tasks": [
+        {
+          "key": "segment",
+          "title": "List lapsed repeat buyers with WhatsApp consent",
+          "reason": "Message only people who opted in",
+          "effort_min": 30,
+          "owner_role": "Operations assistant",
+          "success_criterion": "Segment exported",
+          "after": [],
+          "gap_days": 0,
+          "earliest_day": 1,
+          "requires_approval": false
+        },
+        {
+          "key": "send",
+          "title": "Send the win-back message (approval required)",
+          "reason": "Bring lapsed buyers back",
+          "effort_min": 60,
+          "owner_role": "Founder",
+          "success_criterion": "Message sent after approval",
+          "after": [
+            "segment"
+          ],
+          "gap_days": 1,
+          "earliest_day": 1,
+          "requires_approval": true
+        }
+      ]
     }
   ],
   "note": "Seed library; research (R3) extends it to 12-15 templates."
