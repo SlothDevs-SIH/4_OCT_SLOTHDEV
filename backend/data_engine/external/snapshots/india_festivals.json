@@ -1,0 +1,276 @@
+{
+ "source": "python-holidays (MIT), India calendar",
+ "years": [
+  2025,
+  2026,
+  2027
+ ],
+ "note": "Dates of festivals and public holidays. No measured demand uplift exists for them in our data.",
+ "events": [
+  {
+   "name": "Republic Day",
+   "date": "2025-01-26",
+   "demand_window": false
+  },
+  {
+   "name": "Maha Shivaratri",
+   "date": "2025-02-26",
+   "demand_window": false
+  },
+  {
+   "name": "Holi",
+   "date": "2025-03-14",
+   "demand_window": true
+  },
+  {
+   "name": "Eid al-Fitr",
+   "date": "2025-03-31",
+   "demand_window": true
+  },
+  {
+   "name": "Mahavira's Birthday",
+   "date": "2025-04-10",
+   "demand_window": false
+  },
+  {
+   "name": "Dr. B. R. Ambedkar's Birthday",
+   "date": "2025-04-14",
+   "demand_window": false
+  },
+  {
+   "name": "Good Friday",
+   "date": "2025-04-18",
+   "demand_window": false
+  },
+  {
+   "name": "Buddha Purnima",
+   "date": "2025-05-12",
+   "demand_window": false
+  },
+  {
+   "name": "Eid al-Adha",
+   "date": "2025-06-07",
+   "demand_window": true
+  },
+  {
+   "name": "Ashura",
+   "date": "2025-07-06",
+   "demand_window": false
+  },
+  {
+   "name": "Independence Day",
+   "date": "2025-08-15",
+   "demand_window": false
+  },
+  {
+   "name": "Janmashtami (Vaishnava)",
+   "date": "2025-08-16",
+   "demand_window": true
+  },
+  {
+   "name": "Prophet's Birthday",
+   "date": "2025-09-05",
+   "demand_window": false
+  },
+  {
+   "name": "Dussehra; Mahatma Gandhi's Birthday",
+   "date": "2025-10-02",
+   "demand_window": true
+  },
+  {
+   "name": "Diwali (Deepavali)",
+   "date": "2025-10-20",
+   "demand_window": true
+  },
+  {
+   "name": "Guru Nanak's Birthday",
+   "date": "2025-11-05",
+   "demand_window": false
+  },
+  {
+   "name": "Christmas",
+   "date": "2025-12-25",
+   "demand_window": true
+  },
+  {
+   "name": "Republic Day",
+   "date": "2026-01-26",
+   "demand_window": false
+  },
+  {
+   "name": "Holi",
+   "date": "2026-03-04",
+   "demand_window": true
+  },
+  {
+   "name": "Eid al-Fitr",
+   "date": "2026-03-21",
+   "demand_window": true
+  },
+  {
+   "name": "Ram Navami",
+   "date": "2026-03-26",
+   "demand_window": false
+  },
+  {
+   "name": "Mahavira's Birthday",
+   "date": "2026-03-31",
+   "demand_window": false
+  },
+  {
+   "name": "Good Friday",
+   "date": "2026-04-03",
+   "demand_window": false
+  },
+  {
+   "name": "Dr. B. R. Ambedkar's Birthday",
+   "date": "2026-04-14",
+   "demand_window": false
+  },
+  {
+   "name": "Buddha Purnima",
+   "date": "2026-05-01",
+   "demand_window": false
+  },
+  {
+   "name": "Eid al-Adha",
+   "date": "2026-05-27",
+   "demand_window": true
+  },
+  {
+   "name": "Ashura",
+   "date": "2026-06-26",
+   "demand_window": false
+  },
+  {
+   "name": "Independence Day",
+   "date": "2026-08-15",
+   "demand_window": false
+  },
+  {
+   "name": "Prophet's Birthday",
+   "date": "2026-08-26",
+   "demand_window": false
+  },
+  {
+   "name": "Janmashtami (Vaishnava)",
+   "date": "2026-09-04",
+   "demand_window": true
+  },
+  {
+   "name": "Mahatma Gandhi's Birthday",
+   "date": "2026-10-02",
+   "demand_window": false
+  },
+  {
+   "name": "Dussehra",
+   "date": "2026-10-20",
+   "demand_window": true
+  },
+  {
+   "name": "Diwali (Deepavali)",
+   "date": "2026-11-08",
+   "demand_window": true
+  },
+  {
+   "name": "Guru Nanak's Birthday",
+   "date": "2026-11-24",
+   "demand_window": false
+  },
+  {
+   "name": "Christmas",
+   "date": "2026-12-25",
+   "demand_window": true
+  },
+  {
+   "name": "Republic Day",
+   "date": "2027-01-26",
+   "demand_window": false
+  },
+  {
+   "name": "Maha Shivaratri",
+   "date": "2027-03-06",
+   "demand_window": false
+  },
+  {
+   "name": "Eid al-Fitr (estimated)",
+   "date": "2027-03-10",
+   "demand_window": true
+  },
+  {
+   "name": "Holi",
+   "date": "2027-03-22",
+   "demand_window": true
+  },
+  {
+   "name": "Good Friday",
+   "date": "2027-03-26",
+   "demand_window": false
+  },
+  {
+   "name": "Dr. B. R. Ambedkar's Birthday",
+   "date": "2027-04-14",
+   "demand_window": false
+  },
+  {
+   "name": "Ram Navami",
+   "date": "2027-04-15",
+   "demand_window": false
+  },
+  {
+   "name": "Mahavira's Birthday",
+   "date": "2027-04-18",
+   "demand_window": false
+  },
+  {
+   "name": "Eid al-Adha (estimated)",
+   "date": "2027-05-17",
+   "demand_window": true
+  },
+  {
+   "name": "Buddha Purnima",
+   "date": "2027-05-20",
+   "demand_window": false
+  },
+  {
+   "name": "Ashura (estimated)",
+   "date": "2027-06-16",
+   "demand_window": false
+  },
+  {
+   "name": "Independence Day; Prophet's Birthday (estimated)",
+   "date": "2027-08-15",
+   "demand_window": false
+  },
+  {
+   "name": "Janmashtami (Vaishnava)",
+   "date": "2027-08-25",
+   "demand_window": true
+  },
+  {
+   "name": "Mahatma Gandhi's Birthday",
+   "date": "2027-10-02",
+   "demand_window": false
+  },
+  {
+   "name": "Dussehra",
+   "date": "2027-10-09",
+   "demand_window": true
+  },
+  {
+   "name": "Diwali (Deepavali)",
+   "date": "2027-10-29",
+   "demand_window": true
+  },
+  {
+   "name": "Guru Nanak's Birthday",
+   "date": "2027-11-14",
+   "demand_window": false
+  },
+  {
+   "name": "Christmas",
+   "date": "2027-12-25",
+   "demand_window": true
+  }
+ ]
+}

@@ -1,0 +1,357 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_2",
+  "as_of": "2026-10-12",
+  "synthetic": true,
+  "points_version": "v1",
+  "groups": {
+    "hot": "50+",
+    "warm": "20-49",
+    "cold": "under 20",
+    "disqualified": "cannot deliver"
+  },
+  "leads": [
+    {
+      "lead_id": "lead_0115",
+      "handle_ref": "@user_0115",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "bought_before",
+          "date": "2026-10-07"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-08"
+        },
+        {
+          "type": "price_question",
+          "date": "2026-10-10"
+        }
+      ],
+      "asked_for": {
+        "product": "Festive Gift Hamper",
+        "size": null,
+        "design": null,
+        "city": "Pune"
+      },
+      "intents": [
+        "buying_question",
+        "product_interest"
+      ],
+      "score": 85,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "bought_before",
+          "label": "Bought before",
+          "points": 30
+        },
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        },
+        {
+          "signal": "price_question",
+          "label": "Asked about price, size, stock or delivery",
+          "points": 40
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Reply today with the price and an order link (most recent enquiry first)",
+      "outcome": "open",
+      "last_signal": "2026-10-10",
+      "last_message": "how much for the Festive Gift Hamper? deliver to Pune?",
+      "last_activity": "2026-10-10",
+      "synthetic": true,
+      "rank": 1
+    },
+    {
+      "lead_id": "lead_0120",
+      "handle_ref": "@user_0120",
+      "source": "story",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "bought_before",
+          "date": "2026-10-11"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 30,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "bought_before",
+          "label": "Bought before",
+          "points": 30
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-11",
+      "last_message": null,
+      "last_activity": "2026-10-11",
+      "synthetic": true,
+      "rank": 2
+    },
+    {
+      "lead_id": "lead_0119",
+      "handle_ref": "@user_0119",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "follow_or_like",
+          "date": "2026-10-08"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-10"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "general_praise",
+        "product_interest"
+      ],
+      "score": 20,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        },
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-10",
+      "last_message": "love your page",
+      "last_activity": "2026-10-10",
+      "synthetic": true,
+      "rank": 3
+    },
+    {
+      "lead_id": "lead_0111",
+      "handle_ref": "@user_0111",
+      "source": "comment",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "story_reply",
+          "date": "2026-10-05"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 20,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "story_reply",
+          "label": "Replied to a product story",
+          "points": 20
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "Contact once when there is a reason: a new drop, a restock or a small first-order offer",
+      "outcome": "open",
+      "last_signal": "2026-10-05",
+      "last_message": "so good 😍",
+      "last_activity": "2026-10-05",
+      "synthetic": true,
+      "rank": 4
+    },
+    {
+      "lead_id": "lead_0108",
+      "handle_ref": "@user_0108",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-06"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 15,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "saved_or_shared",
+          "label": "Saved or shared a post",
+          "points": 15
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "No one-to-one effort; they see your regular posts",
+      "outcome": "open",
+      "last_signal": "2026-10-06",
+      "last_message": null,
+      "last_activity": "2026-10-06",
+      "synthetic": true,
+      "rank": 5
+    },
+    {
+      "lead_id": "lead_0117",
+      "handle_ref": "@user_0117",
+      "source": "whatsapp",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "comment",
+          "date": "2026-10-10"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "product_interest"
+      ],
+      "score": 10,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "comment",
+          "label": "Commented on a post",
+          "points": 10
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "No one-to-one effort; they see your regular posts",
+      "outcome": "open",
+      "last_signal": "2026-10-10",
+      "last_message": "stunning",
+      "last_activity": "2026-10-10",
+      "synthetic": true,
+      "rank": 6
+    },
+    {
+      "lead_id": "lead_0118",
+      "handle_ref": "@user_0118",
+      "source": "dm",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "follow_or_like",
+          "date": "2026-10-11"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "general_praise",
+        "product_interest"
+      ],
+      "score": 5,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "No one-to-one effort; they see your regular posts",
+      "outcome": "open",
+      "last_signal": "2026-10-11",
+      "last_message": "love your page",
+      "last_activity": "2026-10-11",
+      "synthetic": true,
+      "rank": 7
+    },
+    {
+      "lead_id": "lead_0109",
+      "handle_ref": "@user_0109",
+      "source": "dm",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "follow_or_like",
+          "date": "2026-10-05"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "intents": [
+        "general_praise"
+      ],
+      "score": 5,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "follow_or_like",
+          "label": "Followed or liked",
+          "points": 5
+        }
+      ],
+      "deliverable": true,
+      "disqualified_reason": null,
+      "next_action": "No one-to-one effort; they see your regular posts",
+      "outcome": "open",
+      "last_signal": "2026-10-05",
+      "last_message": "love your page",
+      "last_activity": "2026-10-05",
+      "synthetic": true,
+      "rank": 8
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+ "dataset": "UCI Online Shoppers Purchasing Intention",
+ "citation": "Sakar, C. and Kastro, Y. (2018). Online Shoppers Purchasing Intention Dataset. UCI Machine Learning Repository. https://doi.org/10.24432/C5F88Q",
+ "licence": "not stated in UCI's metadata: confirm on the UCI page; cited, not redistributed",
+ "role": "conversion corpus; checks the direction of lead-score signals; new vs returning visitors; not Box Box's data",
+ "sessions": 12330,
+ "purchases": 1908,
+ "overall_conversion": 0.1547,
+ "by_visitor_type": {
+  "New_Visitor": {
+   "sessions": 1694,
+   "purchases": 422,
+   "conversion": 0.2491
+  },
+  "Other": {
+   "sessions": 85,
+   "purchases": 16,
+   "conversion": 0.1882
+  },
+  "Returning_Visitor": {
+   "sessions": 10551,
+   "purchases": 1470,
+   "conversion": 0.1393
+  }
+ },
+ "by_page_value": {
+  "page_value = 0": {
+   "sessions": 9600,
+   "purchases": 370,
+   "conversion": 0.0385
+  },
+  "page_value > 0": {
+   "sessions": 2730,
+   "purchases": 1538,
+   "conversion": 0.5634
+  }
+ },
+ "by_product_pages_viewed": {
+  "0-9 product pages": {
+   "sessions": 3843,
+   "purchases": 237,
+   "conversion": 0.0617
+  },
+  "10-49": {
+   "sessions": 6271,
+   "purchases": 1110,
+   "conversion": 0.177
+  },
+  "50+": {
+   "sessions": 2216,
+   "purchases": 561,
+   "conversion": 0.2532
+  }
+ },
+ "by_bounce": {
+  "bounce rate = 0": {
+   "sessions": 5518,
+   "purchases": 1036,
+   "conversion": 0.1877
+  },
+  "bounce rate > 0": {
+   "sessions": 6812,
+   "purchases": 872,
+   "conversion": 0.128
+  }
+ },
+ "by_weekend": {
+  "weekday": {
+   "sessions": 9462,
+   "purchases": 1409,
+   "conversion": 0.1489
+  },
+  "weekend": {
+   "sessions": 2868,
+   "purchases": 499,
+   "conversion": 0.174
+  }
+ },
+ "reading": {
+  "new_vs_returning_conversion_ratio": 1.788,
+  "page_value_lift": 14.6
+ }
+}

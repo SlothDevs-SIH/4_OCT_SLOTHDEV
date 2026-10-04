@@ -1,0 +1,118 @@
+{
+  "dataset": {
+    "name": "UCI Bank Marketing (bank-additional-full)",
+    "rows_in_file": 41188,
+    "rows_in_window": 13498,
+    "sha1": "013ba360aa12",
+    "citation": "Moro, Cortez and Rita (2014)"
+  },
+  "split": {
+    "method": "modeling window = rows from 2009 onward; development = first 80%; hold-out = last 20% (strictly later in time)",
+    "window": "rows 27691..41188 (03/2009 .. 11/2010)",
+    "development": "03/2009 .. 10/2009",
+    "holdout": "10/2009 .. 11/2010",
+    "sizes": {
+      "development": 10798,
+      "holdout": 2700
+    },
+    "positive_rate": {
+      "development": 0.1777,
+      "holdout": 0.5119
+    },
+    "selection": "blocked time-contiguous 4-fold CV inside the development set",
+    "why_2009_onward": "2008 has almost no previous-campaign information (97% 'nonexistent'); including it hides previous_outcome",
+    "why_no_month": "month is confounded with the campaign period in a two-year dataset"
+  },
+  "development_cv": {
+    "oof_pr_auc_by_C": {
+      "0.01": 0.206,
+      "0.1": 0.2264,
+      "1.0": 0.2343,
+      "10.0": 0.2366
+    },
+    "chosen_C": 10.0,
+    "oof_metrics_of_chosen_C": {
+      "pr_auc": 0.2366,
+      "roc_auc": 0.5253,
+      "brier": 0.1441,
+      "calibration_error": 0.0576,
+      "lift_at_10pct": 1.77,
+      "prevalence": 0.1777,
+      "n": 10798
+    }
+  },
+  "calibrator_selection": {
+    "criterion": "4-fold blocked cross-validated Brier on out-of-fold predictions",
+    "cv_brier": {
+      "isotonic": 0.1674,
+      "sigmoid": 0.1532
+    },
+    "chosen": "sigmoid"
+  },
+  "holdout_metrics": {
+    "constant_prevalence_baseline": {
+      "pr_auc": 0.5119,
+      "roc_auc": 0.5,
+      "brier": 0.3615,
+      "calibration_error": 0.3341,
+      "lift_at_10pct": 0.92,
+      "prevalence": 0.5119,
+      "n": 2700
+    },
+    "logistic_regression_uncalibrated": {
+      "pr_auc": 0.6805,
+      "roc_auc": 0.6817,
+      "brier": 0.2758,
+      "calibration_error": 0.2334,
+      "lift_at_10pct": 1.6,
+      "prevalence": 0.5119,
+      "n": 2700
+    },
+    "logistic_regression_isotonic": {
+      "pr_auc": 0.6485,
+      "roc_auc": 0.6754,
+      "brier": 0.2762,
+      "calibration_error": 0.2252,
+      "lift_at_10pct": 1.53,
+      "prevalence": 0.5119,
+      "n": 2700
+    },
+    "logistic_regression_sigmoid": {
+      "pr_auc": 0.6805,
+      "roc_auc": 0.6817,
+      "brier": 0.3119,
+      "calibration_error": 0.2884,
+      "lift_at_10pct": 1.6,
+      "prevalence": 0.5119,
+      "n": 2700
+    },
+    "logistic_regression_calibrated_SHIPPED": {
+      "pr_auc": 0.6805,
+      "roc_auc": 0.6817,
+      "brier": 0.3119,
+      "calibration_error": 0.2884,
+      "lift_at_10pct": 1.6,
+      "prevalence": 0.5119,
+      "n": 2700
+    },
+    "hist_gradient_boosting_challenger": {
+      "pr_auc": 0.6605,
+      "roc_auc": 0.6762,
+      "brier": 0.2819,
+      "calibration_error": 0.2444,
+      "lift_at_10pct": 1.41,
+      "prevalence": 0.5119,
+      "n": 2700
+    },
+    "ablation_logistic_regression_WITH_month": {
+      "pr_auc": 0.6668,
+      "roc_auc": 0.6481,
+      "brier": 0.2493,
+      "calibration_error": 0.1343,
+      "lift_at_10pct": 1.54,
+      "prevalence": 0.5119,
+      "n": 2700
+    }
+  },
+  "drift_note": "The positive rate rises from 17.8% (development) to 51.2% (hold-out): the data is not stationary, so a calibration learned on earlier periods does not fully transfer to a later one."
+}

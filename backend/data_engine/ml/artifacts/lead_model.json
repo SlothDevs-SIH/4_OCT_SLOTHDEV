@@ -1,0 +1,121 @@
+{
+  "model_id": "lead_conversion_v1",
+  "version": 1,
+  "features": [
+    "previous_outcome=failure",
+    "previous_outcome=success",
+    "prior_contacts",
+    "never_contacted",
+    "days_since_last_contact",
+    "contacts_this_campaign"
+  ],
+  "scaler": {
+    "prior_contacts": {
+      "mean": 0.34534172994999074,
+      "std": 0.5465225134066778
+    },
+    "days_since_last_contact": {
+      "mean": 0.2947768105204667,
+      "std": 1.4872653667627118
+    },
+    "contacts_this_campaign": {
+      "mean": 2.1231709575847377,
+      "std": 1.625362245415246
+    }
+  },
+  "coef": [
+    -0.683869,
+    -0.194246,
+    0.057684,
+    -1.852317,
+    -0.044509,
+    -0.220599
+  ],
+  "intercept": 0.327909,
+  "calibration": {
+    "method": "sigmoid",
+    "a": 0.504702,
+    "b": -0.740666
+  },
+  "reference": {
+    "previous_outcome": "nonexistent",
+    "prior_contacts": 0,
+    "days_since_last_contact": 999,
+    "contacts_this_campaign": 2
+  },
+  "prevalence_train": 0.1777,
+  "model_card": {
+    "model_id": "lead_conversion_v1",
+    "placeholder": false,
+    "dataset": "UCI Bank Marketing (bank-additional-full), used standalone",
+    "excluded_features": [
+      "duration",
+      "job",
+      "marital",
+      "education",
+      "default",
+      "housing",
+      "loan",
+      "contact",
+      "day_of_week",
+      "age",
+      "month",
+      "emp.var.rate",
+      "cons.price.idx",
+      "cons.conf.idx",
+      "euribor3m",
+      "nr.employed"
+    ],
+    "excluded_reasons": {
+      "duration": "known only after the call: leakage",
+      "job": "banking-specific",
+      "marital": "banking-specific",
+      "education": "banking-specific",
+      "default": "banking-specific",
+      "housing": "banking-specific",
+      "loan": "banking-specific",
+      "contact": "no equivalent on a skincare lead",
+      "day_of_week": "bank data has weekdays only; leads arrive on weekends too",
+      "age": "not collected on leads, and not an actionable factor",
+      "month": "confounded with the campaign period in a two-year dataset; does not generalise",
+      "emp.var.rate": "macro indicator for Portugal",
+      "cons.price.idx": "macro indicator for Portugal",
+      "cons.conf.idx": "macro indicator for Portugal",
+      "euribor3m": "macro indicator for Portugal",
+      "nr.employed": "macro indicator for Portugal"
+    },
+    "shared_feature_schema": [
+      "previous_outcome",
+      "prior_contacts",
+      "days_since_last_contact",
+      "contacts_this_campaign"
+    ],
+    "split": "modeling window from 2009 onward; chronological hold-out = last 20% untouched; selection by blocked time-contiguous cross-validation in the first 80%",
+    "baseline_model": "logistic_regression",
+    "challenger_model": "hist_gradient_boosting",
+    "selected": "logistic_regression",
+    "calibration": "sigmoid (fitted on out-of-fold predictions; chosen by cross-validated Brier)",
+    "metrics": {
+      "pr_auc": 0.6805,
+      "roc_auc": 0.6817,
+      "brier": 0.3119,
+      "lift_at_10pct": 1.6,
+      "calibration_error": 0.2884,
+      "prevalence": 0.5119
+    },
+    "evaluated_on": "held-out last 20% of the 2009+ window (n=2700, 10/2009 .. 11/2010)",
+    "comparison": {
+      "shipped_pr_auc": 0.6805,
+      "challenger_pr_auc": 0.6605,
+      "constant_baseline_pr_auc": 0.5119
+    },
+    "caveats": [
+      "Trained on a public bank telemarketing dataset, not on Aarohi Skin data",
+      "Scores on demo leads use the shared feature schema only (4 inputs); banking fields are not available on a lead",
+      "Probabilities are NOT calibrated to Aarohi Skin: they carry the bank data's base rates. Use them to RANK leads; absolute values are illustrative",
+      "The dataset is not stationary: the positive rate was 17.8% in the development period and 51.2% in the hold-out period",
+      "Month is excluded on purpose (confounded with the campaign period); 2008 data is excluded because it has no previous-campaign information",
+      "Association, not causation: probabilities rank leads, they do not prove that contacting a lead changes the outcome"
+    ]
+  }
+}

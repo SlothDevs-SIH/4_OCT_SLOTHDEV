@@ -96,7 +96,7 @@ A transparent projection of next month's orders with a **range**: the recent wee
 
 ## 7. Market context
 
-A context module turns an event calendar into demand windows. **Built:** the F1 race calendar (2025 and 2026) and a measured page-view uplift (race weekends lift F1 interest about 2.0 times), used for the Box Box case. **Planned:** an India festival and holiday calendar for businesses that are not about F1. The interface is the same for any calendar (`market_context`: race or event weekends in a range, the next event, the measured uplift if there is one).
+A context module turns an event calendar into demand windows. **Built:** the F1 race calendar (2025 and 2026) and a measured page-view uplift (race weekends lift F1 interest about 2.0 times), used for the Box Box case. **Built:** an India festival and holiday calendar (python-holidays snapshot, 7-day build-up windows) for businesses that are not about F1; it has **no measured uplift**, so the response says so. The interface is the same for any calendar (`market_context`: race or event weekends in a range, the next event, the measured uplift if there is one).
 
 ## 8. Tasks and status
 
@@ -104,20 +104,24 @@ A context module turns an event calendar into demand windows. **Built:** the F1 
 
 | # | Task | Reuse | Status |
 |---|---|---|---|
-| 1 | **Contract v2** with Ayush (facts, lead, projection, context, weekly snapshots) | – | S3, first |
-| 2 | **Generated demo businesses** (Box Box and a home baker): about 14 weeks, about 240 orders each, calibrated on public data, scenario assumptions listed (DATASET.md section 4), deterministic, `synthetic: true` | Generator structure, determinism tests | S3 |
-| 3 | **Intake**: orders, costs, insights through the import pipeline; customer-source field; pseudonymisation | Import pipeline (built, 93 tests) | S3 |
-| 4 | **Profile with provenance** and the short interview form | – | S3 |
-| 5 | **Facts** for the five bottlenecks and the main measure | KPI registry, point-in-time rule, order metrics | S3 |
-| 6 | **Leads**: record, intent labelling (LLM, validator, cache, fallback), points, groups, ranking, disqualification by reason | Bank Marketing model as the challenger | S3 |
-| 7 | **Weekly snapshots** (weeks 1 to 4) including the scripted replay; **weekly lead learning** report | Point-in-time design | S4 |
-| 8 | **Projection** with a range | – | S4 |
-| 9 | **Context modules**: F1 (built), India festival calendar | F1 modules (built) | S4 |
-| 10 | `public.py` in-process interface returns the new outputs; tests | Existing interface | S4 |
+| 1 | **Contract v2** with Ayush (facts, lead, projection, context, weekly snapshots) | – | S3, first; **draft written, needs Ayush's OK** |
+| 2 | **Generated demo businesses** (Box Box and a home baker): about 14 weeks, about 240 orders each, calibrated on public data, scenario assumptions listed (DATASET.md section 4), deterministic, `synthetic: true` | Generator structure, determinism tests | **Built, tested** |
+| 3 | **Intake**: orders, costs, insights through the import pipeline; customer-source field; pseudonymisation | Import pipeline (built, 93 tests) | **Built, tested** |
+| 4 | **Profile with provenance** and the short interview form | – | **Built, tested** |
+| 5 | **Facts** for the five bottlenecks and the main measure | KPI registry, point-in-time rule, order metrics | **Built, tested** |
+| 6 | **Leads**: record, intent labelling (LLM, validator, cache, fallback), points, groups, ranking, disqualification by reason | Bank Marketing model as the challenger | **Built, tested** (rules labelling; live LLM provider not wired) |
+| 7 | **Weekly snapshots** (weeks 1 to 4) including the scripted replay; **weekly lead learning** report | Point-in-time design | **Built, tested** |
+| 8 | **Projection** with a range | – | **Built, tested** |
+| 9 | **Context modules**: F1 (built), India festival calendar | F1 modules (built) | **Built, tested** |
+| 10 | `public.py` in-process interface returns the new outputs; tests | Existing interface | **Built, tested** |
 
 ## 9. Built and tested already (public data and shared code)
 
-93 tests pass. Built: the import pipeline (mapping, repair, quarantine, quality badge); order metrics reused on every order list (repeat share, days between orders, concentration); profiles of Olist, Online Retail II and Online Shoppers; the F1 calendar and page-view uplift; the Bank Marketing lead model. See `GET /api/v1/public-data` and `GET /api/v1/market-context`.
+**183 tests pass** (`python -m pytest backend/data_engine`). Built (public data and shared code): the import pipeline (mapping, repair, quarantine, quality badge); order metrics reused on every order list (repeat share, days between orders, concentration); profiles of Olist, Online Retail II and Online Shoppers; the F1 calendar and page-view uplift; the Bank Marketing lead model. See `GET /api/v1/public-data` and `GET /api/v1/market-context`.
+
+**Also built (the home-business engine, `backend/data_engine/homebiz/` and `routes_v2.py`):** two generated demo businesses with a deliberately messy orders sheet that goes through the real import; profile and data card; 23 facts per weekly snapshot (the four by-source facts are `f_orders_by_source_friend`, `_friend_of_friend`, `_stranger`, `_unknown`; every fact carries `bottleneck`, `direction` and `origin`); lead scoring that reproduces the design document's worked examples (A 75, B 50, C 35, C later 15, D 15, E disqualified); pasted-chat intake with phone, e-mail and @handle redaction; weekly learning report; next-month projection (demand = orders + turned away, then capped by capacity). **Fixtures:** `python -m backend.data_engine.devtools.export_v2_fixtures` writes the real output for both businesses, weeks 1 to 4, in the contract v2 file layout (`contracts/fixtures/v2_engine/`; `--out contracts/fixtures/v2` replaces the stand-ins).
+
+**Known limits:** screenshots, voice and a live LLM provider are not built (rules fallback only; `register_provider` is the hook); businesses created from the form live in memory (no Supabase persistence yet); a sheet written entirely in dd/mm/yyyy is counted as fully "repaired" and gets a low quality badge (documented importer rule, to be softened).
 
 ## 10. Data rules (honesty)
 

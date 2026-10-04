@@ -1,0 +1,438 @@
+{
+ "season": 2025,
+ "source": "Jolpica-F1 (Ergast API successor), https://api.jolpi.ca",
+ "races": [
+  {
+   "season": 2025,
+   "round": 1,
+   "name": "Australian Grand Prix",
+   "circuit": "Albert Park Grand Prix Circuit",
+   "country": "Australia",
+   "locality": "Melbourne",
+   "race_date": "2025-03-16",
+   "weekend_start": "2025-03-14",
+   "weekend_end": "2025-03-16",
+   "sessions": {
+    "FirstPractice": "2025-03-14",
+    "SecondPractice": "2025-03-14",
+    "ThirdPractice": "2025-03-15",
+    "Qualifying": "2025-03-15"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 2,
+   "name": "Chinese Grand Prix",
+   "circuit": "Shanghai International Circuit",
+   "country": "China",
+   "locality": "Shanghai",
+   "race_date": "2025-03-23",
+   "weekend_start": "2025-03-21",
+   "weekend_end": "2025-03-23",
+   "sessions": {
+    "FirstPractice": "2025-03-21",
+    "SprintQualifying": "2025-03-21",
+    "Sprint": "2025-03-22",
+    "Qualifying": "2025-03-22"
+   },
+   "sprint_weekend": true
+  },
+  {
+   "season": 2025,
+   "round": 3,
+   "name": "Japanese Grand Prix",
+   "circuit": "Suzuka Circuit",
+   "country": "Japan",
+   "locality": "Suzuka",
+   "race_date": "2025-04-06",
+   "weekend_start": "2025-04-04",
+   "weekend_end": "2025-04-06",
+   "sessions": {
+    "FirstPractice": "2025-04-04",
+    "SecondPractice": "2025-04-04",
+    "ThirdPractice": "2025-04-05",
+    "Qualifying": "2025-04-05"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 4,
+   "name": "Bahrain Grand Prix",
+   "circuit": "Bahrain International Circuit",
+   "country": "Bahrain",
+   "locality": "Sakhir",
+   "race_date": "2025-04-13",
+   "weekend_start": "2025-04-11",
+   "weekend_end": "2025-04-13",
+   "sessions": {
+    "FirstPractice": "2025-04-11",
+    "SecondPractice": "2025-04-11",
+    "ThirdPractice": "2025-04-12",
+    "Qualifying": "2025-04-12"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 5,
+   "name": "Saudi Arabian Grand Prix",
+   "circuit": "Jeddah Corniche Circuit",
+   "country": "Saudi Arabia",
+   "locality": "Jeddah",
+   "race_date": "2025-04-20",
+   "weekend_start": "2025-04-18",
+   "weekend_end": "2025-04-20",
+   "sessions": {
+    "FirstPractice": "2025-04-18",
+    "SecondPractice": "2025-04-18",
+    "ThirdPractice": "2025-04-19",
+    "Qualifying": "2025-04-19"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 6,
+   "name": "Miami Grand Prix",
+   "circuit": "Miami International Autodrome",
+   "country": "USA",
+   "locality": "Miami",
+   "race_date": "2025-05-04",
+   "weekend_start": "2025-05-02",
+   "weekend_end": "2025-05-04",
+   "sessions": {
+    "FirstPractice": "2025-05-02",
+    "SprintQualifying": "2025-05-02",
+    "Sprint": "2025-05-03",
+    "Qualifying": "2025-05-03"
+   },
+   "sprint_weekend": true
+  },
+  {
+   "season": 2025,
+   "round": 7,
+   "name": "Emilia Romagna Grand Prix",
+   "circuit": "Autodromo Enzo e Dino Ferrari",
+   "country": "Italy",
+   "locality": "Imola",
+   "race_date": "2025-05-18",
+   "weekend_start": "2025-05-16",
+   "weekend_end": "2025-05-18",
+   "sessions": {
+    "FirstPractice": "2025-05-16",
+    "SecondPractice": "2025-05-16",
+    "ThirdPractice": "2025-05-17",
+    "Qualifying": "2025-05-17"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 8,
+   "name": "Monaco Grand Prix",
+   "circuit": "Circuit de Monaco",
+   "country": "Monaco",
+   "locality": "Monte Carlo",
+   "race_date": "2025-05-25",
+   "weekend_start": "2025-05-23",
+   "weekend_end": "2025-05-25",
+   "sessions": {
+    "FirstPractice": "2025-05-23",
+    "SecondPractice": "2025-05-23",
+    "ThirdPractice": "2025-05-24",
+    "Qualifying": "2025-05-24"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 9,
+   "name": "Spanish Grand Prix",
+   "circuit": "Circuit de Barcelona-Catalunya",
+   "country": "Spain",
+   "locality": "Barcelona",
+   "race_date": "2025-06-01",
+   "weekend_start": "2025-05-30",
+   "weekend_end": "2025-06-01",
+   "sessions": {
+    "FirstPractice": "2025-05-30",
+    "SecondPractice": "2025-05-30",
+    "ThirdPractice": "2025-05-31",
+    "Qualifying": "2025-05-31"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 10,
+   "name": "Canadian Grand Prix",
+   "circuit": "Circuit Gilles Villeneuve",
+   "country": "Canada",
+   "locality": "Montreal",
+   "race_date": "2025-06-15",
+   "weekend_start": "2025-06-13",
+   "weekend_end": "2025-06-15",
+   "sessions": {
+    "FirstPractice": "2025-06-13",
+    "SecondPractice": "2025-06-13",
+    "ThirdPractice": "2025-06-14",
+    "Qualifying": "2025-06-14"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 11,
+   "name": "Austrian Grand Prix",
+   "circuit": "Red Bull Ring",
+   "country": "Austria",
+   "locality": "Spielberg",
+   "race_date": "2025-06-29",
+   "weekend_start": "2025-06-27",
+   "weekend_end": "2025-06-29",
+   "sessions": {
+    "FirstPractice": "2025-06-27",
+    "SecondPractice": "2025-06-27",
+    "ThirdPractice": "2025-06-28",
+    "Qualifying": "2025-06-28"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 12,
+   "name": "British Grand Prix",
+   "circuit": "Silverstone Circuit",
+   "country": "UK",
+   "locality": "Silverstone",
+   "race_date": "2025-07-06",
+   "weekend_start": "2025-07-04",
+   "weekend_end": "2025-07-06",
+   "sessions": {
+    "FirstPractice": "2025-07-04",
+    "SecondPractice": "2025-07-04",
+    "ThirdPractice": "2025-07-05",
+    "Qualifying": "2025-07-05"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 13,
+   "name": "Belgian Grand Prix",
+   "circuit": "Circuit de Spa-Francorchamps",
+   "country": "Belgium",
+   "locality": "Spa",
+   "race_date": "2025-07-27",
+   "weekend_start": "2025-07-25",
+   "weekend_end": "2025-07-27",
+   "sessions": {
+    "FirstPractice": "2025-07-25",
+    "SprintQualifying": "2025-07-25",
+    "Sprint": "2025-07-26",
+    "Qualifying": "2025-07-26"
+   },
+   "sprint_weekend": true
+  },
+  {
+   "season": 2025,
+   "round": 14,
+   "name": "Hungarian Grand Prix",
+   "circuit": "Hungaroring",
+   "country": "Hungary",
+   "locality": "Budapest",
+   "race_date": "2025-08-03",
+   "weekend_start": "2025-08-01",
+   "weekend_end": "2025-08-03",
+   "sessions": {
+    "FirstPractice": "2025-08-01",
+    "SecondPractice": "2025-08-01",
+    "ThirdPractice": "2025-08-02",
+    "Qualifying": "2025-08-02"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 15,
+   "name": "Dutch Grand Prix",
+   "circuit": "Circuit Park Zandvoort",
+   "country": "Netherlands",
+   "locality": "Zandvoort",
+   "race_date": "2025-08-31",
+   "weekend_start": "2025-08-29",
+   "weekend_end": "2025-08-31",
+   "sessions": {
+    "FirstPractice": "2025-08-29",
+    "SecondPractice": "2025-08-29",
+    "ThirdPractice": "2025-08-30",
+    "Qualifying": "2025-08-30"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 16,
+   "name": "Italian Grand Prix",
+   "circuit": "Autodromo Nazionale di Monza",
+   "country": "Italy",
+   "locality": "Monza",
+   "race_date": "2025-09-07",
+   "weekend_start": "2025-09-05",
+   "weekend_end": "2025-09-07",
+   "sessions": {
+    "FirstPractice": "2025-09-05",
+    "SecondPractice": "2025-09-05",
+    "ThirdPractice": "2025-09-06",
+    "Qualifying": "2025-09-06"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 17,
+   "name": "Azerbaijan Grand Prix",
+   "circuit": "Baku City Circuit",
+   "country": "Azerbaijan",
+   "locality": "Baku",
+   "race_date": "2025-09-21",
+   "weekend_start": "2025-09-19",
+   "weekend_end": "2025-09-21",
+   "sessions": {
+    "FirstPractice": "2025-09-19",
+    "SecondPractice": "2025-09-19",
+    "ThirdPractice": "2025-09-20",
+    "Qualifying": "2025-09-20"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 18,
+   "name": "Singapore Grand Prix",
+   "circuit": "Marina Bay Street Circuit",
+   "country": "Singapore",
+   "locality": "Marina Bay",
+   "race_date": "2025-10-05",
+   "weekend_start": "2025-10-03",
+   "weekend_end": "2025-10-05",
+   "sessions": {
+    "FirstPractice": "2025-10-03",
+    "SecondPractice": "2025-10-03",
+    "ThirdPractice": "2025-10-04",
+    "Qualifying": "2025-10-04"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 19,
+   "name": "United States Grand Prix",
+   "circuit": "Circuit of the Americas",
+   "country": "USA",
+   "locality": "Austin",
+   "race_date": "2025-10-19",
+   "weekend_start": "2025-10-17",
+   "weekend_end": "2025-10-19",
+   "sessions": {
+    "FirstPractice": "2025-10-17",
+    "SprintQualifying": "2025-10-17",
+    "Sprint": "2025-10-18",
+    "Qualifying": "2025-10-18"
+   },
+   "sprint_weekend": true
+  },
+  {
+   "season": 2025,
+   "round": 20,
+   "name": "Mexico City Grand Prix",
+   "circuit": "Aut\u00f3dromo Hermanos Rodr\u00edguez",
+   "country": "Mexico",
+   "locality": "Mexico City",
+   "race_date": "2025-10-26",
+   "weekend_start": "2025-10-24",
+   "weekend_end": "2025-10-26",
+   "sessions": {
+    "FirstPractice": "2025-10-24",
+    "SecondPractice": "2025-10-24",
+    "ThirdPractice": "2025-10-25",
+    "Qualifying": "2025-10-25"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 21,
+   "name": "S\u00e3o Paulo Grand Prix",
+   "circuit": "Aut\u00f3dromo Jos\u00e9 Carlos Pace",
+   "country": "Brazil",
+   "locality": "S\u00e3o Paulo",
+   "race_date": "2025-11-09",
+   "weekend_start": "2025-11-07",
+   "weekend_end": "2025-11-09",
+   "sessions": {
+    "FirstPractice": "2025-11-07",
+    "SprintQualifying": "2025-11-07",
+    "Sprint": "2025-11-08",
+    "Qualifying": "2025-11-08"
+   },
+   "sprint_weekend": true
+  },
+  {
+   "season": 2025,
+   "round": 22,
+   "name": "Las Vegas Grand Prix",
+   "circuit": "Las Vegas Strip Street Circuit",
+   "country": "USA",
+   "locality": "Las Vegas",
+   "race_date": "2025-11-23",
+   "weekend_start": "2025-11-21",
+   "weekend_end": "2025-11-23",
+   "sessions": {
+    "FirstPractice": "2025-11-21",
+    "SecondPractice": "2025-11-21",
+    "ThirdPractice": "2025-11-22",
+    "Qualifying": "2025-11-22"
+   },
+   "sprint_weekend": false
+  },
+  {
+   "season": 2025,
+   "round": 23,
+   "name": "Qatar Grand Prix",
+   "circuit": "Lusail International Circuit",
+   "country": "Qatar",
+   "locality": "Lusail",
+   "race_date": "2025-11-30",
+   "weekend_start": "2025-11-28",
+   "weekend_end": "2025-11-30",
+   "sessions": {
+    "FirstPractice": "2025-11-28",
+    "SprintQualifying": "2025-11-28",
+    "Sprint": "2025-11-29",
+    "Qualifying": "2025-11-29"
+   },
+   "sprint_weekend": true
+  },
+  {
+   "season": 2025,
+   "round": 24,
+   "name": "Abu Dhabi Grand Prix",
+   "circuit": "Yas Marina Circuit",
+   "country": "UAE",
+   "locality": "Abu Dhabi",
+   "race_date": "2025-12-07",
+   "weekend_start": "2025-12-05",
+   "weekend_end": "2025-12-07",
+   "sessions": {
+    "FirstPractice": "2025-12-05",
+    "SecondPractice": "2025-12-05",
+    "ThirdPractice": "2025-12-06",
+    "Qualifying": "2025-12-06"
+   },
+   "sprint_weekend": false
+  }
+ ]
+}
