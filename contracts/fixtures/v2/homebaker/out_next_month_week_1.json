@@ -1,0 +1,67 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_1",
+  "estimate": true,
+  "synthetic": true,
+  "status": "ok",
+  "month": {
+    "from": "2026-11-01",
+    "to": "2026-11-30"
+  },
+  "orders": {
+    "low": 89,
+    "expected": 105,
+    "high": 121
+  },
+  "basis": {
+    "weeks_used": 8,
+    "weekly_orders": [
+      17,
+      18,
+      17,
+      16,
+      18,
+      19,
+      18,
+      17
+    ],
+    "trend_per_week": 0.1,
+    "context_factor": 1.35,
+    "context_source": "india_festivals: Diwali on 2026-11-08; a +35% gifting effect is a stand-in assumption",
+    "method": "recent weekly average plus trend, times a context factor; range from week-to-week variation, at least +/-15%"
+  },
+  "confidence": "estimate",
+  "capacity_month": 86,
+  "limited_by_capacity": true,
+  "limiting_bottleneck": "capacity",
+  "primary_bottleneck": "reach",
+  "demand_windows": [
+    {
+      "name": "Diwali",
+      "from": "2026-11-01",
+      "to": "2026-11-08"
+    }
+  ],
+  "text": "Next month (2026-11-01 to 2026-11-30) is projected at 89 to 121 orders, most likely about 105. This is an estimate. It uses your last 8 weeks (trend +0.1 orders a week) and a context factor of 1.35. Demand windows that month: Diwali (2026-11-01 to 2026-11-08). That is more than you can make: about 86 orders at 20 a week. Capacity is what limits next month, so plan batches or pre-orders now.",
+  "standin": true,
+  "explanation": {
+    "text": "Next month (2026-11-01 to 2026-11-30) is projected at 89 to 121 orders, most likely about 105. This is an estimate. It uses your last 8 weeks (trend +0.1 orders a week) and a context factor of 1.35. Demand windows that month: Diwali (2026-11-01 to 2026-11-08). That is more than you can make: about 86 orders at 20 a week. Capacity is what limits next month, so plan batches or pre-orders now.",
+    "evidence_ids": [
+      "f_stranger_share",
+      "f_orders_by_source_stranger"
+    ],
+    "llm": {
+      "used": false,
+      "cached": false,
+      "provider": null,
+      "model": null,
+      "fallback": true,
+      "validator": {
+        "passed": false,
+        "retries": 0,
+        "errors": []
+      },
+      "prompt_version": "v1"
+    }
+  }
+}

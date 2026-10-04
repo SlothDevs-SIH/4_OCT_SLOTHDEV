@@ -1,0 +1,162 @@
+{
+  "business_id": "biz_boxbox",
+  "name": "Box Box",
+  "case_study": "Box Box",
+  "synthetic": true,
+  "category": "F1 merchandise",
+  "city": "Pune",
+  "ships_to": "India",
+  "topics": [
+    "f1",
+    "motorsport"
+  ],
+  "products": [
+    {
+      "name": "Monza Tee",
+      "category": "t-shirt",
+      "price": 799,
+      "unit_cost": 430,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
+    },
+    {
+      "name": "Pit Wall Cap",
+      "category": "cap",
+      "price": 599,
+      "unit_cost": 310
+    },
+    {
+      "name": "Lights Out Poster",
+      "category": "poster",
+      "price": 299,
+      "unit_cost": 120
+    },
+    {
+      "name": "Ferrari Red Tribute Tee",
+      "category": "t-shirt",
+      "price": 849,
+      "unit_cost": 445,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
+    },
+    {
+      "name": "Hamilton 44 Keychain",
+      "category": "accessory",
+      "price": 199,
+      "unit_cost": 70
+    }
+  ],
+  "channels": [
+    "instagram",
+    "whatsapp"
+  ],
+  "payment": "UPI",
+  "order_link": "link in bio",
+  "team_size": 1,
+  "weekly_hours": 12,
+  "growth_minutes_per_week": 180,
+  "ad_budget_inr": 0,
+  "capacity_orders_per_week": 25,
+  "goal": {
+    "statement": "Get more orders from people outside my circle",
+    "horizon_days": 30
+  },
+  "constraints": {
+    "forbidden_actions": [
+      "paid_ads"
+    ],
+    "approval_required_for": [
+      "customer_outreach",
+      "public_post",
+      "price_change",
+      "partner_collab"
+    ]
+  },
+  "context_feeds": [
+    "f1_calendar"
+  ],
+  "reach_candidates": [
+    {
+      "partner_id": "rp_bb_1",
+      "name": "Pune F1 Fans (fan page)",
+      "type": "fan_page",
+      "topics": [
+        "f1"
+      ],
+      "city": "Pune",
+      "followers": 8200,
+      "avg_comments_per_post": 46,
+      "avg_shares_per_post": 30,
+      "cost_inr": 0
+    },
+    {
+      "partner_id": "rp_bb_2",
+      "name": "Grid Sketches (F1 illustrator)",
+      "type": "creator",
+      "topics": [
+        "f1",
+        "art"
+      ],
+      "city": "Mumbai",
+      "followers": 12000,
+      "avg_comments_per_post": 80,
+      "avg_shares_per_post": 40,
+      "cost_inr": 0
+    },
+    {
+      "partner_id": "rp_bb_3",
+      "name": "Campus Motorsport Club (college community)",
+      "type": "community",
+      "topics": [
+        "motorsport"
+      ],
+      "city": "Pune",
+      "followers": 1900,
+      "avg_comments_per_post": 22,
+      "avg_shares_per_post": 18,
+      "cost_inr": 0
+    },
+    {
+      "partner_id": "rp_bb_4",
+      "name": "Lights Out India (national fan page)",
+      "type": "fan_page",
+      "topics": [
+        "f1"
+      ],
+      "city": null,
+      "followers": 41000,
+      "avg_comments_per_post": 35,
+      "avg_shares_per_post": 12,
+      "cost_inr": 1500
+    },
+    {
+      "partner_id": "rp_bb_5",
+      "name": "Pune Streetwear Collective (community)",
+      "type": "community",
+      "topics": [
+        "streetwear"
+      ],
+      "city": "Pune",
+      "followers": 5000,
+      "avg_comments_per_post": 10,
+      "avg_shares_per_post": 5,
+      "cost_inr": 0
+    }
+  ],
+  "provenance": {
+    "weekly_hours": "estimate",
+    "growth_minutes_per_week": "estimate",
+    "capacity_orders_per_week": "estimate",
+    "unit_cost": "exact",
+    "ad_budget_inr": "exact"
+  },
+  "week": "week_1"
+}

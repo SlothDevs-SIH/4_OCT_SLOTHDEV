@@ -1,0 +1,20 @@
+{
+  "business_id": "biz_boxbox",
+  "synthetic": true,
+  "overall": {
+    "confidence": 0.84,
+    "badge": "medium",
+    "summary": "Orders load cleanly after repairs; 1 in 17 orders has no friend/stranger tag."
+  },
+  "imports": [
+    {
+      "import_id": "imp_boxbox_orders",
+      "kind": "orders",
+      "rows_total": 243,
+      "rows_loaded": 234,
+      "rows_repaired": 21,
+      "rows_quarantined": 6,
+      "duplicates_merged": 3
+    }
+  ]
+}

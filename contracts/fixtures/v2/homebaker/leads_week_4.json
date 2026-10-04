@@ -1,0 +1,403 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_4",
+  "as_of": "2026-10-25",
+  "synthetic": true,
+  "points_version": "v1",
+  "groups": {
+    "hot": "50+",
+    "warm": "20-49",
+    "cold": "under 20",
+    "disqualified": "cannot deliver"
+  },
+  "leads": [
+    {
+      "lead_id": "lead_hb_08",
+      "handle_ref": "wa_ref_5120",
+      "source": "whatsapp",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-17"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-17"
+        }
+      ],
+      "asked_for": {
+        "product": "Diwali Hamper",
+        "size": "20 boxes",
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "Can you do 20 hampers by 5 Nov?",
+      "deliverable": true,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 50,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-10-17",
+      "synthetic": true,
+      "rank": 1
+    },
+    {
+      "lead_id": "lead_hb_09",
+      "handle_ref": "wa_ref_6011",
+      "source": "whatsapp",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-24"
+        }
+      ],
+      "asked_for": {
+        "product": "Brownie Box",
+        "size": null,
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "Brownie box for Sunday?",
+      "deliverable": true,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 40,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-10-24",
+      "synthetic": true,
+      "rank": 2
+    },
+    {
+      "lead_id": "lead_hb_06",
+      "handle_ref": "ig_user_0d0d",
+      "source": "comment",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "followed_or_liked_once",
+          "date": "2026-09-30"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "Yum",
+      "deliverable": true,
+      "intents": [
+        "general_praise"
+      ],
+      "score": 5,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "followed_or_liked_once",
+          "points": 5
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-09-30",
+      "synthetic": true,
+      "rank": 3
+    },
+    {
+      "lead_id": "lead_hb_01",
+      "handle_ref": "wa_ref_2201",
+      "source": "whatsapp",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-04"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-04"
+        }
+      ],
+      "asked_for": {
+        "product": "Celebration Cake",
+        "size": "1 kg",
+        "design": "eggless",
+        "city": "Pune"
+      },
+      "last_message": "Eggless celebration cake, 1 kg, for Saturday? Price?",
+      "deliverable": true,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 50,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "ordered",
+      "last_activity": "2026-10-04",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_hb_02",
+      "handle_ref": "wa_ref_1180",
+      "source": "whatsapp",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "bought_before",
+          "date": "2026-10-03"
+        },
+        {
+          "type": "replied_to_story",
+          "date": "2026-10-03"
+        }
+      ],
+      "asked_for": {
+        "product": "Brownie Box",
+        "size": null,
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "Brownies again this week?",
+      "deliverable": true,
+      "intents": [
+        "product_interest"
+      ],
+      "score": 50,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "bought_before",
+          "points": 30
+        },
+        {
+          "signal": "replied_to_story",
+          "points": 20
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "ordered",
+      "last_activity": "2026-10-03",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_hb_03",
+      "handle_ref": "wa_ref_3302",
+      "source": "whatsapp",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-02"
+        }
+      ],
+      "asked_for": {
+        "product": "Diwali Hamper",
+        "size": "10 boxes",
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "Price for 10 Diwali hampers for my office?",
+      "deliverable": true,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 40,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "ordered",
+      "last_activity": "2026-10-02",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_hb_04",
+      "handle_ref": "ig_user_b7c1",
+      "source": "comment",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "commented",
+          "date": "2026-10-01"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-01"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-01"
+        }
+      ],
+      "asked_for": {
+        "product": "Cookie Jar",
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "These look so good",
+      "deliverable": true,
+      "intents": [
+        "product_interest"
+      ],
+      "score": 35,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "commented",
+          "points": 10
+        },
+        {
+          "signal": "saved_or_shared",
+          "points": 15
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "ordered",
+      "last_activity": "2026-10-01",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_hb_05",
+      "handle_ref": "wa_ref_9001",
+      "source": "whatsapp",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-03"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-03"
+        }
+      ],
+      "asked_for": {
+        "product": "Celebration Cake",
+        "size": null,
+        "design": null,
+        "city": "Hinjewadi"
+      },
+      "last_message": "Do you deliver a cake to Hinjewadi?",
+      "deliverable": false,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 50,
+      "group": "disqualified",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": "city: Hinjewadi (outside the 8 km delivery area)",
+      "outcome": "not_ordered",
+      "last_activity": "2026-10-03",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_hb_07",
+      "handle_ref": "wa_ref_4410",
+      "source": "whatsapp",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-10"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-10"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-10"
+        }
+      ],
+      "asked_for": {
+        "product": "Diwali Hamper",
+        "size": "4 boxes",
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "Saw you in the parents group. 4 hampers, price?",
+      "deliverable": true,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 65,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "saved_or_shared",
+          "points": 15
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "ordered",
+      "last_activity": "2026-10-10",
+      "synthetic": true,
+      "rank": null
+    }
+  ]
+}

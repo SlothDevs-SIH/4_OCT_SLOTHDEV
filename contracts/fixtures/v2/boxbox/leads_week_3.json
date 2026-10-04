@@ -1,0 +1,768 @@
+{
+  "business_id": "biz_boxbox",
+  "week": "week_3",
+  "as_of": "2026-10-18",
+  "synthetic": true,
+  "points_version": "v1",
+  "groups": {
+    "hot": "50+",
+    "warm": "20-49",
+    "cold": "under 20",
+    "disqualified": "cannot deliver"
+  },
+  "leads": [
+    {
+      "lead_id": "lead_bb_15",
+      "handle_ref": "ig_user_e0b3",
+      "source": "dm",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-17"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-17"
+        }
+      ],
+      "asked_for": {
+        "product": "Pit Wall Cap",
+        "size": null,
+        "design": null,
+        "city": "Nashik"
+      },
+      "last_message": "Cap price with delivery to Nashik?",
+      "deliverable": true,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 50,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-10-17",
+      "synthetic": true,
+      "rank": 1
+    },
+    {
+      "lead_id": "lead_bb_16",
+      "handle_ref": "ig_user_19f4",
+      "source": "story",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "replied_to_story",
+          "date": "2026-10-16"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-16"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-16"
+        }
+      ],
+      "asked_for": {
+        "product": "Monza Tee",
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "Drop when?",
+      "deliverable": true,
+      "intents": [
+        "product_interest"
+      ],
+      "score": 45,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "replied_to_story",
+          "points": 20
+        },
+        {
+          "signal": "saved_or_shared",
+          "points": 15
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-10-16",
+      "synthetic": true,
+      "rank": 2
+    },
+    {
+      "lead_id": "lead_bb_14",
+      "handle_ref": "ig_user_77aa",
+      "source": "comment",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "commented",
+          "date": "2026-10-09"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-09"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-09"
+        }
+      ],
+      "asked_for": {
+        "product": "Lights Out Poster",
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "Need this for my room",
+      "deliverable": true,
+      "intents": [
+        "product_interest"
+      ],
+      "score": 35,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "commented",
+          "points": 10
+        },
+        {
+          "signal": "saved_or_shared",
+          "points": 15
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-10-09",
+      "synthetic": true,
+      "rank": 3
+    },
+    {
+      "lead_id": "lead_bb_03",
+      "handle_ref": "ig_user_9b10",
+      "source": "comment",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "commented",
+          "date": "2026-10-02"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-02"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-02"
+        }
+      ],
+      "asked_for": {
+        "product": "Lights Out Poster",
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "This poster is fire",
+      "deliverable": true,
+      "intents": [
+        "product_interest"
+      ],
+      "score": 35,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "commented",
+          "points": 10
+        },
+        {
+          "signal": "saved_or_shared",
+          "points": 15
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-10-02",
+      "synthetic": true,
+      "rank": 4
+    },
+    {
+      "lead_id": "lead_bb_06",
+      "handle_ref": "ig_user_5e61",
+      "source": "story",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "replied_to_story",
+          "date": "2026-10-01"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-01"
+        }
+      ],
+      "asked_for": {
+        "product": "Ferrari Red Tribute Tee",
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "Need this one",
+      "deliverable": true,
+      "intents": [
+        "product_interest"
+      ],
+      "score": 30,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "replied_to_story",
+          "points": 20
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-10-01",
+      "synthetic": true,
+      "rank": 5
+    },
+    {
+      "lead_id": "lead_bb_10",
+      "handle_ref": "ig_user_3b77",
+      "source": "comment",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-01"
+        },
+        {
+          "type": "commented",
+          "date": "2026-10-01"
+        }
+      ],
+      "asked_for": {
+        "product": "Hamilton 44 Keychain",
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "Saving this for later",
+      "deliverable": true,
+      "intents": [
+        "product_interest"
+      ],
+      "score": 25,
+      "group": "warm",
+      "reasons": [
+        {
+          "signal": "saved_or_shared",
+          "points": 15
+        },
+        {
+          "signal": "commented",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-10-01",
+      "synthetic": true,
+      "rank": 6
+    },
+    {
+      "lead_id": "lead_bb_08",
+      "handle_ref": "ig_user_8d3c",
+      "source": "comment",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "followed_or_liked_once",
+          "date": "2026-09-29"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-09-29"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "Nice",
+      "deliverable": true,
+      "intents": [
+        "general_praise"
+      ],
+      "score": 15,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "followed_or_liked_once",
+          "points": 5
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-09-29",
+      "synthetic": true,
+      "rank": 7
+    },
+    {
+      "lead_id": "lead_bb_07",
+      "handle_ref": "ig_user_2a90",
+      "source": "comment",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "followed_or_liked_once",
+          "date": "2026-09-30"
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "Love the page",
+      "deliverable": true,
+      "intents": [
+        "general_praise"
+      ],
+      "score": 5,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "followed_or_liked_once",
+          "points": 5
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-09-30",
+      "synthetic": true,
+      "rank": 8
+    },
+    {
+      "lead_id": "lead_bb_12",
+      "handle_ref": "ig_user_c1d9",
+      "source": "comment",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "commented",
+          "date": "2026-09-01"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-09-01"
+        },
+        {
+          "type": "inactive_30_days",
+          "date": "2026-09-01"
+        }
+      ],
+      "asked_for": {
+        "product": "Pit Wall Cap",
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "Want this",
+      "deliverable": true,
+      "intents": [
+        "product_interest"
+      ],
+      "score": 5,
+      "group": "cold",
+      "reasons": [
+        {
+          "signal": "commented",
+          "points": 10
+        },
+        {
+          "signal": "saved_or_shared",
+          "points": 15
+        },
+        {
+          "signal": "inactive_30_days",
+          "points": -20
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "open",
+      "last_activity": "2026-09-01",
+      "synthetic": true,
+      "rank": 9
+    },
+    {
+      "lead_id": "lead_bb_01",
+      "handle_ref": "ig_user_7f3a",
+      "source": "dm",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-04"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-04"
+        },
+        {
+          "type": "commented",
+          "date": "2026-10-04"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-04"
+        }
+      ],
+      "asked_for": {
+        "product": "Monza Tee",
+        "size": "L",
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "Is the Monza tee available in L? How much with delivery to Pune?",
+      "deliverable": true,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 75,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "saved_or_shared",
+          "points": 15
+        },
+        {
+          "signal": "commented",
+          "points": 10
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "ordered",
+      "last_activity": "2026-10-04",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_bb_02",
+      "handle_ref": "ig_user_1c22",
+      "source": "story",
+      "relationship": "friend",
+      "signals": [
+        {
+          "type": "bought_before",
+          "date": "2026-10-03"
+        },
+        {
+          "type": "replied_to_story",
+          "date": "2026-10-03"
+        }
+      ],
+      "asked_for": {
+        "product": "Pit Wall Cap",
+        "size": null,
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "When is the cap back in stock?",
+      "deliverable": true,
+      "intents": [
+        "product_interest"
+      ],
+      "score": 50,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "bought_before",
+          "points": 30
+        },
+        {
+          "signal": "replied_to_story",
+          "points": 20
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "ordered",
+      "last_activity": "2026-10-03",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_bb_04",
+      "handle_ref": "ig_user_44d0",
+      "source": "dm",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-03"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-03"
+        }
+      ],
+      "asked_for": {
+        "product": "Monza Tee",
+        "size": "M",
+        "design": null,
+        "city": "Dubai"
+      },
+      "last_message": "Price for the Monza tee with shipping to Dubai?",
+      "deliverable": false,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 50,
+      "group": "disqualified",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": "city: Dubai (ships within India only)",
+      "outcome": "not_ordered",
+      "last_activity": "2026-10-03",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_bb_05",
+      "handle_ref": "wa_ref_0815",
+      "source": "whatsapp",
+      "relationship": "friend_of_friend",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-02"
+        },
+        {
+          "type": "commented",
+          "date": "2026-10-02"
+        }
+      ],
+      "asked_for": {
+        "product": "Lights Out Poster",
+        "size": null,
+        "design": null,
+        "city": "Mumbai"
+      },
+      "last_message": "How much is the poster with delivery to Mumbai?",
+      "deliverable": true,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 50,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "commented",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "ordered",
+      "last_activity": "2026-10-02",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_bb_09",
+      "handle_ref": "ig_user_6f02",
+      "source": "dm",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-03"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-03"
+        }
+      ],
+      "asked_for": {
+        "product": "Monza Tee",
+        "size": "XXL",
+        "design": null,
+        "city": "Bengaluru"
+      },
+      "last_message": "Do you have the Monza tee in XXL?",
+      "deliverable": false,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 50,
+      "group": "disqualified",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": "size: XXL (not made)",
+      "outcome": "not_ordered",
+      "last_activity": "2026-10-03",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_bb_11",
+      "handle_ref": "ig_user_0a4e",
+      "source": "dm",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-04"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-04"
+        }
+      ],
+      "asked_for": {
+        "product": "Monza Tee",
+        "size": "M",
+        "design": "name on the back",
+        "city": "Pune"
+      },
+      "last_message": "Can you print my name on the back? What would it cost?",
+      "deliverable": true,
+      "intents": [
+        "custom_request",
+        "buying_question"
+      ],
+      "score": 50,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "ordered",
+      "last_activity": "2026-10-04",
+      "synthetic": true,
+      "rank": null
+    },
+    {
+      "lead_id": "lead_bb_13",
+      "handle_ref": "ig_user_d4e1",
+      "source": "dm",
+      "relationship": "stranger",
+      "signals": [
+        {
+          "type": "asked_price_size_stock_delivery",
+          "date": "2026-10-10"
+        },
+        {
+          "type": "saved_or_shared",
+          "date": "2026-10-10"
+        },
+        {
+          "type": "stranger",
+          "date": "2026-10-10"
+        }
+      ],
+      "asked_for": {
+        "product": "Monza Tee",
+        "size": "M",
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "Saw your post on the campus motorsport club page. Monza tee in M, price?",
+      "deliverable": true,
+      "intents": [
+        "buying_question"
+      ],
+      "score": 65,
+      "group": "hot",
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "saved_or_shared",
+          "points": 15
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "disqualified_reason": null,
+      "outcome": "ordered",
+      "last_activity": "2026-10-10",
+      "synthetic": true,
+      "rank": null
+    }
+  ]
+}
