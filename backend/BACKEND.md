@@ -125,10 +125,15 @@ Database on Supabase (you run `db/schema.sql` yourself; the AI tooling does not 
 | 1 | Merge `backend-1` and `backend-2` (no conflicts); all tests pass together | **Done** |
 | 2 | `DataClientV2` (`decision_engine/clients/v2.py`): business, facts, leads, projection, market context, data quality from `fixture`, `local` and `http`; the three return identical data for both businesses, weeks 1 to 4 | **Done**, tested |
 | 3 | Gateway runs data_engine routes (`DATA_SOURCE=local uvicorn backend.gateway.main:app`) | **Done** (decision_engine routes mount when `decision_engine/main.py` exists) |
-| 4 | Diagnosis (bottleneck ranking) reads `DataClientV2.get_facts` | Waiting for Ayush |
-| 5 | Actions, eligibility, lead list with drafted replies | Waiting for Ayush |
-| 6 | Weekly follow-up: load week 2, compare, adjust | Waiting for Ayush |
-| 7 | Explanation (LLM with validator) over the real facts | Layer built by Ayush; to be wired to step 4 |
+| 4 | Diagnosis (bottleneck ranking) reads `DataClientV2.get_facts`: Box Box = reach, home baker = capacity | **Done**, tested |
+| 5 | Actions and eligibility (no paid ads without a budget, brand-risk flag, growth-minutes cap), drafts that are never sent, lead list with drafted replies, reach partners | **Done**, tested |
+| 6 | Weekly follow-up on the scripted replay: Box Box stranger orders 1.5 → 2.0 → 3.0 → 3.75 a week; four-week arc at week 4 | **Done**, tested |
+| 7 | Next month explained from backend 1's projection (never recalculated); grounded chat citing fact ids; deterministic text without an LLM key | **Done**, tested |
+| 8 | End-to-end loop through the gateway for both businesses (`backend/gateway/tests/test_e2e_loop.py`), and the two-service layout (decision_engine reading data_engine over HTTP gives the same answers as in-process) | **Done**, tested |
+
+**Run it:** `DATA_SOURCE=local uvicorn backend.gateway.main:app --port 8000` (47 routes, docs at `/docs`). Two services: data_engine on 8001, then `DATA_SOURCE=http DATA_ENGINE_URL=http://localhost:8001 uvicorn backend.decision_engine.main:app --port 8002`.
+
+**Still open (not integration):** live LLM key and cache warm-up; database persistence (both modules keep state in memory); frontend wiring (`fullstack-integration`); deploy configuration.
 
 Fixtures: `contracts/fixtures/v2_engine/` is data_engine's real output (regenerate with `python -m backend.data_engine.devtools.export_v2_fixtures`); `contracts/fixtures/v2/` holds Ayush's stand-ins. `DataClientV2` reads `v2_engine` by default; set `V2_FIXTURE_DIR` to use the stand-ins.
 
