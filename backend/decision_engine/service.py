@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from backend.common.errors import ApiError
+from backend.decision_engine import signals as signal_rules
 from backend.decision_engine import templates
 from backend.decision_engine.clients import DataClient, DataNotFound, DataSourceUnavailable
 from backend.decision_engine.config import Settings
@@ -40,3 +41,31 @@ class Engine:
 
     def intervention_templates(self) -> dict:
         return templates.library()
+
+    # ------------------------------------------------------------- inputs
+
+    def inputs(self, business_id: str) -> dict:
+        """Everything the pipeline reads from data_engine, fetched once per run."""
+        with data_errors():
+            ctx = self.data.get_context(business_id)
+            facts = self.data.get_kpi_facts(business_id)
+            leads = self.data.get_lead_scores(business_id)
+            quality = self.data.get_data_quality(business_id)
+            try:
+                series = self.data.get_kpi_series(business_id)
+            except DataSourceUnavailable:
+                series = None  # anomaly detection is skipped, rules still run
+        snapshot = {"business_id": business_id, "taken_at": utcnow(), "context": ctx,
+                    "fact_ids": [f["fact_id"] for f in facts]}
+        self.store.add_context_snapshot(business_id, snapshot)
+        return {"context": ctx, "facts": facts, "lead_scores": leads, "data_quality": quality,
+                "series": series}
+
+    # ------------------------------------------------------------ signals
+
+    def signals(self, business_id: str, inputs: Optional[dict] = None) -> dict:
+        inp = inputs or self.inputs(business_id)
+        doc = signal_rules.detect(inp["context"], inp["facts"], inp["lead_scores"], inp["series"])
+        doc["generated_at"] = utcnow()
+        self.store.put_signals(business_id, doc)
+        return doc

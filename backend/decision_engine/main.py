@@ -25,6 +25,11 @@ def intervention_templates(engine: Engine = Depends(get_engine)):
     return engine.intervention_templates()
 
 
+@router.get("/businesses/{business_id}/signals")
+def signals(business_id: str, engine: Engine = Depends(get_engine)):
+    return engine.signals(business_id)
+
+
 app = FastAPI(title="decision_engine")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 install_error_handlers(app)
