@@ -65,6 +65,22 @@ def reach_partners(business_id: str, week: str = WEEK, engine: Engine = Depends(
     return engine.reach_partners(business_id, week)
 
 
+class Contacted(BaseModel):
+    lead_id: str
+    reason: str
+
+
+@router.get("/businesses/{business_id}/lead-list")
+def lead_list(business_id: str, week: str = WEEK, engine: Engine = Depends(get_engine)):
+    return engine.lead_list(business_id, week)
+
+
+@router.post("/businesses/{business_id}/lead-list/contacted")
+def lead_contacted(business_id: str, body: Contacted, engine: Engine = Depends(get_engine)):
+    """Record that a Warm lead was messaged for a reason, so it is not suggested again for that reason."""
+    return engine.mark_contacted(business_id, body.lead_id, body.reason)
+
+
 app = FastAPI(title="decision_engine (Catalyst AI)")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 install_error_handlers(app)

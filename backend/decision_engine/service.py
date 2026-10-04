@@ -9,6 +9,7 @@ from backend.common.errors import ApiError
 from backend.decision_engine import actions as advice
 from backend.decision_engine import diagnosis as dx
 from backend.decision_engine import drafts
+from backend.decision_engine import leadlist
 from backend.decision_engine.clients import DataClient, DataClientError, DataNotFound, DataSourceUnavailable
 from backend.decision_engine.clients.data_client import WEEKS
 from backend.decision_engine.config import Settings
@@ -187,3 +188,19 @@ class Engine:
         doc = inp["partners"]
         doc["week"] = week
         return doc
+
+    # ----------------------------------------------------------- lead list
+
+    def lead_list(self, business_id: str, week: str = "week_1") -> dict:
+        inp = self.inputs(business_id, week)
+        with data_errors():
+            leads = self.data.get_leads(business_id, week)
+        week_actions = self.store.actions_for(business_id, week) or self.generate_actions(business_id, week)["actions"]
+        return leadlist.build(leads, inp["business"], week_actions, inp["windows"],
+                              self.store.warm_contacted(business_id))
+
+    def mark_contacted(self, business_id: str, lead_id: str, reason: str) -> dict:
+        if not reason:
+            raise ApiError(422, "invalid_request", "reason is required")
+        self.store.mark_warm_contacted(business_id, lead_id, reason)
+        return {"business_id": business_id, "lead_id": lead_id, "reason": reason, "contacted": True}
