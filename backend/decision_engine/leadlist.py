@@ -21,7 +21,7 @@ from backend.decision_engine.actions import brand_risk, protected_terms_in
 
 WARM_REASONS = {
     "reach_demand_window_drop": ("drop", "a small drop for {event}"),
-    "cap_preorder_drop": ("preorder", "a limited pre-order"),
+    "cap_preorder_drop": ("preorder", "a limited pre-order of {product}"),
     "repeat_reorder_incentive": ("offer", "a small first-order offer"),
 }
 NOTE = "Drafts are previews. Nothing is sent automatically; you copy each reply and send it yourself."
@@ -71,15 +71,17 @@ def hot_reply(lead: dict, business: dict) -> tuple[str, list[str]]:
 
 def warm_message(lead: dict, business: dict, reason_text: str) -> str:
     product = (lead.get("asked_for") or {}).get("product")
-    about = f"the {product}" if product else "our pieces"
+    about = f"the {product}" if product else "what we make"
     return (f"Hi! You liked {about} earlier. We are doing {reason_text} this week; "
             f"want me to keep one for you? Order: {business.get('order_link', 'link in bio')}")
 
 
 def _unmet(reason: str) -> tuple[str, str, str]:
-    """'city: Dubai (ships within India only)' -> ('city', 'Dubai', 'deliver to Dubai')."""
+    """'size: XXL is not available' -> ('size', 'XXL', 'make size XXL');
+    'city: cannot deliver to Jaipur' -> ('city', 'Jaipur', 'deliver to Jaipur')."""
     kind, _, rest = (reason or "other: request").partition(":")
-    value = rest.split("(")[0].strip()
+    value = re.sub(r"^(cannot|can't|do not|don't)\s+(deliver|ship)\s+to\s+|^(not available in|no)\s+", "", rest.strip(), flags=re.I)
+    value = re.sub(r"\s+(is|are)\s+not\s+(available|made|offered).*$|\s*\(.*\)$", "", value, flags=re.I).strip()
     phrase = {"city": f"deliver to {value}", "size": f"make size {value}", "design": f"make {value}"}.get(
         kind.strip(), f"offer {value}")
     return kind.strip(), value, phrase
@@ -94,7 +96,8 @@ def build(leads_doc: dict, business: dict, week_actions: list[dict], windows: li
         if a["action_key"] in WARM_REASONS:
             key, text = WARM_REASONS[a["action_key"]]
             event = windows[0]["name"] if windows else "the next event"
-            reasons_now.append({"key": f"{key}_{a['week']}", "text": text.format(event=event),
+            reasons_now.append({"key": f"{key}_{a['week']}",
+                                "text": text.format(event=event, product=a.get("product_name") or "our best seller"),
                                 "action_id": a["action_id"]})
     groups = defaultdict(list)
     unmet = defaultdict(lambda: defaultdict(int))
