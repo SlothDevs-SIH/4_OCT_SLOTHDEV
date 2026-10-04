@@ -353,7 +353,7 @@
       "action_key": "cap_batch_making",
       "bottleneck": "capacity",
       "title": "Batch your making: one session for the week's top items",
-      "what": "Make the best-selling items in one or two fixed sessions instead of order by order.",
+      "what": "Make the most-asked items in one or two fixed sessions a week instead of order by order, so you can take more orders.",
       "kind": "operations",
       "effort_min": 60,
       "impact": 0.7,
@@ -364,7 +364,7 @@
       "requires_approval": false,
       "approval_reason": null,
       "target": {
-        "fact_id": "f_dispatch_delay_days",
+        "fact_id": "f_orders_turned_away",
         "rule": "to_best"
       },
       "risks": [],

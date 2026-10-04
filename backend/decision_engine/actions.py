@@ -156,9 +156,10 @@ def demand_windows(context: Optional[dict], as_of: str, days: int = WINDOW_DAYS)
             out.append({"name": e["name"], "from": e.get("window_start") or e["date"],
                         "to": e.get("window_end") or e["date"], "kind": e.get("kind", "event")})
     uplift = (context.get("interest_uplift") or {}).get("overall", {}).get("uplift") if context.get("interest_uplift") else None
-    for w in out:
-        w["interest_uplift"] = uplift
-    return sorted(out, key=lambda w: w["from"])
+    unique = {}
+    for w in out:  # data_engine lists race weekends both as race_weekends and as events
+        unique.setdefault((w["name"], w["from"]), dict(w, interest_uplift=uplift))
+    return sorted(unique.values(), key=lambda w: w["from"])
 
 
 # ---------------------------------------------------------------- gate
@@ -219,8 +220,10 @@ def _fill(action: dict, business: dict, data: dict) -> tuple[dict, float, Option
         fit = 1.0 if (date.fromisoformat(w["from"]) - date.fromisoformat(data["as_of"])).days <= 7 else 0.7
     products = sorted(business.get("products", []),
                       key=lambda p: ((p["price"] - (p.get("unit_cost") or 0)) / p["price"]) if p.get("price") else 1)
+    asked = data.get("asked_products") or []
     if products:
-        values["product_name"] = products[0]["name"]
+        # re-pricing: the lowest-margin product; a pre-order drop: the product people ask for most
+        values["product_name"] = asked[0] if (asked and action["bottleneck"] == "capacity") else products[0]["name"]
         values["product_a"] = products[0]["name"]
         values["product_b"] = products[1]["name"] if len(products) > 1 else products[0]["name"]
     return values, round(fit, 3), partner
@@ -242,7 +245,8 @@ def score(action: dict, fit: float, timing: float, minutes: int) -> dict:
                                                 "effort_share": round(share, 3)}}
 
 
-TARGET_LABELS = {"stranger_orders_week": "orders from strangers next week", "lead_to_order_rate": "of interested people ordering",
+TARGET_LABELS = {"stranger_orders_per_week": "orders from strangers a week (4-week average)",
+                 "stranger_orders_week": "orders from strangers a week", "lead_to_order_rate": "of interested people ordering",
                  "margin_pct": "margin after full costs", "repeat_customer_share": "of customers ordering again",
                  "dispatch_delay_days": "days to dispatch", "orders_turned_away": "orders turned away"}
 
@@ -263,7 +267,8 @@ def target_for(action: dict, facts: dict) -> dict:
         text = f"{shown(goal)} {label} or better within 4 weeks (now {shown(v)})"
     elif t["rule"] == "to_best":
         goal = round(f["baseline"], 2)
-        text = f"back to {goal:g} {label}, as in your best weeks (now {v:g})"
+        text = f"{goal:g} {label} or fewer, as in your best weeks (now {v:g})" if f.get("better") == "lower" \
+            else f"back to {goal:g} {label}, as in your best weeks (now {v:g})"
     else:
         goal = 0
         text = f"no orders turned away (now {v:g} in the last 4 weeks)"
@@ -283,7 +288,8 @@ def candidates(bottleneck: str, business: dict, data: dict) -> list[dict]:
             title = {"Plan a drop or post for": "Plan a drop or post for an upcoming event"}.get(title, title)
         g = gate(a, business, data)
         s = score(a, fit, _timing(a, data), minutes)
-        out.append(dict(a, title=title, gate=g, partner_id=partner, **s))
+        out.append(dict(a, title=title, gate=g, partner_id=partner,
+                        product_name=values.get("product_name") if "{product_name}" in a["title"] else None, **s))
     out.sort(key=lambda c: (not c["gate"]["eligible"], -c["score"], c["effort_min"]))
     return out
 
