@@ -176,3 +176,209 @@ th { color: var(--muted); font-weight: 600; font-size: .75rem; text-transform: u
   .day { grid-template-columns: 1fr; gap: 6px; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-in {
+    animation: fadeInScale 400ms ease-out forwards;
+  }
+  .animate-out {
+    animation: fadeOutScale 300ms ease-in forwards;
+  }
+}
+
+@keyframes fadeInScale {
+  0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeOutScale {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.98); }
+}
+
+.lf-06 {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.lf-06__card {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(13, 17, 32, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 
+    0 24px 80px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(99, 102, 241, 0.08);
+  padding: 40px;
+  color: #F5F7FF;
+}
+
+.lf-06__h {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+  color: #F5F7FF;
+}
+
+.lf-06__sub {
+  font-size: 14px;
+  color: #a3abc7; /* muted gray-blue */
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.lf-06__soc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: rgba(235, 240, 255, 0.9);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+}
+.lf-06__soc:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.lf-06__divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0;
+  color: rgba(180, 188, 210, 0.65);
+  font-size: 0.85rem;
+}
+.lf-06__divider::before, .lf-06__divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+.lf-06__divider span {
+  padding: 0 12px;
+}
+
+.lf-06__field {
+  display: block;
+  margin-bottom: 18px;
+}
+.lf-06__vh {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: rgba(230, 235, 250, 0.82);
+}
+.lf-06__field input {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+  color: #F5F7FF;
+  background: rgba(255, 255, 255, 0.045);
+}
+.lf-06__field input::placeholder {
+  color: rgba(200, 205, 225, 0.48);
+}
+.lf-06__field input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lf-06__submit {
+  width: 100%;
+  height: 52px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all 0.2s ease;
+}
+.lf-06__submit:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+}
+.lf-06__submit:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.lf-06__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lf-06__back {
+  position: absolute;
+  top: 32px;
+  left: clamp(24px, 5vw, 64px);
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.2s, transform 0.2s;
+  z-index: 20;
+  display: inline-block;
+}
+.lf-06__back:hover {
+  color: #ffffff;
+  transform: translateX(-4px);
+}
+
+/* Subtle ambient glows */
+.lf-06__glow-1, .lf-06__glow-2 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  pointer-events: none;
+}
+.lf-06__glow-1 {
+  width: 300px;
+  height: 300px;
+  background: rgba(99, 102, 241, 0.15);
+  top: -50px;
+  right: -50px;
+}
+.lf-06__glow-2 {
+  width: 250px;
+  height: 250px;
+  background: rgba(139, 92, 246, 0.12);
+  bottom: -50px;
+  left: -50px;
+}
+
+@media (max-width: 520px) {
+  .lf-06 {
+    padding: 24px 16px;
+  }
+  .lf-06__card {
+    padding: 32px 24px;
+    width: 100%;
+  }
+}
+

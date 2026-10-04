@@ -1,5 +1,5 @@
 import DotField from "@/components/DotField";
-import Link from "next/link";
+import LoginLink from "@/components/LoginLink";
 
 export default function LandingPage() {
   return (
@@ -17,7 +17,7 @@ export default function LandingPage() {
       </div>
 
       {/* Content */}
-      <div style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <div id="landing-content" className="animate-in" style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
         
         {/* Navbar */}
         <header style={{ 
@@ -30,10 +30,10 @@ export default function LandingPage() {
             HELPRENEUR
           </div>
           <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
-            <Link href="/login" className="header-login-link">
+            <LoginLink href="/login" className="header-login-link">
               LOGIN
-            </Link>
-            <Link href="/login" className="btn primary" style={{
+            </LoginLink>
+            <LoginLink href="/login" className="btn primary" style={{
               padding: "10px 20px", 
               fontSize: "0.85rem", 
               borderRadius: "8px", 
@@ -41,7 +41,7 @@ export default function LandingPage() {
               fontWeight: 700
             }}>
               GET STARTED
-            </Link>
+            </LoginLink>
           </div>
         </header>
 
@@ -87,15 +87,15 @@ export default function LandingPage() {
             Not just another dashboard. Helpreneur turns raw data into prioritized actions and measures the exact outcome of every decision you make. Built for modern D2C brands.
           </p>
           <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center" }}>
-            <Link href="/login" className="btn primary" style={{ 
+            <LoginLink href="/login" className="btn primary" style={{ 
               padding: "16px 36px", 
               fontSize: "1.1rem", 
               borderRadius: "12px", 
               boxShadow: "0 8px 30px rgba(124,140,255,0.4)" 
             }}>
               GET STARTED
-            </Link>
-            <Link href="/login" className="btn" style={{ 
+            </LoginLink>
+            <LoginLink href="/login" className="btn" style={{ 
               padding: "16px 36px", 
               fontSize: "1.1rem", 
               borderRadius: "12px", 
@@ -104,7 +104,7 @@ export default function LandingPage() {
               color: "#ffffff"
             }}>
               LOGIN
-            </Link>
+            </LoginLink>
           </div>
         </main>
       </div>
