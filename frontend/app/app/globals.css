@@ -30,6 +30,8 @@ body {
 }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
+.header-login-link { transition: color 0.2s; color: #eef1fb; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.1em; }
+.header-login-link:hover { color: var(--accent); text-decoration: none; }
 h1 { font-size: 1.9rem; margin: 0 0 .3rem; letter-spacing: -0.02em; }
 h2 { font-size: 1.2rem; margin: 0 0 .75rem; letter-spacing: -0.01em; }
 h3 { font-size: 1rem; margin: 0 0 .5rem; }
