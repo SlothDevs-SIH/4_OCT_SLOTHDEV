@@ -13,7 +13,10 @@ from .context import demo_context
 from .synth import config as C
 from .synth.generate import Tenant, build_tenant
 
+DEMO_IMPORT_ID = "imp_aarohi_orders_messy"
+
 _contexts: dict = {}        # business_id -> context (onboarding-created businesses)
+_imports: dict = {}         # import_id -> job (raw rows, mapping, run result). In memory: see the module docstring
 _active_phase: dict = {"phase": "baseline"}
 
 
@@ -58,3 +61,36 @@ def summary(business_id: str) -> Optional[dict]:
         "current_week": {"from": cur[0], "to": cur[1], "orders": len(wk), "revenue": sum(o["revenue"] for o in wk)},
         "note": "Synthetic, deterministic scenario with planted incidents. Not real business data.",
     }
+
+
+# ---------------------------------------------------------------- imports
+def save_import(job: dict) -> dict:
+    _imports[job["import_id"]] = job
+    return job
+
+
+def get_import(import_id: str) -> Optional[dict]:
+    if import_id == DEMO_IMPORT_ID:
+        ensure_demo_import()
+    return _imports.get(import_id)
+
+
+def list_imports(business_id: str) -> list:
+    return [j for j in _imports.values() if j["business_id"] == business_id]
+
+
+def ensure_demo_import() -> dict:
+    """Run the deliberately messy orders export through the real import pipeline (once)."""
+    if DEMO_IMPORT_ID not in _imports:
+        from . import importer
+        from .synth import messy
+        raw = messy.build_csv().encode("utf-8")
+        columns, rows = importer.parse_csv(raw)
+        suggested = importer.suggest_mapping("orders", columns)
+        mapping = {f: m["column"] for f, m in suggested.items() if m["column"]}
+        run = importer.run_import("orders", rows, mapping)
+        _imports[DEMO_IMPORT_ID] = {
+            "import_id": DEMO_IMPORT_ID, "business_id": C.BUSINESS_ID, "kind": "orders", "filename": "aarohi_orders_messy.csv",
+            "checksum": importer.checksum(raw), "columns": columns, "rows": rows, "suggested": suggested,
+            "mapping": mapping, "status": "loaded", "run": run}
+    return _imports[DEMO_IMPORT_ID]

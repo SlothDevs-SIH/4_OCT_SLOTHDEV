@@ -1,13 +1,13 @@
 """In-process interface used by decision_engine when DATA_SOURCE=local.
 
-Stage 1a: get_context is real. The other functions are still fixture-backed and are replaced in
+Stages 1a/1b: get_context and get_data_quality are real. The other functions are still fixture-backed and are replaced in
 Stage 2 (KPI engine, lead model); signatures stay the same. Each function returns exactly the contract fixture shape, or None
 when the business is unknown.
 """
 from typing import Optional
 
 from backend.common.fixtures import load_fixture
-from backend.data_engine import store
+from backend.data_engine import quality, store
 
 
 def _for(business_id: str, name: str):
@@ -38,7 +38,8 @@ def get_lead_scores(business_id: str, limit: Optional[int] = None) -> Optional[d
 
 
 def get_data_quality(business_id: str) -> Optional[dict]:
-    return _for(business_id, "data_quality")
+    """Real (Stage 1b): computed from the import jobs (the demo business imports its messy orders export)."""
+    return quality.data_quality(business_id)
 
 
 def get_kpi_series(business_id: str, from_date: Optional[str] = None, to_date: Optional[str] = None,
