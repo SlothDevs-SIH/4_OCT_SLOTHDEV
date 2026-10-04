@@ -24,6 +24,7 @@ const decisionPaths = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  allowedDevOrigins: ["127.0.0.1"],        // lets a second browser profile (127.0.0.1) test without sharing the session
   async rewrites() {
     if (GATEWAY) return [{ source: "/api/v1/:path*", destination: `${GATEWAY}/api/v1/:path*` }];
     return {
