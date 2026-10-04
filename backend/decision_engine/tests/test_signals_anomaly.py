@@ -71,7 +71,8 @@ def test_demo_signals_match_fixture():
     assert set(got) == set(want)
     for sid, w in want.items():
         g = got[sid]
-        for key in ("type", "rule", "kpi", "dimension", "tests", "urgency", "candidate_template_ids"):
+        for key in ("type", "rule", "kpi", "dimension", "tests", "urgency", "candidate_template_ids", "title",
+                    "severity", "score"):
             assert g[key] == w[key], (sid, key)
         assert g["evidence_ids"] == w["evidence_ids"], sid
 

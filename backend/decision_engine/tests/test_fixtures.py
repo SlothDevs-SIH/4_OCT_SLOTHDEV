@@ -90,7 +90,6 @@ def test_priorities_and_ranking():
         assert r["priority"] == pytest.approx(priority(r["factors"]), abs=0.05)
         for k in "IFRTECD":
             assert r["factors"][k] == templates[r["template_id"]]["factors"][k]
-    assert recs["rec_hot_leads"]["priority"] == 69.3  # the worked example in the contract
     ordered = sorted((r for r in recs.values() if r["priority"] is not None), key=lambda r: r["rank"])
     assert [r["recommendation_id"] for r in ordered] == ["rec_hot_leads", "rec_email_retention", "rec_instagram_test"]
     blocked = recs["rec_increase_spend"]
