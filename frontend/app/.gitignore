@@ -6,3 +6,7 @@ next-env.d.ts
 *.tsbuildinfo
 .next-build
 .next-mock
+.vercel
+
+.vercel
+.env*

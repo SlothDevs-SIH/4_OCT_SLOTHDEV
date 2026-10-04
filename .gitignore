@@ -35,3 +35,6 @@ Thumbs.db
 /TEAM.md
 /PROBLEM_STATEMENT_GUIDE.md
 /*.pdf
+
+.vercel
+.env*
