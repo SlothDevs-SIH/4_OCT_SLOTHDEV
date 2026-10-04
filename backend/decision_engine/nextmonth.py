@@ -20,7 +20,8 @@ def windows_in(context: Optional[dict], month: dict) -> list[dict]:
         s, t = e.get("window_start") or e["date"], e.get("window_end") or e["date"]
         if month["from"] <= t and s <= month["to"]:
             out.append({"name": e["name"], "from": s, "to": t})
-    return out
+    unique = {(w["name"], w["from"]): w for w in out}  # race weekends also appear as events
+    return sorted(unique.values(), key=lambda w: w["from"])
 
 
 def build(projection: Optional[dict], diagnosis: dict, business: dict, context: Optional[dict]) -> dict:
@@ -28,29 +29,36 @@ def build(projection: Optional[dict], diagnosis: dict, business: dict, context: 
             "synthetic": business.get("synthetic", False)}
     if not projection or not projection.get("orders"):
         return dict(base, status="no_projection",
-                    message="There is not enough history to project next month yet; the projection is shown after a few more weeks.")
+                    message="There is not enough history to project the next weeks yet; the projection appears after a few more weeks.")
     month = projection["month"]
-    days = (date.fromisoformat(month["to"]) - date.fromisoformat(month["from"])).days + 1
-    cap_week = business.get("capacity_orders_per_week")
-    cap_month = round(cap_week * days / 7) if cap_week else None
-    o = projection["orders"]
-    limited_by_capacity = cap_month is not None and o["expected"] > cap_month
-    limiting = "capacity" if limited_by_capacity else diagnosis.get("primary")
+    o, demand = projection["orders"], projection.get("demand") or projection["orders"]
+    cap = projection.get("capacity") or {}
+    if not cap and business.get("capacity_orders_per_week"):
+        days = (date.fromisoformat(month["to"]) - date.fromisoformat(month["from"])).days + 1
+        per_month = round(business["capacity_orders_per_week"] * days / 7)
+        cap = {"orders_per_week": business["capacity_orders_per_week"], "orders_per_month": per_month,
+               "demand_exceeds_capacity": demand["expected"] > per_month}
+    limited = bool(cap.get("demand_exceeds_capacity"))
+    limiting = "capacity" if limited else diagnosis.get("primary")
     windows = windows_in(context, month)
-    parts = [f"Next month ({month['from']} to {month['to']}) is projected at {o['low']} to {o['high']} orders, "
-             f"most likely about {o['expected']}. This is an estimate."]
+    parts = [f"For {month['from']} to {month['to']} we project {o['low']} to {o['high']} orders, most likely about "
+             f"{o['expected']}. This is an estimate from your recent weeks, not a forecast."]
     b = projection.get("basis", {})
-    if b:
-        parts.append(f"It uses your last {b.get('weeks_used')} weeks (trend {b.get('trend_per_week'):+g} orders a week) "
-                     f"and a context factor of {b.get('context_factor'):g}.")
+    if b.get("weeks_used") is not None:
+        parts.append(f"It uses your last {b['weeks_used']} weeks (trend {b.get('trend_per_week', 0):+g} a week) and a "
+                     f"context factor of {b.get('context_factor', 1):g} from {b.get('context_source') or 'no calendar'}.")
     if windows:
-        parts.append("Demand windows that month: " + ", ".join(f"{w['name']} ({w['from']} to {w['to']})" for w in windows) + ".")
-    if limited_by_capacity:
-        parts.append(f"That is more than you can make: about {cap_month} orders at {cap_week} a week. "
-                     f"Capacity is what limits next month, so plan batches or pre-orders now.")
+        parts.append("Demand windows in that period: " + ", ".join(f"{w['name']} ({w['from']} to {w['to']})" for w in windows) + ".")
+    if limited:
+        parts.append(f"Demand is about {demand['expected']} orders ({demand['low']} to {demand['high']}), more than the "
+                     f"{cap.get('orders_per_month')} you can make at {cap.get('orders_per_week')} a week. "
+                     + (cap.get("message") or "") + " Capacity is what limits these weeks: plan batches or pre-orders now.")
     elif limiting:
         parts.append(f"The bottleneck that most limits it is {limiting.replace('_', ' ')}; this week's actions target it.")
-    return dict(base, status="ok", month=month, orders=o, basis=b, confidence=projection.get("confidence", "estimate"),
-                capacity_month=cap_month, limited_by_capacity=limited_by_capacity, limiting_bottleneck=limiting,
-                primary_bottleneck=diagnosis.get("primary"), demand_windows=windows, text=" ".join(parts),
-                standin=projection.get("standin", False))
+    else:
+        parts.append("No single bottleneck limits it right now; keep doing what works.")
+    return dict(base, status="ok", month=month, orders=o, demand=demand, basis=b,
+                weekly_expected_demand=projection.get("weekly_expected_demand"),
+                confidence=projection.get("confidence", "estimate"), capacity=cap, limited_by_capacity=limited,
+                limiting_bottleneck=limiting, primary_bottleneck=diagnosis.get("primary"), demand_windows=windows,
+                note=projection.get("note"), text=" ".join(parts))

@@ -33,6 +33,28 @@ def _reached(target: dict, direction: Optional[str], cur) -> bool:
     return cur <= target["value"] if direction == "down" else cur >= target["value"]
 
 
+CAPACITY_KPIS = {"orders_turned_away", "dispatch_delay_days", "stockouts"}
+
+
+def demand(facts: dict) -> Optional[float]:
+    """Orders plus orders turned away in the window (what people wanted, not what was made)."""
+    orders = max([f.get("sample_size") or 0 for f in facts.values() if f.get("sample_kind") == "orders"] or [0])
+    away = (facts.get("f_orders_turned_away") or {}).get("value") or 0
+    return orders + away if orders else None
+
+
+def demand_explains(fid: str, prev, cur, prev_facts: dict, cur_facts: dict) -> bool:
+    """Did more demand, rather than the action, make a capacity number worse? Orders turned away: the extra
+    turned away is no more than the extra demand. Dispatch delay, stock-outs: demand rose 10% or more."""
+    kpi = (cur_facts.get(fid) or {}).get("kpi")
+    d0, d1 = demand(prev_facts), demand(cur_facts)
+    if kpi not in CAPACITY_KPIS or not d0 or not d1 or d1 <= d0 or prev is None or cur is None:
+        return False
+    if kpi == "orders_turned_away":
+        return cur - prev <= d1 - d0
+    return d1 >= 1.1 * d0
+
+
 def review_action(action: dict, prev_facts: dict, cur_facts: dict) -> dict:
     t = action["target"]
     fid = t.get("fact_id")
@@ -49,6 +71,11 @@ def review_action(action: dict, prev_facts: dict, cur_facts: dict) -> dict:
         effect, adjust, decision = "reached_target", "It reached its target: double down and repeat or scale it this week.", "double_down"
     elif move == 1:
         effect, adjust, decision = "moving", "The number moved the right way but not to the target: keep going one more week.", "keep"
+    elif demand_explains(fid, prev, cur, prev_facts, cur_facts):
+        rise = round((demand(cur_facts) / demand(prev_facts) - 1) * 100)
+        effect, decision = "inconclusive", "keep"
+        adjust = (f"Demand rose about {rise}% (orders plus orders turned away), so a worse number here does not show the "
+                  f"action failed: keep it this week.")
     else:
         effect = "no_change" if move in (0, None) else "worse"
         adjust, decision = "The number did not improve: drop it and try the next action.", "drop"
@@ -96,6 +123,9 @@ def build(business_id: str, week: str, prev_week: str, prev_actions: list[dict],
     if prev_bottleneck != cur_bottleneck and cur_bottleneck:
         adjustments.insert(0, f"The main bottleneck moved from {(prev_bottleneck or 'none').replace('_', ' ')} to "
                               f"{cur_bottleneck.replace('_', ' ')}: this week's actions switch to it.")
+    elif prev_bottleneck and not cur_bottleneck:
+        adjustments.insert(0, f"{prev_bottleneck.replace('_', ' ').capitalize()} is back at your best weeks and nothing else "
+                              f"is clearly off: keep doing what works.")
     return {
         "business_id": business_id, "week": week, "compared_with": prev_week,
         "as_of": cur_facts_doc.get("as_of"), "synthetic": cur_facts_doc.get("synthetic", False),

@@ -9,7 +9,7 @@ from backend.decision_engine.llm.validator import validate_answer
 
 KPI_WORDS = {
     "stranger_share": ["stranger", "strangers", "new people", "new customers", "outside my circle", "friends", "reach"],
-    "stranger_orders_week": ["stranger", "strangers", "new people", "new customers"],
+    "stranger_orders_per_week": ["stranger", "strangers", "new people", "new customers"],
     "orders_by_source": ["friends", "where do my orders come from", "source"],
     "reach_per_post": ["reach", "views", "seen", "post"],
     "lead_to_order_rate": ["conversion", "convert", "interested", "enquiries", "dms"],

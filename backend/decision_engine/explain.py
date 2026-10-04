@@ -24,7 +24,8 @@ def _fact_rows(findings: list[dict], facts: dict) -> list[dict]:
 
 
 def diagnosis_packet(diag: dict, business: dict, facts: dict) -> dict:
-    keep = [f for f in diag["bottlenecks"] if f["bottleneck"] == diag["primary"] or f["bottleneck"] in diag["runners_up"]]
+    order = [diag["primary"], *diag["runners_up"]]   # the main bottleneck's evidence first
+    keep = sorted((f for f in diag["bottlenecks"] if f["bottleneck"] in order), key=lambda f: order.index(f["bottleneck"]))
     return {
         "task": "explain_diagnosis",
         "business": {"name": business["name"], "category": business.get("category"),
@@ -66,8 +67,8 @@ def next_month_packet(nm: dict, business: dict, diag: dict, facts: dict) -> dict
     return {"task": "explain_next_month",
             "business": {"name": business["name"], "capacity_orders_per_week": business.get("capacity_orders_per_week"),
                          "forbidden_actions": business.get("constraints", {}).get("forbidden_actions", [])},
-            "projection": {"month": nm["month"], "orders": nm["orders"], "basis": nm["basis"],
-                           "capacity_month": nm["capacity_month"], "limited_by_capacity": nm["limited_by_capacity"],
+            "projection": {"month": nm["month"], "orders": nm["orders"], "demand": nm["demand"], "basis": nm["basis"],
+                           "capacity": nm["capacity"], "limited_by_capacity": nm["limited_by_capacity"],
                            "limiting_bottleneck": nm["limiting_bottleneck"], "demand_windows": nm["demand_windows"]},
             "facts": _fact_rows([primary], facts) if primary else [], "engine_text": nm["text"]}
 
