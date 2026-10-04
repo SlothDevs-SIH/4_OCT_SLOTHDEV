@@ -87,6 +87,7 @@ def test_committed_retail_profile_is_consistent():
     assert m["orders"] == p["quality"]["orders"] and m["customers"] > 5000
     assert 0 < m["repeat_customer_share"] < 1 and 0 < m["concentration"]["top_10"] < 1
     assert p["intake_check"]["quarantined"] == 0 and p["intake_check"]["mapping_auto_detected"]["revenue"]
+    assert p["intake_check"]["confidence"] == 1.0              # no campaign column, so nothing is "unattributed"
     assert sum(x["orders"] for x in p["monthly"]) == m["orders"]
 
 
@@ -169,3 +170,9 @@ def test_api_public_data_lists_licences_and_the_retired_dataset():
     assert names["F1 race calendar (Jolpica-F1)"]["status"] == "integrated"
     assert names["Wikipedia page views: Formula One"]["result"]["uplift"] > 1.5
     assert "no stated licence" in r["not_used"]
+
+
+def test_a_sheet_without_a_campaign_column_is_not_penalised():
+    rows = [{"id": "A", "date": "2026-01-01", "amt": "100"}, {"id": "B", "date": "2026-01-02", "amt": "200"}]
+    run = importer.run_import("orders", rows, {"order_id": "id", "ordered_at": "date", "revenue": "amt"})
+    assert run["unattributed"] == 0 and run["confidence"] == 1.0 and run["rows_loaded"] == 2

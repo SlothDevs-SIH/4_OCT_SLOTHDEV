@@ -1,0 +1,182 @@
+{
+ "dataset": "UCI Online Retail II",
+ "citation": "Chen, D. (2012). Online Retail II. UCI Machine Learning Repository. https://doi.org/10.24432/C5CG6D",
+ "licence": "CC BY 4.0",
+ "role": "validation corpus for intake and order metrics; not a benchmark for student maker-sellers",
+ "source_lines": 1067371,
+ "quality": {
+  "lines": 1067371,
+  "non_product_lines": 4793,
+  "cancellation_lines": 19494,
+  "non_positive_quantity_or_price_lines": 6207,
+  "missing_customer_id_lines": 234245,
+  "orders": 39516
+ },
+ "quality_share": {
+  "non_product_lines": 0.0045,
+  "cancellation_lines": 0.0183,
+  "non_positive_quantity_or_price_lines": 0.0058,
+  "missing_customer_id_lines": 0.2195
+ },
+ "order_metrics": {
+  "orders": 39516,
+  "orders_without_customer": 2922,
+  "customers": 5852,
+  "repeat_customers": 4234,
+  "repeat_customer_share": 0.7235,
+  "revenue_total": 20108995.4,
+  "average_order_value": 508.88,
+  "days_between_orders_median": 25.0,
+  "days_between_orders_p90": 136.0,
+  "concentration": {
+   "top_1": 0.0349,
+   "top_10": 0.1603,
+   "customer_share_for_80pct_of_revenue": 0.231,
+   "single_customer_over_30pct": false
+  },
+  "first_order": "2009-12-01",
+  "last_order": "2011-12-09"
+ },
+ "monthly": [
+  {
+   "month": "2009-12",
+   "orders": 1666,
+   "revenue": 800939.83
+  },
+  {
+   "month": "2010-01",
+   "orders": 1049,
+   "revenue": 613824.59
+  },
+  {
+   "month": "2010-02",
+   "orders": 1189,
+   "revenue": 539728.55
+  },
+  {
+   "month": "2010-03",
+   "orders": 1647,
+   "revenue": 764293.49
+  },
+  {
+   "month": "2010-04",
+   "orders": 1435,
+   "revenue": 648886.07
+  },
+  {
+   "month": "2010-05",
+   "orders": 1484,
+   "revenue": 645627.64
+  },
+  {
+   "month": "2010-06",
+   "orders": 1612,
+   "revenue": 699172.3
+  },
+  {
+   "month": "2010-07",
+   "orders": 1507,
+   "revenue": 634886.18
+  },
+  {
+   "month": "2010-08",
+   "orders": 1402,
+   "revenue": 676059.87
+  },
+  {
+   "month": "2010-09",
+   "orders": 1789,
+   "revenue": 871859.66
+  },
+  {
+   "month": "2010-10",
+   "orders": 2244,
+   "revenue": 1097939.37
+  },
+  {
+   "month": "2010-11",
+   "orders": 2719,
+   "revenue": 1435532.81
+  },
+  {
+   "month": "2010-12",
+   "orders": 1550,
+   "revenue": 1187076.07
+  },
+  {
+   "month": "2011-01",
+   "orders": 1081,
+   "revenue": 671914.94
+  },
+  {
+   "month": "2011-02",
+   "orders": 1093,
+   "revenue": 508869.75
+  },
+  {
+   "month": "2011-03",
+   "orders": 1440,
+   "revenue": 691132.59
+  },
+  {
+   "month": "2011-04",
+   "orders": 1235,
+   "revenue": 516194.91
+  },
+  {
+   "month": "2011-05",
+   "orders": 1668,
+   "revenue": 741153.76
+  },
+  {
+   "month": "2011-06",
+   "orders": 1525,
+   "revenue": 738751.87
+  },
+  {
+   "month": "2011-07",
+   "orders": 1452,
+   "revenue": 689289.86
+  },
+  {
+   "month": "2011-08",
+   "orders": 1339,
+   "revenue": 725493.76
+  },
+  {
+   "month": "2011-09",
+   "orders": 1818,
+   "revenue": 1030468.78
+  },
+  {
+   "month": "2011-10",
+   "orders": 2005,
+   "revenue": 1106666.53
+  },
+  {
+   "month": "2011-11",
+   "orders": 2751,
+   "revenue": 1457742.24
+  },
+  {
+   "month": "2011-12",
+   "orders": 816,
+   "revenue": 615489.98
+  }
+ ],
+ "intake_check": {
+  "rows": 39516,
+  "loaded": 39516,
+  "repaired": 0,
+  "quarantined": 0,
+  "mapping_auto_detected": {
+   "customer_id": "Customer",
+   "order_id": "Invoice",
+   "ordered_at": "Date",
+   "revenue": "Amount"
+  },
+  "date_format_repaired": 0,
+  "confidence": 1.0
+ },
+ "linked_orders": 36594
+}

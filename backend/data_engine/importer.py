@@ -10,7 +10,7 @@ Rules (documented, deterministic, no LLM):
   This is a heuristic and is reported, never silent.
 - Duplicates: the same order/lead/campaign id with identical values is merged (`duplicate_order`); the same id
   with different values is quarantined (`conflicting_duplicate`).
-- A paid-channel order (instagram/google) with a blank campaign is quarantined (`missing_campaign_id`): spend
+- (Only when the file has a campaign column.) A paid-channel order (instagram/google) with a blank campaign is quarantined (`missing_campaign_id`): spend
   cannot be attributed. A blank campaign on a direct/organic/email/whatsapp order is kept as `unattributed`;
   we never force an attribution.
 - Confidence = max(0, 1 - 2*quarantined_share - 0.5*repaired_share - 0.5*unattributed_share).
@@ -275,7 +275,8 @@ def run_import(kind: str, rows: list, mapping: dict, paise: bool = True) -> dict
             quarantine(i, bad[0], raw, bad[1])
             continue
 
-        if kind == "orders" and not rec.get("campaign_id"):
+        has_campaign = bool(mapping.get("campaign_id"))     # a sheet without a campaign column is not penalised for it
+        if kind == "orders" and has_campaign and not rec.get("campaign_id"):
             if rec.get("channel") in PAID_CHANNELS:
                 quarantine(i, "missing_campaign_id", raw,
                            f"campaign blank on a paid {rec['channel']} order ({rec[idf]})")
@@ -292,7 +293,7 @@ def run_import(kind: str, rows: list, mapping: dict, paise: bool = True) -> dict
         seen[key] = rec
         if repaired:
             repaired_rows += 1
-        if kind == "orders" and not rec.get("campaign_id"):
+        if kind == "orders" and has_campaign and not rec.get("campaign_id"):
             unattributed += 1
             unattributed_revenue += rec.get("revenue") or 0
             issues.add("unattributed", "kept_as_unattributed", f"{rec['channel']} order with no campaign ({key})")
