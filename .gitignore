@@ -1,0 +1,37 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# node
+node_modules/
+.next/
+out/
+dist/
+
+# data and models (large / generated)
+data/raw/
+data/processed/
+*.parquet
+*.joblib
+*.pkl
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# local-only notes (not part of the repo)
+/Reference/
+/TEAM.md
+/PROBLEM_STATEMENT_GUIDE.md
+/*.pdf

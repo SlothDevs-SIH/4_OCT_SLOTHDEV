@@ -1,0 +1,5 @@
+case_id,business_id,recommendation_title,evidence_ids,evidence_correct_0to2,rule_consistent_0to2,feasible_0to2,specific_0to2,impact_logic_0to2,uncertainty_disclosed_0to2,harmless_0to2,total_0to14,reviewer,notes
+rec_hot_leads,biz_aarohi_skin,Follow up with the 8 high-value unattended leads,"f_latency_hot_leads;lead_0412;lead_0388",,,,,,,,,,
+rec_email_retention,biz_aarohi_skin,Launch a repeat-buyer email flow,f_repeat_email,,,,,,,,,,
+rec_instagram_test,biz_aarohi_skin,Audit Instagram attribution and run one bounded creative/landing test,"f_cac_instagram;f_conv_instagram;f_croas_instagram",,,,,,,,,,
+rec_increase_spend,biz_aarohi_skin,Increase Instagram ad spend (should be blocked),f_cac_instagram,,,,,,,,,,
