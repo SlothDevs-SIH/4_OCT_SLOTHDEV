@@ -1,100 +1,67 @@
-# Workflow: branches, ownership, merge flow
+# Workflow: branches, ownership, merge flow, today's timeline
 
 ## 1. Branches
 
 ```
-main  (scaffold + contracts + docs)
- ├── backend-1    (Soham)    ─┐
- ├── backend-2    (Ayush)    ─┴─► backend-integration ─┐
- ├── frontend     (Kaushal)  ──────────────────────────┴─► fullstack-integration ─► main
+main  (shared docs + contract)
+ ├── backend-1    (Soham)     ─┐
+ ├── backend-2    (Ayush)     ─┴─► backend-integration ─┐
+ ├── frontend     (Kaushal)   ──────────────────────────┴─► fullstack-integration ─► main
  └── research     (Vedashree) ───────────────────────────────────────────────────►  (docs merged at the end)
 ```
 
-| Branch | Owner | Edits only | Merge target |
-|---|---|---|---|
-| `backend-1` | Soham | `backend/data_engine/` | `backend-integration` |
-| `backend-2` | Ayush | `backend/decision_engine/` | `backend-integration` |
-| `frontend` | Kaushal | `frontend/` | `fullstack-integration` |
-| `research` | Vedashree | `research/` (and review comments elsewhere) | `main` at the end |
-| `backend-integration` | Soham + Ayush | `backend/gateway/` plus conflict fixes | `fullstack-integration` |
-| `fullstack-integration` | Kaushal + Soham | anything needed to make the app run end to end | `main` |
+| Branch | Owner | Edits only |
+|---|---|---|
+| `backend-1` | Soham | `backend/data_engine/` |
+| `backend-2` | Ayush | `backend/decision_engine/` |
+| `frontend` | Kaushal | `frontend/` |
+| `research` | Vedashree | `research/` |
+| `backend-integration` | Soham + Ayush | `backend/gateway/` plus conflict fixes |
+| `fullstack-integration` | Kaushal + Soham | anything needed to run end to end |
 
-**Why this avoids merge conflicts:** each person edits only their own folder. The only shared files are in `contracts/`, `db/` and `docs/`, which change only on `main` (section 3).
+Each person edits only their own folder. The shared files (`contracts/`, `docs/`, the three backend docs) change only on `main`.
 
 ## 2. Everyday commands
 
 ```bash
-git clone https://github.com/SlothDevs-SIH/4_OCT_SLOTHDEV.git
-cd 4_OCT_SLOTHDEV
-git fetch origin
-git checkout backend-1        # or backend-2 / frontend / research
-
+git clone https://github.com/SlothDevs-SIH/4_OCT_SLOTHDEV.git && cd 4_OCT_SLOTHDEV
+git fetch origin && git checkout backend-1        # or backend-2 / frontend / research
 # work, then
-git add <your folder>
-git commit -m "data_engine: add CSV upload and mapping"
-git push origin backend-1
-
-# pick up changes to contracts/docs from main (do this at least once an hour)
-git fetch origin
-git merge origin/main
+git add <your folder> && git commit -m "data_engine: add lead scoring" && git push origin backend-1
+# pick up shared docs and contract changes from main at least once an hour
+git fetch origin && git merge origin/main
 ```
 
-- Commit small and often. Push at least every 30–45 minutes (the push is our backup and shows work happened during the event).
-- Never force-push. Never commit `.env`.
-- Don't edit another person's folder. If you need something from them, ask or change the contract (section 3).
+Commit small and often; push every 30 to 45 minutes (the push is the backup). Never force-push. Never commit `.env` or raw datasets (`data/raw/` is git-ignored).
 
 ## 3. Changing the contract
 
-`contracts/API_CONTRACT.md` and `contracts/fixtures/*.json` are what everyone codes against. To change them:
-
-1. Tell the affected people in the group chat first (what field, why).
-2. Commit the change **on `main`** only, in a small commit.
-3. Everyone merges `origin/main` into their branch.
-
-Adding a new optional field is cheap. Renaming or removing a field is not. Avoid it after 11:00.
+`contracts/API_CONTRACT.md` is what everyone codes against. To change it: tell the affected person, commit the change **on `main`** in a small commit, and everyone merges `origin/main`. Adding an optional field is cheap; renaming or removing one is not.
 
 ## 4. Integration
 
-**`backend-integration` (target: 2:00–2:45 PM)**
-1. Create it from `main`: `git checkout -b backend-integration origin/main`.
-2. `git merge origin/backend-1` then `git merge origin/backend-2`. The folders don't overlap, so conflicts should be rare.
-3. Set `DATA_SOURCE=local` so `decision_engine` calls `data_engine` directly (no HTTP between them).
-4. Run `uvicorn backend.gateway.main:app --port 8000` from the repo root and walk through the contract at `http://localhost:8000/docs`.
-5. Fix integration bugs in `backend/gateway/` or in the module that owns the bug (tell its owner).
-6. Tag when green: `git tag backend-green`.
+1. `git checkout -b backend-integration origin/main && git merge origin/backend-1 && git merge origin/backend-2`
+2. `DATA_SOURCE=local uvicorn backend.gateway.main:app --port 8000`
+3. Walk the loop: load week 1 → diagnose → advise → daily lead list → record what was done → load week 2 → follow up. Tag when green (`backend-green`).
+4. `fullstack-integration`: merge `frontend`, point it at the gateway, run the whole demo path, fix bugs there.
+5. Finish: merge into `main`, deploy from `main` (Vercel and Supabase), record the demo from the **public** build.
 
-**`fullstack-integration` (target: 2:45–3:30 PM)**
-1. Create from `backend-integration`. `git merge origin/frontend`.
-2. Point the frontend at the gateway: `NEXT_PUBLIC_API_BASE=http://localhost:8000`.
-3. Run the whole demo path end to end (see `research/RESEARCH.md`, "Demo script").
-4. Fix bugs here. Feature freeze at 3:30.
+## 5. Today
 
-**Finish (3:30–5:00 PM):** merge `fullstack-integration` and `research` into `main`, deploy from `main`, and record the demo from the deployed build.
-
-## 5. Timeline (IST)
-
-| Time | Milestone |
+| Step | What |
 |---|---|
-| 10:00–10:30 | Everyone reads their MD. Contract freeze. Environments ready. |
-| 11:30 | **M1:** backend-1 part 1 works (onboarding, demo-data load, CSV import and quality report) |
-| 12:00 | **M2:** backend-2 part 1 works (signals, eligibility, priority score, recommendations with cached LLM) |
-| 1:00–1:30 | Lunch |
-| 1:30 | **M3:** backend-1 part 2 works (KPIs, funnel, lead-conversion model and lead queue) |
-| 2:00 | **M4:** backend-2 part 2 works (7-day plan, tasks, outcome evaluation) |
-| 2:00–2:45 | `backend-integration` |
-| 2:45–3:30 | `fullstack-integration` |
-| **3:30** | **Feature freeze** |
-| 3:30–4:30 | Deploy, README, seed demo data, fix bugs only |
-| 4:30–5:30 | Demo video (2–3 min), slides (5–7), problem-and-solution text |
-| 5:30–5:50 | Submit, then open every link in an incognito window |
-| 5:50–6:00 | Buffer |
+| Now | Contract v2 agreed (Soham and Ayush); datasets in place (`docs/DATASET.md`) |
+| Next | Build in parallel: backend 1 (generated demo businesses, intake, facts, leads, projection); backend 2 (diagnosis, actions, lead list); frontend on mocks; research deliverables |
+| Integration | `backend-integration`, then `fullstack-integration`; first public deploy |
+| **5:00 PM** | **Working, public prototype shown** |
+| After | Demo video (2 to 3 minutes), 5 to 7 slides, problem-and-solution text, submission checks. Confirm the official submission cutoff |
 
-The frontend (Kaushal) integrates each milestone as it lands (see `frontend/FRONTEND.md`, stages F1–F4), so the final integration is a confirmation, not a first connection.
+After each stage, the owner reports exactly what works and what is generated, precomputed or not built, before starting the next stage.
 
 ## 6. Definition of done for a task
 
 - It works through the contract endpoint (not only in a notebook).
-- It has at least one test or a documented manual check.
-- Numbers it produces were sanity-checked (units, ranges, a hand calculation for one case).
-- It's pushed to your branch.
-- Anything mocked is labelled mocked.
+- It has a test or a documented manual check.
+- Numbers it produces were sanity-checked (units, ranges, one hand calculation).
+- It is pushed to your branch.
+- Anything generated, scripted or mocked is labelled.
