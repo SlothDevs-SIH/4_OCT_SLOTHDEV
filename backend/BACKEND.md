@@ -118,6 +118,20 @@ Database on Supabase (you run `db/schema.sql` yourself; the AI tooling does not 
 | **S4: follow-up and explanation** | Ayush | Weekly follow-up, evidence-checked explanation, drafts |
 | **S4: integration** | both | `backend-integration`: merge, run the loop: load week 1 → diagnose → advise → record what was done → load week 2 → follow up |
 
+### Integration status (`backend-integration`, updated as each part lands)
+
+| Step | What | Status |
+|---|---|---|
+| 1 | Merge `backend-1` and `backend-2` (no conflicts); all tests pass together | **Done** |
+| 2 | `DataClientV2` (`decision_engine/clients/v2.py`): business, facts, leads, projection, market context, data quality from `fixture`, `local` and `http`; the three return identical data for both businesses, weeks 1 to 4 | **Done**, tested |
+| 3 | Gateway runs data_engine routes (`DATA_SOURCE=local uvicorn backend.gateway.main:app`) | **Done** (decision_engine routes mount when `decision_engine/main.py` exists) |
+| 4 | Diagnosis (bottleneck ranking) reads `DataClientV2.get_facts` | Waiting for Ayush |
+| 5 | Actions, eligibility, lead list with drafted replies | Waiting for Ayush |
+| 6 | Weekly follow-up: load week 2, compare, adjust | Waiting for Ayush |
+| 7 | Explanation (LLM with validator) over the real facts | Layer built by Ayush; to be wired to step 4 |
+
+Fixtures: `contracts/fixtures/v2_engine/` is data_engine's real output (regenerate with `python -m backend.data_engine.devtools.export_v2_fixtures`); `contracts/fixtures/v2/` holds Ayush's stand-ins. `DataClientV2` reads `v2_engine` by default; set `V2_FIXTURE_DIR` to use the stand-ins.
+
 ## 11. Definition of done (per module)
 
 - Every endpoint in the module's section of the contract returns real, correct data, or a documented 501 for a dropped should-have.
