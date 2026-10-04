@@ -1,10 +1,11 @@
 """Engine: wires DataClient, the store and the LLM layer behind the API endpoints."""
 from contextlib import contextmanager
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from typing import Optional
 
 from backend.common.errors import ApiError
 from backend.decision_engine import outcomes as ledger
+from backend.decision_engine import planner
 from backend.decision_engine import recommend
 from backend.decision_engine import signals as signal_rules
 from backend.decision_engine import templates
@@ -145,3 +146,69 @@ class Engine:
                    decision={"action": "rejected", "by": by, "at": now, "note": note})
         self.store.put_recommendation(rec)
         return rec
+
+    # -------------------------------------------------------------- plans
+
+    def create_plan(self, business_id: str, start_date: Optional[str] = None,
+                    recommendation_ids: Optional[list] = None) -> dict:
+        with data_errors():
+            ctx = self.data.get_context(business_id)
+        recs = self.store.recommendations_for(business_id)
+        if recommendation_ids is not None:
+            unknown = set(recommendation_ids) - {r["recommendation_id"] for r in recs}
+            if unknown:
+                raise ApiError(404, "not_found", f"unknown recommendations: {sorted(unknown)}")
+            recs = [r for r in recs if r["recommendation_id"] in recommendation_ids]
+        planned = {rid for p in self.store.plans_for(business_id) if p["status"] == "active"
+                   for rid in p["recommendation_ids"]}
+        candidates = [r for r in recs if r["recommendation_id"] not in planned]
+        if not any(r["status"] == "approved" for r in candidates):
+            if any(r["status"] == "approved" for r in recs):
+                raise ApiError(409, "already_planned", "every approved recommendation is already in an active plan")
+            raise ApiError(409, "nothing_approved", "approve at least one recommendation before planning")
+        start = self._plan_start(ctx, start_date)
+        n_tasks = sum(len(templates.templates_by_id()[r["template_id"]]["tasks"]) for r in candidates)
+        plan_no = len(self.store.plans_for(business_id)) + 1
+        plan_id = f"plan_{business_id.removeprefix('biz_')}_w{plan_no}"
+        try:
+            plan = planner.build(plan_id, candidates, ctx, start, self.store.reserve_ids("task", n_tasks), utcnow())
+        except planner.PlanError as e:
+            raise ApiError(409, "plan_infeasible", str(e)) from e
+        self.store.put_plan(plan)
+        return plan
+
+    @staticmethod
+    def _plan_start(ctx: dict, start_date: Optional[str]) -> date:
+        if start_date:
+            try:
+                return date.fromisoformat(start_date)
+            except ValueError as e:
+                raise ApiError(422, "invalid_request", "start_date must be YYYY-MM-DD") from e
+        day7 = (ctx.get("periods") or {}).get("day7")
+        if day7:
+            return date.fromisoformat(day7["from"])
+        today = datetime.now(timezone.utc).date()
+        return today + timedelta(days=(7 - today.weekday()) % 7 or 7)  # next Monday
+
+    def get_plan(self, plan_id: str) -> dict:
+        plan = self.store.get_plan(plan_id)
+        if not plan:
+            raise ApiError(404, "not_found", f"plan {plan_id} not found")
+        return plan
+
+    def update_task(self, task_id: str, changes: dict) -> dict:
+        plan_id, task = self.store.find_task(task_id)
+        if not task:
+            raise ApiError(404, "not_found", f"task {task_id} not found")
+        status = changes.get("status")
+        if status is not None and status not in ("todo", "doing", "done"):
+            raise ApiError(422, "invalid_request", "status must be todo, doing or done")
+        if status in ("doing", "done"):
+            plan = self.store.get_plan(plan_id)
+            states = {t["task_id"]: t["status"] for t in plan["tasks"]}
+            waiting = [d for d in task["depends_on"] if states.get(d) != "done"]
+            if waiting and status == "done":
+                raise ApiError(409, "dependencies_open", f"finish {', '.join(waiting)} first")
+        allowed = {k: v for k, v in changes.items() if k in ("status", "owner", "note") and v is not None}
+        allowed["updated_at"] = utcnow()
+        return self.store.update_task(task_id, allowed)

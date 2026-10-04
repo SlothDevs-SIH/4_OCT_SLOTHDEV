@@ -65,6 +65,33 @@ def reject(rec_id: str, body: Optional[Decision] = Body(None), engine: Engine = 
     return engine.reject(rec_id, body.by, body.note)
 
 
+class PlanRequest(BaseModel):
+    start_date: Optional[str] = None
+    recommendation_ids: Optional[list[str]] = None
+
+
+class TaskUpdate(BaseModel):
+    status: Optional[str] = None
+    owner: Optional[str] = None
+    note: Optional[str] = None
+
+
+@router.post("/businesses/{business_id}/plans")
+def create_plan(business_id: str, body: Optional[PlanRequest] = Body(None), engine: Engine = Depends(get_engine)):
+    body = body or PlanRequest()
+    return engine.create_plan(business_id, body.start_date, body.recommendation_ids)
+
+
+@router.get("/plans/{plan_id}")
+def get_plan(plan_id: str, engine: Engine = Depends(get_engine)):
+    return engine.get_plan(plan_id)
+
+
+@router.patch("/tasks/{task_id}")
+def update_task(task_id: str, body: TaskUpdate, engine: Engine = Depends(get_engine)):
+    return engine.update_task(task_id, body.model_dump())
+
+
 app = FastAPI(title="decision_engine")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 install_error_handlers(app)

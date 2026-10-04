@@ -27,6 +27,13 @@ class Store:
             self.counters[kind] += 1
             return self.counters[kind]
 
+    def reserve_ids(self, kind: str, n: int) -> int:
+        """Reserve n consecutive numbers; returns the first."""
+        with self._lock:
+            first = self.counters[kind] + 1
+            self.counters[kind] += n
+            return first
+
     # snapshots -------------------------------------------------------------
     def add_context_snapshot(self, business_id: str, snapshot: dict):
         with self._lock:
