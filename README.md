@@ -41,7 +41,7 @@ Demo business (synthetic and labelled as such): **Aarohi Skin**, a Pune D2C skin
 
 ## Status
 
-Docs and the shared contract are ready. Code stubs, example fixtures (`contracts/fixtures/`) and the Postgres schema (`db/schema.sql`) are prepared and will be added to `main` when the team asks. Until then, code against the shapes written in `contracts/API_CONTRACT.md`. Run instructions will be added with the stubs.
+Docs, the shared contract, example fixtures (`contracts/fixtures/`), shared backend stubs and the Postgres schema (`db/schema.sql`) are on `main`. Run instructions: `backend/BACKEND.md` section 2.
 
 ## Rules we follow
 

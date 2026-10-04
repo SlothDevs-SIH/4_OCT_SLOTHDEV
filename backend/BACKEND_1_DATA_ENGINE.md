@@ -2,7 +2,7 @@
 
 Branch: `backend-1`. You edit only `backend/data_engine/`. Port 8001. Overview of both backends: [`BACKEND.md`](BACKEND.md). The other backend (Ayush, `decision_engine`) is independent of yours: it reads your output only through the contract.
 
-> **Status:** the contract in `contracts/API_CONTRACT.md` is the source of truth. Prepared code stubs, example fixtures (`contracts/fixtures/`) and `db/schema.sql` exist locally and are added to `main` when the team asks. Until then, code against the shapes written in the contract.
+> **Status:** the contract in `contracts/API_CONTRACT.md` and the fixtures in `contracts/fixtures/` are the source of truth. The shared stubs (section 4 of `BACKEND.md`), `backend/requirements.txt` and `db/schema.sql` are on `main`.
 
 **Stack:** Python, FastAPI, Pydantic, pandas, scikit-learn (+ SHAP), PostgreSQL/Supabase.
 

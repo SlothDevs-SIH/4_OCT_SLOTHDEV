@@ -2,7 +2,7 @@
 
 Branch: `backend-2`. You edit only `backend/decision_engine/`. Port 8002. Overview of both backends: [`BACKEND.md`](BACKEND.md). The other backend (Soham, `data_engine`) is independent of yours: you read its output only through `DataClient`, and you build against the contract examples until it is ready.
 
-> **Status:** the contract in `contracts/API_CONTRACT.md` is the source of truth. Prepared code stubs, example fixtures (`contracts/fixtures/`) and `db/schema.sql` exist locally and are added to `main` when the team asks. Until then, code against the shapes written in the contract.
+> **Status:** the contract in `contracts/API_CONTRACT.md` and the fixtures in `contracts/fixtures/` are the source of truth. The shared stubs (section 4 of `BACKEND.md`), `backend/requirements.txt` and `db/schema.sql` are on `main`.
 
 **Stack:** Python, FastAPI, Pydantic, scikit-learn, jsonschema, an LLM API behind a provider interface, PostgreSQL/Supabase.
 

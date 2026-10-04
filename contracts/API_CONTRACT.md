@@ -1,7 +1,7 @@
 # API and Data Contract
 
 The single source of truth that `backend-1`, `backend-2`, `frontend` and `research` all code against.
-Example payloads (`fixtures/`) and endpoint stubs are prepared and will be added to `main` on request. Until then, the shapes below are the contract.
+Example payloads are in [`fixtures/`](fixtures/) (see its README). The shapes below and the fixtures are the contract.
 
 Change rules: see `docs/WORKFLOW.md` section 3. Changes happen on `main` only.
 
@@ -31,7 +31,7 @@ Change rules: see `docs/WORKFLOW.md` section 3. Changes happen on `main` only.
   "quality_flag": "ok"
 }
 ```
-`quality_flag`: `ok | partial | low`. `numerator`/`denominator` are null where not applicable.
+`quality_flag`: `ok | partial | low`. `numerator`/`denominator` are null where not applicable. `snapshot`: `baseline | day7` (the day-7 follow-up week reuses the same `fact_id`s).
 
 ### 2.2 Lead score (`fixtures/lead_scores.json`)
 `probability` is calibrated. `baseline` is portfolio prevalence. `abstain: true` means data is too incomplete to score (UI shows "needs data", not a number). `factors` have signed `contribution` (positive raises probability).
@@ -68,14 +68,15 @@ Per recommendation: `baseline`, `expected` (low/high), `actual`, `fidelity` (was
 | POST | `/imports/{import_id}/confirm` | confirm or edit mapping, runs validation and load | – |
 | GET | `/imports/{import_id}/report` | quality report: rows loaded, repaired, quarantined, reasons | `data_quality.json` |
 | GET | `/businesses/{id}/data-quality` | overall data confidence badge | `data_quality.json` |
-| GET | `/businesses/{id}/kpis?from=&to=` | list of KPI facts | `kpi_facts.json` |
+| GET | `/businesses/{id}/kpis?from=&to=&snapshot=baseline\|day7` | list of KPI facts; `snapshot=day7` returns the follow-up week (same `fact_id`s) | `kpi_facts.json`, `kpi_facts_day7.json` |
+| GET | `/businesses/{id}/kpis/daily?from=&to=&channel=` | daily per-channel series for anomaly detection | `kpi_daily.json` |
 | GET | `/businesses/{id}/funnel` | stage counts and drop rates | in `kpi_facts.json` (`kpi: funnel_*`) |
 | GET | `/businesses/{id}/segments/rfm` | RFM segments (should-have) | – |
 | GET | `/businesses/{id}/leads/queue?limit=` | ranked leads with probability, factors, abstention | `lead_scores.json` |
 | GET | `/models/lead-conversion/card` | metrics (PR-AUC, Brier, lift@10%), data used, caveats | in `lead_scores.json` (`model_card`) |
 
 **In-process interface** (used by `decision_engine` when `DATA_SOURCE=local`), in `backend/data_engine/public.py`:
-`get_context(business_id)`, `get_kpi_facts(business_id, from_date, to_date)`, `get_lead_scores(business_id, limit)`, `get_data_quality(business_id)`. Each returns exactly the fixture shape.
+`get_context(business_id)`, `get_kpi_facts(business_id, from_date, to_date, snapshot="baseline")`, `get_lead_scores(business_id, limit)`, `get_data_quality(business_id)`, `get_kpi_series(business_id, from_date, to_date, channel)`. Each returns exactly the fixture shape, or `None` for an unknown business. A fixture-backed version is on `main`; backend-1 replaces the bodies.
 
 ## 4. Endpoints owned by `decision_engine` (backend-2, Ayush)
 

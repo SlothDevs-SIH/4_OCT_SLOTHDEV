@@ -5,7 +5,7 @@
 
 **Per-module task lists:** [`BACKEND_1_DATA_ENGINE.md`](BACKEND_1_DATA_ENGINE.md) (Soham) and [`BACKEND_2_DECISION_ENGINE.md`](BACKEND_2_DECISION_ENGINE.md) (Ayush).
 
-> **Status:** the contract in `contracts/API_CONTRACT.md` is the source of truth. Prepared code stubs, example fixtures (`contracts/fixtures/`) and `db/schema.sql` exist locally and are added to `main` when the team asks. Until then, code against the shapes written in the contract.
+> **Status:** the contract in `contracts/API_CONTRACT.md` and the fixtures in `contracts/fixtures/` are the source of truth. The shared stubs (section 4 of `BACKEND.md`), `backend/requirements.txt` and `db/schema.sql` are on `main`.
 
 ## 1. The backend in one picture
 
@@ -27,7 +27,7 @@
 
 **Why the work is equal:** each module is ~6 hours of well-bounded tasks (below), one ML component each (lead conversion vs anomaly detection), one "engineering" heavy part each (import and validation vs LLM guardrails), and one data-producing vs data-consuming half.
 
-## 2. Run and test (from the repo root, once the code stubs are on `main`)
+## 2. Run and test (from the repo root)
 
 ```bash
 pip install -r backend/requirements.txt
@@ -54,7 +54,7 @@ python -m pytest backend -q
 
 Task lists: see the two module files above.
 
-## 4. Shared pieces (local stubs, added to `main` on request)
+## 4. Shared pieces (on `main`)
 
 | File | Purpose |
 |---|---|
@@ -62,8 +62,7 @@ Task lists: see the two module files above.
 | `backend/common/errors.py` | error shape `{"error": {...}}` and `not_implemented()` |
 | `backend/data_engine/public.py` | in-process interface used by `DATA_SOURCE=local` |
 | `backend/decision_engine/clients/data_client.py` | `DataClient` with 3 sources |
-| `backend/decision_engine/scoring.py` | priority equation + tests |
-| `backend/gateway/main.py` | mounts both routers for integration |
+| `backend/gateway/main.py` | mounts both routers for integration (each module's `main.py` exposes `router` with prefix `/api/v1`) |
 
 Don't restructure these. If you need a change, follow `docs/WORKFLOW.md` section 3.
 
