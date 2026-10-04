@@ -1,144 +1,141 @@
-# Research, model analysis and innovation (Vedashree)
+# Research for Catalyst AI (Vedashree)
 
-**Branch:** `research`. You edit only `research/`. Your job: make sure what we build is **well-chosen, correctly evaluated and convincingly explained**, and keep the team honest about what's real.
+**Branch:** `research`. You edit only `research/`. Your job: make sure Catalyst AI is **well-aimed, correctly checked and convincingly explained**, and keep the team honest about what is real.
 
-**Source:** the Perplexity research report (`research_perplexity_perplexity.pdf`, 4 Oct 2026, kept locally, not in the repo). Section 1 below is its decisions in short. The report is AI-generated and cites sources: **verify any fact (prices, product features, dataset licences) before it goes on a slide.**
+**Product:** Catalyst AI, a **free** advisor for home-business owners (anyone who makes or sells something and takes orders through Instagram or WhatsApp) that gives them analytics to focus on **next month's sales**. First case study: Box Box (F1 merchandise). The loop: intake → diagnosis → advice → weekly follow-up. Main measure: **orders from strangers**.
+**Read first:** `docs/DATASET.md`, `backend/BACKEND.md`, and the two team documents `AI_Business_Growth_Advisor_Project_Brief.docx` (the project brief) and `Lead_Qualification_Model.docx`. The two Word files are shared by the team and are **not in the repo**; ask Soham if you do not have them.
 
-## 1. Decisions already made (from the research)
+## 1. Decisions already made
 
-| Decision | Choice | Why |
-|---|---|---|
-| Problem statement | **PS3: AI Business Growth Advisor** | Workflow fits our skills: data, KPIs, prediction, prioritisation, action plan |
-| Product | **Slothdev GrowthOS**, a 7-day growth operating system for Indian D2C/service SMBs | Narrow wedge; generic "AI consultant" is crowded |
-| Core loop | validated data → KPI facts → ML signals → rules → candidate interventions → **priority score** → constrained LLM explanation → human approval → tasks → **outcome tracking** | The defensible part is the loop, not the chat |
-| ML scope | **Two components only:** (1) calibrated lead-conversion probability, (2) anomaly/bottleneck detection. RFM as transparent analytics, not a headline model | Depth and honest evaluation beat ten shallow models |
-| Datasets | UCI **Bank Marketing** (lead conversion; **drop call duration**), UCI **Online Retail II** (RFM/cohorts), plus a **synthetic relational demo tenant** ("Aarohi Skin") | Public datasets can't be truthfully joined; synthetic tenant unifies the story and is labelled synthetic |
-| Stack | Next.js + FastAPI + PostgreSQL/Supabase + scikit-learn/LightGBM + SHAP + LLM API behind an interface | Fast to build, good ML fit |
-| LLM role | Explain and instantiate tasks from **evidence packets**; never calculate KPIs or invent evidence | Prevents hallucinated numbers |
-| Human in the loop | Approval for spend, outreach and data-changing actions | Safety |
-| Avoid | Ten models, autonomous spending, knowledge graph, Kubernetes, real-time streaming, scraping competitors, causal-ROI claims without experiments, joining unrelated public datasets | Scope and honesty |
-
-**Honest positioning (from the research):** incumbents already do chat-over-data, CRM scoring, anomaly alerts and agents (Zoho Zia, HubSpot Breeze, Salesforce, Shopify Sidekick, Tableau Pulse, Looker, ChatGPT/Gemini with connectors). So *"personalised advice"*, *"multi-source data"* and *"AI recommendations"* are **not** differentiators. Ours is: an evidence-linked, effort-aware, transparent recommendation compiler plus an expected-vs-actual outcome ledger, packaged for low-setup SMB use. Call it an **architectural/product innovation, not a new ML algorithm.**
-
-## 2. Your deliverables
-
-Work in this order. Each item says who needs it and when.
-
-| # | Deliverable | File | Needed by | Who uses it |
-|---|---|---|---|---|
-| R1 | **Dataset readiness:** confirm Bank Marketing and Online Retail II are downloadable, record licence/citation terms, list columns, confirm the duration column is excluded, note target definition and class balance. Hand the checked file paths/notes to Soham | `research/datasets.md` | 10:45 | Soham (backend-1 task 5) |
-| R2 | **Model analysis** (section 3): a model card per component with rationale, alternatives rejected, metrics, risks | `research/models.md` | 11:30 | Soham, Ayush, slides |
-| R3 | **Intervention library:** 12–15 approved action templates (trigger, eligibility, KPI, expected direction, effort, cost, time-to-signal, approval, risks). Extend the seed in `contracts/fixtures/intervention_templates.json` and send changes to `main` per `docs/WORKFLOW.md` section 3 | `research/intervention_library.md` (+ the fixture) | 12:00 | Ayush (backend-2 tasks 1, 4, 5) |
-| R4 | **Evaluation plan and acceptance gates** (section 4) | `research/evaluation.md` | 12:30 | Soham, Ayush |
-| R5 | **Golden set:** 30–50 recommendation cases scored on the rubric in section 4. Start with the 4 demo recommendations | `research/golden_set.csv` (template included) | 2:00 | backend-2 evaluation, slides |
-| R6 | **Innovation and differentiation** (section 5): competitor one-pager, our wedge, claims ledger | `research/innovation.md`, `research/claims_ledger.md` | 1:30 | slides, Q&A |
-| R7 | **Reality checks on backend outputs:** sanity-check units and numbers coming out of backend-1/2 (a hand calculation for 3 KPIs; check the demo story is internally consistent) | comments in PRs / `research/checks.md` | rolling, 12:30 on | everyone |
-| R8 | **Demo script, slides (5–7), problem-and-solution text, video storyboard** (section 7) | `research/demo_script.md`, `research/slides_outline.md`, `research/problem_solution.md` | 3:30 (drafts at 2:30) | whole team |
-| R9 | **Q&A bank** with answer skeletons and risk register (section 8) | `research/qa_bank.md`, `research/risks.md` | 4:30 | whole team |
-
-If time gets tight, do R1, R3, R5 (the 4 demo cases), R7 and R8 first. They directly improve the demo and the build.
-
-## 3. Model analysis to write (R2)
-
-For each component write: **what it does, why this model, alternatives considered, features, metrics, known failure modes, how we explain it.**
-
-| Component | Choice | Notes to research and write up |
-|---|---|---|
-| **Lead-conversion probability** | Logistic regression baseline; gradient-boosted trees (HistGradientBoosting / LightGBM / XGBoost) as challenger; **probability calibration** (isotonic or sigmoid) | Why a baseline first. Why calibration matters (probabilities drive prioritisation). Class imbalance handling. **Leakage:** call duration is unknown before outcome, so exclude it. Time-based split. Features available at prediction time only |
-| **Explainability** | LR coefficients (global), SHAP (local, for trees) | Show top positive and negative factors; **only actionable factors drive advice** (response latency, engagement, stage age); never advise on non-actionable or protected traits; "association, not causation" |
-| **Anomaly / bottleneck detection** | Seasonal median/MAD robust z-score baseline; Isolation Forest challenger; change-point rules | Compare on the **injected incidents**; if similar, ship the simpler one. Four tests for a bottleneck: materiality, deviation, localization, actionability |
-| **Segmentation (analytics only)** | Quantile RFM (K-means only if stable and actionable) | Evaluate by stability and actionability, not silhouette alone |
-| **Priority scorer (not ML)** | The transparent equation in `contracts/API_CONTRACT.md` 2.4 | Explain each weight; sanity-test with edge cases; explain why a visible equation beats an opaque model with sparse outcome data; weights are a documented assumption to be calibrated later |
-| **LLM** | Provider behind an interface; JSON-schema constrained output; validator; cache | Compare **2 providers** on a small test: JSON-schema adherence, hallucinated numbers, latency, cost, rate limits. Recommend one + a fallback. Document the prompt/evidence-packet design |
-| **Outcome evaluation** | Expected-vs-actual with baseline, range, fidelity vs effectiveness, observational label | Why we don't claim causality without a control/holdout; later idea: conservative Bayesian shrinkage of template reliability |
-| **Forecasting, churn model, next-best-action ML, knowledge graph, RL** | **Not built** | Write one line each on why not now (data/time/honesty). This is "future scope" and shows judgement |
-
-Also record **what's possible in 8 hours and what isn't**, so no one over-promises.
-
-## 4. Evaluation plan (R4) and golden set (R5)
-
-**Acceptance gates** (no universal accuracy target is defensible before experimenting):
-- Lead model beats the prevalence/prior baseline on **PR-AUC**; improves **lift in the top follow-up capacity band** (e.g. lift@10%); reasonably calibrated (**Brier score**, reliability diagram); stable across time/channel slices.
-- Anomaly detector: event-level **precision/recall** on injected incidents, **false alerts per week**, **detection delay**; use the simple method if the challenger isn't clearly better.
-- Import validation: every injected data issue is detected; none silently dropped.
-- Plans: total hours <= weekly capacity; dependencies respected; every task has a KPI and success criterion.
-- Recommendations: pass the golden-set rubric.
-
-**Golden-set rubric (score each 0–2):** evidence correctness · consistency with rules/constraints · feasibility · specificity · expected-impact logic · uncertainty disclosure · harmlessness. Template: `research/golden_set_template.csv`. Ask a business mentor to review a sample if one is reachable.
-
-**Report honestly:** held-out data, N, baseline, slices, failure cases. No number without its context.
-
-## 5. Innovation and differentiation (R6)
-
-Write one page each:
-1. **Competitor map** (short): the groups above and what each already does; where they stop (no cross-functional SMB experiment ledger, insight stops before outcome, enterprise setup).
-2. **Our wedge, in one sentence:** "Unlike [X], which [does A], GrowthOS [does B] so that [C]."
-3. **Innovation list we can defend** (only things we actually build): evidence-linked recommendation compiler · visible priority equation with hard eligibility gate · data-quality-aware abstention · calibrated lead value · human-approved plan · day-7 expected-vs-actual ledger.
-4. **India-specific parts that change decisions** (not "Indian English"): INR/GST fields, Indian fiscal year, festival seasonality, WhatsApp-first task drafts with consent, UPI/PSP export normalisation (future), regional-language explanation layer. Say which are built and which are future scope.
-5. **Claims ledger** (`research/claims_ledger.md`): every claim we plan to make on slides/video, with status (built / partial / mocked / planned) and evidence. Update from 10:00; freeze at 5:00; cut anything the final video doesn't show.
-
-## 6. Dataset and synthetic-data notes (supports R1 and backend-1)
-
-- **Bank Marketing:** use as the supervised-learning proof. Remove call duration. Chronological split.
-- **Online Retail II:** customer analytics (RFM, repeat, cohorts). Handle cancellations, negative quantities, missing customer IDs, recency cutoffs. Use standalone.
-- **Synthetic "Aarohi Skin":** generated from a causal skeleton (season + channel + spend → clicks → leads → opportunity → win → order → repeat), not independent random columns. Injected incidents: Instagram CAC spike; 8 high-value leads past SLA; improving email repeat cohort; plus data issues (duplicate leads, missing campaign IDs, mixed date formats). Validate: schema/keys, business invariants, funnel ratios, seasonality plots. Always labelled synthetic.
-- Never claim real-world uplift from synthetic results. All demo outcomes are **scenarios**.
-
-## 6b. Key numbers in the demo story (so everyone says the same thing)
-
-Source of truth: `contracts/fixtures/`. If the backends generate different numbers, update the script, not the other way round.
-
-| Fact | Value |
+| Decision | Choice |
 |---|---|
-| Business | Aarohi Skin, Pune, D2C skincare, 3 SKUs (synthetic) |
-| Goal | Improve contribution revenue without increasing total acquisition spend |
-| Constraint | 8 execution hours and Rs 10,000 discretionary budget per week; response SLA 4 h |
-| Incident 1 | Instagram CAC Rs 612 vs Rs 410 baseline (+49%); conversion 2.1% vs 3.4%; contribution ROAS 0.82 vs 1.45 |
-| Incident 2 | 8 high-value leads waiting ~19 h vs a 4 h SLA |
-| Opportunity | Email cohort repeat purchase 31% vs 24% |
-| Top recommendation | Follow up with the 8 hot leads: priority 69.3 |
-| Others | Email repeat-buyer flow 45.1; Instagram audit + bounded test 44.2 |
-| Blocked | "Increase Instagram ad spend": violates the no-spend-increase constraint |
-| Day-7 replay | Hot-leads: promising; email flow: inconclusive; Instagram test: inconclusive (scenario numbers) |
+| Direction | The Box Box project brief is final. The earlier "Solution Plan" PDF is dropped |
+| Product name | **Catalyst AI** |
+| Target user | Home-business owners of **any product**; working definition: first 50 to 500 orders, Instagram or WhatsApp, no ad budget, one to three people. Not for venture-backed startups, mid-size companies or established brands with an ad budget and an agency |
+| Box Box's role | The first case study and demo, **not** the product's scope. A second sample (a home baker) shows it is not shirt-specific |
+| Price | **Free for everyone** (no paid tier) |
+| Language | English only for the prototype |
+| Main measure | **Orders from strangers**, not friends |
+| How diagnosis works | **Calculations decide, the AI explains.** The LLM reads messy input and explains; it never diagnoses or calculates |
+| Lead model | Transparent points first (the team document `Lead_Qualification_Model.docx`); the public-data model is a learned challenger and sanity check |
+| Data | Public datasets validate and calibrate; Box Box and the home baker are generated and labelled synthetic; real data is used if an owner shares it |
 
-## 7. Demo script, slides and submission text (R8)
+## 2. Why this user (for the pitch)
 
-**Demo script (3 minutes, from the research):**
+The brief compared segments and chose the one that **needs advice and knows it**:
+
+| Segment | Verdict |
+|---|---|
+| Local offline businesses (shops, salons, clinics, restaurants, coaching) | Widest need, but data is on paper and owners rarely look for advice |
+| Small manufacturers and job-shops | Most at stake per business, but hard to reach and slow to change |
+| Kirana stores | **Dropped**: they feel a problem but not a need for an advisor, will not enter data, will not pay |
+| Freelancers and solo service businesses | Real need, but a different product |
+| Family businesses in a handover | Too few and too varied to start with |
+| **Small e-commerce and home businesses** | **Chosen**: they feel the pain daily, already look for help, and their data is at least partly digital |
+
+**Why one advisor for everyone does not work:** a kirana store and a medical store share basics (cash flow, stock, margins) but the decisions differ (pricing freedom vs MRP caps, slow stock vs expiry dates, light vs heavy rules). So we pick one type of business, make the advice good for it, and add types later on a shared core.
+
+## 3. Competitors (from the project brief: verify every price and claim before it goes on a slide)
+
+| Competitor | What it does | How it lags for our user |
+|---|---|---|
+| Shopify Sidekick | Built into the Shopify admin; diagnoses falling sales and suggests fixes | Needs a Shopify store and enough data |
+| Triple Whale (Moby), Lebesgue | AI analysts for ad spend, attribution and profit | Paid plans (the brief cites about $219 a month, and $59 or $149); built for brands already running ads |
+| Marketplace AI (Amazon, Flipkart, Meesho) | Seller-side AI tools | Only helps inside one marketplace |
+| Agencies and consultants | Growth strategy for funded brands | Priced above what these owners earn |
+| General chatbots | Free advice on anything | **The real competitor**: generic because it knows nothing about the owner's numbers |
+
+**Our position:** we serve the stage *before* an owner is ready for those tools. We work from DMs, order sheets and an interview, focus on **reach** (not ad attribution), tie advice to the owner's own numbers with the evidence shown, and follow up every week, which a chatbot does not do. An owner who outgrows us is a success. Because we are free, the point is **specificity and follow-up**, not price.
+
+## 4. Deliverables
+
+Work in this order. Today the prototype must be shown; drafts by **4:00 PM**, finals by **4:45 PM**.
+
+| # | Deliverable | File | Who uses it |
+|---|---|---|---|
+| R1 | **Licence check** for Online Shoppers and Bank Marketing (UCI's metadata lists none or "see page"), and a note that Olist is non-commercial. Say what we may do with each | `research/licences.md` | `docs/DATASET.md`, slides |
+| R2 | **Lead-score check** (section 5): does the data support the points? | `research/lead_signals_check.md` | Soham (backend 1) |
+| R3 | **Action library** (section 6): generic actions per bottleneck, reach partners, brand-risk wording | `research/action_library.md` | Ayush (backend 2) |
+| R4 | **Competitor sheet** with every price and claim checked and sourced | `research/competitors.md` | Slides |
+| R5 | **Demo script** for Box Box and the home baker (section 7) | `research/demo_script.md` | Whole team, video |
+| R6 | **Claims ledger**: every claim we will make, its status (built / partial / scripted / planned) and evidence | `research/claims_ledger.md` | Slides, Q&A |
+| R7 | **Q&A bank** with short, evidence-backed answers (section 8) | `research/qa_bank.md` | Whole team |
+| R8 | **Slides outline** (5 to 7 slides) and the problem-and-solution text | `research/slides_outline.md`, `research/problem_solution.md` | Submission |
+| R9 | **Golden set**: 20 to 30 test cases of diagnosis and lead scoring with expected answers | `research/golden_set.csv` | Both backends |
+| R10 | **Founder interview guide** (section 9). The interviews themselves happen after the hackathon | `research/interview_guide.md` | Next stage |
+| R11 | **Frontend needs** (section 10) | in this file | Kaushal |
+
+If time is short, do R1, R3, R5, R6 first: they directly improve the build and the demo.
+
+## 5. Lead-score check (R2)
+
+The lead score is hand-set points (the team document `Lead_Qualification_Model.docx`). They are guesses, and the design says so. Your job is to check **directions** against public data and report honestly:
+
+| Question | Public evidence | What to write |
+|---|---|---|
+| Does intent outweigh light interest (price question +40 vs like +5)? | Online Shoppers: sessions that saw pages with value convert at **56.3% vs 3.9%** | Supports the direction; say it is a different setting (shop sessions) |
+| Does history raise the chance (bought before +30)? | Bank Marketing: previous success converts far higher than none (65% vs 9% across the full file) | Supports the direction |
+| Does a long silence lower it (no activity in 30 days, -20)? | The Bank Marketing model's learned effect of days since contact is negative | Supports the direction; the size of 20 points is a guess |
+| Do new people behave differently (stranger bonus +10)? | Online Shoppers: new visitors convert at **24.9% vs 13.9%** | Supports "different"; the bonus is a **growth choice**, not a measured effect, and must be described that way |
+
+Also list **what is not supported**: the exact point values and thresholds, which only the owner's own outcomes can set (the weekly learning step). Do not overclaim.
+
+## 6. Action library (R3)
+
+A table per bottleneck (reach, conversion, margin, repeat orders, capacity). Each action: trigger, what to do, effort in minutes, a measurable target, the evidence that would justify it, risks, and whether it needs the owner's approval. **Generic** (works for any product), with Box Box and baker examples. Include:
+- **Reach partners:** fan pages, creators, college and local communities; how to qualify them (audience match, location match, engagement not followers, past results, cost).
+- **Timing:** using a demand window from the market-context calendar (race weekends for Box Box; festivals for others).
+- **Brand and IP risk wording:** a plain-language warning that protected names, logos or characters can lead to takedowns, "this is not legal advice".
+- Actions must respect: **no ad budget**, one to three people, limited hours.
+
+## 7. Demo script (R5), about 3 minutes
 
 | Time | Beat |
 |---|---|
-| 0:00–0:25 | **Problem.** "Aarohi has dashboards and spreadsheets but can't decide whether to fix ads, chase leads or invest in retention." |
-| 0:25–0:55 | **Input and trust.** Upload three files; show mapping, duplicates, missing attribution and quarantined-row count. Judges see data engineering, not a prompt box |
-| 0:55–1:30 | **Intelligence.** KPI evidence (CAC up, Instagram conversion down, email repeat up); calibrated lead queue with reasons and one abstention |
-| 1:30–2:05 | **Decision.** Three recommendations and the factor breakdown. Hot-lead follow-up outranks "increase ad spend" (blocked by the constraint) |
-| 2:05–2:40 | **Action.** Generate the 7-day plan (owner, due date, KPI, success criterion, dependency). Show a WhatsApp/email draft preview that needs approval |
-| 2:40–3:10 | **Measurement.** Switch to the day-7 snapshot: task fidelity and expected vs actual; one intervention promising, one inconclusive |
-| 3:10–3:30 | **Thesis.** "This is not data-to-chat. It is data → evidence → priority → action → measured outcome." |
+| 0:00 to 0:25 | **Problem.** A home-business owner with real orders, stuck in their own circle, with no dashboard and no budget |
+| 0:25 to 0:55 | **Intake.** Upload an order sheet and paste a few DMs; show repairs, the quality badge, and the source tag on every field |
+| 0:55 to 1:30 | **Diagnosis.** One bottleneck named from the data, with the number, the source and the confidence; two runners-up; the stranger-orders chart |
+| 1:30 to 2:05 | **Advice.** One to three actions for the week with evidence; the daily list of Hot, Warm and Cold leads with drafted replies; the brand-risk card |
+| 2:05 to 2:40 | **Next month.** The projection with its range and basis, labelled an estimate |
+| 2:40 to 3:10 | **Follow-up.** Switch to week 2 (a scripted, labelled replay): what was done, what changed, adjusted actions |
+| 3:10 to 3:30 | **Thesis.** "Calculations decide, the AI explains. Free for every home-business owner." Then switch to the **home baker** to show it is not shirt-specific |
 
-Record a fallback video and keep cached LLM responses in case connectivity fails.
+Keep a recorded fallback and cached LLM answers in case connectivity fails.
 
-**Submission pieces to draft** (the rules require all five): working prototype link · repo/deployed link · **2–3 min demo video** · **5–7 slide deck** (suggested: 1 title+problem, 2 users and pain, 3 solution loop, 4 live demo screenshots, 5 AI/tech and evaluation, 6 differentiation and India fit, 7 impact, limitations and next steps) · **short problem-and-solution description**.
+## 8. Q&A bank (R7): prepare short answers to
 
-**Impact statements (honest):** process outcomes first: time-to-decision, unresolved data errors, plan completion, recommendation acceptance/edit rate, top-k lead lift, calibrated expected-vs-actual impact. If we state time saved, measure it (time one weekly analysis manually vs assisted, report medians and N). Don't claim a conversion uplift without a baseline or control.
+- Isn't this just a chatbot? (Our difference: advice tied to the owner's own numbers, evidence shown, a weekly follow-up.)
+- Where is the AI? (Reading messy input and labelling intent; explaining results. Calculations decide what is wrong.)
+- Why is it free, and how does it last? (Free for the prototype; sustainability is an open question, say so honestly.)
+- Is the data real? (Public datasets validate the engine; the demo businesses are generated and labelled synthetic; real owner data is used if shared.)
+- Why Olist, Online Retail II, Online Shoppers and Bank Marketing? (See `docs/DATASET.md`.)
+- How do you know the lead score works? (Points are starting guesses; directions are supported by public data; the weekly step learns from outcomes.)
+- What about privacy? (Pseudonymised before any LLM, per owner, deletable.)
+- Doesn't friend or stranger rely on self-reporting? (Yes; the owner tags it. Say so.)
+- What if the AI misreads a message? (The owner can correct a label.)
+- Trademark risk with merchandise? (We flag it; not legal advice.)
+- What would you build next? (Screenshots, voice interview, official Instagram and WhatsApp connections, the learned score.)
 
-## 8. Judge Q&A and risks (R9)
+## 9. Founder interview guide (R10)
 
-Prepare short, evidence-backed answers to:
-- "Isn't this just ChatGPT on business data?" (Answer from section 1 and the research: the moat is the application state, evidence model and measurement loop, not the LLM.)
-- "Where is the AI?" · "Why these two models?" · "How do you know the lead model works?" (held-out, baseline, calibration) · "What stops hallucinated numbers?" (deterministic KPIs, evidence IDs, validator) · "What's real and what's mocked?" · "Is the data real?" (synthetic tenant, labelled) · "How does it help an Indian SMB?" · "What happens if the LLM is down?" (cache and deterministic fallback) · "Who owns the data and how is privacy handled?" · "What would you build next?"
+Interviews with 10 to 15 similar founders are the brief's way to confirm that "stuck in my own circle" is the common problem. **They happen after the hackathon.** Draft a guide: what they sell, how they take orders, how many orders so far, where buyers come from (friends vs strangers), what they already tried, how much time they have, what data they keep, what they would pay attention to weekly. No selling; just listening.
 
-**Risk register** (starting point from the research): hallucinated recommendation · bad input data · data leakage · correlation treated as causation · privacy breach · too-broad MVP · competitor imitation · sparse outcome data · demo failure. For each: mitigation and who owns it.
+## 10. What the frontend must show (R11, for Kaushal)
 
-## 9. How you work with the others
+The stranger-orders chart and share; the five bottlenecks with the one chosen and two runners-up; the **evidence card** (claim, number, source, confidence) on every finding; provenance badges (`exact` / `estimate` / `derived`) on every number; the daily lead list with Hot, Warm, Cold, Disqualified and drafted replies (preview only); next month's projection with its range, labelled an estimate; the brand-risk card; a weekly follow-up view; a switch between the demo businesses; a clear "demo data" badge. Mobile-first.
 
-- **Soham (backend-1):** you give him dataset notes (R1) and the model analysis (R2); he gives you model metrics (the `model_card`).
-- **Ayush (backend-2):** you give him the intervention library (R3) and the golden set; he gives you anomaly metrics and recommendation outputs for review.
-- **Kaushal (frontend):** you give him UX copy (plain-language labels, "estimate/expected range/observational" wording, tooltips for KPI definitions) and the demo script.
-- Read their PRs for **numbers that don't make sense**. This is the highest-value thing you can do: a wrong unit or an impossible ratio found at 1 PM saves the demo.
+## 11. Risks (from the brief) to keep visible
 
-## 10. Definition of done
+- **Trademarks:** F1 names, teams, logos and drivers are protected; unlicensed merchandise risks takedowns as a brand grows. The advisor catches this kind of risk, as a flag.
+- **Messy data:** orders live in DMs, UPI apps and sheets. Intake must work with that, or owners drop off.
+- **One case is not proof:** Box Box shows the problem exists for one seller. The interviews are what confirm it is common.
+- **Staying specific:** if the advice reads like a general chatbot's, there is no reason to use us.
+- **Small numbers:** a seller has few leads and few orders, so early rates swing; decisions wait for several weeks of data.
+- **Willingness to pay** is not a risk here: the product is free. Sustainability beyond the hackathon is an open question.
 
-- Every deliverable above exists, is accurate and is cross-checked against what's built.
-- Every slide claim appears in the claims ledger with evidence.
+## 12. Definition of done
+
+- Each deliverable exists, is accurate and is cross-checked against what is built.
+- Every slide claim appears in the claims ledger with its evidence; AI-generated or third-party figures were verified.
 - The team can answer the Q&A bank without notes.
-- Sources are named; AI-generated claims were verified before use.
+- Nothing is called measured that is a scenario assumption, and nothing synthetic is called real.

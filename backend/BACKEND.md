@@ -1,130 +1,126 @@
-# Backend: intake and diagnosis in two independent modules
+# Backend: intake, measurement and advice in two independent modules
 
-**Product (from the project brief, 4 Oct 2026):** an advisor for **small, early-stage maker-sellers**: small e-commerce, homegrown and student-run businesses with their first 50 to 500 orders, selling mainly through Instagram or WhatsApp, with no ad budget, run by one to three people. First case study: **Box Box** (F1 merchandise, run by a final-year student).
-**The loop:** intake (messy data plus a short interview) → diagnosis (the single biggest bottleneck) → advice (1 to 3 actions this week, each with evidence) → weekly follow-up (what was done, what changed, adjust).
-**Main success measure:** **orders from strangers**, not from friends. If that number rises over four weeks, the advice is working.
-**Contract:** [`../contracts/API_CONTRACT.md`](../contracts/API_CONTRACT.md) (fact shape is unchanged; the fact list changes, see section 3).
+**Product: Catalyst AI.** A free advisor for **home-business owners**: people who make or sell something (shirts, candles, baked goods, jewellery, anything), take orders through Instagram or WhatsApp, have no ad budget, and run the business alone or with one or two others. It gives them analytics to **focus on next month's sales**.
+**First case study:** Box Box, an F1 merchandise seller run by a final-year student. It is the demo, not the scope: every metric and rule works for any product.
+**The loop:** intake (messy data plus a short interview) → diagnosis (the one biggest bottleneck) → advice (1 to 3 actions this week, each with evidence, plus a daily list of leads to answer) → weekly follow-up (what was done, what changed, adjust).
+**Main measure:** **orders from strangers**, not from friends. **The product is free for everyone.**
+**Datasets:** [`../docs/DATASET.md`](../docs/DATASET.md). **Contract (v2 draft):** [`../contracts/API_CONTRACT.md`](../contracts/API_CONTRACT.md).
 **Module docs:** [`BACKEND_1_DATA_ENGINE.md`](BACKEND_1_DATA_ENGINE.md) (Soham) and [`BACKEND_2_DECISION_ENGINE.md`](BACKEND_2_DECISION_ENGINE.md) (Ayush).
-
-> **Status of this document:** this is the plan after the stakeholder brief changed the target user. Code written for the earlier D2C-brand plan is being migrated; section 4 says exactly what is kept, adapted or retired.
 
 ## 1. The backend in one picture
 
 ```
- ┌──────────────── data_engine (backend 1, Soham): INTAKE + MEASUREMENT ────────────────┐
- │ order list · cost per unit · Instagram insights · customer source · interview answers │
- │   → validate, repair, quarantine → one business profile (value + source + confidence)  │
- │   → metrics for the five bottlenecks + "orders from strangers" → weekly snapshots      │
- │   → public data: validation corpus + F1 race calendar (market context)                 │
- └───────────────────────────────────────┬──────────────────────────────────────────────┘
-                                         │ facts (value, baseline, numerator, denominator, source, confidence)
- ┌───────────────────────────────────────▼──────────────────────────────────────────────┐
- │ decision_engine (backend 2, Ayush): DIAGNOSIS + ADVICE + FOLLOW-UP                    │
- │   rank reach / conversion / margin / repeat orders / capacity → name ONE bottleneck   │
- │   → 1 to 3 weekly actions from a library, filtered by the founder's constraints       │
- │   → explanation by an LLM that may only use numbers the engine produced               │
- │   → weekly follow-up: what was done, what changed, adjust next week                   │
- └───────────────────────────────────────────────────────────────────────────────────────┘
+ ┌─────────── data_engine (backend 1, Soham): INTAKE + MEASUREMENT + LEAD SCORING ───────────┐
+ │ orders · costs · Instagram insights · pasted chats · interview answers                     │
+ │   → validate, repair, quarantine → one profile (value + source + confidence)                │
+ │   → facts for the five bottlenecks + "orders from strangers" → weekly snapshots             │
+ │   → lead records: AI reads intent → points → Hot / Warm / Cold / Disqualified              │
+ │   → next-month projection · market context (event calendars) · public-data validation     │
+ └────────────────────────────────────────┬─────────────────────────────────────────────────┘
+                                          │ facts, lead scores, projection, context
+ ┌────────────────────────────────────────▼─────────────────────────────────────────────────┐
+ │ decision_engine (backend 2, Ayush): DIAGNOSIS + ADVICE + FOLLOW-UP                         │
+ │   rank reach / conversion / margin / repeat orders / capacity → name ONE bottleneck        │
+ │   → 1 to 3 weekly actions from a library, filtered by the owner's constraints              │
+ │   → daily lead list with drafted replies (Hot / Warm / Cold) · reach-partner suggestions  │
+ │   → LLM explanation that may only use numbers the engine produced                         │
+ │   → weekly follow-up: what was done, what changed, adjust next week                        │
+ └────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**The AI does not decide what is wrong. The calculations do.** The LLM's jobs are to read messy input (a DM, a UPI note, an interview answer) and to explain the result in plain language, using only numbers the engine produced. If a number is missing, the finding is not shown.
+**The AI does not decide what is wrong. The calculations do.** An LLM has exactly two jobs: **read messy input** (a DM, a comment, an interview answer) and label its intent, and **explain** the result in plain language using only numbers the engine produced. If a number is missing, the finding is not shown.
 
-## 2. Why this user, and what that changes in the backend
+## 2. Who it is for, and what that means for the engineering
 
-The brief compared segments (offline shops, small manufacturers, kirana stores, freelancers, family businesses, small e-commerce sellers) and chose the sellers who **feel the pain daily, already look for help, and have at least partly digital data**, narrowed to the earliest stage. The rule that decided it: *target a business that needs help and knows it.*
+Target user (working definition, adjusted after founder interviews): a maker-seller with their first 50 to 500 orders, selling mainly through Instagram or WhatsApp, with no ad budget, run by one to three people. **Not for:** venture-backed startups, mid-size companies, or established brands with a store, an ad budget and an agency.
 
-What this means for the engineering:
-- **No ad data.** There is no ad budget, so CAC, ROAS and ad-spend signals do not apply. Reach, not attribution, is the problem.
-- **Messy data is the norm.** Orders live in DMs, UPI apps and a sheet. Intake must work with that or founders drop off.
-- **Tiny volumes.** 50 to 500 orders means small samples. Every metric carries a sample size and a confidence label, and thin data produces "estimate", not a verdict.
-- **The data decides.** Reach is the *likely* bottleneck for Box Box, but the engine must compute all five and let the numbers choose.
-- **Advice must be specific.** A chatbot is the real competitor. Our difference is advice tied to the seller's own numbers, with the evidence shown, and a weekly follow-up a chatbot does not do.
+- **Any product.** Orders carry a free-form product name and category. Nothing in the engine is specific to one product type.
+- **No ad data.** Reach, not ad attribution, is the problem. CAC and ROAS do not apply.
+- **Messy data is the norm.** Orders live in DMs, UPI apps and a sheet. The prototype takes **pasted text and CSV**; reading screenshots is not built.
+- **Tiny volumes.** Every fact carries a sample size and a confidence label; thin data produces "estimate", never a verdict.
+- **The data decides.** Reach is the likely bottleneck for Box Box, but the engine computes all five and lets the numbers choose.
+- **Advice must be specific.** A chatbot is the real competitor. Our difference is advice tied to the owner's own numbers, with the evidence shown, and a weekly follow-up.
 
 ## 3. The five bottlenecks and the facts that show them
 
-| Bottleneck | Meaning | What shows it (facts the engine computes) |
+| Bottleneck | Meaning | Facts the engine computes |
 |---|---|---|
-| **Reach** | Too few new people see the brand | Share of orders from friends vs friends of friends vs strangers; stranger orders per week; Instagram reach per post |
-| **Conversion** | People see it but do not buy | Profile visits and follows per post vs orders; orders per 1,000 reached |
-| **Margin** | Each order earns too little to fund growth | Price minus full unit cost (blank + printing + packaging + courier); margin per order and in % |
+| **Reach** | Too few new people see the brand | Orders by source (friend / friend of friend / stranger); **stranger orders per week**; Instagram reach per post |
+| **Conversion** | People see it but do not buy | Profile visits and follows per post vs orders; orders per 1,000 reached; lead-to-order rate |
+| **Margin** | Each order earns too little to fund growth | Price minus full unit cost; margin per order and in % |
 | **Repeat orders** | Buyers do not come back | Share of customers with a second order; days between orders |
-| **Capacity** | He cannot make or ship more | Dispatch delay, stock-outs, orders turned away, orders per week vs what he says he can make |
+| **Capacity** | Cannot make or ship more | Dispatch delay, stock-outs, orders turned away, orders per week vs the stated limit |
 
-Every fact keeps the existing contract shape (`fact_id, kpi, dimension, period, value, unit, baseline, delta_pct, numerator, denominator, definition_version, quality_flag, snapshot`) and gains two additive fields: `source` (`exact` | `estimate` | `derived`) and `sample_size`. Snapshots become weekly (week 1 to week 4) instead of "baseline / day 7".
+Every fact keeps the contract shape (`fact_id, kpi, dimension, period, value, unit, baseline, delta_pct, numerator, denominator, definition_version, quality_flag, snapshot`) and gains `source` (`exact` | `estimate` | `derived`) and `sample_size`. Snapshots are weekly. The **baseline for the first target is the business's own best weeks**; typical figures per business type are added later and need a source.
 
-## 4. What is kept, adapted or retired from the earlier plan
+## 4. Lead qualification and next month's sales
+
+- **Lead scoring (backend 1)** follows the team document `Lead_Qualification_Model.docx` (shared outside the repo): any person who showed interest is a lead; an LLM labels each message's intent; transparent points per signal; Hot / Warm / Cold / Disqualified; strangers rank above friends at the same score; weekly learning from outcomes. A logistic regression trained on public contact-history data is the **learned challenger and sanity check**, not the first version. Details: `BACKEND_1_DATA_ENGINE.md`.
+- **From scores to actions (backend 2):** Hot means reply today with a drafted reply; Warm means one targeted message when there is a reason; Cold means nothing one to one; Disqualified means a polite single reply, counted as unmet demand. The advisor drafts, the owner sends.
+- **Next month's sales (backend 1 computes, backend 2 explains):** a simple, transparent projection of next month's orders with a range, from the recent weekly trend and the market-context calendar. It is clearly labelled an **estimate**. No machine-learning forecast.
+
+## 5. Data strategy
+
+Three kinds of data, each labelled: **public datasets** (validate the engine and calibrate how generated data behaves), **generated demo businesses** (Box Box and a home baker, `synthetic: true`), and **the owner's own data** (`real`). Full detail, licences, measured numbers and limits: [`../docs/DATASET.md`](../docs/DATASET.md).
+
+## 6. What is kept, adapted or retired from earlier work
 
 | Piece | Decision |
 |---|---|
-| CSV import: column detection, mapping, repair, quarantine, quality badge | **Keep and extend.** Orders, cost sheet and Instagram-insights files go through it; add a `customer source` field |
-| Point-in-time snapshots (a snapshot only sees events before its `as_of` time) | **Keep.** Used for the weekly follow-up, so week 1 never sees week 2 |
-| Fact shape, evidence IDs, data client (`fixture`, `http`, `local`) | **Keep** |
-| Eligibility gate (blocks forbidden or unaffordable actions) | **Keep.** New rules: no paid ads, student hours, trademark risk |
-| LLM boundary: evidence packet, JSON-schema output, validator, cache, deterministic fallback | **Keep** |
-| Outcome ledger (baseline frozen, expected vs actual, fidelity vs effectiveness) | **Adapt** into the weekly follow-up |
-| Planner (capacity-aware scheduling) | **Adapt** to "1 to 3 actions this week" |
-| D2C-brand tenant "Aarohi Skin", ad-spend KPIs (CAC, ROAS), hot-lead queue | **Retire** (code stays in the repo, unused) |
-| Lead-conversion model on UCI Bank Marketing | **Retire.** The product has no lead pipeline, and the brief calls for diagnosis by calculation, not a prediction model |
-| Anomaly detection on ad-channel CAC | **Retire** (no ad channels). May return for weekly orders |
+| CSV import with column detection, repair, quarantine and quality badge | **Keep and extend** (orders, costs, insights; add a customer-source field) |
+| Point-in-time snapshots | **Keep** (the weekly follow-up: week 1 never sees week 2) |
+| Fact shape, evidence ids, data client (`fixture`, `http`, `local`) | **Keep** |
+| Order metrics (repeat share, days between orders, concentration) | **Keep** (built once, reused on every order list) |
+| Eligibility gate, LLM boundary (evidence packet, validator, cache, fallback) | **Keep**, with new rules (no paid ads, owner hours, brand risk) |
+| Outcome ledger, planner | **Adapt** into the weekly follow-up and "1 to 3 actions" |
+| Public-data modules (Olist, Online Retail II, Online Shoppers, F1 context) | **Keep** |
+| Bank Marketing model | **Keep as the lead-score challenger** (4 contact-history inputs) |
+| Earlier D2C tenant "Aarohi Skin", ad-spend facts, ad-channel anomaly detection | **Legacy**: code stays until replaced by the new engine, then is removed |
 
-## 5. Data strategy: three kinds of data, each labelled
+## 7. Technology choices and why
 
-| Kind | Source | Role | Labelled |
-|---|---|---|---|
-| **Real case study** | Box Box's own order list, unit costs, Instagram insights, customer source, interview | The truth the advisor is built around. Used if he shares it | `real` |
-| **Synthetic Box Box** | Generated by us, deterministic, with planted patterns | Lets the prototype run and be tested when real data is not available | `synthetic: true` always |
-| **Public data** | UCI Online Retail II; the F1 race calendar (Jolpica API); optionally Wikipedia page views | **Validation and context only.** Never presented as Box Box's data | `public`, with source and licence |
-
-Details, licences and exact roles: `BACKEND_1_DATA_ENGINE.md`, section "Public datasets". Short version:
-- **UCI Online Retail II** (CC BY 4.0, direct download): a real order-level file used to test that intake and the repeat-order and concentration metrics work on messy, real transactions at scale. It is a UK gift wholesaler, so it is **not** a benchmark for student makers.
-- **F1 race calendar** (Jolpica, open, no key): race weekends are demand windows for F1 merchandise, so the advisor can time actions (drops, posts, collaborations) around them.
-
-## 6. Technology choices and why
-
-| Choice | Why | What we did not choose |
+| Choice | Why | Not chosen |
 |---|---|---|
-| **Python + FastAPI + Pydantic** | One language for API and analysis; typed contracts between two people's modules | Node: would split the team across languages |
-| **Pure-Python runtime for the engines** (stdlib `csv`, `statistics`) | Small deploy size and fast cold start on serverless hosting; deterministic and easy to test | pandas at runtime: heavy for serverless. pandas stays in offline scripts only |
-| **Deterministic metrics, no ML model as the decision-maker** | The brief: calculations decide, the AI explains. With 50 to 500 orders there is too little data for a trained predictor, and a visible formula can be shown to the founder | A learned ranker: it would be fiction at this volume |
-| **LLM for messy intake and for explanation** | The only part of the product that needs language understanding: DMs, UPI notes, interview answers, plain-language advice | Letting the LLM diagnose or do arithmetic |
-| **Evidence validator and cache** | The LLM may only cite facts it was given; rejects invented numbers and unknown evidence; the cache keeps the demo working offline | Trusting raw LLM output |
-| **PostgreSQL on Supabase** | Managed, free tier, JSON for the profile (the profile changes shape per business) | SQLite: not shared across serverless instances |
-| **Vercel (frontend and API)** | Mobile-first web app from a link, no install; one codebase; judges open it from a link | Native app: slower to build, needs installing |
-| **Not used** | Microservices, queues, vector databases, native apps, a WhatsApp bot (later) | Each adds failure points without helping a weekly decision loop |
+| Python, FastAPI, Pydantic | One language for API and analysis; typed contracts between two people's modules | Node: splits the team across languages |
+| Pure-Python runtime (stdlib `csv`, `statistics`) | Small deploy and fast cold start on serverless hosting; deterministic, easy to test | pandas at runtime (offline scripts only) |
+| Deterministic metrics decide, no ML as decision-maker | The product rule; with 50 to 500 orders there is too little data for a trained predictor, and a visible formula can be shown to the owner | A learned ranker: fiction at this volume |
+| LLM for messy intake, intent labels and explanation | The only places that need language understanding | LLM diagnosis or arithmetic |
+| Evidence validator and cache | The LLM may only cite facts it was given; the cache keeps the demo working offline | Trusting raw LLM output |
+| Transparent lead points first, learned model later | Few leads per seller; the owner must see why a lead is ranked where it is | A black-box score |
+| PostgreSQL on Supabase | Managed, free tier, JSON for a profile whose shape varies | SQLite (not shared across serverless instances) |
+| Vercel (frontend and API) | A mobile-first web app from a link, no install | A native app: slower to build, needs installing |
 
-## 7. Prototype scope: real, precomputed, or not built
+## 8. Prototype scope: real, precomputed, or not built
 
 | Capability | Status |
 |---|---|
-| Intake of an order sheet, cost sheet, Instagram insights (CSV) with repair and quarantine | **Real** (existing pipeline, extended) |
-| Customer-source tagging (friend / friend of friend / stranger) | **Real**, from a column or from the interview |
+| Intake of orders, costs and Instagram insights (CSV) with repair and quarantine | **Real** (existing pipeline, extended) |
+| Customer-source tagging | **Real**, from a column or the interview |
 | Profile with source and confidence on every field | **Real** |
-| Metrics for the five bottlenecks and orders from strangers; weekly snapshots | **Real computation** over rows |
-| Diagnosis of one bottleneck plus two runners-up, with evidence | **Real**, deterministic |
-| Weekly actions (1 to 3) and the weekly follow-up | **Real logic**; follow-up data for weeks 2 to 4 comes from a **scripted synthetic replay** until real weeks exist |
-| LLM explanation and drafts (DM, caption, collaboration pitch) | Real call when a key is set; **cached** for the demo; deterministic fallback; drafts are previews, never sent |
-| Public data (Online Retail II validation, F1 calendar) | **Real**, labelled as public context |
-| **Not built** | Voice interview, WhatsApp bot, reading DM screenshots, UPI statement parsing, automatic Instagram connection, authentication, payments |
+| Metrics for the five bottlenecks and the stranger-order measure; weekly snapshots | **Real computation** |
+| Lead intent labelling (LLM) and the points score | Real call when a key is set; **cached** for the demo; deterministic fallback |
+| Diagnosis, weekly actions, daily lead list, follow-up | **Real, deterministic** logic; weeks 2 to 4 of the demo come from a **scripted, labelled replay** |
+| Next-month projection | **Real**, simple and labelled an estimate |
+| Public-data modules | **Real**, labelled as public context |
+| **Not built** | Screenshot reading, voice interview, WhatsApp bot, automatic Instagram connection, authentication, payments (the product is free) |
 
-## 8. Hosting (Supabase + Vercel)
+## 9. Hosting
 
-Database on Supabase (you run `db/schema.sql` yourself; the AI tooling does not run DDL or data changes on a database). Frontend and API on Vercel; the API stays light at runtime (no pandas or scikit-learn) so it fits serverless limits. Decision point at the first public deploy: if serverless Python gives trouble, run the same API on a free web service and keep Vercel for the frontend.
+Database on Supabase (you run `db/schema.sql` yourself; the AI tooling does not run DDL or data changes on a database). Frontend and API on Vercel; the API stays light at runtime so it fits serverless limits. Decision point at the first public deploy: if serverless Python gives trouble, run the same API on a free web service and keep Vercel for the frontend.
 
-## 9. Stages and integration
+## 10. Stages and integration (today)
 
 | Stage | Owner | Output |
 |---|---|---|
-| **S3: contract v2** (first) | both | New fact list, `source` and `sample_size` fields, weekly snapshots; fixtures regenerated for Box Box. Until this is agreed, neither module can finish |
-| **S3: intake and metrics** | Soham | Box Box synthetic tenant, intake for the three sheets, the five bottleneck metric families, weekly snapshots, public-data modules |
-| **S3: diagnosis and advice** | Ayush | Bottleneck ranking, action library, eligibility rules, trademark risk rule |
-| **S4: follow-up and explanation** | Ayush | Weekly follow-up, evidence-checked LLM explanation, drafts |
-| **S4: integration** | both | `backend-integration`: merge, run the loop end to end |
+| **S3: contract v2** (first) | Soham + Ayush | The draft in `contracts/API_CONTRACT.md` agreed; fixtures regenerated for Box Box and the home baker |
+| **S3: intake, metrics, leads** | Soham | Generated demo businesses calibrated on public data, intake, five-bottleneck facts, lead records and scores, projection |
+| **S3: diagnosis and advice** | Ayush | Bottleneck ranking, action library, eligibility rules, brand-risk rule, lead actions |
+| **S4: follow-up and explanation** | Ayush | Weekly follow-up, evidence-checked explanation, drafts |
+| **S4: integration** | both | `backend-integration`: merge, run the loop: load week 1 → diagnose → advise → record what was done → load week 2 → follow up |
 
-Integration steps are unchanged: merge `backend-1` and `backend-2` into `backend-integration`, run the gateway with `DATA_SOURCE=local`, walk the loop (load week 1 → diagnose → advise → record what was done → load week 2 → follow up), tag when green.
+## 11. Definition of done (per module)
 
-## 10. Definition of done (per module)
-
-- Every endpoint in the module's section returns real, correct data, or a documented 501 for a dropped should-have.
+- Every endpoint in the module's section of the contract returns real, correct data, or a documented 501 for a dropped should-have.
 - Tests pass, with hand-calculated checks for the core math.
 - After each stage the owner can say exactly what is real, precomputed or mocked.
-- Every claim shown to the founder carries its evidence: the claim, the number, the source and the confidence.
+- Every claim shown to the owner carries its evidence: the claim, the number, the source and the confidence.
