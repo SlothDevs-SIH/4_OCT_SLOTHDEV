@@ -1,0 +1,139 @@
+{
+  "business_id": "biz_homebaker",
+  "name": "Butter Lane Bakes",
+  "case_study": "Home baker (sample)",
+  "synthetic": true,
+  "category": "home bakery",
+  "city": "Pune",
+  "ships_to": "Pune, within 8 km of Kothrud",
+  "topics": [
+    "baking",
+    "desserts",
+    "gifting"
+  ],
+  "products": [
+    {
+      "name": "Brownie Box",
+      "category": "dessert",
+      "price": 450,
+      "unit_cost": 210
+    },
+    {
+      "name": "Celebration Cake",
+      "category": "cake",
+      "price": 1200,
+      "unit_cost": 620
+    },
+    {
+      "name": "Cookie Jar",
+      "category": "cookies",
+      "price": 350,
+      "unit_cost": 150
+    },
+    {
+      "name": "Diwali Hamper",
+      "category": "gifting",
+      "price": 899,
+      "unit_cost": 520
+    },
+    {
+      "name": "Nutella Brownie Tub",
+      "category": "dessert",
+      "price": 520,
+      "unit_cost": 260
+    }
+  ],
+  "channels": [
+    "whatsapp",
+    "instagram"
+  ],
+  "payment": "UPI",
+  "order_link": "WhatsApp order form",
+  "team_size": 2,
+  "weekly_hours": 30,
+  "growth_minutes_per_week": 120,
+  "ad_budget_inr": 0,
+  "capacity_orders_per_week": 20,
+  "goal": {
+    "statement": "Reach new customers beyond my society and get ready for Diwali",
+    "horizon_days": 30
+  },
+  "constraints": {
+    "forbidden_actions": [
+      "paid_ads"
+    ],
+    "approval_required_for": [
+      "customer_outreach",
+      "public_post",
+      "price_change",
+      "partner_collab"
+    ]
+  },
+  "context_feeds": [
+    "india_festivals"
+  ],
+  "reach_candidates": [
+    {
+      "partner_id": "rp_hb_1",
+      "name": "Neighbourhood parents group (WhatsApp community)",
+      "type": "community",
+      "topics": [
+        "parenting",
+        "gifting"
+      ],
+      "city": "Pune",
+      "followers": 900,
+      "avg_comments_per_post": 25,
+      "avg_shares_per_post": 12,
+      "cost_inr": 0
+    },
+    {
+      "partner_id": "rp_hb_2",
+      "name": "Pune dessert reviewer (creator)",
+      "type": "creator",
+      "topics": [
+        "desserts",
+        "baking"
+      ],
+      "city": "Pune",
+      "followers": 15000,
+      "avg_comments_per_post": 60,
+      "avg_shares_per_post": 25,
+      "cost_inr": 0
+    },
+    {
+      "partner_id": "rp_hb_3",
+      "name": "Office foodies group (community)",
+      "type": "community",
+      "topics": [
+        "food"
+      ],
+      "city": "Pune",
+      "followers": 3000,
+      "avg_comments_per_post": 15,
+      "avg_shares_per_post": 6,
+      "cost_inr": 0
+    },
+    {
+      "partner_id": "rp_hb_4",
+      "name": "Food influencer with paid shoutouts",
+      "type": "creator",
+      "topics": [
+        "desserts"
+      ],
+      "city": "Mumbai",
+      "followers": 90000,
+      "avg_comments_per_post": 120,
+      "avg_shares_per_post": 40,
+      "cost_inr": 3000
+    }
+  ],
+  "provenance": {
+    "weekly_hours": "estimate",
+    "growth_minutes_per_week": "estimate",
+    "capacity_orders_per_week": "estimate",
+    "unit_cost": "estimate",
+    "ad_budget_inr": "exact"
+  },
+  "week": "week_1"
+}
