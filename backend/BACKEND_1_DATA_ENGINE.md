@@ -48,3 +48,14 @@ Endpoints: contract section 3.
 ## Integration
 
 On `backend-integration` (#1 at 1:00–1:30 PM, #2 at 3:00 PM, with Ayush) your branch is merged with `backend-2`; `data_engine/public.py` is the in-process interface `decision_engine` calls when `DATA_SOURCE=local`. Keep its function signatures stable: `get_context`, `get_kpi_facts`, `get_lead_scores`, `get_data_quality`, each returning the contract shape. See `BACKEND.md` section 9 and `docs/WORKFLOW.md`.
+
+## Additive API (backend-1), to be added to the contract on `main`
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/businesses/{id}/data-summary` | counts per table, date range, current-week orders and revenue, "synthetic" flag (lets anyone check what is loaded) |
+| POST | `/demo/load?phase=` | response is the business context plus an additive `demo_load` object (`phase`, `from`, `to`, `as_of`, `counts`, `seed`) |
+| – | business context | additive fields `business_model` (`d2c`/`hybrid`/`b2c_retail`), `segments`, `data_phase` |
+| GET | `/businesses/{id}/kpis?snapshot=` | already in the contract; response wraps the facts as `{business_id, synthetic, snapshot, facts: [...]}` |
+
+**Point-in-time rule (used by the KPI engine in Stage 2):** a snapshot only sees events that happened before its `as_of` time. The baseline snapshot (`as_of` 2026-10-04T04:30Z) must not see the follow-ups that happen in the day-7 replay, so the baseline week reads the same in both phases. Lead response latency for a lead that has not been answered yet is `as_of - created_at`.

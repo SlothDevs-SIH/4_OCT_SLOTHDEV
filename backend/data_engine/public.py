@@ -1,12 +1,13 @@
 """In-process interface used by decision_engine when DATA_SOURCE=local.
 
-Fixture-backed stub: backend-1 replaces the bodies with real data (task 7) and keeps
-the signatures. Each function returns exactly the contract fixture shape, or None
+Stage 1a: get_context is real. The other functions are still fixture-backed and are replaced in
+Stage 2 (KPI engine, lead model); signatures stay the same. Each function returns exactly the contract fixture shape, or None
 when the business is unknown.
 """
 from typing import Optional
 
 from backend.common.fixtures import load_fixture
+from backend.data_engine import store
 
 
 def _for(business_id: str, name: str):
@@ -15,7 +16,8 @@ def _for(business_id: str, name: str):
 
 
 def get_context(business_id: str) -> Optional[dict]:
-    return _for(business_id, "business_context")
+    """Real (Stage 1a): the demo tenant's context or a business created through onboarding."""
+    return store.get_context(business_id)
 
 
 def get_kpi_facts(business_id: str, from_date: Optional[str] = None, to_date: Optional[str] = None,
