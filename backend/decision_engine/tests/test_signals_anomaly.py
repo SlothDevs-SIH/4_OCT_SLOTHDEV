@@ -137,3 +137,18 @@ def test_signals_endpoint(client):
     assert client.get("/api/v1/businesses/biz_nope/signals").status_code == 404
     err = client.get("/api/v1/businesses/biz_nope/signals").json()
     assert err["error"]["code"] == "not_found"
+
+
+def test_missing_daily_endpoint_skips_anomalies_only(tmp_path):
+    """data_engine without the optional /kpis/daily endpoint (HTTP 404) still gets signals."""
+    from backend.decision_engine.clients import DataClient, DataNotFound
+    from backend.decision_engine.config import Settings
+    from backend.decision_engine.service import Engine
+
+    class NoDaily(DataClient):
+        def get_kpi_series(self, *a, **k):
+            raise DataNotFound("GET /kpis/daily returned 404")
+
+    eng = Engine(settings=Settings(llm_cache_only=True, llm_cache_dir=tmp_path), data=NoDaily("fixture"))
+    doc = eng.signals(BIZ)
+    assert doc["anomaly_skipped"] is True and len(doc["signals"]) == 3

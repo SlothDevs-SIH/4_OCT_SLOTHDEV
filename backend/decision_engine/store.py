@@ -37,7 +37,9 @@ class Store:
     # snapshots -------------------------------------------------------------
     def add_context_snapshot(self, business_id: str, snapshot: dict):
         with self._lock:
-            self.context_snapshots[business_id].append(copy.deepcopy(snapshot))
+            snaps = self.context_snapshots[business_id]
+            snaps.append(copy.deepcopy(snapshot))
+            del snaps[:-20]  # keep the last 20 runs per business
 
     # signals ---------------------------------------------------------------
     def put_signals(self, business_id: str, doc: dict):

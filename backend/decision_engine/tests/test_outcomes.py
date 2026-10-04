@@ -101,3 +101,20 @@ def test_missing_day7_snapshot(tmp_path):
 
 def test_unknown_plan(client):
     assert client.post(f"{API}/plans/plan_nope/outcomes/evaluate").status_code == 404
+
+
+def test_source_that_ignores_snapshot_is_refused(tmp_path):
+    """A data source returning the baseline week for snapshot=day7 must not produce outcomes."""
+    class IgnoresSnapshot(DataClient):
+        def get_kpi_facts(self, business_id, from_date=None, to_date=None, snapshot="baseline"):
+            return super().get_kpi_facts(business_id, from_date, to_date, "baseline")
+
+    from backend.common.errors import ApiError
+    from backend.decision_engine.config import Settings
+    eng = Engine(settings=Settings(llm_cache_only=True, llm_cache_dir=tmp_path), data=IgnoresSnapshot("fixture"))
+    eng.generate(BIZ)
+    eng.approve("rec_hot_leads")
+    plan = eng.create_plan(BIZ)
+    with pytest.raises(ApiError) as e:
+        eng.evaluate_outcomes(plan["plan_id"])
+    assert e.value.code == "no_day7_snapshot"

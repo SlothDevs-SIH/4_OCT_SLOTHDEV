@@ -11,7 +11,7 @@ from backend.decision_engine import planner
 from backend.decision_engine import recommend
 from backend.decision_engine import signals as signal_rules
 from backend.decision_engine import templates
-from backend.decision_engine.clients import DataClient, DataNotFound, DataSourceUnavailable
+from backend.decision_engine.clients import DataClient, DataClientError, DataNotFound, DataSourceUnavailable
 from backend.decision_engine.config import Settings
 from backend.decision_engine.llm.synthesize import Synthesizer
 from backend.decision_engine.store import Store
@@ -60,10 +60,10 @@ class Engine:
             quality = self.data.get_data_quality(business_id)
             try:
                 series = self.data.get_kpi_series(business_id)
-            except DataSourceUnavailable:
-                series = None  # anomaly detection is skipped, rules still run
+            except DataClientError:
+                series = None  # optional endpoint missing: anomaly detection is skipped, rules still run
         snapshot = {"business_id": business_id, "taken_at": utcnow(), "context": ctx,
-                    "fact_ids": [f["fact_id"] for f in facts]}
+                    "fact_ids": [f["fact_id"] for f in facts], "data_confidence": quality["overall"]["confidence"]}
         self.store.add_context_snapshot(business_id, snapshot)
         return {"context": ctx, "facts": facts, "lead_scores": leads, "data_quality": quality,
                 "series": series}
@@ -221,9 +221,15 @@ class Engine:
         plan = self.get_plan(plan_id)
         with data_errors():
             day7 = self.data.get_kpi_facts(plan["business_id"], snapshot="day7")
-        if not day7:
-            raise ApiError(409, "no_day7_snapshot", "no day-7 KPI snapshot yet (POST /demo/load?phase=day7)")
         recs = {r["recommendation_id"]: r for r in self.store.recommendations_for(plan["business_id"])}
+        # the follow-up facts must come after the baseline frozen at approval; otherwise we would
+        # compare the baseline week with itself (e.g. a data source that ignores snapshot=day7)
+        ends = [recs[r]["ledger"]["baseline_period"]["to"] for r in plan["recommendation_ids"]
+                if r in recs and recs[r].get("ledger") and recs[r]["ledger"]["baseline_period"]]
+        day7 = [f for f in day7 if not ends or f["period"]["from"] > max(ends)]
+        if not day7:
+            raise ApiError(409, "no_day7_snapshot",
+                           "no KPI facts after the baseline week yet (load the day-7 snapshot first)")
         doc = ledger.evaluate(plan, recs, day7, utcnow())
         self.store.put_outcomes(plan_id, doc)
         return doc
