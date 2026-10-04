@@ -10,7 +10,7 @@ Rules (documented, deterministic, no LLM):
   This is a heuristic and is reported, never silent.
 - Duplicates: the same order/lead/campaign id with identical values is merged (`duplicate_order`); the same id
   with different values is quarantined (`conflicting_duplicate`).
-- A paid-channel order (instagram/google) with a blank campaign is quarantined (`missing_campaign_id`): spend
+- (Only when the file has a campaign column.) A paid-channel order (instagram/google) with a blank campaign is quarantined (`missing_campaign_id`): spend
   cannot be attributed. A blank campaign on a direct/organic/email/whatsapp order is kept as `unattributed`;
   we never force an attribution.
 - Confidence = max(0, 1 - 2*quarantined_share - 0.5*repaired_share - 0.5*unattributed_share).
@@ -46,6 +46,19 @@ PAYMENT_MAP = {"cod": "cod", "cash on delivery": "cod", "upi": "prepaid", "card"
                "razorpay": "prepaid", "netbanking": "prepaid", "wallet": "prepaid"}
 STATUS_MAP = {"delivered": "delivered", "rto": "rto", "returned to origin": "rto", "returned": "returned",
               "return": "returned", "cancelled": "cancelled", "canceled": "cancelled"}
+def relationship_of(text: str) -> str:
+    t = norm_header(text)
+    if not t:
+        return "unknown"
+    if "friend of" in t or "fof" in t.split() or "friends friend" in t or "friend s friend" in t or "mutual" in t:
+        return "friend_of_friend"
+    if "friend" in t or "family" in t or "relative" in t or "classmate" in t:
+        return "friend"
+    if any(k in t for k in ("stranger", "new", "found", "insta", "online", "cold", "unknown person", "saw your", "reel", "discovered")):
+        return "stranger"
+    return "unknown"
+
+
 STAGE_MAP = {"new": "new", "qualified": "qualified", "won": "won", "lost": "lost", "closed won": "won", "closed lost": "lost"}
 
 # canonical fields per kind: required flag, type, header synonyms (normalised)
@@ -53,16 +66,44 @@ SPECS = {
     "orders": {
         "id": "order_id",
         "fields": {
-            "order_id": (True, "str", ["order id", "order number", "order no", "order ref", "name", "id"]),
-            "ordered_at": (True, "date", ["order date", "created at", "date", "ordered at", "placed at", "timestamp", "order time"]),
+            "order_id": (True, "str", ["order id", "order number", "order no", "order ref", "name", "id", "invoice", "invoice no", "invoice number", "invoice id", "bill no", "bill number", "receipt no"]),
+            "ordered_at": (True, "date", ["order date", "created at", "date", "ordered at", "placed at", "timestamp", "order time", "invoice date", "bill date", "sale date"]),
             "customer_id": (False, "str", ["customer", "customer id", "customer email", "email", "buyer"]),
             "channel": (False, "channel", ["utm source", "source", "channel", "traffic source", "referrer", "marketing channel"]),
             "campaign_id": (False, "str", ["utm campaign", "campaign", "campaign id", "campaign name"]),
             "payment_mode": (False, "payment", ["payment method", "payment mode", "payment", "gateway", "payment gateway"]),
-            "revenue": (True, "money", ["order amount", "amount", "total", "order total", "revenue", "net amount", "grand total", "order value"]),
+            "revenue": (True, "money", ["order amount", "amount", "total", "order total", "revenue", "net amount", "grand total", "order value", "invoice amount", "bill amount", "sales", "price"]),
             "discount": (False, "money", ["discount", "discount amount", "coupon discount"]),
             "status": (False, "status", ["fulfilment status", "fulfillment status", "status", "order status", "delivery status"]),
             "items": (False, "str", ["items", "line items", "products", "sku", "skus"]),
+            "relationship": (False, "relationship", ["relationship", "how found", "how did you find us", "found via", "customer type", "circle", "buyer type", "friend or stranger"]),
+            "product": (False, "str", ["product", "item", "design", "item name", "product name"]),
+            "quantity": (False, "int", ["quantity", "qty", "units", "pieces"]),
+            "post_id": (False, "str", ["post", "post id", "from post", "source post"]),
+            "dispatched_at": (False, "date", ["dispatched", "dispatch date", "shipped on", "shipped at", "sent on", "delivered on"]),
+        },
+    },
+    "costs": {
+        "id": "product",
+        "fields": {
+            "product": (True, "str", ["product", "item", "design", "item name", "product name"]),
+            "material_cost": (False, "money", ["material", "material cost", "blank", "blank cost", "ingredients", "raw material", "cost of goods"]),
+            "making_cost": (False, "money", ["making", "making cost", "printing", "printing cost", "labour", "labour cost", "production"]),
+            "packaging_cost": (False, "money", ["packaging", "packaging cost", "packing", "box"]),
+            "courier_cost": (False, "money", ["courier", "courier cost", "shipping", "shipping cost", "delivery cost"]),
+        },
+    },
+    "insights": {
+        "id": "post_id",
+        "fields": {
+            "post_id": (True, "str", ["post id", "post", "id", "media id"]),
+            "post_date": (True, "date", ["date", "posted on", "post date", "published"]),
+            "reach": (True, "int", ["reach", "accounts reached", "people reached"]),
+            "profile_visits": (False, "int", ["profile visits", "profile views", "visits"]),
+            "follows": (False, "int", ["follows", "new followers", "followers gained"]),
+            "saves": (False, "int", ["saves", "saved"]),
+            "shares": (False, "int", ["shares", "shared"]),
+            "topic": (False, "str", ["topic", "caption", "design", "product"]),
         },
     },
     "leads": {
@@ -209,8 +250,9 @@ class _Issues:
 
 
 # ---------------------------------------------------------------- the import run
-def run_import(kind: str, rows: list, mapping: dict) -> dict:
-    """mapping: {canonical_field: source column}. Returns clean rows, quarantined rows and counters."""
+def run_import(kind: str, rows: list, mapping: dict, paise: bool = True) -> dict:
+    """mapping: {canonical_field: source column}. Returns clean rows, quarantined rows and counters.
+    `paise` enables the INR amount-in-paise repair; turn it off for files in another currency."""
     spec = SPECS[kind]
     idf = spec["id"]
     issues, clean, quarantined, seen = _Issues(), [], [], {}
@@ -253,10 +295,24 @@ def run_import(kind: str, rows: list, mapping: dict) -> dict:
                 if m is None:
                     bad = ("invalid_amount", f"{val!r} is not an amount (row {i + 2})")
                     break
-                if kind == "orders" and field == "revenue" and m > PAISE_LIMIT and m % 100 == 0 and m / 100 <= PAISE_LIMIT:
+                if paise and kind == "orders" and field == "revenue" and m > PAISE_LIMIT and m % 100 == 0 and m / 100 <= PAISE_LIMIT:
                     issues.add("amount_in_paise", "repaired_units", f"{int(m)} -> {m / 100:.2f} INR")
                     m, repaired = m / 100, True
                 rec[field] = round(m, 2)
+            elif typ == "relationship":
+                rec[field] = relationship_of(val)
+            elif typ == "int":
+                if not val:
+                    if required:
+                        bad = ("missing_required", f"{field} is blank (row {i + 2})")
+                        break
+                    rec[field] = None
+                    continue
+                m = parse_money(val)
+                if m is None or m != int(m):
+                    bad = ("invalid_amount", f"{val!r} is not a whole number (row {i + 2})")
+                    break
+                rec[field] = int(m)
             elif typ == "channel":
                 rec[field] = _lookup(CHANNEL_MAP, val, "other")
             elif typ == "payment":
@@ -274,7 +330,8 @@ def run_import(kind: str, rows: list, mapping: dict) -> dict:
             quarantine(i, bad[0], raw, bad[1])
             continue
 
-        if kind == "orders" and not rec.get("campaign_id"):
+        has_campaign = bool(mapping.get("campaign_id"))     # a sheet without a campaign column is not penalised for it
+        if kind == "orders" and has_campaign and not rec.get("campaign_id"):
             if rec.get("channel") in PAID_CHANNELS:
                 quarantine(i, "missing_campaign_id", raw,
                            f"campaign blank on a paid {rec['channel']} order ({rec[idf]})")
@@ -291,7 +348,7 @@ def run_import(kind: str, rows: list, mapping: dict) -> dict:
         seen[key] = rec
         if repaired:
             repaired_rows += 1
-        if kind == "orders" and not rec.get("campaign_id"):
+        if kind == "orders" and has_campaign and not rec.get("campaign_id"):
             unattributed += 1
             unattributed_revenue += rec.get("revenue") or 0
             issues.add("unattributed", "kept_as_unattributed", f"{rec['channel']} order with no campaign ({key})")

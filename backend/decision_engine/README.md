@@ -1,0 +1,60 @@
+# decision_engine (backend 2): diagnosis, advice and weekly follow-up for Catalyst AI
+
+From backend 1's facts it names the **one bottleneck** (reach, conversion, margin, repeat orders, capacity), gives **1 to 3 actions** for the week with evidence, builds the **daily lead list** with drafted replies, explains **next month's projection**, and runs the **weekly follow-up**. The calculations decide; the LLM only explains, using numbers the engine produced. Contract: `contracts/API_CONTRACT.md` (v2) section 4.
+
+## Run and test (from the repo root)
+
+```bash
+pip install -r backend/requirements.txt
+uvicorn backend.decision_engine.main:app --port 8002 --reload   # docs: http://localhost:8002/docs
+python -m pytest backend -q
+python -m backend.decision_engine.export_fixtures                # regenerate output fixtures (frontend mocks)
+python -m backend.decision_engine.devtools.standin_fixtures      # regenerate the stand-in inputs
+```
+
+| Env var | Default | Meaning |
+|---|---|---|
+| `DATA_SOURCE` | `fixture` | `fixture` (`contracts/fixtures/v2`), `http` (`DATA_ENGINE_URL`), `local` (in-process `data_engine.public`) |
+| `LLM_PROVIDER`, `LLM_API_KEY`, `LLM_MODEL` | `cache` | `openai`, `anthropic` or `gemini` for live explanations; keys stay in `.env` |
+| `LLM_CACHE_ONLY` | `false` | `true` = never call the network: cached answers or deterministic text |
+
+Without an LLM key everything works: explanations use deterministic text built from the facts (`llm.used: false`).
+
+## Endpoints (all under `/api/v1`, `week` = `week_1` to `week_4`)
+
+| Method | Path | What |
+|---|---|---|
+| GET | `/decision/health` | liveness |
+| GET | `/businesses/{id}/diagnosis?week=` | one bottleneck, two runners-up, rejected near-misses with reasons, an evidence card (claim, number, source, confidence) on every finding, plain-language explanation |
+| POST / GET | `/businesses/{id}/actions/generate?week=`, `/businesses/{id}/actions?week=` | 1 to 3 actions that fit the owner's growth minutes, with why, evidence, target, due date, approval and risk flags; blocked actions with the reason |
+| PATCH | `/actions/{id}` | mark `done`, `skipped` or `todo` |
+| GET | `/actions/{id}/draft?channel=` | message preview (instagram_dm, whatsapp, instagram_post); never sent |
+| GET | `/businesses/{id}/lead-list?week=` | Hot / Warm / Cold / Disqualified with reasons and drafted replies; unmet demand |
+| POST | `/businesses/{id}/lead-list/contacted` | record that a Warm lead was messaged for a reason (once per reason) |
+| GET | `/businesses/{id}/reach-partners?week=` | partners ranked by audience, location, engagement and past results; paid shoutouts blocked |
+| POST / GET | `/businesses/{id}/followup?week=`, `/businesses/{id}/followups` | what was done, what changed, adjustments, next week's actions; week 4 adds the four-week arc |
+| GET | `/businesses/{id}/next-month?week=` | the projection explained, tied to the bottleneck; capacity flagged when it caps the month |
+| POST | `/businesses/{id}/chat` | grounded Q&A citing fact ids |
+| GET | `/action-library` | the approved actions and the ranking formula |
+
+## How it decides
+
+| Part | File | Rule |
+|---|---|---|
+| Diagnosis | `diagnosis.py` | gap to the business's **own best weeks** per bottleneck; four tests: materiality (20+ orders and worth 2+ orders or INR 500), deviation (20%+), localisation (which source, stage, cause or step), actionability (an eligible action exists). Largest passing gap wins; ties go to less effort. Under 20 orders: no verdict, estimates only |
+| Actions | `actions.py`, `library/actions.json` | gate: no paid ads, owner's growth minutes, missing data (partners, demand window, past buyers, unit costs). Score = 100 x (0.5 impact + 0.3 fit + 0.2 timing) x (1 - 0.5 x effort share); picked best-first while they fit the week |
+| Brand risk | `library/protected_terms.json` | protected names in product names raise a flag ("not legal advice"), stronger when an action raises visibility |
+| Reach partners | `actions.py` | 100 x (0.35 audience + 0.20 location + 0.25 engagement + 0.20 past results); engagement = comments and shares per follower |
+| Lead list | `leadlist.py` | Hot: reply today, newest first; Warm: once per reason; Cold: nothing; Disqualified: one polite reply. Unknowns stay as placeholders |
+| Follow-up | `followup.py` | fidelity apart from effectiveness; double down / keep / drop / retry; bottleneck switch; observational |
+| Next month | `nextmonth.py` | backend 1's projection with basis and demand windows; always an estimate |
+| LLM boundary | `llm/`, `explain.py`, `chat.py` | evidence packet, JSON schema, validator (unknown ids, numbers not in the packet, paid-ads suggestions), one retry, deterministic fallback, offline cache |
+
+## Real, stand-in or not built
+
+- **Real:** every rule above, tested (94 tests), and walked end to end on a live server.
+- **Stand-in:** the input data (`contracts/fixtures/v2`, synthetic, generated by `devtools/standin_fixtures.py`) until backend 1 ships the generated businesses, facts, leads and projection. The F1 calendar inside it is real (backend 1's module).
+- **Scripted:** weeks 2 to 4 are a labelled replay.
+- **Not built:** a database store (in memory; a restart clears it), live LLM use in this environment (no key here; the code paths are tested with fake providers).
+
+Pre-existing components: FastAPI, Pydantic, Uvicorn, jsonschema, httpx and pytest (tests). LLM providers are called over their public HTTP APIs.

@@ -1,0 +1,26 @@
+{
+  "action_id": "act_boxbox_w1_reach_partner_collab",
+  "channel": "instagram_dm",
+  "status": "preview",
+  "auto_send": false,
+  "requires_approval": true,
+  "text": "Hi Campus Motorsport Club! I run Box Box, a small F1 merchandise business from Pune. Your posts get real conversation from people who'd like what I make. Could we do a small collab: I send you a free Monza Tee and you share a story or post tagging us? Happy to keep it simple. Thank you!",
+  "placeholders": [],
+  "risk_flags": [
+    {
+      "flag": "brand_ip",
+      "level": "high",
+      "terms": [
+        "Ferrari",
+        "Hamilton"
+      ],
+      "products": [
+        "Ferrari Red Tribute Tee",
+        "Hamilton 44 Keychain"
+      ],
+      "text": "Some product names use protected names, logos or characters (Ferrari, Hamilton). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+      "not_legal_advice": true
+    }
+  ],
+  "note": "Preview only. Nothing is sent automatically; you copy it and send it yourself."
+}

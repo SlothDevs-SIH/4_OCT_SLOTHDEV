@@ -1,0 +1,424 @@
+{
+  "version": "v1",
+  "status": "seed; research (R3) reviews the wording and adds actions",
+  "ranking": "score = 100 x (0.5 x impact + 0.3 x fit + 0.2 x timing) x (1 - 0.5 x effort / weekly growth minutes); ties: less effort first",
+  "actions": [
+    {
+      "action_key": "reach_partner_collab",
+      "bottleneck": "reach",
+      "title": "Collaborate with {partner_name}",
+      "what": "Offer a free piece or a joint post in return for a story or post to their audience, and ask them to tag you.",
+      "kind": "organic",
+      "effort_min": 60,
+      "impact": 0.8,
+      "cost_inr": 0,
+      "timing_sensitive": true,
+      "raises_visibility": true,
+      "requires": [
+        "reach_candidates"
+      ],
+      "requires_approval": true,
+      "approval_reason": "partner_collab",
+      "target": {
+        "fact_id": "f_stranger_orders_week",
+        "rule": "add",
+        "amount": 2
+      },
+      "risks": [
+        "The partner's audience may not match your buyers"
+      ],
+      "draft_channels": [
+        "instagram_dm"
+      ],
+      "base_fit": 0.8,
+      "examples": {
+        "boxbox": "a Pune F1 fan page or a campus motorsport club",
+        "homebaker": "a neighbourhood parents group"
+      }
+    },
+    {
+      "action_key": "reach_demand_window_drop",
+      "bottleneck": "reach",
+      "title": "Plan a drop or post for {event_name} ({event_dates})",
+      "what": "Announce a small drop or a themed post a few days before the demand window and post again during it.",
+      "kind": "content",
+      "effort_min": 90,
+      "impact": 0.7,
+      "cost_inr": 0,
+      "timing_sensitive": true,
+      "raises_visibility": true,
+      "requires": [
+        "demand_window"
+      ],
+      "requires_approval": true,
+      "approval_reason": "public_post",
+      "target": {
+        "fact_id": "f_stranger_orders_week",
+        "rule": "add",
+        "amount": 2
+      },
+      "risks": [
+        "Interest in an event is not the same as sales"
+      ],
+      "draft_channels": [
+        "instagram_post"
+      ],
+      "base_fit": 0.8,
+      "examples": {
+        "boxbox": "a race-weekend drop",
+        "homebaker": "a Diwali gifting post"
+      }
+    },
+    {
+      "action_key": "reach_community_share",
+      "bottleneck": "reach",
+      "title": "Ask {community_name} to share your page",
+      "what": "Send one friendly message to a community you belong to (college, office, residents) asking them to share your page.",
+      "kind": "outreach",
+      "effort_min": 30,
+      "impact": 0.5,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": true,
+      "requires": [],
+      "requires_approval": true,
+      "approval_reason": "partner_collab",
+      "target": {
+        "fact_id": "f_stranger_orders_week",
+        "rule": "add",
+        "amount": 1
+      },
+      "risks": [],
+      "draft_channels": [
+        "whatsapp"
+      ],
+      "base_fit": 0.6,
+      "examples": {}
+    },
+    {
+      "action_key": "reach_buyer_tag_share",
+      "bottleneck": "reach",
+      "title": "Ask every buyer this week to tag you when they post",
+      "what": "Add one line to your order confirmation asking buyers to tag you; their followers are mostly strangers to you.",
+      "kind": "outreach",
+      "effort_min": 20,
+      "impact": 0.4,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": true,
+      "requires": [],
+      "requires_approval": true,
+      "approval_reason": "customer_outreach",
+      "target": {
+        "fact_id": "f_stranger_orders_week",
+        "rule": "add",
+        "amount": 1
+      },
+      "risks": [],
+      "draft_channels": [
+        "whatsapp"
+      ],
+      "base_fit": 0.7,
+      "examples": {}
+    },
+    {
+      "action_key": "reach_paid_ads",
+      "bottleneck": "reach",
+      "title": "Boost your best post with Instagram ads",
+      "what": "Pay to show a post to people who do not follow you.",
+      "kind": "paid_ads",
+      "effort_min": 30,
+      "impact": 0.6,
+      "cost_inr": 1000,
+      "timing_sensitive": false,
+      "raises_visibility": true,
+      "requires": [],
+      "requires_approval": true,
+      "approval_reason": "spend",
+      "target": {
+        "fact_id": "f_stranger_orders_week",
+        "rule": "add",
+        "amount": 2
+      },
+      "risks": [],
+      "draft_channels": [],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "conv_saved_replies",
+      "bottleneck": "conversion",
+      "title": "Shorten the order path in DMs with saved replies",
+      "what": "Write saved replies for price, sizes, delivery and payment so every enquiry gets a full answer in one message.",
+      "kind": "operations",
+      "effort_min": 45,
+      "impact": 0.6,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [],
+      "requires_approval": false,
+      "approval_reason": null,
+      "target": {
+        "fact_id": "f_lead_to_order_rate",
+        "rule": "relative",
+        "amount": 0.1
+      },
+      "risks": [],
+      "draft_channels": [],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "conv_fix_profile",
+      "bottleneck": "conversion",
+      "title": "Fix your profile bio and order link",
+      "what": "Say what you sell, the price range and how to order in the bio; make the link open the order form.",
+      "kind": "content",
+      "effort_min": 30,
+      "impact": 0.5,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [],
+      "requires_approval": true,
+      "approval_reason": "public_post",
+      "target": {
+        "fact_id": "f_lead_to_order_rate",
+        "rule": "relative",
+        "amount": 0.05
+      },
+      "risks": [],
+      "draft_channels": [],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "conv_pin_best_post",
+      "bottleneck": "conversion",
+      "title": "Pin your best-converting post",
+      "what": "Pin the post that led to the most orders so new visitors see it first.",
+      "kind": "content",
+      "effort_min": 10,
+      "impact": 0.3,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [],
+      "requires_approval": false,
+      "approval_reason": null,
+      "target": {
+        "fact_id": "f_lead_to_order_rate",
+        "rule": "relative",
+        "amount": 0.03
+      },
+      "risks": [],
+      "draft_channels": [],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "margin_reprice",
+      "bottleneck": "margin",
+      "title": "Re-price {product_name}",
+      "what": "Raise the price of your lowest-margin product to cover its full cost (materials, making, packaging, courier).",
+      "kind": "pricing",
+      "effort_min": 30,
+      "impact": 0.7,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [
+        "unit_cost"
+      ],
+      "requires_approval": true,
+      "approval_reason": "price_change",
+      "target": {
+        "fact_id": "f_margin_pct",
+        "rule": "relative",
+        "amount": 0.07
+      },
+      "risks": [
+        "Some buyers may hesitate at the new price"
+      ],
+      "draft_channels": [],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "margin_bundle",
+      "bottleneck": "margin",
+      "title": "Bundle {product_a} with {product_b}",
+      "what": "Offer two items together at a small saving; the courier and packaging cost is paid once.",
+      "kind": "pricing",
+      "effort_min": 45,
+      "impact": 0.5,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [],
+      "requires_approval": true,
+      "approval_reason": "price_change",
+      "target": {
+        "fact_id": "f_margin_pct",
+        "rule": "relative",
+        "amount": 0.04
+      },
+      "risks": [],
+      "draft_channels": [],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "margin_supplier_rate",
+      "bottleneck": "margin",
+      "title": "Ask your supplier or courier for a better rate",
+      "what": "Ask for a price per batch or a monthly courier rate; quote your weekly volume.",
+      "kind": "operations",
+      "effort_min": 40,
+      "impact": 0.4,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [],
+      "requires_approval": false,
+      "approval_reason": null,
+      "target": {
+        "fact_id": "f_margin_pct",
+        "rule": "relative",
+        "amount": 0.03
+      },
+      "risks": [],
+      "draft_channels": [],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "repeat_thank_you_next_drop",
+      "bottleneck": "repeat_orders",
+      "title": "Send a thank-you and next-drop message to past buyers",
+      "what": "Message past buyers once: thank them and tell them what is coming next.",
+      "kind": "outreach",
+      "effort_min": 40,
+      "impact": 0.7,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [
+        "past_buyers"
+      ],
+      "requires_approval": true,
+      "approval_reason": "customer_outreach",
+      "target": {
+        "fact_id": "f_repeat_customer_share",
+        "rule": "relative",
+        "amount": 0.1
+      },
+      "risks": [],
+      "draft_channels": [
+        "whatsapp"
+      ],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "repeat_reorder_incentive",
+      "bottleneck": "repeat_orders",
+      "title": "Offer a small reorder incentive",
+      "what": "A small discount or free add-on on the second order, valid for two weeks.",
+      "kind": "pricing",
+      "effort_min": 30,
+      "impact": 0.5,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [
+        "past_buyers"
+      ],
+      "requires_approval": true,
+      "approval_reason": "price_change",
+      "target": {
+        "fact_id": "f_repeat_customer_share",
+        "rule": "relative",
+        "amount": 0.06
+      },
+      "risks": [
+        "Discounts lower the margin per order"
+      ],
+      "draft_channels": [],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "cap_batch_making",
+      "bottleneck": "capacity",
+      "title": "Batch your making: one session for the week's top items",
+      "what": "Make the most-asked items in one or two fixed sessions a week instead of order by order, so you can take more orders.",
+      "kind": "operations",
+      "effort_min": 60,
+      "impact": 0.7,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [],
+      "requires_approval": false,
+      "approval_reason": null,
+      "target": {
+        "fact_id": "f_orders_turned_away",
+        "rule": "to_best"
+      },
+      "risks": [],
+      "draft_channels": [],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "cap_preorder_drop",
+      "bottleneck": "capacity",
+      "title": "Switch {product_name} to a limited pre-order drop",
+      "what": "Take orders until a fixed number or date, then make them in one batch; say the delivery date up front.",
+      "kind": "operations",
+      "effort_min": 45,
+      "impact": 0.7,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [],
+      "requires_approval": true,
+      "approval_reason": "public_post",
+      "target": {
+        "fact_id": "f_orders_turned_away",
+        "rule": "to_zero"
+      },
+      "risks": [],
+      "draft_channels": [
+        "instagram_post"
+      ],
+      "base_fit": 0.8,
+      "examples": {}
+    },
+    {
+      "action_key": "cap_dispatch_schedule",
+      "bottleneck": "capacity",
+      "title": "Set fixed dispatch days and tell buyers",
+      "what": "Choose two dispatch days a week and put them in your replies and bio.",
+      "kind": "operations",
+      "effort_min": 30,
+      "impact": 0.5,
+      "cost_inr": 0,
+      "timing_sensitive": false,
+      "raises_visibility": false,
+      "requires": [],
+      "requires_approval": true,
+      "approval_reason": "public_post",
+      "target": {
+        "fact_id": "f_dispatch_delay_days",
+        "rule": "to_best"
+      },
+      "risks": [],
+      "draft_channels": [],
+      "base_fit": 0.8,
+      "examples": {}
+    }
+  ]
+}

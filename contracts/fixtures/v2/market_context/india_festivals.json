@@ -1,0 +1,21 @@
+{
+  "source": {
+    "calendar": "stand-in: India festival calendar is planned in backend 1 (verify dates before use)"
+  },
+  "feed": "india_festivals",
+  "from": "2026-09-28",
+  "to": "2026-11-30",
+  "events": [
+    {
+      "name": "Diwali",
+      "date": "2026-11-08",
+      "window_start": "2026-11-01",
+      "window_end": "2026-11-08",
+      "kind": "festival",
+      "note": "gifting week before Diwali"
+    }
+  ],
+  "interest_uplift": null,
+  "note": "Festival weeks are demand windows for gifting and food. No measured uplift yet.",
+  "standin": true
+}

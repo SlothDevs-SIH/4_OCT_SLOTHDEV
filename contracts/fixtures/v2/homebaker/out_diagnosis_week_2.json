@@ -1,0 +1,450 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_2",
+  "as_of": "2026-10-11",
+  "synthetic": true,
+  "status": "ok",
+  "message": null,
+  "orders_in_window": 73,
+  "primary": "reach",
+  "runners_up": [
+    "capacity",
+    "conversion"
+  ],
+  "rejected": [
+    {
+      "bottleneck": "conversion",
+      "reason": "too small to matter yet; within 20% of your best weeks"
+    },
+    {
+      "bottleneck": "margin",
+      "reason": "too small to matter yet; within 20% of your best weeks"
+    },
+    {
+      "bottleneck": "repeat_orders",
+      "reason": "too small to matter yet; within 20% of your best weeks"
+    },
+    {
+      "bottleneck": "capacity",
+      "reason": "too small to matter yet; within 20% of your best weeks"
+    }
+  ],
+  "main_measure": {
+    "fact_id": "f_stranger_orders_week",
+    "stranger_orders_this_week": 2,
+    "best_weeks": 2.333
+  },
+  "bottlenecks": [
+    {
+      "bottleneck": "reach",
+      "label": "Reach",
+      "gap_to_best": 0.489,
+      "tests": {
+        "materiality": true,
+        "deviation": true,
+        "localisation": true,
+        "actionability": true
+      },
+      "passed": true,
+      "where": "the gap is in orders from strangers: 64 of 73 orders in the last 4 weeks came from friends and friends of friends",
+      "impact": "about 5 more orders from strangers in 4 weeks at your best share",
+      "key_fact": "f_stranger_share",
+      "min_action_effort": 20,
+      "cards": [
+        {
+          "claim": "Only 6.8% of your orders in the last 4 weeks came from strangers, against 13.3% in your best weeks.",
+          "number": {
+            "value": 0.068,
+            "unit": "ratio",
+            "display": "6.8%"
+          },
+          "best_weeks": {
+            "value": 0.133,
+            "display": "13.3%"
+          },
+          "source": {
+            "fact_id": "f_stranger_share",
+            "origin": "orders.csv + tags",
+            "provenance": "derived",
+            "period": {
+              "from": "2026-09-14",
+              "to": "2026-10-11"
+            }
+          },
+          "confidence": "derived",
+          "sample_size": 73,
+          "evidence_ids": [
+            "f_stranger_share",
+            "f_orders_by_source_stranger",
+            "f_orders_by_source_friend",
+            "f_orders_by_source_friend_of_friend"
+          ]
+        },
+        {
+          "claim": "Orders from strangers this week: 2 (best weeks: 2.3).",
+          "number": {
+            "value": 2,
+            "unit": "count",
+            "display": "2"
+          },
+          "best_weeks": {
+            "value": 2.333,
+            "display": "2.3"
+          },
+          "source": {
+            "fact_id": "f_stranger_orders_week",
+            "origin": "orders.csv + tags",
+            "provenance": "derived",
+            "period": {
+              "from": "2026-10-05",
+              "to": "2026-10-11"
+            }
+          },
+          "confidence": "estimate",
+          "sample_size": 19,
+          "evidence_ids": [
+            "f_stranger_orders_week"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "f_stranger_share",
+        "f_orders_by_source_stranger",
+        "f_orders_by_source_friend",
+        "f_orders_by_source_friend_of_friend",
+        "f_stranger_orders_week"
+      ],
+      "confidence": "derived",
+      "reason": null
+    },
+    {
+      "bottleneck": "conversion",
+      "label": "Conversion",
+      "gap_to_best": 0.017,
+      "tests": {
+        "materiality": false,
+        "deviation": false,
+        "localisation": true,
+        "actionability": true
+      },
+      "passed": false,
+      "where": "the biggest drop is at visit to follow",
+      "impact": "about 1 more orders in 4 weeks from the same interest",
+      "key_fact": "f_lead_to_order_rate",
+      "min_action_effort": 10,
+      "cards": [
+        {
+          "claim": "56.7% of people who showed interest ordered, against 57.7% in your best weeks.",
+          "number": {
+            "value": 0.567,
+            "unit": "ratio",
+            "display": "56.7%"
+          },
+          "best_weeks": {
+            "value": 0.577,
+            "display": "57.7%"
+          },
+          "source": {
+            "fact_id": "f_lead_to_order_rate",
+            "origin": "pasted chats + orders.csv",
+            "provenance": "derived",
+            "period": {
+              "from": "2026-09-14",
+              "to": "2026-10-11"
+            }
+          },
+          "confidence": "derived",
+          "sample_size": 73,
+          "evidence_ids": [
+            "f_lead_to_order_rate"
+          ]
+        },
+        {
+          "claim": "19.7 orders per 1,000 people reached (best weeks: 20.2).",
+          "number": {
+            "value": 19.68,
+            "unit": "orders",
+            "display": "19.7"
+          },
+          "best_weeks": {
+            "value": 20.227,
+            "display": "20.2"
+          },
+          "source": {
+            "fact_id": "f_orders_per_1000_reach",
+            "origin": "orders.csv + instagram insights",
+            "provenance": "derived",
+            "period": {
+              "from": "2026-09-14",
+              "to": "2026-10-11"
+            }
+          },
+          "confidence": "derived",
+          "sample_size": 73,
+          "evidence_ids": [
+            "f_orders_per_1000_reach"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "f_lead_to_order_rate",
+        "f_orders_per_1000_reach"
+      ],
+      "confidence": "derived",
+      "reason": "too small to matter yet; within 20% of your best weeks"
+    },
+    {
+      "bottleneck": "margin",
+      "label": "Margin",
+      "gap_to_best": 0.0,
+      "tests": {
+        "materiality": false,
+        "deviation": false,
+        "localisation": true,
+        "actionability": true
+      },
+      "passed": false,
+      "where": "price is low for the full unit cost",
+      "impact": "about INR 0 more margin in 4 weeks",
+      "key_fact": "f_margin_pct",
+      "min_action_effort": 30,
+      "cards": [
+        {
+          "claim": "You keep 43.5% of each order after full costs, against 43.5% in your best weeks.",
+          "number": {
+            "value": 0.435,
+            "unit": "ratio",
+            "display": "43.5%"
+          },
+          "best_weeks": {
+            "value": 0.435,
+            "display": "43.5%"
+          },
+          "source": {
+            "fact_id": "f_margin_pct",
+            "origin": "orders.csv + costs",
+            "provenance": "estimate",
+            "period": {
+              "from": "2026-09-14",
+              "to": "2026-10-11"
+            }
+          },
+          "confidence": "estimate",
+          "sample_size": 73,
+          "evidence_ids": [
+            "f_margin_pct",
+            "f_unit_cost_full"
+          ]
+        },
+        {
+          "claim": "Margin per order: INR 270.",
+          "number": {
+            "value": 270.0,
+            "unit": "INR",
+            "display": "INR 270"
+          },
+          "best_weeks": {
+            "value": 270.0,
+            "display": "INR 270"
+          },
+          "source": {
+            "fact_id": "f_margin_per_order",
+            "origin": "orders.csv + costs",
+            "provenance": "estimate",
+            "period": {
+              "from": "2026-09-14",
+              "to": "2026-10-11"
+            }
+          },
+          "confidence": "estimate",
+          "sample_size": 73,
+          "evidence_ids": [
+            "f_margin_per_order"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "f_margin_pct",
+        "f_unit_cost_full",
+        "f_margin_per_order"
+      ],
+      "confidence": "estimate",
+      "reason": "too small to matter yet; within 20% of your best weeks"
+    },
+    {
+      "bottleneck": "repeat_orders",
+      "label": "Repeat orders",
+      "gap_to_best": 0.0,
+      "tests": {
+        "materiality": false,
+        "deviation": false,
+        "localisation": true,
+        "actionability": true
+      },
+      "passed": false,
+      "where": "first-time buyers are not coming back",
+      "impact": "about 0 more returning customers",
+      "key_fact": "f_repeat_customer_share",
+      "min_action_effort": 30,
+      "cards": [
+        {
+          "claim": "33.3% of your customers have ordered more than once, against 33.1% at your best.",
+          "number": {
+            "value": 0.333,
+            "unit": "ratio",
+            "display": "33.3%"
+          },
+          "best_weeks": {
+            "value": 0.331,
+            "display": "33.1%"
+          },
+          "source": {
+            "fact_id": "f_repeat_customer_share",
+            "origin": "orders.csv",
+            "provenance": "derived",
+            "period": {
+              "from": "2026-06-29",
+              "to": "2026-10-11"
+            }
+          },
+          "confidence": "derived",
+          "sample_size": 255,
+          "evidence_ids": [
+            "f_repeat_customer_share"
+          ]
+        },
+        {
+          "claim": "Returning buyers come back after 20 days (median).",
+          "number": {
+            "value": 20,
+            "unit": "days",
+            "display": "20 days"
+          },
+          "best_weeks": {
+            "value": 20,
+            "display": "20 days"
+          },
+          "source": {
+            "fact_id": "f_days_between_orders",
+            "origin": "orders.csv",
+            "provenance": "derived",
+            "period": {
+              "from": "2026-10-05",
+              "to": "2026-10-11"
+            }
+          },
+          "confidence": "estimate",
+          "sample_size": 19,
+          "evidence_ids": [
+            "f_days_between_orders"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "f_repeat_customer_share",
+        "f_days_between_orders"
+      ],
+      "confidence": "derived",
+      "reason": "too small to matter yet; within 20% of your best weeks"
+    },
+    {
+      "bottleneck": "capacity",
+      "label": "Capacity",
+      "gap_to_best": 0.113,
+      "tests": {
+        "materiality": false,
+        "deviation": false,
+        "localisation": true,
+        "actionability": true
+      },
+      "passed": false,
+      "where": "the limit is at dispatch",
+      "impact": "1 orders turned away, orders 0.1 days slower",
+      "key_fact": "f_dispatch_delay_days",
+      "min_action_effort": 30,
+      "cards": [
+        {
+          "claim": "Orders take 1.15 days to go out, against 1.033 days in your best weeks.",
+          "number": {
+            "value": 1.15,
+            "unit": "days",
+            "display": "1.15 days"
+          },
+          "best_weeks": {
+            "value": 1.033,
+            "display": "1.033 days"
+          },
+          "source": {
+            "fact_id": "f_dispatch_delay_days",
+            "origin": "orders.csv (dispatched_at)",
+            "provenance": "derived",
+            "period": {
+              "from": "2026-09-14",
+              "to": "2026-10-11"
+            }
+          },
+          "confidence": "derived",
+          "sample_size": 73,
+          "evidence_ids": [
+            "f_dispatch_delay_days"
+          ]
+        },
+        {
+          "claim": "1 orders were turned away in the last 4 weeks.",
+          "number": {
+            "value": 1,
+            "unit": "count",
+            "display": "1"
+          },
+          "best_weeks": {
+            "value": 0,
+            "display": "0"
+          },
+          "source": {
+            "fact_id": "f_orders_turned_away",
+            "origin": "interview",
+            "provenance": "estimate",
+            "period": {
+              "from": "2026-09-14",
+              "to": "2026-10-11"
+            }
+          },
+          "confidence": "estimate",
+          "sample_size": 73,
+          "evidence_ids": [
+            "f_orders_turned_away"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "f_dispatch_delay_days",
+        "f_orders_turned_away"
+      ],
+      "confidence": "derived",
+      "reason": "too small to matter yet; within 20% of your best weeks"
+    }
+  ],
+  "rule": "largest gap to your own best weeks among bottlenecks passing all four tests",
+  "explanation": {
+    "text": "Reach is what holds the business back most this week. Only 6.8% of your orders in the last 4 weeks came from strangers, against 13.3% in your best weeks. The gap is in orders from strangers: 64 of 73 orders in the last 4 weeks came from friends and friends of friends. Next in line: conversion (1.7% from your best), capacity (11.3% from your best).",
+    "evidence_ids": [
+      "f_stranger_share",
+      "f_orders_by_source_stranger",
+      "f_orders_by_source_friend",
+      "f_orders_by_source_friend_of_friend"
+    ],
+    "llm": {
+      "used": false,
+      "cached": false,
+      "provider": null,
+      "model": null,
+      "fallback": true,
+      "validator": {
+        "passed": false,
+        "retries": 0,
+        "errors": []
+      },
+      "prompt_version": "v1"
+    }
+  }
+}

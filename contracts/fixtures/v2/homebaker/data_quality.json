@@ -1,0 +1,20 @@
+{
+  "business_id": "biz_homebaker",
+  "synthetic": true,
+  "overall": {
+    "confidence": 0.72,
+    "badge": "medium",
+    "summary": "Orders load cleanly; unit costs and reach are the owner's estimates."
+  },
+  "imports": [
+    {
+      "import_id": "imp_homebaker_orders",
+      "kind": "orders",
+      "rows_total": 245,
+      "rows_loaded": 236,
+      "rows_repaired": 21,
+      "rows_quarantined": 6,
+      "duplicates_merged": 3
+    }
+  ]
+}

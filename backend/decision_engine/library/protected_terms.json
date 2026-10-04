@@ -1,0 +1,54 @@
+{
+  "version": "v1",
+  "note": "Rule-based list of names, logos and characters that are often protected. A match is a flag, not a legal opinion.",
+  "warning": "Some product names use protected names, logos or characters ({terms}). These can lead to takedowns as the brand grows. This is not legal advice.",
+  "visibility_warning": "This action makes those products more visible, which raises that risk.",
+  "terms": {
+    "motorsport": [
+      "F1",
+      "Formula 1",
+      "Formula One",
+      "Ferrari",
+      "Mercedes",
+      "Red Bull",
+      "McLaren",
+      "Aston Martin",
+      "Alpine",
+      "Williams",
+      "Haas",
+      "Hamilton",
+      "Verstappen",
+      "Leclerc",
+      "Norris",
+      "Alonso",
+      "Senna",
+      "Schumacher"
+    ],
+    "food_brands": [
+      "Nutella",
+      "Ferrero",
+      "Kitkat",
+      "Oreo",
+      "Cadbury",
+      "Lotus Biscoff",
+      "Biscoff"
+    ],
+    "characters": [
+      "Disney",
+      "Marvel",
+      "Pokemon",
+      "Barbie",
+      "Harry Potter",
+      "Mickey",
+      "Spider-Man",
+      "Hello Kitty"
+    ],
+    "sports": [
+      "Nike",
+      "Adidas",
+      "Puma",
+      "IPL",
+      "FIFA"
+    ]
+  }
+}

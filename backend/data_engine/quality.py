@@ -21,7 +21,8 @@ def data_quality(business_id: str) -> Optional[dict]:
     ctx = store.get_context(business_id)
     if ctx is None:
         return None
-    if ctx.get("synthetic"):
+    from .homebiz import store as hb
+    if ctx.get("synthetic") and not hb.is_v2(business_id):
         store.ensure_demo_import()
     jobs = [j for j in store.list_imports(business_id) if j["status"] == "loaded"]
     base = {"business_id": business_id, "synthetic": bool(ctx.get("synthetic")),

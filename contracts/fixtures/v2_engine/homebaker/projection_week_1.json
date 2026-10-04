@@ -1,0 +1,78 @@
+{
+  "business_id": "biz_homebaker",
+  "snapshot": "week_1",
+  "week": "week_1",
+  "estimate": true,
+  "month": {
+    "from": "2026-10-05",
+    "to": "2026-11-01"
+  },
+  "synthetic": true,
+  "demand": {
+    "low": 49,
+    "expected": 59,
+    "high": 70
+  },
+  "weekly_expected_demand": [
+    15.1,
+    14.9,
+    14.8,
+    14.6
+  ],
+  "basis": {
+    "weeks_used": 8,
+    "weekly_demand": [
+      15,
+      15,
+      13,
+      19,
+      23,
+      15,
+      11,
+      13
+    ],
+    "weekly_orders": [
+      14,
+      14,
+      13,
+      14,
+      14,
+      14,
+      11,
+      13
+    ],
+    "weekly_turned_away": [
+      1,
+      1,
+      0,
+      5,
+      9,
+      1,
+      0,
+      0
+    ],
+    "trend_per_week": -0.29,
+    "damping": 0.5,
+    "weekly_scatter_sd": 4.05,
+    "context_factor": 1.051,
+    "context_source": "india_festivals",
+    "context_share_next_4_weeks": 0.321,
+    "context_share_recent_weeks": 0.143,
+    "assumed_context_effect": 0.30000000000000004,
+    "method": "damped straight-line trend of weekly demand (orders plus turned away), times a market-context factor; range = 1.28 x weekly scatter x 2"
+  },
+  "confidence": "medium",
+  "note": "An estimate from recent weeks, not a forecast. The market-context effect is an assumption, not a measured fact.",
+  "orders": {
+    "low": 49,
+    "expected": 56,
+    "high": 56
+  },
+  "capacity": {
+    "orders_per_week": 14,
+    "orders_per_month": 56,
+    "demand_exceeds_capacity": true,
+    "orders_lost_to_capacity_expected": 3,
+    "message": "Demand is expected to exceed what you can make: about 3 orders would be turned away."
+  }
+}

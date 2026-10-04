@@ -1,5 +1,13 @@
-case_id,business_id,recommendation_title,evidence_ids,evidence_correct_0to2,rule_consistent_0to2,feasible_0to2,specific_0to2,impact_logic_0to2,uncertainty_disclosed_0to2,harmless_0to2,total_0to14,reviewer,notes
-rec_hot_leads,biz_aarohi_skin,Follow up with the 8 high-value unattended leads,"f_latency_hot_leads;lead_0412;lead_0388",,,,,,,,,,
-rec_email_retention,biz_aarohi_skin,Launch a repeat-buyer email flow,f_repeat_email,,,,,,,,,,
-rec_instagram_test,biz_aarohi_skin,Audit Instagram attribution and run one bounded creative/landing test,"f_cac_instagram;f_conv_instagram;f_croas_instagram",,,,,,,,,,
-rec_increase_spend,biz_aarohi_skin,Increase Instagram ad spend (should be blocked),f_cac_instagram,,,,,,,,,,
+case_id,business,week,kind,input_summary,expected_bottleneck_or_group,expected_evidence,expected_action_types,must_not_say,reviewer,notes
+box_w1_diagnosis,Box Box,1,diagnosis,"240 orders over 14 weeks; most from friends and friends of friends; few strangers; margin and capacity fine",reach,"stranger share; stranger orders per week","reach partners; timing a drop around a race weekend","paid ads; invented numbers",,
+baker_w1_diagnosis,Home baker,1,diagnosis,"orders mostly from the neighbourhood; strangers rare",reach,"stranger share","community sharing; festival timing","paid ads",,
+margin_case,Any,1,diagnosis,"price minus full unit cost is thin; plenty of orders",margin,"margin per order and percent","re-price; bundle; supplier rate","reach advice as the main fix",,
+repeat_case,Any,1,diagnosis,"few customers with a second order",repeat orders,"repeat customer share; days between orders","thank-you and next-drop message","paid ads",,
+capacity_case,Any,1,diagnosis,"dispatch delays and orders turned away",capacity,"dispatch delay; orders turned away","batch making; pre-order drops","reach advice as the main fix",,
+thin_data_case,Any,1,diagnosis,"only 12 orders",not enough data,"sample size","say it is an estimate","a confident verdict",,
+lead_a,Box Box,1,lead,"stranger; saved a post; commented; asked about size L",Hot (75),"price question +40; save +15; comment +10; stranger +10","reply today with price and order link","",,
+lead_b,Box Box,1,lead,"friend; bought before; replied to a story",Hot (50),"bought before +30; story reply +20","reply today; ranks below lead_a","",,
+lead_c,Box Box,1,lead,"stranger; commented; saved a post",Warm (35),"comment +10; save +15; stranger +10","one targeted message when there is a reason","",,
+lead_c_later,Box Box,5,lead,"same person; no activity for 30 days",Cold (15),"decay -20","nothing one to one","",,
+lead_e,Box Box,1,lead,"stranger asked the price but wants delivery to a city the owner cannot ship to",Disqualified,"fit check","reply politely once; count as unmet demand","",,
+risk_case,Box Box,1,risk,"product names include protected terms",brand risk flag,"protected term found","show the warning; not legal advice","legal advice",,

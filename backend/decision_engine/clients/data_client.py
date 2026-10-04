@@ -1,17 +1,17 @@
-"""DataClient: the only way decision_engine reads data_engine's output.
+"""DataClient: the only way decision_engine reads data_engine's output (contract v2).
 
 `DATA_SOURCE` picks where the data comes from:
 
-- `fixture` (default): the JSON files in `contracts/fixtures/`. Works with no data_engine.
-- `http`: data_engine's REST API at `DATA_ENGINE_URL` (contract section 3).
+- `fixture` (default): `contracts/fixtures/v2/` (stand-in Box Box and home baker). Works with no data_engine.
+- `http`: data_engine's REST API at `DATA_ENGINE_URL` (contract v2 section 3).
 - `local`: in-process calls to `backend.data_engine.public` (used on backend-integration).
 
 Every method returns the contract shape, whatever the source.
 """
 from __future__ import annotations
 
-import inspect
 import importlib
+import inspect
 import json
 import os
 from datetime import date
@@ -24,7 +24,8 @@ from urllib.request import Request, urlopen
 from backend.common.fixtures import load_fixture
 
 SOURCES = ("fixture", "http", "local")
-SNAPSHOTS = ("baseline", "day7")
+WEEKS = ("week_1", "week_2", "week_3", "week_4")
+FIXTURE_BUSINESSES = {"biz_boxbox": "boxbox", "biz_homebaker": "homebaker"}
 DateLike = Optional[Union[str, date]]
 
 
@@ -46,14 +47,15 @@ def _iso(d: DateLike) -> Optional[str]:
     return d.isoformat() if isinstance(d, date) else str(d)
 
 
+def check_week(week: str) -> str:
+    if week not in WEEKS:
+        raise ValueError(f"week must be one of {WEEKS}, got {week!r}")
+    return week
+
+
 class DataClient:
-    def __init__(
-        self,
-        source: Optional[str] = None,
-        base_url: Optional[str] = None,
-        api_prefix: str = "/api/v1",
-        timeout: float = 10.0,
-    ):
+    def __init__(self, source: Optional[str] = None, base_url: Optional[str] = None,
+                 api_prefix: str = "/api/v1", timeout: float = 10.0):
         self.source = (source or os.getenv("DATA_SOURCE") or "fixture").strip().lower()
         if self.source not in SOURCES:
             raise ValueError(f"DATA_SOURCE must be one of {SOURCES}, got {self.source!r}")
@@ -65,104 +67,81 @@ class DataClient:
     # ------------------------------------------------------------------ API
 
     def get_context(self, business_id: str) -> dict:
-        """Business profile, goal, constraints and capacity (`business_context.json`)."""
+        """Business profile (contract 2.1)."""
         if self.source == "fixture":
-            return self._fixture_for(business_id, "business_context")
+            return self._fixture(business_id, "business")
         if self.source == "http":
             return self._get(f"/businesses/{quote(business_id)}")
         return self._local("get_context", business_id)
 
-    def get_kpi_facts(
-        self,
-        business_id: str,
-        from_date: DateLike = None,
-        to_date: DateLike = None,
-        snapshot: str = "baseline",
-    ) -> list[dict]:
-        """KPI facts (`kpi_facts.json`); `snapshot="day7"` returns the day-7 follow-up week."""
-        if snapshot not in SNAPSHOTS:
-            raise ValueError(f"snapshot must be one of {SNAPSHOTS}, got {snapshot!r}")
-        from_date, to_date = _iso(from_date), _iso(to_date)
+    def get_facts(self, business_id: str, week: str = "week_1") -> dict:
+        """`{business_id, week, as_of, facts: [Fact 2.2]}` as of the end of `week` (point in time)."""
+        check_week(week)
         if self.source == "fixture":
-            self._fixture_for(business_id, "business_context")
-            name = "kpi_facts" if snapshot == "baseline" else "kpi_facts_day7"
-            facts = load_fixture(name)
-            return [
-                f for f in facts
-                if (from_date is None or f["period"]["from"] >= from_date)
-                and (to_date is None or f["period"]["to"] <= to_date)
-            ]
+            return self._fixture(business_id, f"facts_{week}")
         if self.source == "http":
-            body = self._get(
-                f"/businesses/{quote(business_id)}/kpis",
-                {"from": from_date, "to": to_date, "snapshot": snapshot},
-            )
-            return body["facts"] if isinstance(body, dict) and "facts" in body else body
-        kwargs = {"snapshot": snapshot} if self._accepts("get_kpi_facts", "snapshot") else {}
-        if snapshot != "baseline" and not kwargs:
-            raise DataSourceUnavailable("data_engine.public.get_kpi_facts does not support snapshot")
-        return self._local("get_kpi_facts", business_id, from_date, to_date, **kwargs)
+            body = self._get(f"/businesses/{quote(business_id)}/facts", {"week": week})
+        else:
+            body = self._local("get_facts", business_id, week)
+        return body if isinstance(body, dict) else {"business_id": business_id, "week": week, "facts": body}
 
-    def get_lead_scores(self, business_id: str, limit: Optional[int] = None) -> dict:
-        """Ranked lead scores plus `model_card` (`lead_scores.json`).
-
-        `limit` keeps the top-ranked leads; abstentions (rank null) are kept after them.
-        """
+    def get_leads(self, business_id: str, week: str = "week_1", group: Optional[str] = None) -> dict:
+        """`{business_id, week, leads: [Lead 2.4]}`, optionally one group."""
+        check_week(week)
         if self.source == "fixture":
-            data = self._fixture_for(business_id, "lead_scores")
-            if limit is not None:
-                ranked = sorted((l for l in data["leads"] if l["rank"] is not None), key=lambda l: l["rank"])
-                abstained = [l for l in data["leads"] if l["rank"] is None]
-                data["leads"] = (ranked + abstained)[:limit]
-            return data
+            body = self._fixture(business_id, f"leads_{week}")
+        elif self.source == "http":
+            body = self._get(f"/businesses/{quote(business_id)}/leads", {"week": week, "group": group})
+        else:
+            body = self._local("get_leads", business_id, week)
+        if not isinstance(body, dict):
+            body = {"business_id": business_id, "week": week, "leads": body}
+        if group:
+            body["leads"] = [l for l in body["leads"] if l["group"] == group]
+        return body
+
+    def get_projection(self, business_id: str, week: str = "week_1") -> dict:
+        """Next month's orders with a range (contract 2.7)."""
+        check_week(week)
+        if self.source == "fixture":
+            return self._fixture(business_id, f"projection_{week}")
         if self.source == "http":
-            return self._get(f"/businesses/{quote(business_id)}/leads/queue", {"limit": limit})
-        return self._local("get_lead_scores", business_id, limit)
+            return self._get(f"/businesses/{quote(business_id)}/projection", {"week": week})
+        return self._local("get_projection", business_id, week)
 
     def get_data_quality(self, business_id: str) -> dict:
-        """Data confidence badge and import reports (`data_quality.json`)."""
         if self.source == "fixture":
-            return self._fixture_for(business_id, "data_quality")
+            return self._fixture(business_id, "data_quality")
         if self.source == "http":
             return self._get(f"/businesses/{quote(business_id)}/data-quality")
         return self._local("get_data_quality", business_id)
 
-    def get_kpi_series(
-        self,
-        business_id: str,
-        from_date: DateLike = None,
-        to_date: DateLike = None,
-        channel: Optional[str] = None,
-    ) -> dict:
-        """Daily per-channel series for anomaly detection (`kpi_daily.json`).
-
-        Proposed contract addition: `GET /businesses/{id}/kpis/daily` and
-        `data_engine.public.get_kpi_series`.
-        """
+    def get_market_context(self, feed: str, from_date: DateLike = None, to_date: DateLike = None) -> dict:
+        """Demand windows from one calendar feed (`f1_calendar`, `india_festivals`, ...), contract 2.9."""
         from_date, to_date = _iso(from_date), _iso(to_date)
         if self.source == "fixture":
-            data = self._fixture_for(business_id, "kpi_daily")
-            data["series"] = [
-                r for r in data["series"]
-                if (from_date is None or r["date"] >= from_date)
-                and (to_date is None or r["date"] <= to_date)
-                and (channel is None or r["channel"] == channel)
-            ]
-            return data
+            try:
+                return load_fixture(f"v2/market_context/{feed}")
+            except FileNotFoundError:
+                raise DataSourceUnavailable(f"no market context for feed {feed!r}") from None
         if self.source == "http":
-            return self._get(
-                f"/businesses/{quote(business_id)}/kpis/daily",
-                {"from": from_date, "to": to_date, "channel": channel},
-            )
-        return self._local("get_kpi_series", business_id, from_date, to_date, channel)
+            return self._get("/market-context", {"from": from_date, "to": to_date, "feed": feed})
+        func = getattr(self._public_module(), "get_market_context", None)
+        if func is None:
+            raise DataSourceUnavailable("data_engine.public has no get_market_context()")
+        if "feed" in inspect.signature(func).parameters:
+            return func(from_date, to_date, feed=feed)
+        if feed != "f1_calendar":  # the built module only knows the F1 calendar
+            raise DataSourceUnavailable(f"market context feed {feed!r} is not built yet")
+        return func(from_date, to_date)
 
     # ------------------------------------------------------------ internals
 
-    def _fixture_for(self, business_id: str, name: str) -> Any:
-        data = load_fixture(name)
-        if data.get("business_id") != business_id:
+    def _fixture(self, business_id: str, name: str) -> Any:
+        slug = FIXTURE_BUSINESSES.get(business_id)
+        if slug is None:
             raise DataNotFound(f"business {business_id!r} not found in fixtures")
-        return data
+        return load_fixture(f"v2/{slug}/{name}")
 
     def _get(self, path: str, params: Optional[dict] = None) -> Any:
         query = urlencode({k: v for k, v in (params or {}).items() if v is not None})
@@ -184,19 +163,14 @@ class DataClient:
                 self._public = importlib.import_module("backend.data_engine.public")
             except ImportError as e:
                 raise DataSourceUnavailable(
-                    "DATA_SOURCE=local needs backend/data_engine/public.py (merge backend-1)"
-                ) from e
+                    "DATA_SOURCE=local needs backend/data_engine/public.py (merge backend-1)") from e
         return self._public
 
-    def _accepts(self, func_name: str, param: str) -> bool:
-        func = getattr(self._public_module(), func_name, None)
-        return func is not None and param in inspect.signature(func).parameters
-
-    def _local(self, func_name: str, *args, **kwargs) -> Any:
+    def _local(self, func_name: str, *args) -> Any:
         func = getattr(self._public_module(), func_name, None)
         if func is None:
-            raise DataSourceUnavailable(f"data_engine.public has no {func_name}()")
-        result = func(*args, **kwargs)
+            raise DataSourceUnavailable(f"data_engine.public has no {func_name}() yet (contract v2)")
+        result = func(*args)
         if result is None:
             raise DataNotFound(f"data_engine.public.{func_name} returned nothing for {args[0]!r}")
         return result

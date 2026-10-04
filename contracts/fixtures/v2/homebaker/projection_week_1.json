@@ -1,0 +1,34 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_1",
+  "synthetic": true,
+  "month": {
+    "from": "2026-11-01",
+    "to": "2026-11-30"
+  },
+  "orders": {
+    "low": 89,
+    "expected": 105,
+    "high": 121
+  },
+  "basis": {
+    "weeks_used": 8,
+    "weekly_orders": [
+      17,
+      18,
+      17,
+      16,
+      18,
+      19,
+      18,
+      17
+    ],
+    "trend_per_week": 0.1,
+    "context_factor": 1.35,
+    "context_source": "india_festivals: Diwali on 2026-11-08; a +35% gifting effect is a stand-in assumption",
+    "method": "recent weekly average plus trend, times a context factor; range from week-to-week variation, at least +/-15%"
+  },
+  "confidence": "estimate",
+  "estimate": true,
+  "standin": true
+}

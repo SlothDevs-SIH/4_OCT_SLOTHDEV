@@ -1,0 +1,34 @@
+{
+  "business_id": "biz_boxbox",
+  "week": "week_4",
+  "synthetic": true,
+  "month": {
+    "from": "2026-11-01",
+    "to": "2026-11-30"
+  },
+  "orders": {
+    "low": 90,
+    "expected": 106,
+    "high": 122
+  },
+  "basis": {
+    "weeks_used": 8,
+    "weekly_orders": [
+      17,
+      16,
+      18,
+      17,
+      17,
+      18,
+      19,
+      23
+    ],
+    "trend_per_week": 0.68,
+    "context_factor": 1.1,
+    "context_source": "f1_calendar: 4 race weekends touch November; page views show 2.0x interest on race weekends (interest, not sales); a +10% sales effect is a stand-in assumption",
+    "method": "recent weekly average plus trend, times a context factor; range from week-to-week variation, at least +/-15%"
+  },
+  "confidence": "estimate",
+  "estimate": true,
+  "standin": true
+}

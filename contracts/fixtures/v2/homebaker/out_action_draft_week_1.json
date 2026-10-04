@@ -1,0 +1,24 @@
+{
+  "action_id": "act_homebaker_w1_reach_partner_collab",
+  "channel": "instagram_dm",
+  "status": "preview",
+  "auto_send": false,
+  "requires_approval": true,
+  "text": "Hi Neighbourhood parents group! I run Butter Lane Bakes, a small home bakery business from Pune. Your posts get real conversation from people who'd like what I make. Could we do a small collab: I send you a free Brownie Box and you share a story or post tagging us? Happy to keep it simple. Thank you!",
+  "placeholders": [],
+  "risk_flags": [
+    {
+      "flag": "brand_ip",
+      "level": "high",
+      "terms": [
+        "Nutella"
+      ],
+      "products": [
+        "Nutella Brownie Tub"
+      ],
+      "text": "Some product names use protected names, logos or characters (Nutella). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+      "not_legal_advice": true
+    }
+  ],
+  "note": "Preview only. Nothing is sent automatically; you copy it and send it yourself."
+}
