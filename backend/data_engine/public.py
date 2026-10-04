@@ -1,13 +1,13 @@
 """In-process interface used by decision_engine when DATA_SOURCE=local.
 
-Stages 1a-2a: get_context, get_data_quality, get_kpi_facts and get_kpi_series are real. get_lead_scores is replaced in
-Stage 2b; signatures stay the same. Each function returns exactly the contract fixture shape, or None
+Stages 1a-2b: every function is real (context, data quality, KPI facts, daily series, lead scores).
+Signatures stay the same. Each function returns exactly the contract fixture shape, or None
 when the business is unknown.
 """
 from typing import Optional
 
 from backend.common.fixtures import load_fixture
-from backend.data_engine import kpis, quality, store
+from backend.data_engine import kpis, leads, quality, store
 from backend.data_engine.synth import config as C
 
 
@@ -32,11 +32,16 @@ def get_kpi_facts(business_id: str, from_date: Optional[str] = None, to_date: Op
     return kpis.compute_facts(snapshot, from_date, to_date)
 
 
-def get_lead_scores(business_id: str, limit: Optional[int] = None) -> Optional[dict]:
-    data = _for(business_id, "lead_scores")
-    if data is not None and limit is not None:
-        data["leads"] = data["leads"][:limit]
-    return data
+def get_lead_scores(business_id: str, limit: Optional[int] = None, snapshot: str = "baseline") -> Optional[dict]:
+    """Real (Stage 2b): the trained model scores the open leads of the snapshot's period.
+    `limit` keeps the top-ranked leads; abstentions come after them. Default snapshot is the baseline week."""
+    if store.get_context(business_id) is None:
+        return None
+    if business_id != C.BUSINESS_ID:
+        return {"business_id": business_id, "synthetic": False, "scored_at": None,
+                "high_value_threshold_inr": C.HIGH_VALUE_THRESHOLD_INR, "ranking": "probability x expected_value_inr",
+                "model_card": leads.model_card(), "leads": []}
+    return leads.lead_scores(business_id, limit, snapshot)
 
 
 def get_data_quality(business_id: str) -> Optional[dict]:

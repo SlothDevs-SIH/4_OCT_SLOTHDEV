@@ -70,7 +70,8 @@ def test_unknown_business_is_404_in_the_error_shape():
     assert r.status_code == 404 and r.json()["error"]["code"] == "business_not_found"
 
 
-def test_later_stage_endpoints_still_answer_from_fixtures():
-    assert client.get("/api/v1/businesses/biz_aarohi_skin/kpis").json()["facts"]
-    assert client.get("/api/v1/businesses/biz_aarohi_skin/leads/queue").json()["leads"]
-    assert client.get("/api/v1/businesses/biz_aarohi_skin/segments/rfm").status_code == 501
+def test_stage2_endpoints_are_real():
+    assert client.get("/api/v1/businesses/biz_aarohi_skin/kpis").json()["facts"][0]["fact_id"] == "f_spend_instagram"
+    leads = client.get("/api/v1/businesses/biz_aarohi_skin/leads/queue").json()["leads"]
+    assert leads[0]["rank"] == 1 and leads[-1]["abstain"] is True
+    assert client.get("/data/health").status_code == 404

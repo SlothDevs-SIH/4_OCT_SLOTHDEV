@@ -49,6 +49,30 @@ Endpoints: contract section 3.
 
 On `backend-integration` (#1 at 1:00–1:30 PM, #2 at 3:00 PM, with Ayush) your branch is merged with `backend-2`; `data_engine/public.py` is the in-process interface `decision_engine` calls when `DATA_SOURCE=local`. Keep its function signatures stable: `get_context`, `get_kpi_facts`, `get_lead_scores`, `get_data_quality`, each returning the contract shape. See `BACKEND.md` section 9 and `docs/WORKFLOW.md`.
 
+
+## Status (what is built, verified by tests)
+
+| Stage | Built | Tests |
+|---|---|---|
+| 1a | Synthetic D2C tenant (deterministic), context, onboarding (`d2c`/`hybrid`/`b2c_retail`), demo load, data summary | anchors, invariants, determinism |
+| 1b | CSV import: mapping suggestions, validation/repair/quarantine, quality report and badge; messy sample file | planted defects found exactly; cleaned rows reconstruct the originals |
+| 2a | KPI engine: 23 facts for the baseline and day-7 snapshots, daily series, funnel, point-in-time rule | every current-week value equals the contract fixtures |
+| 2b | Lead model trained on UCI Bank Marketing, lead queue, model card | runtime scorer reproduces the card's hold-out metrics; queue shape matches the contract |
+| **Not built** | RFM segments (should-have), Postgres persistence of import jobs, Online Retail II | – |
+
+## Lead model: decisions and measured results
+
+Trained offline (`python -m backend.data_engine.ml.train_lead_model`; scikit-learn and numpy are needed only there). The runtime reads a small JSON artifact (`ml/artifacts/lead_model.json`) and is pure Python.
+
+- **Data:** UCI Bank Marketing, used standalone (download with `python -m backend.data_engine.ml.fetch_datasets`; the file is git-ignored). `duration` is never used (leakage).
+- **Shared feature schema (4 inputs):** previous outcome, prior contacts, days since last contact, contacts this campaign. Banking-specific fields have no meaning for a skincare lead.
+- **Modeling window = 2009 onward.** 2008 (67% of the file) has almost no previous-campaign information (97% "nonexistent"), so including it hides the strongest predictor (a previous success converts at 65%). This was decided from data coverage, not from scores.
+- **`month` excluded.** It cannot be separated from the campaign period in a two-year dataset; it is reported only as an ablation.
+- **Evaluation:** the last 20% of the window (strictly the latest period) is untouched until the end. Model and calibrator selection use blocked time-contiguous cross-validation inside the first 80%; the calibrator is fitted on out-of-fold predictions.
+- **Results on the hold-out** (n = 2,700, positive rate 51.2%): PR-AUC **0.680** vs 0.512 for the constant baseline, ROC-AUC 0.682, lift@10% 1.6. The gradient-boosting challenger scored 0.660, so the portable, explainable logistic regression ships.
+- **Known limits (also on the model card):** the positive rate shifts from 17.8% (development) to 51.2% (hold-out), so calibration is weak (calibration error 0.29). **Use the probabilities to rank leads, not as absolute chances.** They are not calibrated to Aarohi Skin.
+- **Explanations:** previous outcome, prior contacts and days since last contact are three views of one fact, so they are explained together as one "contact history" factor (the effect versus a lead with no previous contact).
+
 ## Additive API (backend-1), to be added to the contract on `main`
 
 | Method | Path | Purpose |
@@ -61,6 +85,7 @@ On `backend-integration` (#1 at 1:00–1:30 PM, #2 at 3:00 PM, with Ayush) your 
 | GET | `/demo/sample-import/orders.csv` | download the deliberately messy synthetic orders export |
 | POST | `/demo/import-sample` | run that sample through the real import pipeline; returns mapping and report |
 | POST | `/imports/{id}/confirm` | body is `{"mapping": {field: column}}` (a bare mapping object is also accepted) |
+| GET | `/businesses/{id}/leads/queue?limit=&snapshot=` | `snapshot` defaults to the loaded demo phase; in-process `public.get_lead_scores` defaults to `baseline` |
 | GET | `/businesses/{id}/kpis?snapshot=` | already in the contract; response wraps the facts as `{business_id, synthetic, snapshot, facts: [...]}` |
 
 **Point-in-time rule (used by the KPI engine in Stage 2):** a snapshot only sees events that happened before its `as_of` time. The baseline snapshot (`as_of` 2026-10-04T04:30Z) must not see the follow-ups that happen in the day-7 replay, so the baseline week reads the same in both phases. Lead response latency for a lead that has not been answered yet is `as_of - created_at`.

@@ -3,12 +3,12 @@
 Stage 1a (real): onboarding, demo load, context, data summary.
 Stage 1b (real): CSV import (upload, mapping, validate, repair, quarantine), quality report, data-quality badge.
 Stage 2a (real): KPI facts, daily series, funnel.
-Still fixture-backed (Stage 2b): lead queue, model card.
+Stage 2b (real): lead queue (trained model), model card.
 """
 from fastapi import APIRouter, File, Query, Response, UploadFile
 
 from backend.common.errors import ApiError, not_implemented
-from backend.data_engine import importer, public, store
+from backend.data_engine import importer, leads, public, store
 from backend.data_engine.context import BusinessIn, context_from_onboarding
 from backend.data_engine.synth import config as C, messy
 
@@ -17,7 +17,7 @@ router = APIRouter(prefix="/api/v1", tags=["data_engine"])
 
 @router.get("/data/health")
 def health():
-    return {"service": "data_engine", "status": "ok", "stage": "2a"}
+    return {"service": "data_engine", "status": "ok", "stage": "2b"}
 
 
 # --- onboarding and demo data (real) -----------------------------------------
@@ -197,14 +197,12 @@ def funnel(business_id: str, snapshot: str | None = Query(None, pattern="^(basel
     return {"business_id": business_id, "snapshot": snap, "stages": [f for f in facts if f["kpi"].startswith("funnel_")]}
 
 
-@router.get("/businesses/{business_id}/segments/rfm")
-def rfm(business_id: str):
-    raise not_implemented("RFM segments (should-have)")
-
-
+# --- leads and model (Stage 2b, real) ------------------------------------------
 @router.get("/businesses/{business_id}/leads/queue")
-def lead_queue(business_id: str, limit: int | None = None):
-    data = public.get_lead_scores(business_id, limit)
+def lead_queue(business_id: str, limit: int | None = Query(None, ge=1, le=500),
+               snapshot: str | None = Query(None, pattern="^(baseline|day7)$")):
+    """Ranked open leads (probability x expected value) with reasons; incomplete leads abstain. Snapshot defaults to the loaded phase."""
+    data = public.get_lead_scores(business_id, limit, snapshot or store.active_phase())
     if data is None:
         raise ApiError(404, "business_not_found", f"business {business_id!r} not found")
     return data
@@ -212,4 +210,5 @@ def lead_queue(business_id: str, limit: int | None = None):
 
 @router.get("/models/lead-conversion/card")
 def model_card():
-    return public.get_lead_scores(C.BUSINESS_ID)["model_card"]
+    """The model card with the measured hold-out metrics, data used, exclusions and caveats."""
+    return leads.model_card()
