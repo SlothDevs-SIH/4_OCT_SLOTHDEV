@@ -125,3 +125,22 @@ npm run dev                                   # http://localhost:3000
 **Offline demo (no backend):** set `NEXT_PUBLIC_USE_MOCKS=true`. The app then replays recorded backend answers from `public/mock/`, so the demo path works with the network off. Re-record them with `python frontend/app/scripts/build_mocks.py` (from the repo root) after any backend change. Uploads, creating a business and pasted chats need the live backend and say so.
 
 **Build check:** `npm run typecheck && npm run build`. `NEXT_DIST_DIR=.next-build npx next build` builds beside a running dev server.
+
+
+## Deploy
+
+**Frontend on Vercel** (no CLI or tokens needed):
+1. vercel.com > Add New > Project > import this GitHub repo.
+2. **Root Directory: `frontend/app`**. Framework: Next.js (auto-detected). Branch: `main`.
+3. Environment variables (Production):
+   - Fast and always works (recorded demo, no backend): `NEXT_PUBLIC_USE_MOCKS` = `true`.
+   - Live backend with a safety net: `NEXT_PUBLIC_API_BASE` = the API URL below, `NEXT_PUBLIC_USE_MOCKS` = `false`, `NEXT_PUBLIC_MOCK_FALLBACK` = `true`.
+4. Deploy. Open the link on a phone and in a private window.
+
+**API on Render** (only for the live mode; uploads, creating a business and pasted chats need it):
+1. render.com > New > Blueprint > pick this repo (it reads `render.yaml`). Free plan, Singapore region.
+2. When it is live, the API URL is `https://catalyst-api.onrender.com` (check the name Render shows). Test `/api/v1/health`.
+3. The free plan sleeps after inactivity (the first request takes up to a minute). The recorded-demo fallback covers that for a public demo; open the API URL once before presenting to wake it.
+4. State is in memory: a restart clears created businesses; demo businesses reload when a visitor picks them.
+
+The API needs only `backend/requirements-api.txt` (no pandas or scikit-learn).

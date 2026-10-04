@@ -1,0 +1,7 @@
+# Runtime packages for the API only (the gateway with data_engine and decision_engine).
+# The full backend/requirements.txt adds pandas, scikit-learn and shap, which are needed only by offline model-training scripts.
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+python-multipart>=0.0.9
+jsonschema>=4.21

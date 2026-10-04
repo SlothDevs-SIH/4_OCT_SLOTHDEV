@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Bottleneck, BottleneckScore } from "@/lib/types";
-import ElectricBorder from "@/components/reactbits/ElectricBorder";
 
 export interface BottleneckGridProps {
   scores: BottleneckScore[];
@@ -146,21 +145,9 @@ export default function BottleneckGrid({
           if (isPrimary) {
             return (
               <div key={key} className="col-span-1 md:col-span-2 lg:col-span-1">
-                {reduceMotion ? (
-                  <div className="p-0.5 rounded-2xl ring-2 ring-indigo-500 shadow-lg shadow-indigo-500/20 h-full">
-                    {cardContent}
-                  </div>
-                ) : (
-                  <ElectricBorder
-                    color="#6366f1"
-                    speed={1}
-                    chaos={0.12}
-                    borderRadius={16}
-                    className="h-full"
-                  >
-                    {cardContent}
-                  </ElectricBorder>
-                )}
+                <div className="p-0.5 rounded-2xl ring-2 ring-indigo-500/80 shadow-lg shadow-indigo-500/10 h-full">
+                  {cardContent}
+                </div>
               </div>
             );
           }

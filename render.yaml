@@ -1,0 +1,16 @@
+# Render blueprint for the API (gateway with data_engine and decision_engine).
+# New > Blueprint > pick this repo. The frontend goes to Vercel (see frontend/FRONTEND.md, "Deploy").
+services:
+  - type: web
+    name: catalyst-api
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r backend/requirements-api.txt
+    startCommand: uvicorn backend.gateway.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: DATA_SOURCE
+        value: local

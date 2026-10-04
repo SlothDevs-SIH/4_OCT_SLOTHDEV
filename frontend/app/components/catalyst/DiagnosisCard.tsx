@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Diagnosis } from "@/lib/types";
-import ElectricBorder from "@/components/reactbits/ElectricBorder";
 import EvidenceCard from "./EvidenceCard";
 
 export interface DiagnosisCardProps {
@@ -76,22 +75,11 @@ export default function DiagnosisCard({
 
   return (
     <div className={`space-y-8 ${className}`}>
-      {/* Primary bottleneck with ElectricBorder */}
+      {/* Primary bottleneck: a plain highlighted border (no animated effect) */}
       <div>
-        {reduceMotion ? (
-          <div className="rounded-2xl ring-2 ring-indigo-500/80 shadow-xl shadow-indigo-600/20">
-            {primaryContent}
-          </div>
-        ) : (
-          <ElectricBorder
-            color="#6366f1"
-            speed={1.2}
-            chaos={0.15}
-            borderRadius={20}
-          >
-            {primaryContent}
-          </ElectricBorder>
-        )}
+        <div className="rounded-2xl ring-2 ring-indigo-500/80 shadow-xl shadow-indigo-600/10">
+          {primaryContent}
+        </div>
       </div>
 
       {/* Explanation text & LLM provenance */}

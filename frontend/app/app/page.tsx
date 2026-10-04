@@ -5,7 +5,7 @@ import DotField from "@/components/DotField";
 import LoginLink from "@/components/LoginLink";
 import Hero from "@/components/catalyst/Hero";
 
-const KINDS = ["home bakers", "candle makers", "fan-merch sellers", "jewellery makers", "plant sellers", "any home business"];
+const KINDS = ["home bakers", "candle makers", "fan-merch sellers", "jewellery makers", "plant sellers", "any small growing business"];
 
 const STEPS = [
   { n: "1", title: "Tell us what you sell", body: "Upload your orders, costs and Instagram numbers. Messy sheets are fine: we repair them and show you what we changed." },
@@ -34,9 +34,9 @@ export default function LandingPage() {
         </header>
 
         <Hero
-          headline="Know what is holding your home business back."
+          headline="Know what is holding your small growing business back."
           businessKinds={KINDS}
-          subtitle="A free advisor for people who sell from home. It reads your orders and tells you what to fix first."
+          subtitle="A free advisor for small growing businesses. It reads your orders and tells you what to fix first."
           ctaText="Try the demo"
           onCtaClick={() => router.push("/login")}
         />

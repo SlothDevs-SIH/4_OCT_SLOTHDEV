@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import SplitText from "@/components/reactbits/SplitText";
-import RotatingText from "@/components/reactbits/RotatingText";
 import StarBorder from "@/components/reactbits/StarBorder";
 
 const Aurora = dynamic(() => import("@/components/reactbits/Aurora"), {
@@ -19,10 +17,30 @@ export interface HeroProps {
   className?: string;
 }
 
+
+/** Cycles through the words with a short fade. Never blank: the next word replaces the old one in place. */
+function RotatingWord({ words }: { words: string[] }) {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (words.length < 2) return;
+    const t = setInterval(() => setI((n) => (n + 1) % words.length), 2600);
+    return () => clearInterval(t);
+  }, [words.length]);
+  return (
+    <span
+      key={i}
+      className="inline-block px-2 py-0.5 rounded-lg bg-teal-400/10 text-teal-300 font-bold border border-teal-400/20 animate-[fadeword_0.45s_ease-out]"
+      aria-live="polite"
+    >
+      {words[i] ?? ""}
+    </span>
+  );
+}
+
 export default function Hero({
   headline,
   businessKinds,
-  subtitle = "Evidence-based growth advice specifically modeled for home businesses.",
+  subtitle = "Evidence-based growth advice specifically modeled for small growing businesses.",
   ctaText = "Diagnose My Business",
   onCtaClick,
   className = "",
@@ -66,37 +84,18 @@ export default function Hero({
 
       <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center gap-6">
         <div className="space-y-4">
-          {reduceMotion ? (
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
-              {headline}
-            </h1>
-          ) : (
-            <SplitText
-              text={headline}
-              tag="h1"
-              className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight"
-              delay={40}
-              duration={0.8}
-            />
-          )}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+            {headline}
+          </h1>
 
           <div className="text-lg sm:text-xl md:text-2xl font-semibold text-slate-300 flex items-center justify-center flex-wrap gap-2">
             <span>Actionable advisor for</span>
             {reduceMotion ? (
               <span className="text-teal-300 font-bold underline decoration-teal-400">
-                {businessKinds[0] || "home businesses"}
+                {businessKinds[0] || "small growing businesses"}
               </span>
             ) : (
-              <RotatingText
-                texts={businessKinds}
-                mainClassName="px-2 py-0.5 rounded-lg bg-teal-400/10 text-teal-300 font-bold border border-teal-400/20"
-                staggerFrom="last"
-                initial={{ y: "100%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: "-120%", opacity: 0 }}
-                transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                rotationInterval={2800}
-              />
+              <RotatingWord words={businessKinds} />
             )}
           </div>
         </div>

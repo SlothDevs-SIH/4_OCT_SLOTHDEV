@@ -28,6 +28,8 @@ const API_BASE =
   "http://localhost:8000";
 
 const USE_MOCKS = typeof process !== "undefined" && process.env?.NEXT_PUBLIC_USE_MOCKS === "true";
+// Public build: if the live API cannot be reached (a free host asleep, no network), fall back to the recorded demo instead of erroring.
+const MOCK_FALLBACK = typeof process !== "undefined" && process.env?.NEXT_PUBLIC_MOCK_FALLBACK === "true";
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   if (USE_MOCKS) return (await import("./mock")).mockRequest<T>(path, options);   // offline demo: recorded backend answers
@@ -38,10 +40,16 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     headers.set("Content-Type", "application/json");
   }
 
-  const res = await fetch(url, {
-    ...options,
-    headers,
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      ...options,
+      headers,
+    });
+  } catch (e) {
+    if (MOCK_FALLBACK) return (await import("./mock")).mockRequest<T>(path, options);
+    throw e;
+  }
 
   if (!res.ok) {
     let code = "UNKNOWN_ERROR";

@@ -4,8 +4,8 @@ import "./globals.css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "Catalyst AI · a free growth advisor for home businesses",
-  description: "Find what is holding your home business back, get one to three actions for the week, and see who to reply to today.",
+  title: "Catalyst AI · a free growth advisor for small growing businesses",
+  description: "Find what is holding your small growing business back, get one to three actions for the week, and see who to reply to today.",
 };
 
 export const viewport: Viewport = { themeColor: "#0b0e1a", colorScheme: "dark" };
