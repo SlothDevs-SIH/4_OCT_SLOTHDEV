@@ -1,0 +1,228 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_4",
+  "compared_with": "week_3",
+  "as_of": "2026-10-25",
+  "synthetic": true,
+  "actions_done": [
+    "act_homebaker_w3_cap_preorder_drop",
+    "act_homebaker_w3_cap_batch_making"
+  ],
+  "actions_skipped": [],
+  "actions_open": [],
+  "reviews": [
+    {
+      "action_id": "act_homebaker_w3_cap_preorder_drop",
+      "action_key": "cap_preorder_drop",
+      "title": "Switch Diwali Hamper to a limited pre-order drop",
+      "status": "done",
+      "fidelity": {
+        "done": true,
+        "status": "done"
+      },
+      "target": {
+        "fact_id": "f_orders_turned_away",
+        "value": 0,
+        "text": "no orders turned away (now 6 in the last 4 weeks)"
+      },
+      "previous": 6,
+      "current": 15,
+      "effectiveness": "worse",
+      "decision": "drop",
+      "adjustment": "The number did not improve: drop it and try the next action.",
+      "observational": true
+    },
+    {
+      "action_id": "act_homebaker_w3_cap_batch_making",
+      "action_key": "cap_batch_making",
+      "title": "Batch your making: one session for the week's top items",
+      "status": "done",
+      "fidelity": {
+        "done": true,
+        "status": "done"
+      },
+      "target": {
+        "fact_id": "f_dispatch_delay_days",
+        "value": 1.03,
+        "text": "back to 1.03 days to dispatch, as in your best weeks (now 1.43)"
+      },
+      "previous": 1.43,
+      "current": 1.87,
+      "effectiveness": "worse",
+      "decision": "drop",
+      "adjustment": "The number did not improve: drop it and try the next action.",
+      "observational": true
+    }
+  ],
+  "fact_changes": [
+    {
+      "fact_id": "f_stranger_orders_week",
+      "kpi": "stranger_orders_week",
+      "unit": "count",
+      "previous": 3,
+      "current": 4,
+      "moved": "better"
+    },
+    {
+      "fact_id": "f_stranger_share",
+      "kpi": "stranger_share",
+      "unit": "ratio",
+      "previous": 0.09,
+      "current": 0.114,
+      "moved": "better"
+    },
+    {
+      "fact_id": "f_orders_turned_away",
+      "kpi": "orders_turned_away",
+      "unit": "count",
+      "previous": 6,
+      "current": 15,
+      "moved": "worse"
+    },
+    {
+      "fact_id": "f_dispatch_delay_days",
+      "kpi": "dispatch_delay_days",
+      "unit": "days",
+      "previous": 1.43,
+      "current": 1.87,
+      "moved": "worse"
+    }
+  ],
+  "main_measure": {
+    "stranger_orders": {
+      "previous": 3,
+      "current": 4,
+      "change": 1
+    }
+  },
+  "bottleneck": {
+    "previous": "capacity",
+    "current": "capacity",
+    "changed": false
+  },
+  "partner_results": [],
+  "adjustments": [
+    "Switch Diwali Hamper to a limited pre-order drop: The number did not improve: drop it and try the next action.",
+    "Batch your making: one session for the week's top items: The number did not improve: drop it and try the next action."
+  ],
+  "preferences": {
+    "boost": [],
+    "exclude": [
+      "cap_batch_making",
+      "cap_preorder_drop"
+    ]
+  },
+  "observational": true,
+  "note": "Observational: no control group, and one business is not proof. Other things changed too.",
+  "next_actions": [
+    {
+      "action_id": "act_homebaker_w4_cap_dispatch_schedule",
+      "business_id": "biz_homebaker",
+      "week": "week_4",
+      "bottleneck": "capacity",
+      "action_key": "cap_dispatch_schedule",
+      "title": "Set fixed dispatch days and tell buyers",
+      "what": "Choose two dispatch days a week and put them in your replies and bio.",
+      "why": "Orders take 1.87 days to go out, against 1.033 days in your best weeks. The limit is at making (stock-outs) and dispatch.",
+      "evidence_ids": [
+        "f_dispatch_delay_days",
+        "f_orders_turned_away",
+        "f_stockouts"
+      ],
+      "effort_min": 30,
+      "target": {
+        "fact_id": "f_dispatch_delay_days",
+        "kpi": "dispatch_delay_days",
+        "current": 1.87,
+        "value": 1.03,
+        "unit": "days",
+        "text": "back to 1.03 days to dispatch, as in your best weeks (now 1.87)"
+      },
+      "due": "2026-11-01",
+      "status": "todo",
+      "note": null,
+      "requires_approval": true,
+      "approval_reason": "public_post",
+      "risk_flags": [
+        {
+          "flag": "brand_ip",
+          "level": "medium",
+          "terms": [
+            "Nutella"
+          ],
+          "products": [
+            "Nutella Brownie Tub"
+          ],
+          "text": "Some product names use protected names, logos or characters (Nutella). These can lead to takedowns as the brand grows. This is not legal advice.",
+          "not_legal_advice": true
+        }
+      ],
+      "risks": [],
+      "score": 51.6,
+      "score_parts": {
+        "impact": 0.5,
+        "fit": 0.8,
+        "timing": 0.5,
+        "effort_share": 0.25
+      },
+      "partner_id": null,
+      "draft_channels": [],
+      "raises_visibility": false,
+      "synthetic": true
+    }
+  ],
+  "four_week_arc": {
+    "business_id": "biz_homebaker",
+    "from_week": "week_1",
+    "to_week": "week_4",
+    "stranger_orders": {
+      "first": 1,
+      "last": 4
+    },
+    "stranger_share": {
+      "first": 0.056,
+      "last": 0.114
+    },
+    "worked": [
+      {
+        "week": "week_1",
+        "title": "Collaborate with Neighbourhood parents group (WhatsApp community)",
+        "effectiveness": "moving"
+      },
+      {
+        "week": "week_1",
+        "title": "Ask every buyer this week to tag you when they post",
+        "effectiveness": "reached_target"
+      },
+      {
+        "week": "week_2",
+        "title": "Collaborate with Neighbourhood parents group (WhatsApp community)",
+        "effectiveness": "moving"
+      },
+      {
+        "week": "week_2",
+        "title": "Ask every buyer this week to tag you when they post",
+        "effectiveness": "reached_target"
+      },
+      {
+        "week": "week_2",
+        "title": "Ask Office foodies group (community) to share your page",
+        "effectiveness": "reached_target"
+      }
+    ],
+    "did_not_work": [
+      {
+        "week": "week_3",
+        "title": "Switch Diwali Hamper to a limited pre-order drop",
+        "effectiveness": "worse"
+      },
+      {
+        "week": "week_3",
+        "title": "Batch your making: one session for the week's top items",
+        "effectiveness": "worse"
+      }
+    ],
+    "observational": true,
+    "note": "Observational: no control group, and one business is not proof. Other things changed too."
+  }
+}

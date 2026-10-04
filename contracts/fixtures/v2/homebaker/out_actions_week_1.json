@@ -1,0 +1,220 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_1",
+  "as_of": "2026-10-04",
+  "synthetic": true,
+  "bottleneck": "reach",
+  "minutes_available": 120,
+  "ranking": "score = 100 x (0.5 x impact + 0.3 x fit + 0.2 x timing) x (1 - 0.5 x effort / weekly growth minutes); ties: less effort first",
+  "actions": [
+    {
+      "action_id": "act_homebaker_w1_reach_partner_collab",
+      "business_id": "biz_homebaker",
+      "week": "week_1",
+      "bottleneck": "reach",
+      "action_key": "reach_partner_collab",
+      "title": "Collaborate with Neighbourhood parents group (WhatsApp community)",
+      "what": "Offer a free piece or a joint post in return for a story or post to their audience, and ask them to tag you.",
+      "why": "Only 5.6% of your orders in the last 4 weeks came from strangers, against 13.3% in your best weeks. The gap is in orders from strangers: 64 of 72 orders in the last 4 weeks came from friends and friends of friends. Neighbourhood parents group (WhatsApp community) ranks first among your partners: same topic, same city, and strong engagement (4.1% comments and shares per follower).",
+      "evidence_ids": [
+        "f_stranger_share",
+        "f_orders_by_source_stranger",
+        "f_orders_by_source_friend",
+        "f_orders_by_source_friend_of_friend",
+        "f_stranger_orders_week",
+        "rp_hb_1"
+      ],
+      "effort_min": 60,
+      "target": {
+        "fact_id": "f_stranger_orders_week",
+        "kpi": "stranger_orders_week",
+        "current": 1,
+        "value": 3,
+        "unit": "count",
+        "text": "at least 3 orders from strangers next week (now 1 a week)"
+      },
+      "due": "2026-10-11",
+      "status": "todo",
+      "note": null,
+      "requires_approval": true,
+      "approval_reason": "partner_collab",
+      "risk_flags": [
+        {
+          "flag": "brand_ip",
+          "level": "high",
+          "terms": [
+            "Nutella"
+          ],
+          "products": [
+            "Nutella Brownie Tub"
+          ],
+          "text": "Some product names use protected names, logos or characters (Nutella). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+          "not_legal_advice": true
+        }
+      ],
+      "risks": [
+        "The partner's audience may not match your buyers"
+      ],
+      "score": 50.2,
+      "score_parts": {
+        "impact": 0.8,
+        "fit": 0.9,
+        "timing": 0.0,
+        "effort_share": 0.5
+      },
+      "partner_id": "rp_hb_1",
+      "draft_channels": [
+        "instagram_dm"
+      ],
+      "raises_visibility": true,
+      "synthetic": true
+    },
+    {
+      "action_id": "act_homebaker_w1_reach_buyer_tag_share",
+      "business_id": "biz_homebaker",
+      "week": "week_1",
+      "bottleneck": "reach",
+      "action_key": "reach_buyer_tag_share",
+      "title": "Ask every buyer this week to tag you when they post",
+      "what": "Add one line to your order confirmation asking buyers to tag you; their followers are mostly strangers to you.",
+      "why": "Only 5.6% of your orders in the last 4 weeks came from strangers, against 13.3% in your best weeks. The gap is in orders from strangers: 64 of 72 orders in the last 4 weeks came from friends and friends of friends.",
+      "evidence_ids": [
+        "f_stranger_share",
+        "f_orders_by_source_stranger",
+        "f_orders_by_source_friend",
+        "f_orders_by_source_friend_of_friend",
+        "f_stranger_orders_week"
+      ],
+      "effort_min": 20,
+      "target": {
+        "fact_id": "f_stranger_orders_week",
+        "kpi": "stranger_orders_week",
+        "current": 1,
+        "value": 2,
+        "unit": "count",
+        "text": "at least 2 orders from strangers next week (now 1 a week)"
+      },
+      "due": "2026-10-11",
+      "status": "todo",
+      "note": null,
+      "requires_approval": true,
+      "approval_reason": "customer_outreach",
+      "risk_flags": [
+        {
+          "flag": "brand_ip",
+          "level": "high",
+          "terms": [
+            "Nutella"
+          ],
+          "products": [
+            "Nutella Brownie Tub"
+          ],
+          "text": "Some product names use protected names, logos or characters (Nutella). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+          "not_legal_advice": true
+        }
+      ],
+      "risks": [],
+      "score": 46.8,
+      "score_parts": {
+        "impact": 0.4,
+        "fit": 0.7,
+        "timing": 0.5,
+        "effort_share": 0.167
+      },
+      "partner_id": null,
+      "draft_channels": [
+        "whatsapp"
+      ],
+      "raises_visibility": true,
+      "synthetic": true
+    },
+    {
+      "action_id": "act_homebaker_w1_reach_community_share",
+      "business_id": "biz_homebaker",
+      "week": "week_1",
+      "bottleneck": "reach",
+      "action_key": "reach_community_share",
+      "title": "Ask Office foodies group (community) to share your page",
+      "what": "Send one friendly message to a community you belong to (college, office, residents) asking them to share your page.",
+      "why": "Only 5.6% of your orders in the last 4 weeks came from strangers, against 13.3% in your best weeks. The gap is in orders from strangers: 64 of 72 orders in the last 4 weeks came from friends and friends of friends. Office foodies group (community) ranks first among your partners: same topic, same city, and strong engagement (0.7% comments and shares per follower).",
+      "evidence_ids": [
+        "f_stranger_share",
+        "f_orders_by_source_stranger",
+        "f_orders_by_source_friend",
+        "f_orders_by_source_friend_of_friend",
+        "f_stranger_orders_week",
+        "rp_hb_3"
+      ],
+      "effort_min": 30,
+      "target": {
+        "fact_id": "f_stranger_orders_week",
+        "kpi": "stranger_orders_week",
+        "current": 1,
+        "value": 2,
+        "unit": "count",
+        "text": "at least 2 orders from strangers next week (now 1 a week)"
+      },
+      "due": "2026-10-11",
+      "status": "todo",
+      "note": null,
+      "requires_approval": true,
+      "approval_reason": "partner_collab",
+      "risk_flags": [
+        {
+          "flag": "brand_ip",
+          "level": "high",
+          "terms": [
+            "Nutella"
+          ],
+          "products": [
+            "Nutella Brownie Tub"
+          ],
+          "text": "Some product names use protected names, logos or characters (Nutella). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+          "not_legal_advice": true
+        }
+      ],
+      "risks": [],
+      "score": 46.4,
+      "score_parts": {
+        "impact": 0.5,
+        "fit": 0.6,
+        "timing": 0.5,
+        "effort_share": 0.25
+      },
+      "partner_id": "rp_hb_3",
+      "draft_channels": [
+        "whatsapp"
+      ],
+      "raises_visibility": true,
+      "synthetic": true
+    }
+  ],
+  "blocked": [
+    {
+      "action_key": "reach_paid_ads",
+      "title": "Boost your best post with Instagram ads",
+      "reason": "Needs INR 1,000 for ads; your ad budget is INR 0, so paid ads are not an option."
+    },
+    {
+      "action_key": "reach_demand_window_drop",
+      "title": "Plan a drop or post for an upcoming event",
+      "reason": "No demand window in the next 3 weeks."
+    }
+  ],
+  "risk_flags": [
+    {
+      "flag": "brand_ip",
+      "level": "medium",
+      "terms": [
+        "Nutella"
+      ],
+      "products": [
+        "Nutella Brownie Tub"
+      ],
+      "text": "Some product names use protected names, logos or characters (Nutella). These can lead to takedowns as the brand grows. This is not legal advice.",
+      "not_legal_advice": true
+    }
+  ],
+  "not_chosen": [],
+  "minutes_planned": 110
+}

@@ -1,0 +1,131 @@
+{
+  "business_id": "biz_boxbox",
+  "synthetic": true,
+  "formula": "score = 100 x (0.35 audience match + 0.20 location match + 0.25 engagement + 0.20 past results); engagement = comments and shares per follower per post, 2% or more counts as full",
+  "recommended": [
+    "rp_bb_3",
+    "rp_bb_1",
+    "rp_bb_2"
+  ],
+  "partners": [
+    {
+      "partner_id": "rp_bb_3",
+      "name": "Campus Motorsport Club (college community)",
+      "type": "community",
+      "topics": [
+        "motorsport"
+      ],
+      "city": "Pune",
+      "followers": 1900,
+      "avg_comments_per_post": 22,
+      "avg_shares_per_post": 18,
+      "cost_inr": 0,
+      "score": 90.0,
+      "score_parts": {
+        "audience_match": 1.0,
+        "location_match": 1.0,
+        "engagement": 1.0,
+        "past_results": 0.5
+      },
+      "past_stranger_leads": null,
+      "engagement_rate": 0.0211,
+      "rank": 1
+    },
+    {
+      "partner_id": "rp_bb_1",
+      "name": "Pune F1 Fans (fan page)",
+      "type": "fan_page",
+      "topics": [
+        "f1"
+      ],
+      "city": "Pune",
+      "followers": 8200,
+      "avg_comments_per_post": 46,
+      "avg_shares_per_post": 30,
+      "cost_inr": 0,
+      "score": 76.6,
+      "score_parts": {
+        "audience_match": 1.0,
+        "location_match": 1.0,
+        "engagement": 0.463,
+        "past_results": 0.5
+      },
+      "past_stranger_leads": null,
+      "engagement_rate": 0.0093,
+      "rank": 2
+    },
+    {
+      "partner_id": "rp_bb_2",
+      "name": "Grid Sketches (F1 illustrator)",
+      "type": "creator",
+      "topics": [
+        "f1",
+        "art"
+      ],
+      "city": "Mumbai",
+      "followers": 12000,
+      "avg_comments_per_post": 80,
+      "avg_shares_per_post": 40,
+      "cost_inr": 0,
+      "score": 69.5,
+      "score_parts": {
+        "audience_match": 1.0,
+        "location_match": 0.6,
+        "engagement": 0.5,
+        "past_results": 0.5
+      },
+      "past_stranger_leads": null,
+      "engagement_rate": 0.01,
+      "rank": 3
+    },
+    {
+      "partner_id": "rp_bb_5",
+      "name": "Pune Streetwear Collective (community)",
+      "type": "community",
+      "topics": [
+        "streetwear"
+      ],
+      "city": "Pune",
+      "followers": 5000,
+      "avg_comments_per_post": 10,
+      "avg_shares_per_post": 5,
+      "cost_inr": 0,
+      "score": 47.7,
+      "score_parts": {
+        "audience_match": 0.4,
+        "location_match": 1.0,
+        "engagement": 0.15,
+        "past_results": 0.5
+      },
+      "past_stranger_leads": null,
+      "engagement_rate": 0.003,
+      "rank": 4
+    }
+  ],
+  "blocked": [
+    {
+      "partner_id": "rp_bb_4",
+      "name": "Lights Out India (national fan page)",
+      "type": "fan_page",
+      "topics": [
+        "f1"
+      ],
+      "city": null,
+      "followers": 41000,
+      "avg_comments_per_post": 35,
+      "avg_shares_per_post": 12,
+      "cost_inr": 1500,
+      "score": 56.4,
+      "score_parts": {
+        "audience_match": 1.0,
+        "location_match": 0.5,
+        "engagement": 0.057,
+        "past_results": 0.5
+      },
+      "past_stranger_leads": null,
+      "engagement_rate": 0.0011,
+      "blocked_reason": "Asks for INR 1,500 (a paid shoutout); your ad budget is INR 0."
+    }
+  ],
+  "week": "week_1"
+}

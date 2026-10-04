@@ -1,0 +1,264 @@
+{
+  "business_id": "biz_homebaker",
+  "week": "week_1",
+  "as_of": "2026-10-04",
+  "synthetic": true,
+  "summary": {
+    "hot": 2,
+    "warm": 2,
+    "cold": 1,
+    "disqualified": 1
+  },
+  "hot": [
+    {
+      "lead_id": "lead_hb_01",
+      "handle_ref": "wa_ref_2201",
+      "source": "whatsapp",
+      "relationship": "stranger",
+      "score": 50,
+      "group": "hot",
+      "rank": 1,
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "asked_for": {
+        "product": "Celebration Cake",
+        "size": "1 kg",
+        "design": "eggless",
+        "city": "Pune"
+      },
+      "last_message": "Eggless celebration cake, 1 kg, for Saturday? Price?",
+      "last_activity": "2026-10-04",
+      "intents": [
+        "buying_question"
+      ],
+      "evidence_ids": [
+        "lead_hb_01"
+      ],
+      "draft": "Hi! The Celebration Cake is ₹1,200 (1 kg). Yes, we can do eggless (₹{custom_price} extra, if any). We deliver in Pune. You can order here: WhatsApp order form (payment by UPI). Shall I keep one for you?",
+      "placeholders": [
+        "{custom_price}"
+      ],
+      "risk_flags": [],
+      "next_action": "Reply today."
+    },
+    {
+      "lead_id": "lead_hb_02",
+      "handle_ref": "wa_ref_1180",
+      "source": "whatsapp",
+      "relationship": "friend",
+      "score": 50,
+      "group": "hot",
+      "rank": 2,
+      "reasons": [
+        {
+          "signal": "bought_before",
+          "points": 30
+        },
+        {
+          "signal": "replied_to_story",
+          "points": 20
+        }
+      ],
+      "asked_for": {
+        "product": "Brownie Box",
+        "size": null,
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "Brownies again this week?",
+      "last_activity": "2026-10-03",
+      "intents": [
+        "product_interest"
+      ],
+      "evidence_ids": [
+        "lead_hb_02"
+      ],
+      "draft": "Hi! The Brownie Box is ₹450. We deliver in Pune. You can order here: WhatsApp order form (payment by UPI). Shall I keep one for you?",
+      "placeholders": [],
+      "risk_flags": [],
+      "next_action": "Reply today."
+    }
+  ],
+  "warm": [
+    {
+      "lead_id": "lead_hb_03",
+      "handle_ref": "wa_ref_3302",
+      "source": "whatsapp",
+      "relationship": "friend_of_friend",
+      "score": 40,
+      "group": "warm",
+      "rank": 3,
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        }
+      ],
+      "asked_for": {
+        "product": "Diwali Hamper",
+        "size": "10 boxes",
+        "design": null,
+        "city": "Pune"
+      },
+      "last_message": "Price for 10 Diwali hampers for my office?",
+      "last_activity": "2026-10-02",
+      "intents": [
+        "buying_question"
+      ],
+      "evidence_ids": [
+        "lead_hb_03"
+      ],
+      "draft": null,
+      "placeholders": [],
+      "risk_flags": [],
+      "next_action": "Wait for a reason to message (a new drop, a restock or a first-order offer); do not chase."
+    },
+    {
+      "lead_id": "lead_hb_04",
+      "handle_ref": "ig_user_b7c1",
+      "source": "comment",
+      "relationship": "stranger",
+      "score": 35,
+      "group": "warm",
+      "rank": 4,
+      "reasons": [
+        {
+          "signal": "commented",
+          "points": 10
+        },
+        {
+          "signal": "saved_or_shared",
+          "points": 15
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "asked_for": {
+        "product": "Cookie Jar",
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "These look so good",
+      "last_activity": "2026-10-01",
+      "intents": [
+        "product_interest"
+      ],
+      "evidence_ids": [
+        "lead_hb_04"
+      ],
+      "draft": null,
+      "placeholders": [],
+      "risk_flags": [],
+      "next_action": "Wait for a reason to message (a new drop, a restock or a first-order offer); do not chase."
+    }
+  ],
+  "cold": [
+    {
+      "lead_id": "lead_hb_06",
+      "handle_ref": "ig_user_0d0d",
+      "source": "comment",
+      "relationship": "friend",
+      "score": 5,
+      "group": "cold",
+      "rank": 5,
+      "reasons": [
+        {
+          "signal": "followed_or_liked_once",
+          "points": 5
+        }
+      ],
+      "asked_for": {
+        "product": null,
+        "size": null,
+        "design": null,
+        "city": null
+      },
+      "last_message": "Yum",
+      "last_activity": "2026-09-30",
+      "intents": [
+        "general_praise"
+      ],
+      "evidence_ids": [
+        "lead_hb_06"
+      ],
+      "draft": null,
+      "placeholders": [],
+      "risk_flags": [],
+      "next_action": "Nothing one to one; they will see your regular posts."
+    }
+  ],
+  "disqualified": [
+    {
+      "lead_id": "lead_hb_05",
+      "handle_ref": "wa_ref_9001",
+      "source": "whatsapp",
+      "relationship": "stranger",
+      "score": 50,
+      "group": "disqualified",
+      "rank": 6,
+      "reasons": [
+        {
+          "signal": "asked_price_size_stock_delivery",
+          "points": 40
+        },
+        {
+          "signal": "stranger",
+          "points": 10
+        }
+      ],
+      "asked_for": {
+        "product": "Celebration Cake",
+        "size": null,
+        "design": null,
+        "city": "Hinjewadi"
+      },
+      "last_message": "Do you deliver a cake to Hinjewadi?",
+      "last_activity": "2026-10-03",
+      "intents": [
+        "buying_question"
+      ],
+      "evidence_ids": [
+        "lead_hb_05"
+      ],
+      "draft": "Thank you for asking! We cannot deliver to Hinjewadi yet. I will let you know if that changes.",
+      "placeholders": [],
+      "risk_flags": [],
+      "next_action": "Reply politely once; no follow-up.",
+      "disqualified_reason": "city: Hinjewadi (outside the 8 km delivery area)"
+    }
+  ],
+  "warm_reasons_this_week": [],
+  "unmet_demand": {
+    "items": [
+      {
+        "kind": "city",
+        "value": "Hinjewadi",
+        "count": 1,
+        "phrase": "deliver to Hinjewadi"
+      }
+    ],
+    "text": "People asked for things you do not offer yet: deliver to Hinjewadi (1)."
+  },
+  "outcomes": {
+    "ordered": 0,
+    "not_ordered": 0
+  },
+  "rules": {
+    "hot": "reply today, newest first",
+    "warm": "once per reason",
+    "cold": "nothing one to one",
+    "disqualified": "one polite reply"
+  },
+  "note": "Drafts are previews. Nothing is sent automatically; you copy each reply and send it yourself."
+}

@@ -20,3 +20,15 @@ Businesses: `boxbox` (`biz_boxbox`, Box Box, F1 merchandise) and `homebaker` (`b
 **Fact rules used here** (backend 1 owns the real definitions): rates use the last 4 weeks; `baseline` is the mean of the business's 3 best weeks (or 4-week windows) so far; `quality_flag` is `low` under 10 orders, `partial` under 20.
 
 **Fact ids added for the breakdown:** `f_orders_by_source` is split into `f_orders_by_source_friend`, `..._friend_of_friend`, `..._stranger`, `..._unknown` (kpi `orders_by_source`, dimension `source`).
+
+## Output fixtures (generated from the real decision_engine pipeline)
+
+`<business>/out_*.json` are what decision_engine's endpoints return for the scripted replay: `out_diagnosis_week_N`, `out_actions_week_1`, `out_action_draft_week_1`, `out_lead_list_week_1`, `out_reach_partners_week_1`, `out_next_month_week_1`, `out_followup_week_2..4` (week 4 includes the four-week arc). Regenerate with `python -m backend.decision_engine.export_fixtures`; a test fails if they drift from the code. Explanations in them are the deterministic text (no LLM).
+
+## Additions to contract v2 used by decision_engine (all optional, additive)
+
+- Business: `topics`, `ships_to`, `growth_minutes_per_week` (interview answer: minutes a week the owner can spend on growth), `reach_candidates[]` (the owner's list of fan pages, creators and communities: `partner_id, name, type, topics, city, followers, avg_comments_per_post, avg_shares_per_post, cost_inr`), `provenance`.
+- Fact: `direction` (`up` / `down`) and `origin` (which file or answer).
+- Lead: `last_message` (pseudonymised) and `last_activity`.
+- Market context: `feed` parameter on `GET /market-context`, and `data_engine.public.get_market_context(from, to, feed=...)` so a second calendar (festivals) can plug in.
+- decision_engine endpoints beyond the draft: `POST /businesses/{id}/lead-list/contacted` (Warm once per reason) and `GET /action-library`.

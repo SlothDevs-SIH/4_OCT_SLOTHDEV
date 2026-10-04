@@ -1,0 +1,82 @@
+{
+  "business_id": "biz_boxbox",
+  "week": "week_1",
+  "estimate": true,
+  "synthetic": true,
+  "status": "ok",
+  "month": {
+    "from": "2026-11-01",
+    "to": "2026-11-30"
+  },
+  "orders": {
+    "low": 68,
+    "expected": 80,
+    "high": 92
+  },
+  "basis": {
+    "weeks_used": 8,
+    "weekly_orders": [
+      17,
+      18,
+      16,
+      17,
+      16,
+      18,
+      17,
+      17
+    ],
+    "trend_per_week": 0.0,
+    "context_factor": 1.1,
+    "context_source": "f1_calendar: 4 race weekends touch November; page views show 2.0x interest on race weekends (interest, not sales); a +10% sales effect is a stand-in assumption",
+    "method": "recent weekly average plus trend, times a context factor; range from week-to-week variation, at least +/-15%"
+  },
+  "confidence": "estimate",
+  "capacity_month": 107,
+  "limited_by_capacity": false,
+  "limiting_bottleneck": "reach",
+  "primary_bottleneck": "reach",
+  "demand_windows": [
+    {
+      "name": "Mexico City Grand Prix",
+      "from": "2026-10-30",
+      "to": "2026-11-01"
+    },
+    {
+      "name": "Brazilian Grand Prix",
+      "from": "2026-11-06",
+      "to": "2026-11-08"
+    },
+    {
+      "name": "Las Vegas Grand Prix",
+      "from": "2026-11-20",
+      "to": "2026-11-22"
+    },
+    {
+      "name": "Qatar Grand Prix",
+      "from": "2026-11-27",
+      "to": "2026-11-29"
+    }
+  ],
+  "text": "Next month (2026-11-01 to 2026-11-30) is projected at 68 to 92 orders, most likely about 80. This is an estimate. It uses your last 8 weeks (trend +0 orders a week) and a context factor of 1.1. Demand windows that month: Mexico City Grand Prix (2026-10-30 to 2026-11-01), Brazilian Grand Prix (2026-11-06 to 2026-11-08), Las Vegas Grand Prix (2026-11-20 to 2026-11-22), Qatar Grand Prix (2026-11-27 to 2026-11-29). The bottleneck that most limits it is reach; this week's actions target it.",
+  "standin": true,
+  "explanation": {
+    "text": "Next month (2026-11-01 to 2026-11-30) is projected at 68 to 92 orders, most likely about 80. This is an estimate. It uses your last 8 weeks (trend +0 orders a week) and a context factor of 1.1. Demand windows that month: Mexico City Grand Prix (2026-10-30 to 2026-11-01), Brazilian Grand Prix (2026-11-06 to 2026-11-08), Las Vegas Grand Prix (2026-11-20 to 2026-11-22), Qatar Grand Prix (2026-11-27 to 2026-11-29). The bottleneck that most limits it is reach; this week's actions target it.",
+    "evidence_ids": [
+      "f_stranger_share",
+      "f_orders_by_source_stranger"
+    ],
+    "llm": {
+      "used": false,
+      "cached": false,
+      "provider": null,
+      "model": null,
+      "fallback": true,
+      "validator": {
+        "passed": false,
+        "retries": 0,
+        "errors": []
+      },
+      "prompt_version": "v1"
+    }
+  }
+}
