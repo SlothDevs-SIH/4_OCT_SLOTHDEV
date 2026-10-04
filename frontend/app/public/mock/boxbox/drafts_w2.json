@@ -1,0 +1,95 @@
+{
+ "act_boxbox_w2_reach_partner_collab": {
+  "instagram_dm": {
+   "action_id": "act_boxbox_w2_reach_partner_collab",
+   "channel": "instagram_dm",
+   "status": "preview",
+   "auto_send": false,
+   "requires_approval": true,
+   "text": "Hi Campus Motorsport Club! I run Box Box, a small F1 merchandise business from Pune. Your posts get real conversation from people who'd like what I make. Could we do a small collab: I send you a free Box Box Racing Cap and you share a story or post tagging us? Happy to keep it simple. Thank you!",
+   "placeholders": [],
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "high",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+     "not_legal_advice": true
+    }
+   ],
+   "note": "Preview only. Nothing is sent automatically; you copy it and send it yourself."
+  }
+ },
+ "act_boxbox_w2_reach_demand_window_drop": {
+  "instagram_post": {
+   "action_id": "act_boxbox_w2_reach_demand_window_drop",
+   "channel": "instagram_post",
+   "status": "preview",
+   "auto_send": false,
+   "requires_approval": true,
+   "text": "United States Grand Prix is coming (2026-10-23 to 2026-10-25). A small drop of Box Box Racing Cap goes live on 2026-10-21. Limited pieces; order via link in bio.",
+   "placeholders": [],
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "high",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+     "not_legal_advice": true
+    }
+   ],
+   "note": "Preview only. Nothing is sent automatically; you copy it and send it yourself."
+  }
+ },
+ "act_boxbox_w2_reach_community_share": {
+  "whatsapp": {
+   "action_id": "act_boxbox_w2_reach_community_share",
+   "channel": "whatsapp",
+   "status": "preview",
+   "auto_send": false,
+   "requires_approval": true,
+   "text": "Hi all! I started Box Box (F1 merchandise, made in Pune). If you know anyone who'd like it, could you share our page? Orders: link in bio. Thank you so much!",
+   "placeholders": [],
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "high",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+     "not_legal_advice": true
+    }
+   ],
+   "note": "Preview only. Nothing is sent automatically; you copy it and send it yourself."
+  }
+ }
+}

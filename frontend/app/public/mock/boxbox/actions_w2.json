@@ -1,0 +1,250 @@
+{
+ "business_id": "biz_boxbox",
+ "week": "week_2",
+ "as_of": "2026-10-12",
+ "synthetic": true,
+ "bottleneck": "reach",
+ "minutes_available": 180,
+ "ranking": "score = 100 x (0.5 x impact + 0.3 x fit + 0.2 x timing) x (1 - 0.5 x effort / weekly growth minutes); ties: less effort first",
+ "actions": [
+  {
+   "action_id": "act_boxbox_w2_reach_partner_collab",
+   "business_id": "biz_boxbox",
+   "week": "week_2",
+   "bottleneck": "reach",
+   "action_key": "reach_partner_collab",
+   "title": "Collaborate with Campus Motorsport Club (college community)",
+   "what": "Offer a free piece or a joint post in return for a story or post to their audience, and ask them to tag you.",
+   "why": "Orders from strangers: 2 a week on average over the last 4 weeks (best weeks: 3.25 a week). The gap is in orders from strangers: 49 of 57 orders in the last 4 weeks came from friends and friends of friends. Campus Motorsport Club (college community) ranks first among your partners: same topic, same city, and strong engagement (2.1% comments and shares per follower).",
+   "evidence_ids": [
+    "f_stranger_orders_week",
+    "f_orders_by_source_friend",
+    "f_orders_by_source_friend_of_friend",
+    "f_orders_by_source_stranger",
+    "f_orders_by_source_unknown",
+    "f_stranger_share",
+    "rp_bb_3"
+   ],
+   "effort_min": 60,
+   "target": {
+    "fact_id": "f_stranger_orders_week",
+    "kpi": "stranger_orders_per_week",
+    "current": 2.0,
+    "value": 4.0,
+    "unit": "orders/week",
+    "text": "at least 4 orders from strangers a week (4-week average) (now 2 a week)"
+   },
+   "due": "2026-10-19",
+   "status": "todo",
+   "note": null,
+   "requires_approval": true,
+   "approval_reason": "partner_collab",
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "high",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+     "not_legal_advice": true
+    }
+   ],
+   "risks": [
+    "The partner's audience may not match your buyers"
+   ],
+   "score": 64.2,
+   "score_parts": {
+    "impact": 0.8,
+    "fit": 0.9,
+    "timing": 0.5,
+    "effort_share": 0.333
+   },
+   "partner_id": "rp_bb_3",
+   "product_name": null,
+   "draft_channels": [
+    "instagram_dm"
+   ],
+   "raises_visibility": true,
+   "synthetic": true
+  },
+  {
+   "action_id": "act_boxbox_w2_reach_demand_window_drop",
+   "business_id": "biz_boxbox",
+   "week": "week_2",
+   "bottleneck": "reach",
+   "action_key": "reach_demand_window_drop",
+   "title": "Plan a drop or post for United States Grand Prix (2026-10-23 to 2026-10-25)",
+   "what": "Announce a small drop or a themed post a few days before the demand window and post again during it.",
+   "why": "Orders from strangers: 2 a week on average over the last 4 weeks (best weeks: 3.25 a week). The gap is in orders from strangers: 49 of 57 orders in the last 4 weeks came from friends and friends of friends. United States Grand Prix runs 2026-10-23 to 2026-10-25; race weekends draw about 2.027 times the usual interest in F1 (interest, not sales).",
+   "evidence_ids": [
+    "f_stranger_orders_week",
+    "f_orders_by_source_friend",
+    "f_orders_by_source_friend_of_friend",
+    "f_orders_by_source_stranger",
+    "f_orders_by_source_unknown",
+    "f_stranger_share"
+   ],
+   "effort_min": 90,
+   "target": {
+    "fact_id": "f_stranger_orders_week",
+    "kpi": "stranger_orders_per_week",
+    "current": 2.0,
+    "value": 4.0,
+    "unit": "orders/week",
+    "text": "at least 4 orders from strangers a week (4-week average) (now 2 a week)"
+   },
+   "due": "2026-10-19",
+   "status": "todo",
+   "note": null,
+   "requires_approval": true,
+   "approval_reason": "public_post",
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "high",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+     "not_legal_advice": true
+    }
+   ],
+   "risks": [
+    "Interest in an event is not the same as sales"
+   ],
+   "score": 49.5,
+   "score_parts": {
+    "impact": 0.7,
+    "fit": 0.7,
+    "timing": 0.5,
+    "effort_share": 0.5
+   },
+   "partner_id": null,
+   "product_name": null,
+   "draft_channels": [
+    "instagram_post"
+   ],
+   "raises_visibility": true,
+   "synthetic": true
+  },
+  {
+   "action_id": "act_boxbox_w2_reach_community_share",
+   "business_id": "biz_boxbox",
+   "week": "week_2",
+   "bottleneck": "reach",
+   "action_key": "reach_community_share",
+   "title": "Ask Pune Streetwear Collective (community) to share your page",
+   "what": "Send one friendly message to a community you belong to (college, office, residents) asking them to share your page.",
+   "why": "Orders from strangers: 2 a week on average over the last 4 weeks (best weeks: 3.25 a week). The gap is in orders from strangers: 49 of 57 orders in the last 4 weeks came from friends and friends of friends. Pune Streetwear Collective (community) ranks first among your partners: same topic, same city, and strong engagement (0.3% comments and shares per follower).",
+   "evidence_ids": [
+    "f_stranger_orders_week",
+    "f_orders_by_source_friend",
+    "f_orders_by_source_friend_of_friend",
+    "f_orders_by_source_stranger",
+    "f_orders_by_source_unknown",
+    "f_stranger_share",
+    "rp_bb_5"
+   ],
+   "effort_min": 30,
+   "target": {
+    "fact_id": "f_stranger_orders_week",
+    "kpi": "stranger_orders_per_week",
+    "current": 2.0,
+    "value": 3.0,
+    "unit": "orders/week",
+    "text": "at least 3 orders from strangers a week (4-week average) (now 2 a week)"
+   },
+   "due": "2026-10-19",
+   "status": "todo",
+   "note": null,
+   "requires_approval": true,
+   "approval_reason": "partner_collab",
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "high",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+     "not_legal_advice": true
+    }
+   ],
+   "risks": [],
+   "score": 48.6,
+   "score_parts": {
+    "impact": 0.5,
+    "fit": 0.6,
+    "timing": 0.5,
+    "effort_share": 0.167
+   },
+   "partner_id": "rp_bb_5",
+   "product_name": null,
+   "draft_channels": [
+    "whatsapp"
+   ],
+   "raises_visibility": true,
+   "synthetic": true
+  }
+ ],
+ "blocked": [
+  {
+   "action_key": "reach_paid_ads",
+   "title": "Boost your best post with Instagram ads",
+   "reason": "Needs INR 1,000 for ads; your ad budget is INR 0, so paid ads are not an option."
+  }
+ ],
+ "risk_flags": [
+  {
+   "flag": "brand_ip",
+   "level": "medium",
+   "terms": [
+    "F1",
+    "Ferrari",
+    "McLaren",
+    "Verstappen"
+   ],
+   "products": [
+    "Ferrari F1 Tee",
+    "Verstappen Fan Tee",
+    "McLaren Papaya Hoodie"
+   ],
+   "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice.",
+   "not_legal_advice": true
+  }
+ ],
+ "mode": "fix",
+ "not_chosen": [
+  {
+   "action_key": "reach_buyer_tag_share",
+   "title": "Ask every buyer this week to tag you when they post",
+   "score": 48.2
+  }
+ ],
+ "minutes_planned": 180
+}

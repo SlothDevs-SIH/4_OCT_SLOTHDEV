@@ -1,0 +1,725 @@
+{
+ "business_id": "biz_boxbox",
+ "week": "week_1",
+ "as_of": "2026-10-05",
+ "synthetic": true,
+ "summary": {
+  "hot": 4,
+  "warm": 8,
+  "cold": 2,
+  "disqualified": 1
+ },
+ "hot": [
+  {
+   "lead_id": "lead_0106",
+   "handle_ref": "@user_0106",
+   "source": "dm",
+   "relationship": "stranger",
+   "score": 50,
+   "group": "hot",
+   "rank": 4,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "stranger",
+     "label": "Is a stranger (growth bonus)",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": "Box Box Racing Cap",
+    "size": "L",
+    "design": null,
+    "city": "Bangalore"
+   },
+   "last_message": "is the Box Box Racing Cap available in L?",
+   "last_activity": "2026-10-03",
+   "intents": [
+    "buying_question",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0106"
+   ],
+   "draft": "Hi! The Box Box Racing Cap is ₹499 (L). We deliver to Bangalore; delivery is ₹{delivery_charge}. You can order here: link in bio (payment by UPI). Shall I keep one for you?",
+   "placeholders": [
+    "{delivery_charge}"
+   ],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  },
+  {
+   "lead_id": "lead_0092",
+   "handle_ref": "@user_0092",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 65,
+   "group": "hot",
+   "rank": 2,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    },
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": "Ferrari F1 Tee",
+    "size": "S",
+    "design": null,
+    "city": "Bangalore"
+   },
+   "last_message": "do you have the Ferrari F1 Tee in size S",
+   "last_activity": "2026-10-02",
+   "intents": [
+    "buying_question",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0092"
+   ],
+   "draft": "Hi! The Ferrari F1 Tee is ₹799 (S). We deliver to Bangalore; delivery is ₹{delivery_charge}. You can order here: link in bio (payment by UPI). Shall I keep one for you?",
+   "placeholders": [
+    "{delivery_charge}"
+   ],
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "medium",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice.",
+     "not_legal_advice": true
+    }
+   ],
+   "next_action": "Reply today."
+  },
+  {
+   "lead_id": "lead_0101",
+   "handle_ref": "@user_0101",
+   "source": "dm",
+   "relationship": "friend_of_friend",
+   "score": 90,
+   "group": "hot",
+   "rank": 1,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    },
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    }
+   ],
+   "asked_for": {
+    "product": "Verstappen Fan Tee",
+    "size": "M",
+    "design": null,
+    "city": "Pune"
+   },
+   "last_message": "this one is fire 🔥",
+   "last_activity": "2026-10-01",
+   "intents": [
+    "buying_question",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0101"
+   ],
+   "draft": "Hi! The Verstappen Fan Tee is ₹799 (M). We deliver in Pune. You can order here: link in bio (payment by UPI). Shall I keep one for you?",
+   "placeholders": [],
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "medium",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice.",
+     "not_legal_advice": true
+    }
+   ],
+   "next_action": "Reply today."
+  },
+  {
+   "lead_id": "lead_0095",
+   "handle_ref": "@user_0095",
+   "source": "whatsapp",
+   "relationship": "friend_of_friend",
+   "score": 60,
+   "group": "hot",
+   "rank": 3,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    },
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": "Box Box Racing Cap",
+    "size": "L",
+    "design": null,
+    "city": "Hyderabad"
+   },
+   "last_message": "is the Box Box Racing Cap available in L?",
+   "last_activity": "2026-09-29",
+   "intents": [
+    "buying_question",
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0095"
+   ],
+   "draft": "Hi! The Box Box Racing Cap is ₹499 (L). We deliver to Hyderabad; delivery is ₹{delivery_charge}. You can order here: link in bio (payment by UPI). Shall I keep one for you?",
+   "placeholders": [
+    "{delivery_charge}"
+   ],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  }
+ ],
+ "warm": [
+  {
+   "lead_id": "lead_0105",
+   "handle_ref": "@user_0105",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 45,
+   "group": "warm",
+   "rank": 5,
+   "reasons": [
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    },
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-10-04",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0105"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a small drop for Singapore Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a small drop for Singapore Grand Prix.",
+   "contact_reason": "drop_week_1"
+  },
+  {
+   "lead_id": "lead_0098",
+   "handle_ref": "@user_0098",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 45,
+   "group": "warm",
+   "rank": 6,
+   "reasons": [
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-10-02",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0098"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a small drop for Singapore Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a small drop for Singapore Grand Prix.",
+   "contact_reason": "drop_week_1"
+  },
+  {
+   "lead_id": "lead_0102",
+   "handle_ref": "@user_0102",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 45,
+   "group": "warm",
+   "rank": 7,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": "McLaren Papaya Hoodie",
+    "size": "L",
+    "design": null,
+    "city": "Bangalore"
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-02",
+   "intents": [
+    "buying_question",
+    "general_praise"
+   ],
+   "evidence_ids": [
+    "lead_0102"
+   ],
+   "draft": "Hi! You liked the McLaren Papaya Hoodie earlier. We are doing a small drop for Singapore Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "medium",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice.",
+     "not_legal_advice": true
+    }
+   ],
+   "next_action": "Message once about a small drop for Singapore Grand Prix.",
+   "contact_reason": "drop_week_1"
+  },
+  {
+   "lead_id": "lead_0108",
+   "handle_ref": "@user_0108",
+   "source": "whatsapp",
+   "relationship": "friend",
+   "score": 40,
+   "group": "warm",
+   "rank": 8,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    }
+   ],
+   "asked_for": {
+    "product": "Verstappen Fan Tee",
+    "size": "M",
+    "design": null,
+    "city": "Mumbai"
+   },
+   "last_message": "how much for the Verstappen Fan Tee? deliver to Mumbai?",
+   "last_activity": "2026-10-04",
+   "intents": [
+    "buying_question",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0108"
+   ],
+   "draft": "Hi! You liked the Verstappen Fan Tee earlier. We are doing a small drop for Singapore Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "medium",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice.",
+     "not_legal_advice": true
+    }
+   ],
+   "next_action": "Message once about a small drop for Singapore Grand Prix.",
+   "contact_reason": "drop_week_1"
+  },
+  {
+   "lead_id": "lead_0093",
+   "handle_ref": "@user_0093",
+   "source": "dm",
+   "relationship": "friend_of_friend",
+   "score": 40,
+   "group": "warm",
+   "rank": 9,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    }
+   ],
+   "asked_for": {
+    "product": "Box Box Racing Cap",
+    "size": "L",
+    "design": null,
+    "city": "Delhi"
+   },
+   "last_message": "how much for the Box Box Racing Cap? deliver to Delhi?",
+   "last_activity": "2026-10-01",
+   "intents": [
+    "buying_question"
+   ],
+   "evidence_ids": [
+    "lead_0093"
+   ],
+   "draft": "Hi! You liked the Box Box Racing Cap earlier. We are doing a small drop for Singapore Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a small drop for Singapore Grand Prix.",
+   "contact_reason": "drop_week_1"
+  },
+  {
+   "lead_id": "lead_0089",
+   "handle_ref": "@user_0089",
+   "source": "dm",
+   "relationship": "friend_of_friend",
+   "score": 35,
+   "group": "warm",
+   "rank": 10,
+   "reasons": [
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    },
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-09-28",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0089"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a small drop for Singapore Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a small drop for Singapore Grand Prix.",
+   "contact_reason": "drop_week_1"
+  },
+  {
+   "lead_id": "lead_0091",
+   "handle_ref": "@user_0091",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 30,
+   "group": "warm",
+   "rank": 11,
+   "reasons": [
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-09-30",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0091"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a small drop for Singapore Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a small drop for Singapore Grand Prix.",
+   "contact_reason": "drop_week_1"
+  },
+  {
+   "lead_id": "lead_0100",
+   "handle_ref": "@user_0100",
+   "source": "whatsapp",
+   "relationship": "friend_of_friend",
+   "score": 25,
+   "group": "warm",
+   "rank": 12,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    },
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "stunning",
+   "last_activity": "2026-10-04",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0100"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a small drop for Singapore Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a small drop for Singapore Grand Prix.",
+   "contact_reason": "drop_week_1"
+  }
+ ],
+ "cold": [
+  {
+   "lead_id": "lead_0097",
+   "handle_ref": "@user_0097",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 15,
+   "group": "cold",
+   "rank": 13,
+   "reasons": [
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-09-30",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0097"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0099",
+   "handle_ref": "@user_0099",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 10,
+   "group": "cold",
+   "rank": 14,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "stunning",
+   "last_activity": "2026-10-01",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0099"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  }
+ ],
+ "disqualified": [
+  {
+   "lead_id": "lead_0107",
+   "handle_ref": "@user_0107",
+   "source": "story",
+   "relationship": "friend_of_friend",
+   "score": 55,
+   "group": "disqualified",
+   "rank": null,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": "Box Box Racing Cap",
+    "size": "XXL",
+    "design": null,
+    "city": "Hyderabad"
+   },
+   "last_message": "how much for the Box Box Racing Cap? deliver to Hyderabad?",
+   "last_activity": "2026-10-04",
+   "intents": [
+    "buying_question",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0107"
+   ],
+   "draft": "Thank you for asking! We cannot make size XXL yet. I will let you know if that changes.",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Reply politely once; no follow-up.",
+   "disqualified_reason": "size: XXL is not available"
+  }
+ ],
+ "warm_reasons_this_week": [
+  {
+   "key": "drop_week_1",
+   "text": "a small drop for Singapore Grand Prix",
+   "action_id": "act_boxbox_w1_reach_demand_window_drop"
+  }
+ ],
+ "unmet_demand": {
+  "items": [
+   {
+    "kind": "size",
+    "value": "XXL",
+    "count": 1,
+    "phrase": "make size XXL"
+   }
+  ],
+  "text": "People asked for things you do not offer yet: make size XXL (1)."
+ },
+ "outcomes": {
+  "ordered": 0,
+  "not_ordered": 0
+ },
+ "rules": {
+  "hot": "reply today, newest first",
+  "warm": "once per reason",
+  "cold": "nothing one to one",
+  "disqualified": "one polite reply"
+ },
+ "note": "Drafts are previews. Nothing is sent automatically; you copy each reply and send it yourself."
+}

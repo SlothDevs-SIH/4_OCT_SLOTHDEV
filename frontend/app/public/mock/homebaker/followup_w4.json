@@ -1,0 +1,245 @@
+{
+ "business_id": "biz_homebaker",
+ "week": "week_4",
+ "compared_with": "week_3",
+ "as_of": "2026-10-26",
+ "synthetic": true,
+ "actions_done": [
+  "act_homebaker_w3_cap_preorder_drop",
+  "act_homebaker_w3_cap_batch_making"
+ ],
+ "actions_skipped": [],
+ "actions_open": [],
+ "reviews": [
+  {
+   "action_id": "act_homebaker_w3_cap_preorder_drop",
+   "action_key": "cap_preorder_drop",
+   "title": "Switch Festive Gift Hamper to a limited pre-order drop",
+   "status": "done",
+   "fidelity": {
+    "done": true,
+    "status": "done"
+   },
+   "target": {
+    "fact_id": "f_orders_turned_away",
+    "value": 0,
+    "text": "no orders turned away (now 23 in the last 4 weeks)"
+   },
+   "previous": 23,
+   "current": 32,
+   "effectiveness": "inconclusive",
+   "decision": "keep",
+   "adjustment": "Demand rose about 16% (orders plus orders turned away), so a worse number here does not show the action failed: keep it this week.",
+   "observational": true,
+   "shared_with": [
+    "act_homebaker_w3_cap_batch_making"
+   ],
+   "attribution_note": "2 done actions aimed at this number; the change cannot be split between them."
+  },
+  {
+   "action_id": "act_homebaker_w3_cap_batch_making",
+   "action_key": "cap_batch_making",
+   "title": "Batch your making: one session for the week's top items",
+   "status": "done",
+   "fidelity": {
+    "done": true,
+    "status": "done"
+   },
+   "target": {
+    "fact_id": "f_orders_turned_away",
+    "value": 5,
+    "text": "5 orders turned away or fewer, as in your best weeks (now 23)"
+   },
+   "previous": 23,
+   "current": 32,
+   "effectiveness": "inconclusive",
+   "decision": "keep",
+   "adjustment": "Demand rose about 16% (orders plus orders turned away), so a worse number here does not show the action failed: keep it this week.",
+   "observational": true,
+   "shared_with": [
+    "act_homebaker_w3_cap_preorder_drop"
+   ],
+   "attribution_note": "2 done actions aimed at this number; the change cannot be split between them."
+  }
+ ],
+ "fact_changes": [
+  {
+   "fact_id": "f_stranger_orders_week",
+   "kpi": "stranger_orders_per_week",
+   "unit": "orders/week",
+   "previous": 3.0,
+   "current": 2.5,
+   "moved": "worse"
+  },
+  {
+   "fact_id": "f_stranger_share",
+   "kpi": "stranger_share",
+   "unit": "ratio",
+   "previous": 0.2308,
+   "current": 0.1818,
+   "moved": "worse"
+  },
+  {
+   "fact_id": "f_orders_turned_away",
+   "kpi": "orders_turned_away",
+   "unit": "count",
+   "previous": 23,
+   "current": 32,
+   "moved": "worse"
+  },
+  {
+   "fact_id": "f_orders_turned_away",
+   "kpi": "orders_turned_away",
+   "unit": "count",
+   "previous": 23,
+   "current": 32,
+   "moved": "worse"
+  }
+ ],
+ "main_measure": {
+  "stranger_orders": {
+   "previous": 3.0,
+   "current": 2.5,
+   "change": -0.5
+  }
+ },
+ "bottleneck": {
+  "previous": "capacity",
+  "current": "capacity",
+  "changed": false
+ },
+ "partner_results": [],
+ "adjustments": [
+  "Switch Festive Gift Hamper to a limited pre-order drop: Demand rose about 16% (orders plus orders turned away), so a worse number here does not show the action failed: keep it this week.",
+  "Batch your making: one session for the week's top items: Demand rose about 16% (orders plus orders turned away), so a worse number here does not show the action failed: keep it this week."
+ ],
+ "preferences": {
+  "boost": [
+   "cap_batch_making",
+   "cap_preorder_drop"
+  ],
+  "exclude": []
+ },
+ "observational": true,
+ "note": "Observational: no control group, and one business is not proof. Other things changed too.",
+ "next_actions": [
+  {
+   "action_id": "act_homebaker_w4_cap_preorder_drop",
+   "business_id": "biz_homebaker",
+   "week": "week_4",
+   "bottleneck": "capacity",
+   "action_key": "cap_preorder_drop",
+   "title": "Switch Eggless Brownie Box (6) to a limited pre-order drop",
+   "what": "Take orders until a fixed number or date, then make them in one batch; say the delivery date up front.",
+   "why": "32 orders were turned away in the last 4 weeks, against 5 in your best weeks. The limit is demand above what you can make.",
+   "evidence_ids": [
+    "f_orders_turned_away",
+    "f_dispatch_delay_days",
+    "f_stockouts"
+   ],
+   "effort_min": 45,
+   "target": {
+    "fact_id": "f_orders_turned_away",
+    "kpi": "orders_turned_away",
+    "current": 32,
+    "value": 0,
+    "unit": "count",
+    "text": "no orders turned away (now 32 in the last 4 weeks)"
+   },
+   "due": "2026-11-02",
+   "status": "todo",
+   "note": null,
+   "requires_approval": true,
+   "approval_reason": "public_post",
+   "risk_flags": [],
+   "risks": [],
+   "score": 66.1,
+   "score_parts": {
+    "impact": 0.7,
+    "fit": 0.8,
+    "timing": 0.5,
+    "effort_share": 0.375,
+    "follow_up_bonus": 10
+   },
+   "partner_id": null,
+   "product_name": "Eggless Brownie Box (6)",
+   "draft_channels": [
+    "instagram_post"
+   ],
+   "raises_visibility": false,
+   "synthetic": true
+  },
+  {
+   "action_id": "act_homebaker_w4_cap_batch_making",
+   "business_id": "biz_homebaker",
+   "week": "week_4",
+   "bottleneck": "capacity",
+   "action_key": "cap_batch_making",
+   "title": "Batch your making: one session for the week's top items",
+   "what": "Make the most-asked items in one or two fixed sessions a week instead of order by order, so you can take more orders.",
+   "why": "32 orders were turned away in the last 4 weeks, against 5 in your best weeks. The limit is demand above what you can make.",
+   "evidence_ids": [
+    "f_orders_turned_away",
+    "f_dispatch_delay_days",
+    "f_stockouts"
+   ],
+   "effort_min": 60,
+   "target": {
+    "fact_id": "f_orders_turned_away",
+    "kpi": "orders_turned_away",
+    "current": 32,
+    "value": 5,
+    "unit": "count",
+    "text": "5 orders turned away or fewer, as in your best weeks (now 32)"
+   },
+   "due": "2026-11-02",
+   "status": "todo",
+   "note": null,
+   "requires_approval": false,
+   "approval_reason": null,
+   "risk_flags": [],
+   "risks": [],
+   "score": 61.8,
+   "score_parts": {
+    "impact": 0.7,
+    "fit": 0.8,
+    "timing": 0.5,
+    "effort_share": 0.5,
+    "follow_up_bonus": 10
+   },
+   "partner_id": null,
+   "product_name": null,
+   "draft_channels": [],
+   "raises_visibility": false,
+   "synthetic": true
+  }
+ ],
+ "four_week_arc": {
+  "business_id": "biz_homebaker",
+  "from_week": "week_1",
+  "to_week": "week_4",
+  "stranger_orders": {
+   "first": 3.75,
+   "last": 2.5
+  },
+  "stranger_share": {
+   "first": 0.2885,
+   "last": 0.1818
+  },
+  "worked": [
+   {
+    "week": "week_1",
+    "title": "Switch Choco Chip Cookies (12) to a limited pre-order drop",
+    "effectiveness": "moving"
+   },
+   {
+    "week": "week_1",
+    "title": "Batch your making: one session for the week's top items",
+    "effectiveness": "moving"
+   }
+  ],
+  "did_not_work": [],
+  "observational": true,
+  "note": "Observational: no control group, and one business is not proof. Other things changed too."
+ }
+}

@@ -2,163 +2,45 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "@/lib/session";
-import { backend1A } from "@/lib/services/backend1/backend1A";
+import { useCatalyst, type DemoKey } from "@/lib/catalyst";
 import DotField from "@/components/DotField";
 import LoginLink from "@/components/LoginLink";
+import BusinessPicker, { type DemoItem } from "@/components/catalyst/BusinessPicker";
 
-export default function LoginPage() {
+const DEMOS: DemoItem[] = [
+  { key: "boxbox", name: "Box Box", kind: "F1 merchandise", blurb: "A one-person shop selling F1 fan tees, hoodies and caps from Instagram. Most orders come from friends. Few come from strangers." },
+  { key: "homebaker", name: "Meera's Kitchen", kind: "Home baker", blurb: "Brownies, cookies and cakes baked at home in Pune. Plenty of demand, but only so much one oven can make." },
+];
+
+export default function ChooseBusiness() {
   const router = useRouter();
-  const { setBusinessId } = useSession();
-  
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState<string | null>(null);
+  const s = useCatalyst();
   const [error, setError] = useState<string | null>(null);
 
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    if (!email.trim()) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-    if (!password.trim()) {
-      setError("Please enter your password.");
-      return;
-    }
-    
-    setBusy("login");
+  async function pick(key: DemoKey) {
     setError(null);
-    try {
-      // The backend uses business_id, but the UI expects an email format.
-      // We send the email as the identifier. 
-      // Note: If using the Demo dataset, it normally expects "baseline".
-      const c = await backend1A.getBusiness(email.trim());
-      setBusinessId(c.business_id);
-      
-      // Perform exit animation before navigating
-      const content = document.getElementById("login-card");
-      if (content) content.classList.add("animate-out");
-      setTimeout(() => router.push("/dashboard"), 300);
-      
-    } catch (err: any) {
-      if (err.status === 404) {
-        setError("Invalid email or password.");
-      } else {
-        setError("Something went wrong. Please try again.");
-      }
-      setBusy(null);
-    }
-  }
-
-  async function loadDemo() {
-    setBusy("demo");
-    setError(null);
-    try {
-      const c = await backend1A.loadDemo("baseline");
-      setBusinessId(c.business_id);
-      
-      const content = document.getElementById("login-card");
-      if (content) content.classList.add("animate-out");
-      setTimeout(() => router.push("/dashboard"), 300);
-      
-    } catch (err) {
-      setError("Something went wrong. Please try again.");
-      setBusy(null);
-    }
+    await s.pickDemo(key, 1);
+    router.push("/dashboard");
   }
 
   return (
     <div style={{ position: "relative", minHeight: "100vh", overflow: "hidden", backgroundColor: "#080a10" }}>
-      {/* Background DotField */}
       <div style={{ position: "absolute", inset: 0 }}>
-        <DotField
-          dotRadius={1}
-          dotSpacing={14}
-          bulgeStrength={67}
-          glowRadius={160}
-          sparkle={false}
-          waveAmplitude={0}
-        />
+        <DotField dotRadius={1} dotSpacing={14} bulgeStrength={67} glowRadius={160} sparkle={false} waveAmplitude={0} />
       </div>
+      <LoginLink href="/" className="lf-06__back">&larr; Back</LoginLink>
 
-      <LoginLink href="/" className="lf-06__back">
-        &larr; Back
-      </LoginLink>
-
-      <section className="lf-06">
-        <div style={{ position: "relative", width: "100%", maxWidth: "480px" }}>
-          <div className="lf-06__glow-1" />
-          <div className="lf-06__glow-2" />
-          
-          <form id="login-card" className="lf-06__card animate-in" style={{ position: "relative", zIndex: 1 }} onSubmit={handleLogin} noValidate>
-            <h1 className="lf-06__h">
-              Log in to Helpreneur
-            </h1>
-            <p className="lf-06__sub">
-              Welcome back. Continue where you left off.
-            </p>
-
-            <button 
-              className="lf-06__soc" 
-              type="button" 
-              onClick={loadDemo}
-              disabled={busy !== null}
-            >
-              {busy === "demo" ? "Loading..." : "Load Demo Business"}
-            </button>
-
-            <div className="lf-06__divider">
-              <span>or continue with email</span>
-            </div>
-
-            {error && (
-              <div style={{ 
-                marginBottom: "16px", 
-                padding: "12px", 
-                borderRadius: "8px", 
-                backgroundColor: "rgba(239, 68, 68, 0.1)", 
-                border: "1px solid rgba(239, 68, 68, 0.2)",
-                color: "#ef4444", 
-                fontSize: "0.85rem",
-                textAlign: "center"
-              }}>
-                {error}
-              </div>
-            )}
-
-            <label className="lf-06__field">
-              <span className="lf-06__vh">Email</span>
-              <input
-                type="email"
-                autoComplete="email"
-                placeholder="you@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={busy !== null}
-                required
-              />
-            </label>
-
-            <label className="lf-06__field">
-              <span className="lf-06__vh">Password</span>
-              <input
-                type="password"
-                autoComplete="current-password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={busy !== null}
-                required
-              />
-            </label>
-
-            <button className="lf-06__submit" type="submit" disabled={busy !== null}>
-              {busy === "login" ? "Logging in..." : "Log in"}
-            </button>
-          </form>
+      <main className="animate-in" style={{ position: "relative", zIndex: 10, padding: "96px clamp(16px, 4vw, 48px) 48px" }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", color: "#fff" }}>Pick a business to explore</h1>
+          <p className="muted" style={{ maxWidth: 620, margin: "0 auto" }}>
+            No account needed. Both are generated demo businesses with a messy order sheet, so you can see the whole advisor on data that looks like yours will.
+          </p>
         </div>
-      </section>
+        {(error || s.error) && <div className="banner" role="alert" style={{ maxWidth: 720, margin: "0 auto 16px" }}>{error ?? s.error}</div>}
+        <BusinessPicker demos={DEMOS} onPick={(k) => void pick(k)} onStartOwn={() => router.push("/signup")} />
+        {s.busy && <p className="muted" style={{ textAlign: "center", marginTop: 20 }} role="status">Loading the business…</p>}
+      </main>
     </div>
   );
 }

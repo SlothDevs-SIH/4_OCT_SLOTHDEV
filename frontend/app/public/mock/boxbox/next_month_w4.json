@@ -1,0 +1,118 @@
+{
+ "business_id": "biz_boxbox",
+ "week": "week_4",
+ "estimate": true,
+ "synthetic": true,
+ "status": "ok",
+ "month": {
+  "from": "2026-10-26",
+  "to": "2026-11-22"
+ },
+ "orders": {
+  "low": 67,
+  "expected": 80,
+  "high": 92
+ },
+ "demand": {
+  "low": 67,
+  "expected": 80,
+  "high": 92
+ },
+ "basis": {
+  "weeks_used": 8,
+  "weekly_demand": [
+   20,
+   17,
+   14,
+   16,
+   16,
+   11,
+   18,
+   27
+  ],
+  "weekly_orders": [
+   20,
+   17,
+   14,
+   16,
+   16,
+   11,
+   18,
+   27
+  ],
+  "weekly_turned_away": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "trend_per_week": 0.54,
+  "damping": 0.5,
+  "weekly_scatter_sd": 4.9,
+  "context_factor": 1.0,
+  "context_source": "f1_calendar",
+  "context_share_next_4_weeks": 0.321,
+  "context_share_recent_weeks": 0.321,
+  "assumed_context_effect": 0.3999999999999999,
+  "method": "damped straight-line trend of weekly demand (orders plus turned away), times a market-context factor; range = 1.28 x weekly scatter x 2"
+ },
+ "weekly_expected_demand": [
+  19.5,
+  19.8,
+  20.1,
+  20.3
+ ],
+ "confidence": "medium",
+ "capacity": {
+  "orders_per_week": 30,
+  "orders_per_month": 120,
+  "demand_exceeds_capacity": false,
+  "orders_lost_to_capacity_expected": 0,
+  "message": "Demand is expected to fit within your capacity."
+ },
+ "limited_by_capacity": false,
+ "limiting_bottleneck": null,
+ "primary_bottleneck": null,
+ "demand_windows": [
+  {
+   "name": "Mexico City Grand Prix",
+   "from": "2026-10-30",
+   "to": "2026-11-01"
+  },
+  {
+   "name": "Brazilian Grand Prix",
+   "from": "2026-11-06",
+   "to": "2026-11-08"
+  },
+  {
+   "name": "Las Vegas Grand Prix",
+   "from": "2026-11-20",
+   "to": "2026-11-22"
+  }
+ ],
+ "note": "An estimate from recent weeks, not a forecast. The market-context effect is an assumption, not a measured fact.",
+ "text": "For 2026-10-26 to 2026-11-22 we project 67 to 92 orders, most likely about 80. This is an estimate from your recent weeks, not a forecast. It uses your last 8 weeks (trend +0.54 a week) and a context factor of 1 from f1_calendar. Demand windows in that period: Mexico City Grand Prix (2026-10-30 to 2026-11-01), Brazilian Grand Prix (2026-11-06 to 2026-11-08), Las Vegas Grand Prix (2026-11-20 to 2026-11-22). No single bottleneck limits it right now; keep doing what works.",
+ "explanation": {
+  "text": "For 2026-10-26 to 2026-11-22 we project 67 to 92 orders, most likely about 80. This is an estimate from your recent weeks, not a forecast. It uses your last 8 weeks (trend +0.54 a week) and a context factor of 1 from f1_calendar. Demand windows in that period: Mexico City Grand Prix (2026-10-30 to 2026-11-01), Brazilian Grand Prix (2026-11-06 to 2026-11-08), Las Vegas Grand Prix (2026-11-20 to 2026-11-22). No single bottleneck limits it right now; keep doing what works.",
+  "evidence_ids": [
+   "projection"
+  ],
+  "llm": {
+   "used": false,
+   "cached": false,
+   "provider": null,
+   "model": null,
+   "fallback": true,
+   "validator": {
+    "passed": false,
+    "retries": 0,
+    "errors": []
+   },
+   "prompt_version": "v1"
+  }
+ }
+}

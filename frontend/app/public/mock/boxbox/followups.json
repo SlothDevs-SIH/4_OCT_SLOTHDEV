@@ -1,0 +1,1116 @@
+{
+ "business_id": "biz_boxbox",
+ "followups": [
+  {
+   "business_id": "biz_boxbox",
+   "week": "week_2",
+   "compared_with": "week_1",
+   "as_of": "2026-10-12",
+   "synthetic": true,
+   "actions_done": [
+    "act_boxbox_w1_reach_partner_collab",
+    "act_boxbox_w1_reach_demand_window_drop",
+    "act_boxbox_w1_reach_community_share"
+   ],
+   "actions_skipped": [],
+   "actions_open": [],
+   "reviews": [
+    {
+     "action_id": "act_boxbox_w1_reach_partner_collab",
+     "action_key": "reach_partner_collab",
+     "title": "Collaborate with Campus Motorsport Club (college community)",
+     "status": "done",
+     "fidelity": {
+      "done": true,
+      "status": "done"
+     },
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "value": 3.5,
+      "text": "at least 3.5 orders from strangers a week (4-week average) (now 1.5 a week)"
+     },
+     "previous": 1.5,
+     "current": 2.0,
+     "effectiveness": "moving",
+     "decision": "keep",
+     "adjustment": "The number moved the right way but not to the target: keep going one more week.",
+     "observational": true,
+     "shared_with": [
+      "act_boxbox_w1_reach_demand_window_drop",
+      "act_boxbox_w1_reach_community_share"
+     ],
+     "attribution_note": "3 done actions aimed at this number; the change cannot be split between them."
+    },
+    {
+     "action_id": "act_boxbox_w1_reach_demand_window_drop",
+     "action_key": "reach_demand_window_drop",
+     "title": "Plan a drop or post for Singapore Grand Prix (2026-10-09 to 2026-10-11)",
+     "status": "done",
+     "fidelity": {
+      "done": true,
+      "status": "done"
+     },
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "value": 3.5,
+      "text": "at least 3.5 orders from strangers a week (4-week average) (now 1.5 a week)"
+     },
+     "previous": 1.5,
+     "current": 2.0,
+     "effectiveness": "moving",
+     "decision": "keep",
+     "adjustment": "The number moved the right way but not to the target: keep going one more week.",
+     "observational": true,
+     "shared_with": [
+      "act_boxbox_w1_reach_partner_collab",
+      "act_boxbox_w1_reach_community_share"
+     ],
+     "attribution_note": "3 done actions aimed at this number; the change cannot be split between them."
+    },
+    {
+     "action_id": "act_boxbox_w1_reach_community_share",
+     "action_key": "reach_community_share",
+     "title": "Ask Pune Streetwear Collective (community) to share your page",
+     "status": "done",
+     "fidelity": {
+      "done": true,
+      "status": "done"
+     },
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "value": 2.5,
+      "text": "at least 2.5 orders from strangers a week (4-week average) (now 1.5 a week)"
+     },
+     "previous": 1.5,
+     "current": 2.0,
+     "effectiveness": "moving",
+     "decision": "keep",
+     "adjustment": "The number moved the right way but not to the target: keep going one more week.",
+     "observational": true,
+     "shared_with": [
+      "act_boxbox_w1_reach_partner_collab",
+      "act_boxbox_w1_reach_demand_window_drop"
+     ],
+     "attribution_note": "3 done actions aimed at this number; the change cannot be split between them."
+    }
+   ],
+   "fact_changes": [
+    {
+     "fact_id": "f_stranger_orders_week",
+     "kpi": "stranger_orders_per_week",
+     "unit": "orders/week",
+     "previous": 1.5,
+     "current": 2.0,
+     "moved": "better"
+    },
+    {
+     "fact_id": "f_stranger_share",
+     "kpi": "stranger_share",
+     "unit": "ratio",
+     "previous": 0.0952,
+     "current": 0.1404,
+     "moved": "better"
+    }
+   ],
+   "main_measure": {
+    "stranger_orders": {
+     "previous": 1.5,
+     "current": 2.0,
+     "change": 0.5
+    }
+   },
+   "bottleneck": {
+    "previous": "reach",
+    "current": "reach",
+    "changed": false
+   },
+   "partner_results": [],
+   "adjustments": [
+    "Collaborate with Campus Motorsport Club (college community): The number moved the right way but not to the target: keep going one more week.",
+    "Plan a drop or post for Singapore Grand Prix (2026-10-09 to 2026-10-11): The number moved the right way but not to the target: keep going one more week.",
+    "Ask Pune Streetwear Collective (community) to share your page: The number moved the right way but not to the target: keep going one more week."
+   ],
+   "preferences": {
+    "boost": [
+     "reach_community_share",
+     "reach_demand_window_drop",
+     "reach_partner_collab"
+    ],
+    "exclude": []
+   },
+   "observational": true,
+   "note": "Observational: no control group, and one business is not proof. Other things changed too.",
+   "next_actions": [
+    {
+     "action_id": "act_boxbox_w2_reach_partner_collab",
+     "business_id": "biz_boxbox",
+     "week": "week_2",
+     "bottleneck": "reach",
+     "action_key": "reach_partner_collab",
+     "title": "Collaborate with Campus Motorsport Club (college community)",
+     "what": "Offer a free piece or a joint post in return for a story or post to their audience, and ask them to tag you.",
+     "why": "Orders from strangers: 2 a week on average over the last 4 weeks (best weeks: 3.25 a week). The gap is in orders from strangers: 49 of 57 orders in the last 4 weeks came from friends and friends of friends. Campus Motorsport Club (college community) ranks first among your partners: same topic, same city, and strong engagement (2.1% comments and shares per follower).",
+     "evidence_ids": [
+      "f_stranger_orders_week",
+      "f_orders_by_source_friend",
+      "f_orders_by_source_friend_of_friend",
+      "f_orders_by_source_stranger",
+      "f_orders_by_source_unknown",
+      "f_stranger_share",
+      "rp_bb_3"
+     ],
+     "effort_min": 60,
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "kpi": "stranger_orders_per_week",
+      "current": 2.0,
+      "value": 4.0,
+      "unit": "orders/week",
+      "text": "at least 4 orders from strangers a week (4-week average) (now 2 a week)"
+     },
+     "due": "2026-10-19",
+     "status": "todo",
+     "note": null,
+     "requires_approval": true,
+     "approval_reason": "partner_collab",
+     "risk_flags": [
+      {
+       "flag": "brand_ip",
+       "level": "high",
+       "terms": [
+        "F1",
+        "Ferrari",
+        "McLaren",
+        "Verstappen"
+       ],
+       "products": [
+        "Ferrari F1 Tee",
+        "Verstappen Fan Tee",
+        "McLaren Papaya Hoodie"
+       ],
+       "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+       "not_legal_advice": true
+      }
+     ],
+     "risks": [
+      "The partner's audience may not match your buyers"
+     ],
+     "score": 74.2,
+     "score_parts": {
+      "impact": 0.8,
+      "fit": 0.9,
+      "timing": 0.5,
+      "effort_share": 0.333,
+      "follow_up_bonus": 10
+     },
+     "partner_id": "rp_bb_3",
+     "product_name": null,
+     "draft_channels": [
+      "instagram_dm"
+     ],
+     "raises_visibility": true,
+     "synthetic": true
+    },
+    {
+     "action_id": "act_boxbox_w2_reach_demand_window_drop",
+     "business_id": "biz_boxbox",
+     "week": "week_2",
+     "bottleneck": "reach",
+     "action_key": "reach_demand_window_drop",
+     "title": "Plan a drop or post for United States Grand Prix (2026-10-23 to 2026-10-25)",
+     "what": "Announce a small drop or a themed post a few days before the demand window and post again during it.",
+     "why": "Orders from strangers: 2 a week on average over the last 4 weeks (best weeks: 3.25 a week). The gap is in orders from strangers: 49 of 57 orders in the last 4 weeks came from friends and friends of friends. United States Grand Prix runs 2026-10-23 to 2026-10-25; race weekends draw about 2.027 times the usual interest in F1 (interest, not sales).",
+     "evidence_ids": [
+      "f_stranger_orders_week",
+      "f_orders_by_source_friend",
+      "f_orders_by_source_friend_of_friend",
+      "f_orders_by_source_stranger",
+      "f_orders_by_source_unknown",
+      "f_stranger_share"
+     ],
+     "effort_min": 90,
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "kpi": "stranger_orders_per_week",
+      "current": 2.0,
+      "value": 4.0,
+      "unit": "orders/week",
+      "text": "at least 4 orders from strangers a week (4-week average) (now 2 a week)"
+     },
+     "due": "2026-10-19",
+     "status": "todo",
+     "note": null,
+     "requires_approval": true,
+     "approval_reason": "public_post",
+     "risk_flags": [
+      {
+       "flag": "brand_ip",
+       "level": "high",
+       "terms": [
+        "F1",
+        "Ferrari",
+        "McLaren",
+        "Verstappen"
+       ],
+       "products": [
+        "Ferrari F1 Tee",
+        "Verstappen Fan Tee",
+        "McLaren Papaya Hoodie"
+       ],
+       "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+       "not_legal_advice": true
+      }
+     ],
+     "risks": [
+      "Interest in an event is not the same as sales"
+     ],
+     "score": 59.5,
+     "score_parts": {
+      "impact": 0.7,
+      "fit": 0.7,
+      "timing": 0.5,
+      "effort_share": 0.5,
+      "follow_up_bonus": 10
+     },
+     "partner_id": null,
+     "product_name": null,
+     "draft_channels": [
+      "instagram_post"
+     ],
+     "raises_visibility": true,
+     "synthetic": true
+    },
+    {
+     "action_id": "act_boxbox_w2_reach_community_share",
+     "business_id": "biz_boxbox",
+     "week": "week_2",
+     "bottleneck": "reach",
+     "action_key": "reach_community_share",
+     "title": "Ask Pune Streetwear Collective (community) to share your page",
+     "what": "Send one friendly message to a community you belong to (college, office, residents) asking them to share your page.",
+     "why": "Orders from strangers: 2 a week on average over the last 4 weeks (best weeks: 3.25 a week). The gap is in orders from strangers: 49 of 57 orders in the last 4 weeks came from friends and friends of friends. Pune Streetwear Collective (community) ranks first among your partners: same topic, same city, and strong engagement (0.3% comments and shares per follower).",
+     "evidence_ids": [
+      "f_stranger_orders_week",
+      "f_orders_by_source_friend",
+      "f_orders_by_source_friend_of_friend",
+      "f_orders_by_source_stranger",
+      "f_orders_by_source_unknown",
+      "f_stranger_share",
+      "rp_bb_5"
+     ],
+     "effort_min": 30,
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "kpi": "stranger_orders_per_week",
+      "current": 2.0,
+      "value": 3.0,
+      "unit": "orders/week",
+      "text": "at least 3 orders from strangers a week (4-week average) (now 2 a week)"
+     },
+     "due": "2026-10-19",
+     "status": "todo",
+     "note": null,
+     "requires_approval": true,
+     "approval_reason": "partner_collab",
+     "risk_flags": [
+      {
+       "flag": "brand_ip",
+       "level": "high",
+       "terms": [
+        "F1",
+        "Ferrari",
+        "McLaren",
+        "Verstappen"
+       ],
+       "products": [
+        "Ferrari F1 Tee",
+        "Verstappen Fan Tee",
+        "McLaren Papaya Hoodie"
+       ],
+       "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+       "not_legal_advice": true
+      }
+     ],
+     "risks": [],
+     "score": 58.6,
+     "score_parts": {
+      "impact": 0.5,
+      "fit": 0.6,
+      "timing": 0.5,
+      "effort_share": 0.167,
+      "follow_up_bonus": 10
+     },
+     "partner_id": "rp_bb_5",
+     "product_name": null,
+     "draft_channels": [
+      "whatsapp"
+     ],
+     "raises_visibility": true,
+     "synthetic": true
+    }
+   ]
+  },
+  {
+   "business_id": "biz_boxbox",
+   "week": "week_3",
+   "compared_with": "week_2",
+   "as_of": "2026-10-19",
+   "synthetic": true,
+   "actions_done": [
+    "act_boxbox_w2_reach_partner_collab",
+    "act_boxbox_w2_reach_demand_window_drop",
+    "act_boxbox_w2_reach_community_share"
+   ],
+   "actions_skipped": [],
+   "actions_open": [],
+   "reviews": [
+    {
+     "action_id": "act_boxbox_w2_reach_partner_collab",
+     "action_key": "reach_partner_collab",
+     "title": "Collaborate with Campus Motorsport Club (college community)",
+     "status": "done",
+     "fidelity": {
+      "done": true,
+      "status": "done"
+     },
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "value": 4.0,
+      "text": "at least 4 orders from strangers a week (4-week average) (now 2 a week)"
+     },
+     "previous": 2.0,
+     "current": 3.0,
+     "effectiveness": "moving",
+     "decision": "keep",
+     "adjustment": "The number moved the right way but not to the target: keep going one more week.",
+     "observational": true,
+     "shared_with": [
+      "act_boxbox_w2_reach_demand_window_drop",
+      "act_boxbox_w2_reach_community_share"
+     ],
+     "attribution_note": "3 done actions aimed at this number; the change cannot be split between them."
+    },
+    {
+     "action_id": "act_boxbox_w2_reach_demand_window_drop",
+     "action_key": "reach_demand_window_drop",
+     "title": "Plan a drop or post for United States Grand Prix (2026-10-23 to 2026-10-25)",
+     "status": "done",
+     "fidelity": {
+      "done": true,
+      "status": "done"
+     },
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "value": 4.0,
+      "text": "at least 4 orders from strangers a week (4-week average) (now 2 a week)"
+     },
+     "previous": 2.0,
+     "current": 3.0,
+     "effectiveness": "moving",
+     "decision": "keep",
+     "adjustment": "The number moved the right way but not to the target: keep going one more week.",
+     "observational": true,
+     "shared_with": [
+      "act_boxbox_w2_reach_partner_collab",
+      "act_boxbox_w2_reach_community_share"
+     ],
+     "attribution_note": "3 done actions aimed at this number; the change cannot be split between them."
+    },
+    {
+     "action_id": "act_boxbox_w2_reach_community_share",
+     "action_key": "reach_community_share",
+     "title": "Ask Pune Streetwear Collective (community) to share your page",
+     "status": "done",
+     "fidelity": {
+      "done": true,
+      "status": "done"
+     },
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "value": 3.0,
+      "text": "at least 3 orders from strangers a week (4-week average) (now 2 a week)"
+     },
+     "previous": 2.0,
+     "current": 3.0,
+     "effectiveness": "reached_target",
+     "decision": "double_down",
+     "adjustment": "It reached its target: double down and repeat or scale it this week.",
+     "observational": true,
+     "shared_with": [
+      "act_boxbox_w2_reach_partner_collab",
+      "act_boxbox_w2_reach_demand_window_drop"
+     ],
+     "attribution_note": "3 done actions aimed at this number; the change cannot be split between them."
+    }
+   ],
+   "fact_changes": [
+    {
+     "fact_id": "f_stranger_orders_week",
+     "kpi": "stranger_orders_per_week",
+     "unit": "orders/week",
+     "previous": 2.0,
+     "current": 3.0,
+     "moved": "better"
+    },
+    {
+     "fact_id": "f_stranger_share",
+     "kpi": "stranger_share",
+     "unit": "ratio",
+     "previous": 0.1404,
+     "current": 0.1967,
+     "moved": "better"
+    }
+   ],
+   "main_measure": {
+    "stranger_orders": {
+     "previous": 2.0,
+     "current": 3.0,
+     "change": 1.0
+    }
+   },
+   "bottleneck": {
+    "previous": "reach",
+    "current": null,
+    "changed": true
+   },
+   "partner_results": [],
+   "adjustments": [
+    "Reach is back at your best weeks and nothing else is clearly off: keep doing what works.",
+    "Collaborate with Campus Motorsport Club (college community): The number moved the right way but not to the target: keep going one more week.",
+    "Plan a drop or post for United States Grand Prix (2026-10-23 to 2026-10-25): The number moved the right way but not to the target: keep going one more week.",
+    "Ask Pune Streetwear Collective (community) to share your page: It reached its target: double down and repeat or scale it this week."
+   ],
+   "preferences": {
+    "boost": [
+     "reach_community_share",
+     "reach_demand_window_drop",
+     "reach_partner_collab"
+    ],
+    "exclude": []
+   },
+   "observational": true,
+   "note": "Observational: no control group, and one business is not proof. Other things changed too.",
+   "next_actions": [
+    {
+     "action_id": "act_boxbox_w3_reach_partner_collab",
+     "business_id": "biz_boxbox",
+     "week": "week_3",
+     "bottleneck": "reach",
+     "action_key": "reach_partner_collab",
+     "title": "Collaborate with Campus Motorsport Club (college community)",
+     "what": "Offer a free piece or a joint post in return for a story or post to their audience, and ask them to tag you.",
+     "why": "Orders from strangers: 3 a week on average over the last 4 weeks (best weeks: 3.25 a week). Campus Motorsport Club (college community) ranks first among your partners: same topic, same city, and strong engagement (2.1% comments and shares per follower).",
+     "evidence_ids": [
+      "f_stranger_orders_week",
+      "f_orders_by_source_friend",
+      "f_orders_by_source_friend_of_friend",
+      "f_orders_by_source_stranger",
+      "f_orders_by_source_unknown",
+      "f_stranger_share",
+      "rp_bb_3"
+     ],
+     "effort_min": 60,
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "kpi": "stranger_orders_per_week",
+      "current": 3.0,
+      "value": 5.0,
+      "unit": "orders/week",
+      "text": "at least 5 orders from strangers a week (4-week average) (now 3 a week)"
+     },
+     "due": "2026-10-26",
+     "status": "todo",
+     "note": null,
+     "requires_approval": true,
+     "approval_reason": "partner_collab",
+     "risk_flags": [
+      {
+       "flag": "brand_ip",
+       "level": "high",
+       "terms": [
+        "F1",
+        "Ferrari",
+        "McLaren",
+        "Verstappen"
+       ],
+       "products": [
+        "Ferrari F1 Tee",
+        "Verstappen Fan Tee",
+        "McLaren Papaya Hoodie"
+       ],
+       "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+       "not_legal_advice": true
+      }
+     ],
+     "risks": [
+      "The partner's audience may not match your buyers"
+     ],
+     "score": 82.5,
+     "score_parts": {
+      "impact": 0.8,
+      "fit": 0.9,
+      "timing": 1.0,
+      "effort_share": 0.333,
+      "follow_up_bonus": 10
+     },
+     "partner_id": "rp_bb_3",
+     "product_name": null,
+     "draft_channels": [
+      "instagram_dm"
+     ],
+     "raises_visibility": true,
+     "synthetic": true
+    },
+    {
+     "action_id": "act_boxbox_w3_reach_demand_window_drop",
+     "business_id": "biz_boxbox",
+     "week": "week_3",
+     "bottleneck": "reach",
+     "action_key": "reach_demand_window_drop",
+     "title": "Plan a drop or post for United States Grand Prix (2026-10-23 to 2026-10-25)",
+     "what": "Announce a small drop or a themed post a few days before the demand window and post again during it.",
+     "why": "Orders from strangers: 3 a week on average over the last 4 weeks (best weeks: 3.25 a week). United States Grand Prix runs 2026-10-23 to 2026-10-25; race weekends draw about 2.027 times the usual interest in F1 (interest, not sales).",
+     "evidence_ids": [
+      "f_stranger_orders_week",
+      "f_orders_by_source_friend",
+      "f_orders_by_source_friend_of_friend",
+      "f_orders_by_source_stranger",
+      "f_orders_by_source_unknown",
+      "f_stranger_share"
+     ],
+     "effort_min": 90,
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "kpi": "stranger_orders_per_week",
+      "current": 3.0,
+      "value": 5.0,
+      "unit": "orders/week",
+      "text": "at least 5 orders from strangers a week (4-week average) (now 3 a week)"
+     },
+     "due": "2026-10-26",
+     "status": "todo",
+     "note": null,
+     "requires_approval": true,
+     "approval_reason": "public_post",
+     "risk_flags": [
+      {
+       "flag": "brand_ip",
+       "level": "high",
+       "terms": [
+        "F1",
+        "Ferrari",
+        "McLaren",
+        "Verstappen"
+       ],
+       "products": [
+        "Ferrari F1 Tee",
+        "Verstappen Fan Tee",
+        "McLaren Papaya Hoodie"
+       ],
+       "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+       "not_legal_advice": true
+      }
+     ],
+     "risks": [
+      "Interest in an event is not the same as sales"
+     ],
+     "score": 73.7,
+     "score_parts": {
+      "impact": 0.7,
+      "fit": 1.0,
+      "timing": 1.0,
+      "effort_share": 0.5,
+      "follow_up_bonus": 10
+     },
+     "partner_id": null,
+     "product_name": null,
+     "draft_channels": [
+      "instagram_post"
+     ],
+     "raises_visibility": true,
+     "synthetic": true
+    },
+    {
+     "action_id": "act_boxbox_w3_reach_community_share",
+     "business_id": "biz_boxbox",
+     "week": "week_3",
+     "bottleneck": "reach",
+     "action_key": "reach_community_share",
+     "title": "Ask Pune Streetwear Collective (community) to share your page",
+     "what": "Send one friendly message to a community you belong to (college, office, residents) asking them to share your page.",
+     "why": "Orders from strangers: 3 a week on average over the last 4 weeks (best weeks: 3.25 a week). Pune Streetwear Collective (community) ranks first among your partners: same topic, same city, and strong engagement (0.3% comments and shares per follower).",
+     "evidence_ids": [
+      "f_stranger_orders_week",
+      "f_orders_by_source_friend",
+      "f_orders_by_source_friend_of_friend",
+      "f_orders_by_source_stranger",
+      "f_orders_by_source_unknown",
+      "f_stranger_share",
+      "rp_bb_5"
+     ],
+     "effort_min": 30,
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "kpi": "stranger_orders_per_week",
+      "current": 3.0,
+      "value": 4.0,
+      "unit": "orders/week",
+      "text": "at least 4 orders from strangers a week (4-week average) (now 3 a week)"
+     },
+     "due": "2026-10-26",
+     "status": "todo",
+     "note": null,
+     "requires_approval": true,
+     "approval_reason": "partner_collab",
+     "risk_flags": [
+      {
+       "flag": "brand_ip",
+       "level": "high",
+       "terms": [
+        "F1",
+        "Ferrari",
+        "McLaren",
+        "Verstappen"
+       ],
+       "products": [
+        "Ferrari F1 Tee",
+        "Verstappen Fan Tee",
+        "McLaren Papaya Hoodie"
+       ],
+       "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+       "not_legal_advice": true
+      }
+     ],
+     "risks": [],
+     "score": 58.6,
+     "score_parts": {
+      "impact": 0.5,
+      "fit": 0.6,
+      "timing": 0.5,
+      "effort_share": 0.167,
+      "follow_up_bonus": 10
+     },
+     "partner_id": "rp_bb_5",
+     "product_name": null,
+     "draft_channels": [
+      "whatsapp"
+     ],
+     "raises_visibility": true,
+     "synthetic": true
+    }
+   ]
+  },
+  {
+   "business_id": "biz_boxbox",
+   "week": "week_4",
+   "compared_with": "week_3",
+   "as_of": "2026-10-26",
+   "synthetic": true,
+   "actions_done": [
+    "act_boxbox_w3_reach_partner_collab",
+    "act_boxbox_w3_reach_demand_window_drop",
+    "act_boxbox_w3_reach_community_share"
+   ],
+   "actions_skipped": [],
+   "actions_open": [],
+   "reviews": [
+    {
+     "action_id": "act_boxbox_w3_reach_partner_collab",
+     "action_key": "reach_partner_collab",
+     "title": "Collaborate with Campus Motorsport Club (college community)",
+     "status": "done",
+     "fidelity": {
+      "done": true,
+      "status": "done"
+     },
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "value": 5.0,
+      "text": "at least 5 orders from strangers a week (4-week average) (now 3 a week)"
+     },
+     "previous": 3.0,
+     "current": 3.75,
+     "effectiveness": "moving",
+     "decision": "keep",
+     "adjustment": "The number moved the right way but not to the target: keep going one more week.",
+     "observational": true,
+     "shared_with": [
+      "act_boxbox_w3_reach_demand_window_drop",
+      "act_boxbox_w3_reach_community_share"
+     ],
+     "attribution_note": "3 done actions aimed at this number; the change cannot be split between them."
+    },
+    {
+     "action_id": "act_boxbox_w3_reach_demand_window_drop",
+     "action_key": "reach_demand_window_drop",
+     "title": "Plan a drop or post for United States Grand Prix (2026-10-23 to 2026-10-25)",
+     "status": "done",
+     "fidelity": {
+      "done": true,
+      "status": "done"
+     },
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "value": 5.0,
+      "text": "at least 5 orders from strangers a week (4-week average) (now 3 a week)"
+     },
+     "previous": 3.0,
+     "current": 3.75,
+     "effectiveness": "moving",
+     "decision": "keep",
+     "adjustment": "The number moved the right way but not to the target: keep going one more week.",
+     "observational": true,
+     "shared_with": [
+      "act_boxbox_w3_reach_partner_collab",
+      "act_boxbox_w3_reach_community_share"
+     ],
+     "attribution_note": "3 done actions aimed at this number; the change cannot be split between them."
+    },
+    {
+     "action_id": "act_boxbox_w3_reach_community_share",
+     "action_key": "reach_community_share",
+     "title": "Ask Pune Streetwear Collective (community) to share your page",
+     "status": "done",
+     "fidelity": {
+      "done": true,
+      "status": "done"
+     },
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "value": 4.0,
+      "text": "at least 4 orders from strangers a week (4-week average) (now 3 a week)"
+     },
+     "previous": 3.0,
+     "current": 3.75,
+     "effectiveness": "moving",
+     "decision": "keep",
+     "adjustment": "The number moved the right way but not to the target: keep going one more week.",
+     "observational": true,
+     "shared_with": [
+      "act_boxbox_w3_reach_partner_collab",
+      "act_boxbox_w3_reach_demand_window_drop"
+     ],
+     "attribution_note": "3 done actions aimed at this number; the change cannot be split between them."
+    }
+   ],
+   "fact_changes": [
+    {
+     "fact_id": "f_stranger_orders_week",
+     "kpi": "stranger_orders_per_week",
+     "unit": "orders/week",
+     "previous": 3.0,
+     "current": 3.75,
+     "moved": "better"
+    },
+    {
+     "fact_id": "f_stranger_share",
+     "kpi": "stranger_share",
+     "unit": "ratio",
+     "previous": 0.1967,
+     "current": 0.2083,
+     "moved": "better"
+    }
+   ],
+   "main_measure": {
+    "stranger_orders": {
+     "previous": 3.0,
+     "current": 3.75,
+     "change": 0.75
+    }
+   },
+   "bottleneck": {
+    "previous": null,
+    "current": null,
+    "changed": false
+   },
+   "partner_results": [],
+   "adjustments": [
+    "Collaborate with Campus Motorsport Club (college community): The number moved the right way but not to the target: keep going one more week.",
+    "Plan a drop or post for United States Grand Prix (2026-10-23 to 2026-10-25): The number moved the right way but not to the target: keep going one more week.",
+    "Ask Pune Streetwear Collective (community) to share your page: The number moved the right way but not to the target: keep going one more week."
+   ],
+   "preferences": {
+    "boost": [
+     "reach_community_share",
+     "reach_demand_window_drop",
+     "reach_partner_collab"
+    ],
+    "exclude": []
+   },
+   "observational": true,
+   "note": "Observational: no control group, and one business is not proof. Other things changed too.",
+   "next_actions": [
+    {
+     "action_id": "act_boxbox_w4_reach_partner_collab",
+     "business_id": "biz_boxbox",
+     "week": "week_4",
+     "bottleneck": "reach",
+     "action_key": "reach_partner_collab",
+     "title": "Collaborate with Campus Motorsport Club (college community)",
+     "what": "Offer a free piece or a joint post in return for a story or post to their audience, and ask them to tag you.",
+     "why": "Orders from strangers: 3.75 a week on average over the last 4 weeks (best weeks: 3.75 a week). Campus Motorsport Club (college community) ranks first among your partners: same topic, same city, and strong engagement (2.1% comments and shares per follower).",
+     "evidence_ids": [
+      "f_stranger_orders_week",
+      "f_orders_by_source_friend",
+      "f_orders_by_source_friend_of_friend",
+      "f_orders_by_source_stranger",
+      "f_orders_by_source_unknown",
+      "f_stranger_share",
+      "rp_bb_3"
+     ],
+     "effort_min": 60,
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "kpi": "stranger_orders_per_week",
+      "current": 3.75,
+      "value": 5.75,
+      "unit": "orders/week",
+      "text": "at least 5.75 orders from strangers a week (4-week average) (now 3.75 a week)"
+     },
+     "due": "2026-11-02",
+     "status": "todo",
+     "note": null,
+     "requires_approval": true,
+     "approval_reason": "partner_collab",
+     "risk_flags": [
+      {
+       "flag": "brand_ip",
+       "level": "high",
+       "terms": [
+        "F1",
+        "Ferrari",
+        "McLaren",
+        "Verstappen"
+       ],
+       "products": [
+        "Ferrari F1 Tee",
+        "Verstappen Fan Tee",
+        "McLaren Papaya Hoodie"
+       ],
+       "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+       "not_legal_advice": true
+      }
+     ],
+     "risks": [
+      "The partner's audience may not match your buyers"
+     ],
+     "score": 82.5,
+     "score_parts": {
+      "impact": 0.8,
+      "fit": 0.9,
+      "timing": 1.0,
+      "effort_share": 0.333,
+      "follow_up_bonus": 10
+     },
+     "partner_id": "rp_bb_3",
+     "product_name": null,
+     "draft_channels": [
+      "instagram_dm"
+     ],
+     "raises_visibility": true,
+     "synthetic": true
+    },
+    {
+     "action_id": "act_boxbox_w4_reach_demand_window_drop",
+     "business_id": "biz_boxbox",
+     "week": "week_4",
+     "bottleneck": "reach",
+     "action_key": "reach_demand_window_drop",
+     "title": "Plan a drop or post for Mexico City Grand Prix (2026-10-30 to 2026-11-01)",
+     "what": "Announce a small drop or a themed post a few days before the demand window and post again during it.",
+     "why": "Orders from strangers: 3.75 a week on average over the last 4 weeks (best weeks: 3.75 a week). Mexico City Grand Prix runs 2026-10-30 to 2026-11-01; race weekends draw about 2.027 times the usual interest in F1 (interest, not sales).",
+     "evidence_ids": [
+      "f_stranger_orders_week",
+      "f_orders_by_source_friend",
+      "f_orders_by_source_friend_of_friend",
+      "f_orders_by_source_stranger",
+      "f_orders_by_source_unknown",
+      "f_stranger_share"
+     ],
+     "effort_min": 90,
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "kpi": "stranger_orders_per_week",
+      "current": 3.75,
+      "value": 5.75,
+      "unit": "orders/week",
+      "text": "at least 5.75 orders from strangers a week (4-week average) (now 3.75 a week)"
+     },
+     "due": "2026-11-02",
+     "status": "todo",
+     "note": null,
+     "requires_approval": true,
+     "approval_reason": "public_post",
+     "risk_flags": [
+      {
+       "flag": "brand_ip",
+       "level": "high",
+       "terms": [
+        "F1",
+        "Ferrari",
+        "McLaren",
+        "Verstappen"
+       ],
+       "products": [
+        "Ferrari F1 Tee",
+        "Verstappen Fan Tee",
+        "McLaren Papaya Hoodie"
+       ],
+       "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+       "not_legal_advice": true
+      }
+     ],
+     "risks": [
+      "Interest in an event is not the same as sales"
+     ],
+     "score": 73.7,
+     "score_parts": {
+      "impact": 0.7,
+      "fit": 1.0,
+      "timing": 1.0,
+      "effort_share": 0.5,
+      "follow_up_bonus": 10
+     },
+     "partner_id": null,
+     "product_name": null,
+     "draft_channels": [
+      "instagram_post"
+     ],
+     "raises_visibility": true,
+     "synthetic": true
+    },
+    {
+     "action_id": "act_boxbox_w4_reach_community_share",
+     "business_id": "biz_boxbox",
+     "week": "week_4",
+     "bottleneck": "reach",
+     "action_key": "reach_community_share",
+     "title": "Ask Pune Streetwear Collective (community) to share your page",
+     "what": "Send one friendly message to a community you belong to (college, office, residents) asking them to share your page.",
+     "why": "Orders from strangers: 3.75 a week on average over the last 4 weeks (best weeks: 3.75 a week). Pune Streetwear Collective (community) ranks first among your partners: same topic, same city, and strong engagement (0.3% comments and shares per follower).",
+     "evidence_ids": [
+      "f_stranger_orders_week",
+      "f_orders_by_source_friend",
+      "f_orders_by_source_friend_of_friend",
+      "f_orders_by_source_stranger",
+      "f_orders_by_source_unknown",
+      "f_stranger_share",
+      "rp_bb_5"
+     ],
+     "effort_min": 30,
+     "target": {
+      "fact_id": "f_stranger_orders_week",
+      "kpi": "stranger_orders_per_week",
+      "current": 3.75,
+      "value": 4.75,
+      "unit": "orders/week",
+      "text": "at least 4.75 orders from strangers a week (4-week average) (now 3.75 a week)"
+     },
+     "due": "2026-11-02",
+     "status": "todo",
+     "note": null,
+     "requires_approval": true,
+     "approval_reason": "partner_collab",
+     "risk_flags": [
+      {
+       "flag": "brand_ip",
+       "level": "high",
+       "terms": [
+        "F1",
+        "Ferrari",
+        "McLaren",
+        "Verstappen"
+       ],
+       "products": [
+        "Ferrari F1 Tee",
+        "Verstappen Fan Tee",
+        "McLaren Papaya Hoodie"
+       ],
+       "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice. This action makes those products more visible, which raises that risk.",
+       "not_legal_advice": true
+      }
+     ],
+     "risks": [],
+     "score": 58.6,
+     "score_parts": {
+      "impact": 0.5,
+      "fit": 0.6,
+      "timing": 0.5,
+      "effort_share": 0.167,
+      "follow_up_bonus": 10
+     },
+     "partner_id": "rp_bb_5",
+     "product_name": null,
+     "draft_channels": [
+      "whatsapp"
+     ],
+     "raises_visibility": true,
+     "synthetic": true
+    }
+   ],
+   "four_week_arc": {
+    "business_id": "biz_boxbox",
+    "from_week": "week_1",
+    "to_week": "week_4",
+    "stranger_orders": {
+     "first": 1.5,
+     "last": 3.75
+    },
+    "stranger_share": {
+     "first": 0.0952,
+     "last": 0.2083
+    },
+    "worked": [
+     {
+      "week": "week_1",
+      "title": "Collaborate with Campus Motorsport Club (college community)",
+      "effectiveness": "moving"
+     },
+     {
+      "week": "week_1",
+      "title": "Plan a drop or post for Singapore Grand Prix (2026-10-09 to 2026-10-11)",
+      "effectiveness": "moving"
+     },
+     {
+      "week": "week_1",
+      "title": "Ask Pune Streetwear Collective (community) to share your page",
+      "effectiveness": "moving"
+     },
+     {
+      "week": "week_2",
+      "title": "Collaborate with Campus Motorsport Club (college community)",
+      "effectiveness": "moving"
+     },
+     {
+      "week": "week_2",
+      "title": "Plan a drop or post for United States Grand Prix (2026-10-23 to 2026-10-25)",
+      "effectiveness": "moving"
+     },
+     {
+      "week": "week_2",
+      "title": "Ask Pune Streetwear Collective (community) to share your page",
+      "effectiveness": "reached_target"
+     },
+     {
+      "week": "week_3",
+      "title": "Collaborate with Campus Motorsport Club (college community)",
+      "effectiveness": "moving"
+     },
+     {
+      "week": "week_3",
+      "title": "Plan a drop or post for United States Grand Prix (2026-10-23 to 2026-10-25)",
+      "effectiveness": "moving"
+     },
+     {
+      "week": "week_3",
+      "title": "Ask Pune Streetwear Collective (community) to share your page",
+      "effectiveness": "moving"
+     }
+    ],
+    "did_not_work": [],
+    "observational": true,
+    "note": "Observational: no control group, and one business is not proof. Other things changed too."
+   }
+  }
+ ]
+}

@@ -1,0 +1,639 @@
+{
+ "business_id": "biz_homebaker",
+ "week": "week_3",
+ "as_of": "2026-10-19",
+ "synthetic": true,
+ "summary": {
+  "hot": 5,
+  "warm": 6,
+  "cold": 3,
+  "disqualified": 0
+ },
+ "hot": [
+  {
+   "lead_id": "lead_0123",
+   "handle_ref": "@user_0123",
+   "source": "comment",
+   "relationship": "stranger",
+   "score": 70,
+   "group": "hot",
+   "rank": 2,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    },
+    {
+     "signal": "stranger",
+     "label": "Is a stranger (growth bonus)",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": "Eggless Brownie Box (6)",
+    "size": null,
+    "design": null,
+    "city": "Pune"
+   },
+   "last_message": "need this!!",
+   "last_activity": "2026-10-17",
+   "intents": [
+    "buying_question",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0123"
+   ],
+   "draft": "Hi! The Eggless Brownie Box (6) is ₹450. We deliver in Pune. You can order here: WhatsApp order form (payment by UPI). Shall I keep one for you?",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  },
+  {
+   "lead_id": "lead_0121",
+   "handle_ref": "@user_0121",
+   "source": "story",
+   "relationship": "friend",
+   "score": 70,
+   "group": "hot",
+   "rank": 3,
+   "reasons": [
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    }
+   ],
+   "asked_for": {
+    "product": "Festive Gift Hamper",
+    "size": null,
+    "design": null,
+    "city": "Pune"
+   },
+   "last_message": "do you have the Festive Gift Hamper",
+   "last_activity": "2026-10-16",
+   "intents": [
+    "buying_question",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0121"
+   ],
+   "draft": "Hi! The Festive Gift Hamper is ₹1,800. We deliver in Pune. You can order here: WhatsApp order form (payment by UPI). Shall I keep one for you?",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  },
+  {
+   "lead_id": "lead_0126",
+   "handle_ref": "@user_0126",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 70,
+   "group": "hot",
+   "rank": 4,
+   "reasons": [
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    },
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-16",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0126"
+   ],
+   "draft": "Hi! Thanks for your message. Here is what we have and the prices: WhatsApp order form.",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  },
+  {
+   "lead_id": "lead_0125",
+   "handle_ref": "@user_0125",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 55,
+   "group": "hot",
+   "rank": 5,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    },
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "need this!!",
+   "last_activity": "2026-10-16",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0125"
+   ],
+   "draft": "Hi! Thanks for your message. Here is what we have and the prices: WhatsApp order form.",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  },
+  {
+   "lead_id": "lead_0124",
+   "handle_ref": "@user_0124",
+   "source": "story",
+   "relationship": "friend",
+   "score": 75,
+   "group": "hot",
+   "rank": 1,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": "Festive Gift Hamper",
+    "size": null,
+    "design": null,
+    "city": "Pune"
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-15",
+   "intents": [
+    "buying_question",
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0124"
+   ],
+   "draft": "Hi! The Festive Gift Hamper is ₹1,800. We deliver in Pune. You can order here: WhatsApp order form (payment by UPI). Shall I keep one for you?",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  }
+ ],
+ "warm": [
+  {
+   "lead_id": "lead_0122",
+   "handle_ref": "@user_0122",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 45,
+   "group": "warm",
+   "rank": 6,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    },
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "want this!",
+   "last_activity": "2026-10-16",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0122"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Festive Gift Hamper this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Festive Gift Hamper.",
+   "contact_reason": "preorder_week_3"
+  },
+  {
+   "lead_id": "lead_0127",
+   "handle_ref": "@user_0127",
+   "source": "dm",
+   "relationship": "stranger",
+   "score": 40,
+   "group": "warm",
+   "rank": 7,
+   "reasons": [
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    },
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    },
+    {
+     "signal": "stranger",
+     "label": "Is a stranger (growth bonus)",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-15",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0127"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Festive Gift Hamper this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Festive Gift Hamper.",
+   "contact_reason": "preorder_week_3"
+  },
+  {
+   "lead_id": "lead_0129",
+   "handle_ref": "@user_0129",
+   "source": "comment",
+   "relationship": "friend",
+   "score": 35,
+   "group": "warm",
+   "rank": 8,
+   "reasons": [
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": "Eggless Brownie Box (6)",
+    "size": null,
+    "design": null,
+    "city": "Pune"
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-15",
+   "intents": [
+    "buying_question",
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0129"
+   ],
+   "draft": "Hi! You liked the Eggless Brownie Box (6) earlier. We are doing a limited pre-order of Festive Gift Hamper this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Festive Gift Hamper.",
+   "contact_reason": "preorder_week_3"
+  },
+  {
+   "lead_id": "lead_0133",
+   "handle_ref": "@user_0133",
+   "source": "dm",
+   "relationship": "stranger",
+   "score": 30,
+   "group": "warm",
+   "rank": 9,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    },
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    },
+    {
+     "signal": "stranger",
+     "label": "Is a stranger (growth bonus)",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-17",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0133"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Festive Gift Hamper this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Festive Gift Hamper.",
+   "contact_reason": "preorder_week_3"
+  },
+  {
+   "lead_id": "lead_0128",
+   "handle_ref": "@user_0128",
+   "source": "comment",
+   "relationship": "friend",
+   "score": 30,
+   "group": "warm",
+   "rank": 10,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    },
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "so good 😍",
+   "last_activity": "2026-10-18",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0128"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Festive Gift Hamper this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Festive Gift Hamper.",
+   "contact_reason": "preorder_week_3"
+  },
+  {
+   "lead_id": "lead_0130",
+   "handle_ref": "@user_0130",
+   "source": "dm",
+   "relationship": "friend_of_friend",
+   "score": 30,
+   "group": "warm",
+   "rank": 11,
+   "reasons": [
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-10-16",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0130"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Festive Gift Hamper this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Festive Gift Hamper.",
+   "contact_reason": "preorder_week_3"
+  }
+ ],
+ "cold": [
+  {
+   "lead_id": "lead_0137",
+   "handle_ref": "@user_0137",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 15,
+   "group": "cold",
+   "rank": 12,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    },
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": "Choco Chip Cookies (12)",
+    "size": null,
+    "design": null,
+    "city": "Pune"
+   },
+   "last_message": "stunning",
+   "last_activity": "2026-10-18",
+   "intents": [
+    "buying_question",
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0137"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0136",
+   "handle_ref": "@user_0136",
+   "source": "story",
+   "relationship": "friend",
+   "score": 10,
+   "group": "cold",
+   "rank": 13,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "stunning",
+   "last_activity": "2026-10-17",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0136"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0135",
+   "handle_ref": "@user_0135",
+   "source": "dm",
+   "relationship": "friend_of_friend",
+   "score": 5,
+   "group": "cold",
+   "rank": 14,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-17",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0135"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  }
+ ],
+ "disqualified": [],
+ "warm_reasons_this_week": [
+  {
+   "key": "preorder_week_3",
+   "text": "a limited pre-order of Festive Gift Hamper",
+   "action_id": "act_homebaker_w3_cap_preorder_drop"
+  }
+ ],
+ "unmet_demand": {
+  "items": [],
+  "text": null
+ },
+ "outcomes": {
+  "ordered": 0,
+  "not_ordered": 0
+ },
+ "rules": {
+  "hot": "reply today, newest first",
+  "warm": "once per reason",
+  "cold": "nothing one to one",
+  "disqualified": "one polite reply"
+ },
+ "note": "Drafts are previews. Nothing is sent automatically; you copy each reply and send it yourself."
+}

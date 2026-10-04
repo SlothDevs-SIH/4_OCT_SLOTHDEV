@@ -27,7 +27,10 @@ const API_BASE =
   (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_API_BASE) ||
   "http://localhost:8000";
 
+const USE_MOCKS = typeof process !== "undefined" && process.env?.NEXT_PUBLIC_USE_MOCKS === "true";
+
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+  if (USE_MOCKS) return (await import("./mock")).mockRequest<T>(path, options);   // offline demo: recorded backend answers
   const url = `${API_BASE}/api/v1${path}`;
   const headers = new Headers(options.headers || {});
   
@@ -99,7 +102,7 @@ export async function getBusiness(id: string): Promise<Business> {
 export async function createBusiness(form: CreateBusinessForm): Promise<Business> {
   return request<Business>("/businesses", {
     method: "POST",
-    body: JSON.stringify(form),
+    body: JSON.stringify({ ...form, goal: form.goal.statement }),     // the backend takes the goal as plain text
   });
 }
 
@@ -240,8 +243,10 @@ export async function markContacted(
   );
 }
 
-export async function getReachPartners(id: string, week: Week): Promise<ReachCandidate[]> {
-  return request<ReachCandidate[]>(
+export type ReachPartners = { business_id: string; synthetic: boolean; formula: string; recommended: string[]; partners: (ReachCandidate & { score?: number; blocked?: boolean; reason?: string })[] };
+
+export async function getReachPartners(id: string, week: Week): Promise<ReachPartners> {
+  return request<ReachPartners>(
     `/businesses/${encodeURIComponent(id)}/reach-partners?week=${encodeURIComponent(week)}`
   );
 }
@@ -265,7 +270,7 @@ export async function postFollowUp(
 }
 
 export async function getFollowUps(id: string): Promise<FollowUp[]> {
-  return request<FollowUp[]>(`/businesses/${encodeURIComponent(id)}/followups`);
+  return (await request<{ followups: FollowUp[] }>(`/businesses/${encodeURIComponent(id)}/followups`)).followups;
 }
 
 export async function getNextMonth(id: string, week: Week): Promise<Projection> {

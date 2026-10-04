@@ -1,0 +1,46 @@
+{
+ "business_id": "biz_boxbox",
+ "synthetic": true,
+ "overall": {
+  "confidence": 0.96,
+  "badge": "high",
+  "summary": "15 rows repaired and 0 quarantined across 1 import(s); shipping costs are estimated, so contribution metrics are partial.",
+  "unattributed_revenue_pct": 0.0
+ },
+ "kpi_quality": {
+  "cac": "ok",
+  "conversion_rate": "ok",
+  "roas": "ok",
+  "contribution_roas": "partial",
+  "repeat_rate": "ok",
+  "response_latency_p90": "ok",
+  "gross_margin": "ok"
+ },
+ "imports": [
+  {
+   "import_id": "imp_boxbox_orders_messy",
+   "kind": "orders",
+   "status": "loaded",
+   "rows_total": 182,
+   "rows_loaded": 176,
+   "rows_repaired": 15,
+   "rows_quarantined": 0,
+   "duplicates_merged": 6,
+   "confidence": 0.96,
+   "issues": [
+    {
+     "code": "duplicate_order",
+     "count": 6,
+     "action": "merged",
+     "example": "ORD-0175 appears twice with the same values"
+    },
+    {
+     "code": "mixed_date_format",
+     "count": 16,
+     "action": "repaired_to_iso",
+     "example": "07/09/2026 -> 2026-09-07"
+    }
+   ]
+  }
+ ]
+}

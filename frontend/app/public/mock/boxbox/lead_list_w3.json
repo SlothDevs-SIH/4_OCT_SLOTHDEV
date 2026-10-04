@@ -1,0 +1,541 @@
+{
+ "business_id": "biz_boxbox",
+ "week": "week_3",
+ "as_of": "2026-10-19",
+ "synthetic": true,
+ "summary": {
+  "hot": 3,
+  "warm": 4,
+  "cold": 5,
+  "disqualified": 0
+ },
+ "hot": [
+  {
+   "lead_id": "lead_0121",
+   "handle_ref": "@user_0121",
+   "source": "dm",
+   "relationship": "friend_of_friend",
+   "score": 75,
+   "group": "hot",
+   "rank": 1,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": "Box Box Racing Cap",
+    "size": "XL",
+    "design": null,
+    "city": "Pune"
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-16",
+   "intents": [
+    "buying_question",
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0121"
+   ],
+   "draft": "Hi! The Box Box Racing Cap is ₹499 (XL). We deliver in Pune. You can order here: link in bio (payment by UPI). Shall I keep one for you?",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  },
+  {
+   "lead_id": "lead_0118",
+   "handle_ref": "@user_0118",
+   "source": "dm",
+   "relationship": "stranger",
+   "score": 65,
+   "group": "hot",
+   "rank": 2,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    },
+    {
+     "signal": "stranger",
+     "label": "Is a stranger (growth bonus)",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": "McLaren Papaya Hoodie",
+    "size": "L",
+    "design": null,
+    "city": "Chennai"
+   },
+   "last_message": "is the McLaren Papaya Hoodie available in L?",
+   "last_activity": "2026-10-13",
+   "intents": [
+    "buying_question",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0118"
+   ],
+   "draft": "Hi! The McLaren Papaya Hoodie is ₹1,499 (L). We deliver to Chennai; delivery is ₹{delivery_charge}. You can order here: link in bio (payment by UPI). Shall I keep one for you?",
+   "placeholders": [
+    "{delivery_charge}"
+   ],
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "medium",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice.",
+     "not_legal_advice": true
+    }
+   ],
+   "next_action": "Reply today."
+  },
+  {
+   "lead_id": "lead_0117",
+   "handle_ref": "@user_0117",
+   "source": "comment",
+   "relationship": "friend",
+   "score": 65,
+   "group": "hot",
+   "rank": 3,
+   "reasons": [
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    },
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": "Verstappen Fan Tee",
+    "size": "S",
+    "design": null,
+    "city": "Hyderabad"
+   },
+   "last_message": "so good 😍",
+   "last_activity": "2026-10-12",
+   "intents": [
+    "buying_question",
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0117"
+   ],
+   "draft": "Hi! The Verstappen Fan Tee is ₹799 (S). We deliver to Hyderabad; delivery is ₹{delivery_charge}. You can order here: link in bio (payment by UPI). Shall I keep one for you?",
+   "placeholders": [
+    "{delivery_charge}"
+   ],
+   "risk_flags": [
+    {
+     "flag": "brand_ip",
+     "level": "medium",
+     "terms": [
+      "F1",
+      "Ferrari",
+      "McLaren",
+      "Verstappen"
+     ],
+     "products": [
+      "Ferrari F1 Tee",
+      "Verstappen Fan Tee",
+      "McLaren Papaya Hoodie"
+     ],
+     "text": "Some product names use protected names, logos or characters (F1, Ferrari, McLaren, Verstappen). These can lead to takedowns as the brand grows. This is not legal advice.",
+     "not_legal_advice": true
+    }
+   ],
+   "next_action": "Reply today."
+  }
+ ],
+ "warm": [
+  {
+   "lead_id": "lead_0120",
+   "handle_ref": "@user_0120",
+   "source": "whatsapp",
+   "relationship": "friend_of_friend",
+   "score": 35,
+   "group": "warm",
+   "rank": 4,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    },
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-15",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0120"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a small drop for United States Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a small drop for United States Grand Prix.",
+   "contact_reason": "drop_week_3"
+  },
+  {
+   "lead_id": "lead_0129",
+   "handle_ref": "@user_0129",
+   "source": "dm",
+   "relationship": "friend_of_friend",
+   "score": 30,
+   "group": "warm",
+   "rank": 5,
+   "reasons": [
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    },
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "stunning",
+   "last_activity": "2026-10-18",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0129"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a small drop for United States Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a small drop for United States Grand Prix.",
+   "contact_reason": "drop_week_3"
+  },
+  {
+   "lead_id": "lead_0131",
+   "handle_ref": "@user_0131",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 30,
+   "group": "warm",
+   "rank": 6,
+   "reasons": [
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-10-17",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0131"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a small drop for United States Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a small drop for United States Grand Prix.",
+   "contact_reason": "drop_week_3"
+  },
+  {
+   "lead_id": "lead_0127",
+   "handle_ref": "@user_0127",
+   "source": "story",
+   "relationship": "friend_of_friend",
+   "score": 20,
+   "group": "warm",
+   "rank": 7,
+   "reasons": [
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "need this!!",
+   "last_activity": "2026-10-17",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0127"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a small drop for United States Grand Prix this week; want me to keep one for you? Order: link in bio",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a small drop for United States Grand Prix.",
+   "contact_reason": "drop_week_3"
+  }
+ ],
+ "cold": [
+  {
+   "lead_id": "lead_0119",
+   "handle_ref": "@user_0119",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 15,
+   "group": "cold",
+   "rank": 8,
+   "reasons": [
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-10-12",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0119"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0111",
+   "handle_ref": "@user_0111",
+   "source": "story",
+   "relationship": "friend",
+   "score": 15,
+   "group": "cold",
+   "rank": 9,
+   "reasons": [
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-10-11",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0111"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0130",
+   "handle_ref": "@user_0130",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 10,
+   "group": "cold",
+   "rank": 10,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love this design",
+   "last_activity": "2026-10-18",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0130"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0128",
+   "handle_ref": "@user_0128",
+   "source": "whatsapp",
+   "relationship": "friend_of_friend",
+   "score": 5,
+   "group": "cold",
+   "rank": 11,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-17",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0128"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0123",
+   "handle_ref": "@user_0123",
+   "source": "comment",
+   "relationship": "friend_of_friend",
+   "score": 5,
+   "group": "cold",
+   "rank": 12,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-12",
+   "intents": [
+    "general_praise"
+   ],
+   "evidence_ids": [
+    "lead_0123"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  }
+ ],
+ "disqualified": [],
+ "warm_reasons_this_week": [
+  {
+   "key": "drop_week_3",
+   "text": "a small drop for United States Grand Prix",
+   "action_id": "act_boxbox_w3_reach_demand_window_drop"
+  }
+ ],
+ "unmet_demand": {
+  "items": [],
+  "text": null
+ },
+ "outcomes": {
+  "ordered": 0,
+  "not_ordered": 0
+ },
+ "rules": {
+  "hot": "reply today, newest first",
+  "warm": "once per reason",
+  "cold": "nothing one to one",
+  "disqualified": "one polite reply"
+ },
+ "note": "Drafts are previews. Nothing is sent automatically; you copy each reply and send it yourself."
+}

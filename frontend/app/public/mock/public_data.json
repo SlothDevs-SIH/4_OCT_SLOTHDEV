@@ -1,0 +1,98 @@
+{
+ "datasets": [
+  {
+   "name": "Olist Brazilian E-Commerce",
+   "domain": "small sellers on a marketplace (Brazil, 2016-2018)",
+   "licence": "CC BY-NC-SA 4.0 (non-commercial)",
+   "citation": "Olist (2018). Brazilian E-Commerce Public Dataset by Olist. Kaggle, https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce",
+   "role": "small-seller behaviour: orders per seller, repeat buying, delivery delays, reviews",
+   "status": "integrated",
+   "result": {
+    "orders": 99441,
+    "sellers": 3095,
+    "small_sellers_50_to_500_orders": 403,
+    "repeat_customer_share_small_sellers": 0.0211,
+    "late_delivery_share": 0.0811,
+    "mean_review_score": 4.087
+   }
+  },
+  {
+   "name": "UCI Online Retail II",
+   "domain": "e-commerce orders (UK gift-ware retailer, 2009-2011)",
+   "licence": "CC BY 4.0",
+   "citation": "Chen, D. (2012). Online Retail II. UCI Machine Learning Repository. https://doi.org/10.24432/C5CG6D",
+   "role": "validation corpus for order-sheet intake and order metrics; not a benchmark for small sellers",
+   "status": "integrated",
+   "result": {
+    "source_lines": 1067371,
+    "orders": 39516,
+    "customers": 5852,
+    "repeat_customer_share": 0.7235,
+    "top_10_customer_revenue_share": 0.1603,
+    "intake_check": {
+     "rows": 39516,
+     "loaded": 39516,
+     "repaired": 0,
+     "quarantined": 0,
+     "mapping_auto_detected": {
+      "customer_id": "Customer",
+      "order_id": "Invoice",
+      "ordered_at": "Date",
+      "revenue": "Amount"
+     },
+     "date_format_repaired": 0,
+     "confidence": 1.0
+    }
+   }
+  },
+  {
+   "name": "UCI Online Shoppers Purchasing Intention",
+   "domain": "website sessions of an online shop",
+   "licence": "not stated in UCI's metadata: confirm on the UCI page; cited, not redistributed",
+   "citation": "Sakar, C. and Kastro, Y. (2018). Online Shoppers Purchasing Intention Dataset. UCI Machine Learning Repository. https://doi.org/10.24432/C5F88Q",
+   "role": "conversion and new-vs-returning visitors; checks that intent signals outweigh light interest",
+   "status": "integrated",
+   "result": {
+    "sessions": 12330,
+    "overall_conversion": 0.1547,
+    "new_visitor_conversion": 0.2491,
+    "returning_visitor_conversion": 0.1393,
+    "page_value_lift": 14.6
+   }
+  },
+  {
+   "name": "UCI Bank Marketing",
+   "domain": "bank phone campaigns (contact history and outcome)",
+   "licence": "see UCI page; cited, not redistributed",
+   "role": "learned challenger and sanity check for the lead score: contact history (bought before, recency)",
+   "status": "integrated",
+   "result": "trained logistic regression on 4 contact-history inputs (see the lead model card)"
+  },
+  {
+   "name": "F1 race calendar (Jolpica-F1)",
+   "domain": "motorsport schedule",
+   "licence": "open API, no key; factual schedule",
+   "role": "market context for the Box Box case study: race weekends are demand windows",
+   "status": "integrated",
+   "result": {
+    "seasons": [
+     2025,
+     2026
+    ]
+   }
+  },
+  {
+   "name": "Wikipedia page views: Formula One",
+   "domain": "public attention",
+   "licence": "Wikimedia pageviews: CC0",
+   "role": "evidence that race weekends raise interest, so timing advice can cite a number",
+   "status": "integrated",
+   "result": {
+    "weekend_days": 119,
+    "other_days": 522,
+    "uplift": 2.027
+   }
+  }
+ ],
+ "not_used": "Instagram insights tutorial CSV (no stated licence); M5 (Kaggle competition terms, non-commercial); Kaggle/Maven datasets that fit other business types"
+}

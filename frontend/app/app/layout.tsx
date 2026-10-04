@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "GrowthOS · evidence → priority → action → outcome",
-  description: "A seven-day growth operating system for Indian D2C brands, built on the data_engine and decision_engine backends.",
+  title: "Catalyst AI · a free growth advisor for home businesses",
+  description: "Find what is holding your home business back, get one to three actions for the week, and see who to reply to today.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -16,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </head>
       <body>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -1,53 +1,44 @@
-import type { KpiFact } from "./types";
-
-export const KPI_LABELS: Record<string, string> = {
-  ad_spend: "Ad spend", aov: "Average order value", cac: "CAC", contribution_roas: "Contribution ROAS",
-  conversion_rate: "Conversion rate", funnel_leads: "Leads", funnel_qualified: "Qualified", funnel_sessions: "Sessions",
-  funnel_won: "Won", gross_margin: "Gross margin", lead_wins: "Lead wins", leads: "Leads", orders: "Orders",
-  repeat_rate: "Repeat rate", response_latency_p90: "Response time p90", revenue: "Revenue", roas: "ROAS",
-  unattended_leads: "Unattended leads",
-};
-export const kpiLabel = (k: string) => KPI_LABELS[k] ?? k.replace(/_/g, " ");
+import type { Bottleneck, Fact, LeadGroup, Relationship } from "./types";
 
 const nf = new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 });
 const nf0 = new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 });
 
-export function formatValue(value: number | null | undefined, unit: string): string {
-  if (value === null || value === undefined || Number.isNaN(value)) return "n/a";
-  switch (unit) {
-    case "INR": return `₹${nf0.format(value)}`;
-    case "ratio": return Math.abs(value) <= 1.5 && unit === "ratio" ? nf.format(value) : nf.format(value);
-    case "percent": return `${nf.format(value)}%`;
-    case "hours": return `${nf.format(value)} h`;
-    default: return nf.format(value);
-  }
-}
+export const BOTTLENECK_LABEL: Record<Bottleneck, string> = {
+  reach: "Reach",
+  conversion: "Conversion",
+  margin: "Margin",
+  repeat_orders: "Repeat orders",
+  capacity: "Capacity",
+};
 
-/** Ratios that are really rates (0..1) are shown as percentages; ROAS-style ratios stay plain. */
-export function formatFact(f: Pick<KpiFact, "kpi" | "value" | "unit">): string {
-  if (["conversion_rate", "repeat_rate", "gross_margin"].includes(f.kpi)) return `${nf.format(f.value * 100)}%`;
-  return formatValue(f.value, f.unit);
-}
+export const BOTTLENECK_PLAIN: Record<Bottleneck, string> = {
+  reach: "Too few new people are finding you",
+  conversion: "People find you but do not order",
+  margin: "Each order earns too little",
+  repeat_orders: "Customers do not come back",
+  capacity: "You cannot make or ship what people want",
+};
 
-export function formatPct(v: number | null | undefined): string {
-  if (v === null || v === undefined) return "n/a";
-  return `${v > 0 ? "+" : ""}${nf.format(v)}%`;
-}
+export const GROUP_LABEL: Record<LeadGroup, string> = { hot: "Hot", warm: "Warm", cold: "Cold", disqualified: "Can't serve" };
+
+export const RELATIONSHIP_LABEL: Record<Relationship, string> = {
+  friend: "Friend",
+  friend_of_friend: "Friend of a friend",
+  stranger: "Stranger",
+  unknown: "Not tagged",
+};
 
 export const inr = (v: number | null | undefined) => (v === null || v === undefined ? "n/a" : `₹${nf0.format(v)}`);
+export const num = (v: number | null | undefined) => (v === null || v === undefined || Number.isNaN(v) ? "n/a" : nf.format(v));
 
-/** KPIs where a rise is bad. Used so colour AND label never mislead. */
-export const LOWER_IS_BETTER = new Set(["cac", "response_latency_p90", "unattended_leads"]);
-
-export function deltaTone(kpi: string, delta: number | null): "good" | "bad" | "flat" {
-  if (delta === null || Math.abs(delta) < 0.5) return "flat";
-  const up = delta > 0;
-  return (up !== LOWER_IS_BETTER.has(kpi)) ? "good" : "bad";
-}
-
-export function dimensionLabel(d: Record<string, string>): string {
-  const v = Object.values(d);
-  return v.length ? v.join(" · ") : "All";
+/** Value of a v2 fact with its unit: ratios as percent, rupees with the symbol, the rest with a short unit. */
+export function formatFact(f: Pick<Fact, "value" | "unit">): string {
+  switch (f.unit) {
+    case "ratio": return `${nf.format(f.value * 100)}%`;
+    case "INR": return inr(f.value);
+    case "count": return nf0.format(f.value);
+    default: return `${nf.format(f.value)} ${f.unit}`.trim();
+  }
 }
 
 export function fmtDate(iso: string | null | undefined): string {
@@ -55,3 +46,9 @@ export function fmtDate(iso: string | null | undefined): string {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? iso : d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
+
+export function fmtRange(from: string, to: string): string {
+  return `${fmtDate(from)} to ${fmtDate(to)}`;
+}
+
+export const weekNumber = (w: string): 1 | 2 | 3 | 4 => Number(w.replace("week_", "")) as 1 | 2 | 3 | 4;

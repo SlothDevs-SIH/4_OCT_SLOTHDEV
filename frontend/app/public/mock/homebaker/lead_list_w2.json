@@ -1,0 +1,334 @@
+{
+ "business_id": "biz_homebaker",
+ "week": "week_2",
+ "as_of": "2026-10-12",
+ "synthetic": true,
+ "summary": {
+  "hot": 1,
+  "warm": 3,
+  "cold": 4,
+  "disqualified": 0
+ },
+ "hot": [
+  {
+   "lead_id": "lead_0115",
+   "handle_ref": "@user_0115",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 85,
+   "group": "hot",
+   "rank": 1,
+   "reasons": [
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    },
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    }
+   ],
+   "asked_for": {
+    "product": "Festive Gift Hamper",
+    "size": null,
+    "design": null,
+    "city": "Pune"
+   },
+   "last_message": "how much for the Festive Gift Hamper? deliver to Pune?",
+   "last_activity": "2026-10-10",
+   "intents": [
+    "buying_question",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0115"
+   ],
+   "draft": "Hi! The Festive Gift Hamper is ₹1,800. We deliver in Pune. You can order here: WhatsApp order form (payment by UPI). Shall I keep one for you?",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  }
+ ],
+ "warm": [
+  {
+   "lead_id": "lead_0120",
+   "handle_ref": "@user_0120",
+   "source": "story",
+   "relationship": "friend_of_friend",
+   "score": 30,
+   "group": "warm",
+   "rank": 2,
+   "reasons": [
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-10-11",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0120"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Festive Gift Hamper this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Festive Gift Hamper.",
+   "contact_reason": "preorder_week_2"
+  },
+  {
+   "lead_id": "lead_0119",
+   "handle_ref": "@user_0119",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 20,
+   "group": "warm",
+   "rank": 3,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    },
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-10",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0119"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Festive Gift Hamper this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Festive Gift Hamper.",
+   "contact_reason": "preorder_week_2"
+  },
+  {
+   "lead_id": "lead_0111",
+   "handle_ref": "@user_0111",
+   "source": "comment",
+   "relationship": "friend_of_friend",
+   "score": 20,
+   "group": "warm",
+   "rank": 4,
+   "reasons": [
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "so good 😍",
+   "last_activity": "2026-10-05",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0111"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Festive Gift Hamper this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Festive Gift Hamper.",
+   "contact_reason": "preorder_week_2"
+  }
+ ],
+ "cold": [
+  {
+   "lead_id": "lead_0108",
+   "handle_ref": "@user_0108",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 15,
+   "group": "cold",
+   "rank": 5,
+   "reasons": [
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-10-06",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0108"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0117",
+   "handle_ref": "@user_0117",
+   "source": "whatsapp",
+   "relationship": "friend",
+   "score": 10,
+   "group": "cold",
+   "rank": 6,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "stunning",
+   "last_activity": "2026-10-10",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0117"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0118",
+   "handle_ref": "@user_0118",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 5,
+   "group": "cold",
+   "rank": 7,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-11",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0118"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0109",
+   "handle_ref": "@user_0109",
+   "source": "dm",
+   "relationship": "friend_of_friend",
+   "score": 5,
+   "group": "cold",
+   "rank": 8,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-05",
+   "intents": [
+    "general_praise"
+   ],
+   "evidence_ids": [
+    "lead_0109"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  }
+ ],
+ "disqualified": [],
+ "warm_reasons_this_week": [
+  {
+   "key": "preorder_week_2",
+   "text": "a limited pre-order of Festive Gift Hamper",
+   "action_id": "act_homebaker_w2_cap_preorder_drop"
+  }
+ ],
+ "unmet_demand": {
+  "items": [],
+  "text": null
+ },
+ "outcomes": {
+  "ordered": 0,
+  "not_ordered": 0
+ },
+ "rules": {
+  "hot": "reply today, newest first",
+  "warm": "once per reason",
+  "cold": "nothing one to one",
+  "disqualified": "one polite reply"
+ },
+ "note": "Drafts are previews. Nothing is sent automatically; you copy each reply and send it yourself."
+}

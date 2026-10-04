@@ -1,0 +1,110 @@
+{
+ "business_id": "biz_homebaker",
+ "week": "week_4",
+ "as_of": "2026-10-26",
+ "synthetic": true,
+ "bottleneck": "capacity",
+ "minutes_available": 120,
+ "ranking": "score = 100 x (0.5 x impact + 0.3 x fit + 0.2 x timing) x (1 - 0.5 x effort / weekly growth minutes); ties: less effort first",
+ "actions": [
+  {
+   "action_id": "act_homebaker_w4_cap_preorder_drop",
+   "business_id": "biz_homebaker",
+   "week": "week_4",
+   "bottleneck": "capacity",
+   "action_key": "cap_preorder_drop",
+   "title": "Switch Eggless Brownie Box (6) to a limited pre-order drop",
+   "what": "Take orders until a fixed number or date, then make them in one batch; say the delivery date up front.",
+   "why": "32 orders were turned away in the last 4 weeks, against 5 in your best weeks. The limit is demand above what you can make.",
+   "evidence_ids": [
+    "f_orders_turned_away",
+    "f_dispatch_delay_days",
+    "f_stockouts"
+   ],
+   "effort_min": 45,
+   "target": {
+    "fact_id": "f_orders_turned_away",
+    "kpi": "orders_turned_away",
+    "current": 32,
+    "value": 0,
+    "unit": "count",
+    "text": "no orders turned away (now 32 in the last 4 weeks)"
+   },
+   "due": "2026-11-02",
+   "status": "todo",
+   "note": null,
+   "requires_approval": true,
+   "approval_reason": "public_post",
+   "risk_flags": [],
+   "risks": [],
+   "score": 56.1,
+   "score_parts": {
+    "impact": 0.7,
+    "fit": 0.8,
+    "timing": 0.5,
+    "effort_share": 0.375
+   },
+   "partner_id": null,
+   "product_name": "Eggless Brownie Box (6)",
+   "draft_channels": [
+    "instagram_post"
+   ],
+   "raises_visibility": false,
+   "synthetic": true
+  },
+  {
+   "action_id": "act_homebaker_w4_cap_batch_making",
+   "business_id": "biz_homebaker",
+   "week": "week_4",
+   "bottleneck": "capacity",
+   "action_key": "cap_batch_making",
+   "title": "Batch your making: one session for the week's top items",
+   "what": "Make the most-asked items in one or two fixed sessions a week instead of order by order, so you can take more orders.",
+   "why": "32 orders were turned away in the last 4 weeks, against 5 in your best weeks. The limit is demand above what you can make.",
+   "evidence_ids": [
+    "f_orders_turned_away",
+    "f_dispatch_delay_days",
+    "f_stockouts"
+   ],
+   "effort_min": 60,
+   "target": {
+    "fact_id": "f_orders_turned_away",
+    "kpi": "orders_turned_away",
+    "current": 32,
+    "value": 5,
+    "unit": "count",
+    "text": "5 orders turned away or fewer, as in your best weeks (now 32)"
+   },
+   "due": "2026-11-02",
+   "status": "todo",
+   "note": null,
+   "requires_approval": false,
+   "approval_reason": null,
+   "risk_flags": [],
+   "risks": [],
+   "score": 51.8,
+   "score_parts": {
+    "impact": 0.7,
+    "fit": 0.8,
+    "timing": 0.5,
+    "effort_share": 0.5
+   },
+   "partner_id": null,
+   "product_name": null,
+   "draft_channels": [],
+   "raises_visibility": false,
+   "synthetic": true
+  }
+ ],
+ "blocked": [],
+ "risk_flags": [],
+ "mode": "fix",
+ "not_chosen": [
+  {
+   "action_key": "cap_dispatch_schedule",
+   "title": "Set fixed dispatch days and tell buyers",
+   "score": 51.6
+  }
+ ],
+ "minutes_planned": 105
+}

@@ -1,112 +1,60 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import DotField from "@/components/DotField";
 import LoginLink from "@/components/LoginLink";
+import Hero from "@/components/catalyst/Hero";
+
+const KINDS = ["home bakers", "candle makers", "fan-merch sellers", "jewellery makers", "plant sellers", "any home business"];
+
+const STEPS = [
+  { n: "1", title: "Tell us what you sell", body: "Upload your orders, costs and Instagram numbers. Messy sheets are fine: we repair them and show you what we changed." },
+  { n: "2", title: "See what is holding you back", body: "We compare your business with your own best weeks and name the one thing that matters most, with the numbers behind it." },
+  { n: "3", title: "Do one to three things this week", body: "Specific actions that fit your hours, plus a list of who to reply to today with drafted messages you send yourself." },
+  { n: "4", title: "Check back next week", body: "We show what moved after you acted and adjust. The goal: more orders from people you do not already know." },
+];
 
 export default function LandingPage() {
+  const router = useRouter();
   return (
     <div style={{ position: "relative", minHeight: "100vh", overflow: "hidden", backgroundColor: "#080a10" }}>
-      {/* Background DotField */}
       <div style={{ position: "absolute", inset: 0 }}>
-        <DotField
-          dotRadius={1}
-          dotSpacing={14}
-          bulgeStrength={67}
-          glowRadius={160}
-          sparkle={false}
-          waveAmplitude={0}
-        />
+        <DotField dotRadius={1} dotSpacing={14} bulgeStrength={67} glowRadius={160} sparkle={false} waveAmplitude={0} />
       </div>
 
-      {/* Content */}
       <div id="landing-content" className="animate-in" style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-        
-        {/* Navbar */}
-        <header style={{ 
-          display: "flex", 
-          justifyContent: "space-between", 
-          alignItems: "center", 
-          padding: "32px clamp(24px, 5vw, 64px)" 
-        }}>
-          <div style={{ fontWeight: 800, fontSize: "1.2rem", letterSpacing: "0.15em", color: "#ffffff" }}>
-            HELPRENEUR
-          </div>
+        <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "28px clamp(24px, 5vw, 64px)" }}>
+          <div style={{ fontWeight: 800, fontSize: "1.1rem", letterSpacing: "0.15em", color: "#ffffff" }}>CATALYST AI</div>
           <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
-            <LoginLink href="/login" className="header-login-link">
-              LOGIN
-            </LoginLink>
-            <LoginLink href="/login" className="btn primary" style={{
-              padding: "10px 20px", 
-              fontSize: "0.85rem", 
-              borderRadius: "8px", 
-              letterSpacing: "0.05em",
-              fontWeight: 700
-            }}>
-              GET STARTED
+            <a href="#how-it-works" className="header-login-link">HOW IT WORKS</a>
+            <LoginLink href="/login" className="btn primary" style={{ padding: "10px 20px", fontSize: "0.85rem", borderRadius: "8px", letterSpacing: "0.05em", fontWeight: 700 }}>
+              TRY THE DEMO
             </LoginLink>
           </div>
         </header>
 
-        {/* Hero Section */}
-        <main style={{ 
-          flex: 1, 
-          display: "flex", 
-          flexDirection: "column", 
-          alignItems: "center", 
-          justifyContent: "center", 
-          textAlign: "center", 
-          padding: "0 24px", 
-          marginTop: "-80px" 
-        }}>
-          <div style={{ 
-            fontWeight: 800, 
-            fontSize: "0.95rem", 
-            letterSpacing: "0.3em", 
-            color: "var(--accent)", 
-            marginBottom: "20px", 
-            textTransform: "uppercase" 
-          }}>
-            Growth OS
+        <Hero
+          headline="Know what is holding your home business back."
+          businessKinds={KINDS}
+          subtitle="Catalyst AI is a free growth advisor for people who sell from home. It reads your own orders, finds the one thing to fix, and tells you who to reply to today."
+          ctaText="Try the demo"
+          onCtaClick={() => router.push("/login")}
+        />
+
+        <section id="how-it-works" aria-label="How it works" style={{ padding: "24px clamp(24px, 5vw, 64px) 72px", maxWidth: 1180, margin: "0 auto", width: "100%" }}>
+          <div className="grid cols-3">
+            {STEPS.map((s) => (
+              <div key={s.n} className="card hover">
+                <div className="badge info" aria-hidden>{s.n}</div>
+                <h3 style={{ marginTop: 10 }}>{s.title}</h3>
+                <p className="muted" style={{ margin: 0 }}>{s.body}</p>
+              </div>
+            ))}
           </div>
-          <h1 style={{ 
-            fontSize: "clamp(2.5rem, 6vw, 5rem)", 
-            fontWeight: 800, 
-            letterSpacing: "-0.04em", 
-            lineHeight: 1.1, 
-            marginBottom: "24px", 
-            maxWidth: "900px",
-            color: "#ffffff"
-          }}>
-            A seven-day growth operating system.
-          </h1>
-          <p style={{ 
-            fontSize: "1.15rem", 
-            color: "var(--muted)", 
-            maxWidth: "600px", 
-            marginBottom: "40px", 
-            lineHeight: 1.6 
-          }}>
-            Not just another dashboard. Helpreneur turns raw data into prioritized actions and measures the exact outcome of every decision you make. Built for modern D2C brands.
+          <p className="muted small" style={{ textAlign: "center", marginTop: 28 }}>
+            The demo uses generated businesses, always labelled as demo data. Calculations decide; AI only explains. Nothing is ever sent for you.
           </p>
-          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center" }}>
-            <LoginLink href="/login" className="btn primary" style={{ 
-              padding: "16px 36px", 
-              fontSize: "1.1rem", 
-              borderRadius: "12px", 
-              boxShadow: "0 8px 30px rgba(124,140,255,0.4)" 
-            }}>
-              GET STARTED
-            </LoginLink>
-            <LoginLink href="/login" className="btn" style={{ 
-              padding: "16px 36px", 
-              fontSize: "1.1rem", 
-              borderRadius: "12px", 
-              backgroundColor: "rgba(255,255,255,0.06)", 
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "#ffffff"
-            }}>
-              LOGIN
-            </LoginLink>
-          </div>
-        </main>
+        </section>
       </div>
     </div>
   );

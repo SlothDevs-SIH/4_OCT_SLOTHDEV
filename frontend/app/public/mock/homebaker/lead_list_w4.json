@@ -1,0 +1,372 @@
+{
+ "business_id": "biz_homebaker",
+ "week": "week_4",
+ "as_of": "2026-10-26",
+ "synthetic": true,
+ "summary": {
+  "hot": 2,
+  "warm": 4,
+  "cold": 2,
+  "disqualified": 0
+ },
+ "hot": [
+  {
+   "lead_id": "lead_0142",
+   "handle_ref": "@user_0142",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 75,
+   "group": "hot",
+   "rank": 1,
+   "reasons": [
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    },
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    }
+   ],
+   "asked_for": {
+    "product": "Eggless Brownie Box (6)",
+    "size": null,
+    "design": null,
+    "city": "Pune"
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-25",
+   "intents": [
+    "buying_question",
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0142"
+   ],
+   "draft": "Hi! The Eggless Brownie Box (6) is ₹450. We deliver in Pune. You can order here: WhatsApp order form (payment by UPI). Shall I keep one for you?",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  },
+  {
+   "lead_id": "lead_0144",
+   "handle_ref": "@user_0144",
+   "source": "dm",
+   "relationship": "friend",
+   "score": 70,
+   "group": "hot",
+   "rank": 2,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    },
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    },
+    {
+     "signal": "price_question",
+     "label": "Asked about price, size, stock or delivery",
+     "points": 40
+    }
+   ],
+   "asked_for": {
+    "product": "Eggless Brownie Box (6)",
+    "size": null,
+    "design": null,
+    "city": "Pune"
+   },
+   "last_message": "love this design",
+   "last_activity": "2026-10-23",
+   "intents": [
+    "buying_question",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0144"
+   ],
+   "draft": "Hi! The Eggless Brownie Box (6) is ₹450. We deliver in Pune. You can order here: WhatsApp order form (payment by UPI). Shall I keep one for you?",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Reply today."
+  }
+ ],
+ "warm": [
+  {
+   "lead_id": "lead_0141",
+   "handle_ref": "@user_0141",
+   "source": "comment",
+   "relationship": "friend",
+   "score": 45,
+   "group": "warm",
+   "rank": 3,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    },
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-23",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0141"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Eggless Brownie Box (6) this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Eggless Brownie Box (6).",
+   "contact_reason": "preorder_week_4"
+  },
+  {
+   "lead_id": "lead_0143",
+   "handle_ref": "@user_0143",
+   "source": "dm",
+   "relationship": "stranger",
+   "score": 40,
+   "group": "warm",
+   "rank": 4,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    },
+    {
+     "signal": "story_reply",
+     "label": "Replied to a product story",
+     "points": 20
+    },
+    {
+     "signal": "stranger",
+     "label": "Is a stranger (growth bonus)",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "stunning",
+   "last_activity": "2026-10-23",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0143"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Eggless Brownie Box (6) this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Eggless Brownie Box (6).",
+   "contact_reason": "preorder_week_4"
+  },
+  {
+   "lead_id": "lead_0139",
+   "handle_ref": "@user_0139",
+   "source": "comment",
+   "relationship": "friend",
+   "score": 30,
+   "group": "warm",
+   "rank": 5,
+   "reasons": [
+    {
+     "signal": "bought_before",
+     "label": "Bought before",
+     "points": 30
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-10-19",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0139"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Eggless Brownie Box (6) this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Eggless Brownie Box (6).",
+   "contact_reason": "preorder_week_4"
+  },
+  {
+   "lead_id": "lead_0134",
+   "handle_ref": "@user_0134",
+   "source": "comment",
+   "relationship": "stranger",
+   "score": 25,
+   "group": "warm",
+   "rank": 6,
+   "reasons": [
+    {
+     "signal": "saved_or_shared",
+     "label": "Saved or shared a post",
+     "points": 15
+    },
+    {
+     "signal": "stranger",
+     "label": "Is a stranger (growth bonus)",
+     "points": 10
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": null,
+   "last_activity": "2026-10-22",
+   "intents": [
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0134"
+   ],
+   "draft": "Hi! You liked what we make earlier. We are doing a limited pre-order of Eggless Brownie Box (6) this week; want me to keep one for you? Order: WhatsApp order form",
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Message once about a limited pre-order of Eggless Brownie Box (6).",
+   "contact_reason": "preorder_week_4"
+  }
+ ],
+ "cold": [
+  {
+   "lead_id": "lead_0136",
+   "handle_ref": "@user_0136",
+   "source": "story",
+   "relationship": "friend",
+   "score": 15,
+   "group": "cold",
+   "rank": 7,
+   "reasons": [
+    {
+     "signal": "comment",
+     "label": "Commented on a post",
+     "points": 10
+    },
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-21",
+   "intents": [
+    "general_praise",
+    "product_interest"
+   ],
+   "evidence_ids": [
+    "lead_0136"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  },
+  {
+   "lead_id": "lead_0140",
+   "handle_ref": "@user_0140",
+   "source": "dm",
+   "relationship": "friend_of_friend",
+   "score": 5,
+   "group": "cold",
+   "rank": 8,
+   "reasons": [
+    {
+     "signal": "follow_or_like",
+     "label": "Followed or liked",
+     "points": 5
+    }
+   ],
+   "asked_for": {
+    "product": null,
+    "size": null,
+    "design": null,
+    "city": null
+   },
+   "last_message": "love your page",
+   "last_activity": "2026-10-24",
+   "intents": [
+    "general_praise"
+   ],
+   "evidence_ids": [
+    "lead_0140"
+   ],
+   "draft": null,
+   "placeholders": [],
+   "risk_flags": [],
+   "next_action": "Nothing one to one; they will see your regular posts."
+  }
+ ],
+ "disqualified": [],
+ "warm_reasons_this_week": [
+  {
+   "key": "preorder_week_4",
+   "text": "a limited pre-order of Eggless Brownie Box (6)",
+   "action_id": "act_homebaker_w4_cap_preorder_drop"
+  }
+ ],
+ "unmet_demand": {
+  "items": [],
+  "text": null
+ },
+ "outcomes": {
+  "ordered": 0,
+  "not_ordered": 0
+ },
+ "rules": {
+  "hot": "reply today, newest first",
+  "warm": "once per reason",
+  "cold": "nothing one to one",
+  "disqualified": "one polite reply"
+ },
+ "note": "Drafts are previews. Nothing is sent automatically; you copy each reply and send it yourself."
+}

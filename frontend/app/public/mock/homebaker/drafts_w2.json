@@ -1,0 +1,15 @@
+{
+ "act_homebaker_w2_cap_preorder_drop": {
+  "instagram_post": {
+   "action_id": "act_homebaker_w2_cap_preorder_drop",
+   "channel": "instagram_post",
+   "status": "preview",
+   "auto_send": false,
+   "requires_approval": true,
+   "text": "Pre-orders for Festive Gift Hamper are open until 2026-10-16. We make them in one batch and deliver from 2026-10-19. Limited to 14 orders so every one is made fresh.",
+   "placeholders": [],
+   "risk_flags": [],
+   "note": "Preview only. Nothing is sent automatically; you copy it and send it yourself."
+  }
+ }
+}

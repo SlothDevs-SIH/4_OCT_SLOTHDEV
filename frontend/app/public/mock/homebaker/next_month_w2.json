@@ -1,0 +1,114 @@
+{
+ "business_id": "biz_homebaker",
+ "week": "week_2",
+ "estimate": true,
+ "synthetic": true,
+ "status": "ok",
+ "month": {
+  "from": "2026-10-12",
+  "to": "2026-11-08"
+ },
+ "orders": {
+  "low": 56,
+  "expected": 56,
+  "high": 56
+ },
+ "demand": {
+  "low": 62,
+  "expected": 73,
+  "high": 85
+ },
+ "basis": {
+  "weeks_used": 8,
+  "weekly_demand": [
+   15,
+   13,
+   19,
+   23,
+   15,
+   11,
+   13,
+   20
+  ],
+  "weekly_orders": [
+   14,
+   13,
+   14,
+   14,
+   14,
+   11,
+   13,
+   14
+  ],
+  "weekly_turned_away": [
+   1,
+   0,
+   5,
+   9,
+   1,
+   0,
+   0,
+   6
+  ],
+  "trend_per_week": 0.04,
+  "damping": 0.5,
+  "weekly_scatter_sd": 4.45,
+  "context_factor": 1.123,
+  "context_source": "india_festivals",
+  "context_share_next_4_weeks": 0.571,
+  "context_share_recent_weeks": 0.143,
+  "assumed_context_effect": 0.30000000000000004,
+  "method": "damped straight-line trend of weekly demand (orders plus turned away), times a market-context factor; range = 1.28 x weekly scatter x 2"
+ },
+ "weekly_expected_demand": [
+  18.3,
+  18.3,
+  18.3,
+  18.3
+ ],
+ "confidence": "medium",
+ "capacity": {
+  "orders_per_week": 14,
+  "orders_per_month": 56,
+  "demand_exceeds_capacity": true,
+  "orders_lost_to_capacity_expected": 17,
+  "message": "Demand is expected to exceed what you can make: about 17 orders would be turned away."
+ },
+ "limited_by_capacity": true,
+ "limiting_bottleneck": "capacity",
+ "primary_bottleneck": "capacity",
+ "demand_windows": [
+  {
+   "name": "Dussehra",
+   "from": "2026-10-13",
+   "to": "2026-10-20"
+  },
+  {
+   "name": "Diwali (Deepavali)",
+   "from": "2026-11-01",
+   "to": "2026-11-08"
+  }
+ ],
+ "note": "An estimate from recent weeks, not a forecast. The market-context effect is an assumption, not a measured fact.",
+ "text": "For 2026-10-12 to 2026-11-08 we project 56 to 56 orders, most likely about 56. This is an estimate from your recent weeks, not a forecast. It uses your last 8 weeks (trend +0.04 a week) and a context factor of 1.123 from india_festivals. Demand windows in that period: Dussehra (2026-10-13 to 2026-10-20), Diwali (Deepavali) (2026-11-01 to 2026-11-08). Demand is about 73 orders (62 to 85), more than the 56 you can make at 14 a week. Demand is expected to exceed what you can make: about 17 orders would be turned away. Capacity is what limits these weeks: plan batches or pre-orders now.",
+ "explanation": {
+  "text": "For 2026-10-12 to 2026-11-08 we project 56 to 56 orders, most likely about 56. This is an estimate from your recent weeks, not a forecast. It uses your last 8 weeks (trend +0.04 a week) and a context factor of 1.123 from india_festivals. Demand windows in that period: Dussehra (2026-10-13 to 2026-10-20), Diwali (Deepavali) (2026-11-01 to 2026-11-08). Demand is about 73 orders (62 to 85), more than the 56 you can make at 14 a week. Demand is expected to exceed what you can make: about 17 orders would be turned away. Capacity is what limits these weeks: plan batches or pre-orders now.",
+  "evidence_ids": [
+   "f_orders_turned_away",
+   "f_dispatch_delay_days"
+  ],
+  "llm": {
+   "used": false,
+   "cached": false,
+   "provider": null,
+   "model": null,
+   "fallback": true,
+   "validator": {
+    "passed": false,
+    "retries": 0,
+    "errors": []
+   },
+   "prompt_version": "v1"
+  }
+ }
+}
