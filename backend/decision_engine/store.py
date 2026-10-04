@@ -52,6 +52,12 @@ class Store:
             return [copy.deepcopy(r) for r in self.recommendations.values()
                     if r["business_id"] == business_id]
 
+    def drop_recommendations(self, business_id: str, keep: set):
+        with self._lock:
+            for rid in [r for r, rec in self.recommendations.items()
+                        if rec["business_id"] == business_id and r not in keep]:
+                del self.recommendations[rid]
+
     def recommendation_owner(self, rec_id: str):
         with self._lock:
             rec = self.recommendations.get(rec_id)

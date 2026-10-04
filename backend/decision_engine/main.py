@@ -1,7 +1,10 @@
 """decision_engine API (contract section 4). Run: uvicorn backend.decision_engine.main:app --port 8002"""
 from functools import lru_cache
 
-from fastapi import APIRouter, Depends, FastAPI
+from typing import Optional
+
+from fastapi import APIRouter, Body, Depends, FastAPI
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.common.errors import install_error_handlers
@@ -28,6 +31,38 @@ def intervention_templates(engine: Engine = Depends(get_engine)):
 @router.get("/businesses/{business_id}/signals")
 def signals(business_id: str, engine: Engine = Depends(get_engine)):
     return engine.signals(business_id)
+
+
+class Decision(BaseModel):
+    by: Optional[str] = None
+    note: Optional[str] = None
+
+
+@router.post("/businesses/{business_id}/recommendations/generate")
+def generate(business_id: str, engine: Engine = Depends(get_engine)):
+    return engine.generate(business_id)
+
+
+@router.get("/businesses/{business_id}/recommendations")
+def list_recommendations(business_id: str, engine: Engine = Depends(get_engine)):
+    return engine.list_recommendations(business_id)
+
+
+@router.get("/recommendations/{rec_id}")
+def get_recommendation(rec_id: str, engine: Engine = Depends(get_engine)):
+    return engine.get_recommendation(rec_id)
+
+
+@router.post("/recommendations/{rec_id}/approve")
+def approve(rec_id: str, body: Optional[Decision] = Body(None), engine: Engine = Depends(get_engine)):
+    body = body or Decision()
+    return engine.approve(rec_id, body.by, body.note)
+
+
+@router.post("/recommendations/{rec_id}/reject")
+def reject(rec_id: str, body: Optional[Decision] = Body(None), engine: Engine = Depends(get_engine)):
+    body = body or Decision()
+    return engine.reject(rec_id, body.by, body.note)
 
 
 app = FastAPI(title="decision_engine")
